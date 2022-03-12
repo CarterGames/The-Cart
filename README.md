@@ -7,16 +7,22 @@
 
 A work in progress code library of verified systems that I use in my projects made publically available with documentation for all parts of the project. This will be updated in small steps as each system is tested and to ensure it works as it was intended before being publically released to the main branch. 
 
+## Branches
+- Main - The branch you should get the latest version of the project from.
+- Release - The branch that I use to prep changes to the main branch.
+- Develop - The branch where I commit work in progress changes to the project. Work in this branch should be considered unstable.
+
 ## Contents
 It is still early days for this project, so more will be added once it has been verified & documented correctly. 
 - Clamped Values
 - Events System
+- Get Dice Roll
 
 ## Upcoming
 - Reflection Helper
 - Extension Methods
 - Min/Max Values
-- Get Random/Chance/DiceRoll
+- Get Random/Chance
 - Camera Shake
 - Screen Wrapping
 - Journal System
@@ -27,7 +33,7 @@ Simply download the repo and import its contents into Unity or download the late
 
 ## F.A.Q
 Why Adriana?
-> Honestly, I just couldn't think of a project name for a code-base that I actually liked. So I just picked the first name to came to mind that sounded nice, and Adriana was that name. 
+> Honestly, I just couldn't think of a project name for a code base that I actually liked. So, I just picked the first name to came to mind that sounded nice, and Adriana was that name. 
 
 What is the overall goal for this project?
 > For me it is to have a stable base code library that I can adapt of work off in a variety of game projects. 
