@@ -10,6 +10,8 @@ The base class for this system, handles some of the fields & methods that are us
 Clamped values work as a self contained <code>Math.Clamp</code>. These values can go up or down by their min/max values but no further, instead clamping tot eh min/max value when reached. 
 
 ## Looping Values
+> Coming Soon!
+
 Looping values work just like their clamped counterparts but instead of sticking to the mix/max values they loop around to the min/max instead and continue on. 
 
 # Usage
