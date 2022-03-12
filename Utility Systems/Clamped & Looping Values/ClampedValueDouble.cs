@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------------
-// ClampedValueInt.cs
+// ClampedValueFloat.cs
 // 
 // Description: A helper class to automatically clamp a value to a range.
 //              Useful for menus & UI elements.
@@ -7,14 +7,14 @@
 
 namespace Adriana
 {
-    public class ClampedValueInt : ValueSystemBase<int>
+    public class ClampedValueDouble : ValueSystemBase<double>
     {
         /// <summary>
         /// Converts the value to its read value implicitly for use.
         /// </summary>
         /// <param name="clampedValue">The value to convert</param>
         /// <returns>Int</returns>
-        public static implicit operator int(ClampedValueInt clampedValue)
+        public static implicit operator double(ClampedValueDouble clampedValue)
         {
             return clampedValue.Value;
         }
@@ -26,24 +26,25 @@ namespace Adriana
         /// <param name="minValue">The min/lower value</param>
         /// <param name="maxValue">The max/upper value</param>
         /// <param name="startingValue">The starting value</param>
-        public ClampedValueInt(int minValue, int maxValue, int startingValue)
+        public ClampedValueDouble(double minValue, double maxValue, double startingValue)
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
             currentValue = startingValue;
         }
         
+        
         /// <summary>
         /// Increments the value by the amount entered.
         /// </summary>
         /// <param name="amount">The amount to increment by</param>
-        public void IncrementValue(int amount)
+        public void IncrementValue(double amount)
         {
             currentValue = ValueChecks(amount);
         }
         
         
-        protected override int ValueChecks(int adjustment)
+        protected override double ValueChecks(double adjustment)
         {
             currentValue += adjustment;
             

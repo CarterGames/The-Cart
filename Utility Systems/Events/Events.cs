@@ -1,16 +1,15 @@
 // ----------------------------------------------------------------------------
 // Events.cs
 // 
-// Author: Jonathan Carter (A.K.A. J)
-// Date: 15/02/2022
+// Description: A storage class to hold any and all events in your game.
 // ----------------------------------------------------------------------------
 
-namespace GameEvents
+namespace Adriana.EventsSystem
 {
     public static class Events
     {
-        public static readonly Evt<bool> OnGamePaused = new Evt<bool>();
-
-        public static readonly Evt<bool> OnJournalOpen = new Evt<bool>();
+        // Examples:
+        // public static readonly Evt OnGameOver = new Evt();
+        // public static readonly Evt<int> OnMoneyCollect = new Evt<int>();
     }
 }
