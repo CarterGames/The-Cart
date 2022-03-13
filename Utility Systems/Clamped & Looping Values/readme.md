@@ -7,7 +7,7 @@
 The base class for this system, handles some of the fields & methods that are used in all inheritors. 
 
 ## Clamped Values
-Clamped values work as a self contained <code>Math.Clamp</code>. These values can go up or down by their min/max values but no further, instead clamping tot eh min/max value when reached. 
+Clamped values work as a self contained <code>Math.Clamp</code>. These values can go up or down by their min/max values but no further, instead clamping to the min/max value when reached. 
 
 ## Looping Values
 > Coming Soon!
