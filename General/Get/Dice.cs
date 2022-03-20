@@ -1,10 +1,13 @@
+// ----------------------------------------------------------------------------
+// Dice.cs
+// 
+// Description: A helper class for getting common dice rolls.
+// ----------------------------------------------------------------------------
+
 using Random = UnityEngine.Random;
 
 namespace Adriana
 {
-    /// <summary>
-    /// Provides many common dice rolls and returns the result of those rolls...
-    /// </summary>
     public static class Dice
     {
         #region Single Rolls

@@ -7,14 +7,14 @@
 
 namespace Adriana
 {
-    public class ClampedValueDouble : ValueSystemBase<double>
+    public class ClampedValueFloat : ValueSystemBase<float>
     {
         /// <summary>
         /// Converts the value to its read value implicitly for use.
         /// </summary>
         /// <param name="clampedValue">The value to convert</param>
         /// <returns>Int</returns>
-        public static implicit operator double(ClampedValueDouble clampedValue)
+        public static implicit operator float(ClampedValueFloat clampedValue)
         {
             return clampedValue.Value;
         }
@@ -25,26 +25,37 @@ namespace Adriana
         /// </summary>
         /// <param name="minValue">The min/lower value</param>
         /// <param name="maxValue">The max/upper value</param>
+        public ClampedValueFloat(float minValue, float maxValue)
+        {
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+            currentValue = minValue;
+        }
+        
+        
+        /// <summary>
+        /// Constructor | Creates a new clamped int value.
+        /// </summary>
+        /// <param name="minValue">The min/lower value</param>
+        /// <param name="maxValue">The max/upper value</param>
         /// <param name="startingValue">The starting value</param>
-        public ClampedValueDouble(double minValue, double maxValue, double startingValue)
+        public ClampedValueFloat(float minValue, float maxValue, float startingValue)
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
             currentValue = startingValue;
         }
         
-        
         /// <summary>
         /// Increments the value by the amount entered.
         /// </summary>
         /// <param name="amount">The amount to increment by</param>
-        public void IncrementValue(double amount)
+        public void IncrementValue(float amount)
         {
             currentValue = ValueChecks(amount);
         }
-        
-        
-        protected override double ValueChecks(double adjustment)
+
+        protected override float ValueChecks(float adjustment)
         {
             currentValue += adjustment;
             
