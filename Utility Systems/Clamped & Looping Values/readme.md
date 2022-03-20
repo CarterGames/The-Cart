@@ -10,12 +10,10 @@ The base class for this system, handles some of the fields & methods that are us
 Clamped values work as a self contained <code>Math.Clamp</code>. These values can go up or down by their min/max values but no further, instead clamping to the min/max value when reached. 
 
 ## Looping Values
-> Coming Soon!
-
 Looping values work just like their clamped counterparts but instead of sticking to the mix/max values they loop around to the min/max instead and continue on. 
 
 # Usage
-For all the examples below we'll be using a <code>ClampedValueInt</code> but the same code applies to all variants. 
+For all the examples below we'll be using a <code>ClampedValueInt</code> but the same code applies to all variants including the looping versions. 
 
 ## Declaring 
 When declaring a clamped or looping value you will need to use its constructor to create a new verison of it for use. There are some parameters to fill in:
@@ -23,7 +21,7 @@ When declaring a clamped or looping value you will need to use its constructor t
 - <code>maxValue</code> - Defines the upper bound for the clamped/looping value.
 - <code>startingValue</code> - Defines the starting value for the clamped/looping value.
 
-Below is an example of a clamped int being setup with a range of 0-10 with a starting value of 0:
+Below is an example of a clamped int being setup with a range of 0-10 with a starting value of 0, you can also no enter a starting value, in which case it will enter the min value for the starting value:
 
 ![ClampedIntDec](https://user-images.githubusercontent.com/33253710/157196944-33f2b826-305b-4dd2-94fd-a7e514df9263.png)
 

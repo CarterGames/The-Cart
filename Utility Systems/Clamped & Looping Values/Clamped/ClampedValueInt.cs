@@ -19,6 +19,17 @@ namespace Adriana
             return clampedValue.Value;
         }
         
+        /// <summary>
+        /// Constructor | Creates a new clamped int value.
+        /// </summary>
+        /// <param name="minValue">The min/lower value</param>
+        /// <param name="maxValue">The max/upper value</param>
+        public ClampedValueInt(int minValue, int maxValue)
+        {
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+            currentValue = minValue;
+        }
         
         /// <summary>
         /// Constructor | Creates a new clamped int value.
