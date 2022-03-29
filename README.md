@@ -17,11 +17,11 @@ It is still early days for this project, so more will be added once it has been 
 - Clamped Values
 - Events System
 - Get Dice Roll
+- Min/Max Values
 
 ## Upcoming
 - Reflection Helper
 - Extension Methods
-- Min/Max Values
 - Get Random/Chance
 - Camera Shake
 - Screen Wrapping
