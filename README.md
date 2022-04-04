@@ -18,10 +18,10 @@ It is still early days for this project, so more will be added once it has been 
 - Events System
 - Get Dice Roll
 - Min/Max Values
+- Extension Methods
 
 ## Upcoming
 - Reflection Helper
-- Extension Methods
 - Get Random/Chance
 - Camera Shake
 - Screen Wrapping
