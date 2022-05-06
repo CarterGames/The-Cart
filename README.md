@@ -1,8 +1,8 @@
-![Banner](https://user-images.githubusercontent.com/33253710/157114720-3c67f70b-7e66-4764-83ee-6256b21c2bcb.jpg)
+<!--![Banner](https://user-images.githubusercontent.com/33253710/157114720-3c67f70b-7e66-4764-83ee-6256b21c2bcb.jpg)
 
-<p align="center">A Unity code library of tools & pre-build solutions to problems. </p>
+<p align="center">A Unity code library of tools & pre-build solutions to problems. </p>-->
 
-# Adriana
+# Erissa Library
 > Version 0.1.0
 
 A work in progress code library of verified systems that I use in my projects made publically available with documentation for all parts of the project. This will be updated in small steps as each system is tested and to ensure it works as it was intended before being publically released to the main branch. 
@@ -32,8 +32,8 @@ It is still early days for this project, so more will be added once it has been 
 Simply download the repo and import its contents into Unity or download the latest release and import the package into Unity with the custom package import. In the future there will be the git URL option as well, but that is a bit down the line. 
 
 ## F.A.Q
-Why Adriana?
-> Honestly, I just couldn't think of a project name for a code base that I actually liked. So, I just picked the first name to came to mind that sounded nice, and Adriana was that name. 
+Why Erissa?
+> Honestly, I just couldn't think of a project name for a code base that I actually liked. So, I just picked the first name to came to mind that sounded nice, and Erissa was that name. Its meaning is also approipate to the code I usally produce xD
 
 What is the overall goal for this project?
 > For me it is to have a stable base code library that I can adapt of work off in a variety of game projects. 
