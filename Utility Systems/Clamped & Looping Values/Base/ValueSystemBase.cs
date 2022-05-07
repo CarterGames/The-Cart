@@ -7,7 +7,7 @@
 using System;
 using UnityEngine;
 
-namespace Adriana
+namespace Erissa.General
 {
     [Serializable]
     public abstract class ValueSystemBase<T>

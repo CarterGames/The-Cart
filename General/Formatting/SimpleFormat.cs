@@ -11,7 +11,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Adriana
+namespace Erissa.General
 {
     public static class SimpleFormat
     {

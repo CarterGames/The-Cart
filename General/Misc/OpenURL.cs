@@ -6,7 +6,7 @@
 
 using UnityEngine;
 
-namespace Adriana
+namespace Erissa.General
 {
     public class OpenURL : MonoBehaviour
     {

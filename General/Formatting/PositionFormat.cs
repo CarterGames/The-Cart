@@ -6,7 +6,7 @@
 //                 21 = 21st, 22 = 22nd, 23 = 23rd, 24 = 24th etc.
 // ----------------------------------------------------------------------------
 
-namespace Adriana
+namespace Erissa.General
 {
     public static class PositionFormat
     {

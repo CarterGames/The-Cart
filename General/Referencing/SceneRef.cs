@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Adriana
+namespace Erissa.General
 {
     public static class SceneRef
     {

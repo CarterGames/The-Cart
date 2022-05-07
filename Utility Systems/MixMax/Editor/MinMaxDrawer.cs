@@ -7,7 +7,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Adriana.Editor
+namespace Erissa.General
 {
     public class MinMaxDrawer
     {

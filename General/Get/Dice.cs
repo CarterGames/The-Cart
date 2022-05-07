@@ -6,7 +6,7 @@
 
 using Random = UnityEngine.Random;
 
-namespace Adriana
+namespace Erissa.General
 {
     public static class Dice
     {

@@ -6,7 +6,7 @@
 
 using System;
 
-namespace Adriana
+namespace Erissa.General
 {
     [Serializable]
     public class MinMaxInt : MinMaxBase<int>

@@ -6,7 +6,7 @@
 
 using UnityEngine;
 
-namespace Adriana
+namespace Erissa.Extensions
 {
     public static class VectorExtensions
     {

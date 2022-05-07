@@ -6,7 +6,7 @@
 
 using System;
 
-namespace Adriana
+namespace Erissa.General
 {
     [Serializable]
     public abstract class MinMaxBase<T>

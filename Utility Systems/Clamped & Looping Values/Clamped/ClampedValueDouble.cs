@@ -5,7 +5,7 @@
 //              Useful for menus & UI elements.
 // ----------------------------------------------------------------------------
 
-namespace Adriana
+namespace Erissa.General
 {
     public class ClampedValueDouble : ValueSystemBase<double>
     {
