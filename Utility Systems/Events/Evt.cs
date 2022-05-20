@@ -9,9 +9,6 @@ using System;
 
 namespace Erissa.EventsSystem
 {
-    /// <summary>
-    /// An event class with no parameters...
-    /// </summary>
     public class Evt
     {
         private event Action Action = delegate { };
@@ -34,6 +31,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
     
     /// <summary>
@@ -61,6 +63,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T> listener) => Action -= listener;
+
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
     
     /// <summary>
@@ -88,6 +95,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T1,T2> listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
     
     /// <summary>
@@ -115,6 +127,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T1,T2,T3> listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
     
     /// <summary>
@@ -142,6 +159,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T1,T2,T3,T4> listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
 
     /// <summary>
@@ -170,6 +192,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T1,T2,T3,T4,T5> listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
     
     /// <summary>
@@ -198,6 +225,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T1,T2,T3,T4,T5,T6> listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
     
     /// <summary>
@@ -226,6 +258,11 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T1,T2,T3,T4,T5,T6,T7> listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
     
     /// <summary>
@@ -254,5 +291,10 @@ namespace Erissa.EventsSystem
         /// Removes the action/method to the event listeners.
         /// </summary>
         public void Remove(Action<T1,T2,T3,T4,T5,T6,T7,T8> listener) => Action -= listener;
+        
+        /// <summary>
+        /// Clears all listeners from the event.
+        /// </summary>
+        public void Clear() => Action = null;
     }
 }
