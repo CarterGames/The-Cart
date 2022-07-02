@@ -1,8 +1,8 @@
-<!--![Banner](https://user-images.githubusercontent.com/33253710/157114720-3c67f70b-7e66-4764-83ee-6256b21c2bcb.jpg)
+![Banner V2](https://user-images.githubusercontent.com/33253710/177016074-96133fb3-43be-4466-a9f4-45228c5ffc22.jpg)
 
-<p align="center">A Unity code library of tools & pre-build solutions to problems. </p>-->
+<p align="center">A Unity code library of tools & pre-build solutions to problems. </p>
 
-# Erissa Library
+# Scarlet Library
 > Version 0.1.0
 
 A work in progress code library of verified systems that I use in my projects made publically available with documentation for all parts of the project. This will be updated in small steps as each system is tested and to ensure it works as it was intended before being publically released to the main branch. 
@@ -16,8 +16,8 @@ A work in progress code library of verified systems that I use in my projects ma
 Simply download the repo and import its contents into Unity or download the latest release and import the package into Unity with the custom package import. In the future there will be the git URL option as well, but that is a bit down the line. 
 
 ## Docs
-Full documentatio for all the scripts can be found in the wiki section:
-https://github.com/JonathanMCarter/Erissa/wiki
+Full documentation for all the scripts can be found in the wiki section:
+https://github.com/JonathanMCarter/ScarletLibrary/wiki
 
 ## Authors
 - Jonathan Carter
