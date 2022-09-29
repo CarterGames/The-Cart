@@ -6,6 +6,7 @@
 
 using System.Linq;
 using Scarlet.General;
+using Scarlet.General.Logs;
 using UnityEngine;
 
 namespace Scarlet.PanelSystem
@@ -23,7 +24,7 @@ namespace Scarlet.PanelSystem
 
             if (panel != null) return panel.IsOpen;
             
-            Debug.LogError($"Remote Panel Accessor | Unable to find the panel of the Id {panelId}");
+            ScarletLogs.Error(typeof(RemotePanelAccessor),$"Unable to find the panel of the Id {panelId}");
             return false;
         }
         
@@ -42,7 +43,7 @@ namespace Scarlet.PanelSystem
                 return;
             }
             
-            Debug.LogError($"Remote Panel Accessor | Unable to find the panel of the Id {panelId}");
+            ScarletLogs.Error(typeof(RemotePanelAccessor),$"Unable to find the panel of the Id {panelId}");
         }
         
         
@@ -60,7 +61,7 @@ namespace Scarlet.PanelSystem
                 return;
             }
             
-            Debug.LogError($"Remote Panel Accessor | Unable to find the panel of the Id {panelId}");
+            ScarletLogs.Error(typeof(RemotePanelAccessor),$"Unable to find the panel of the Id {panelId}");
         }
 
         
@@ -74,7 +75,7 @@ namespace Scarlet.PanelSystem
 
             if (panel != null) return panel;
 
-            Debug.LogError($"Remote Panel Accessor | Unable to find the panel of the Id {panelId}");
+            ScarletLogs.Error(typeof(RemotePanelAccessor),$"Unable to find the panel of the Id {panelId}");
             return null;
         }
     }

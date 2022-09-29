@@ -32,25 +32,25 @@ namespace Scarlet.PanelSystem
         /// <summary>
         /// Runs when the panel begins to open...
         /// </summary>
-        public Evt OnPanelOpenStarted = new Evt();
+        public readonly Evt OnPanelOpenStarted = new Evt();
         
         
         /// <summary>
         /// Runs when the panel has opened...
         /// </summary>
-        public Evt OnPanelOpenComplete = new Evt();
+        public readonly Evt OnPanelOpenComplete = new Evt();
         
         
         /// <summary>
         /// Runs when the panel begins to close...
         /// </summary>
-        public Evt OnPanelCloseStarted = new Evt();
+        public readonly Evt OnPanelCloseStarted = new Evt();
         
         
         /// <summary>
         /// Runs when the panel has closed...
         /// </summary>
-        public Evt OnPanelCloseComplete = new Evt();
+        public readonly Evt OnPanelCloseComplete = new Evt();
 
         
         /// <summary>
@@ -82,10 +82,10 @@ namespace Scarlet.PanelSystem
         /// </summary>
         protected virtual void Initialise()
         {
-            var _canvas = transform.root.GetComponentInChildren<Canvas>(true);
+            var _canvas = transform.GetComponentInChildren<Canvas>(true);
             canvas = _canvas;
 
-            var _graphicsRaycaster = transform.root.GetComponentInChildren<GraphicRaycaster>(true);
+            var _graphicsRaycaster = transform.GetComponentInChildren<GraphicRaycaster>(true);
             graphicRaycaster = _graphicsRaycaster;
 
             canvasGroup ??= GetComponentInChildren<CanvasGroup>();
@@ -123,6 +123,7 @@ namespace Scarlet.PanelSystem
             PanelOpenStarted();
             StartCoroutine(Co_CanvasGroupFade(true));
             StartCoroutine(Co_PanelReveal());
+            PanelTracker.TrackPanel(this);
         }
         
         
@@ -136,6 +137,7 @@ namespace Scarlet.PanelSystem
             StartCoroutine(Co_CanvasGroupFade(false));
             StartCoroutine(Co_PanelHide());
             IsOpen = false;
+            PanelTracker.RemovePanel(this);
         }
 
 

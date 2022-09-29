@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------------------
 
 using System;
+using Scarlet.General.Logs;
 using UnityEngine;
 
 namespace Scarlet.ModularComponents
@@ -59,7 +60,7 @@ namespace Scarlet.ModularComponents
         public static implicit operator T(Instance<T> instance)
         {
             if (instance.Value == null)
-                Debug.LogError("* Instance * | Instance is null. Please ensure the instance is initialised and all.");
+                ScarletLogs.Error(typeof(Instance<>),"Instance is null. Please ensure the instance is initialised and all.");
             
             return instance.Value;
         }

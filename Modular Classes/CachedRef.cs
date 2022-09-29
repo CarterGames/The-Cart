@@ -5,7 +5,7 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using UnityEngine;
+using Scarlet.General.Logs;
 
 namespace Scarlet.ModularComponents
 {
@@ -30,7 +30,7 @@ namespace Scarlet.ModularComponents
                 
                 if (getCacheAction == null)
                 {
-                    Debug.LogError("* CachedRef * | Get action not defined, have you initialised the class?");
+                    ScarletLogs.Error(typeof(CachedRef<>),"Get action not defined, have you initialised the class?");
                     return default;
                 }
                 
@@ -38,7 +38,7 @@ namespace Scarlet.ModularComponents
 
                 if (cache != null) return cache;
                 
-                Debug.LogError("* CachedRef * | Cache is still null after get action, is the get action correctly defined?");
+                ScarletLogs.Error(typeof(CachedRef<>),"Cache is still null after get action, is the get action correctly defined?");
                 return default;
             }
         }

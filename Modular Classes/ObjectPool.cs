@@ -5,6 +5,7 @@
 // ----------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using Scarlet.General.Logs;
 using UnityEngine;
 
 namespace Scarlet.ModularComponents
@@ -31,18 +32,6 @@ namespace Scarlet.ModularComponents
         /// Defines whether or not the pool should expand when it is out of member objects.
         /// </summary>
         public bool ShouldExpand { get; set; }
-		
-		
-        /// <summary>
-        /// Gets all the member objects in the pool regardless of state.
-        /// </summary>
-		public List<T> AllMembers => memberObjects;
-		
-		
-		/// <summary>
-        /// Gets all the member that are assigned from the pool and not returned.
-        /// </summary>
-		public HashSet<T> AllInUse => unavailableObjects;
 
 
         /// <summary>
@@ -91,7 +80,7 @@ namespace Scarlet.ModularComponents
 
             if (!ShouldExpand)
             {
-                Debug.LogError("* Object Pool * | No free member objects to return.");
+                ScarletLogs.Error(typeof(ObjectPool<>), "No free member objects to return.");
                 return default;
             }
             
