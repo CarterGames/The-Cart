@@ -1,11 +1,17 @@
 ![Banner V2](https://user-images.githubusercontent.com/33253710/177016074-96133fb3-43be-4466-a9f4-45228c5ffc22.jpg)
 
+
 <p align="center">A Unity code library of tools & pre-build solutions to problems. </p>
+
+
 
 # Scarlet Library
 > Version 0.1.0
 
 A work in progress code library of verified systems that I use in my projects made publically available with documentation for all parts of the project. This will be updated in small steps as each system is tested and to ensure it works as it was intended before being publically released to the main branch. 
+
+## Badges
+![CodeFactor](https://www.codefactor.io/repository/github/jonathanmcarter/scarletlibrary/badge)
 
 ## Branches
 - Main - The branch you should get the latest version of the project from.
