@@ -11,7 +11,7 @@
 A work in progress code library of verified systems that I use in my projects made publically available with documentation for all parts of the project. This will be updated in small steps as each system is tested and to ensure it works as it was intended before being publically released to the main branch. 
 
 ## Badges
-![CodeFactor](https://www.codefactor.io/repository/github/jonathanmcarter/scarletlibrary/badge)
+![CodeFactor](https://www.codefactor.io/repository/github/jonathanmcarter/scarletlibrary/badge?style=for-the-badge)
 
 ## Branches
 - Main - The branch you should get the latest version of the project from.
