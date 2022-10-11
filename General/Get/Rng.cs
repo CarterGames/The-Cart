@@ -160,7 +160,7 @@ namespace Scarlet.General
         /// <returns>long</returns>
         public static long LongVariance(long startingValue, long variance)
         {
-            return Convert.ToInt64(R.NextDouble() * ((startingValue + variance) - (startingValue - variance)) + (startingValue - variance));
+            return Convert.ToInt64((R.NextDouble() * ((startingValue + variance) - (startingValue - variance))) + (startingValue - variance));
         }
         
         
@@ -183,7 +183,7 @@ namespace Scarlet.General
         /// <returns>long</returns>
         public static long Long(long min, long max)
         {
-            return Convert.ToInt64(R.NextDouble() * (max - min) + min);
+            return Convert.ToInt64((R.NextDouble() * (max - min)) + min);
         }
         
         //
@@ -208,7 +208,7 @@ namespace Scarlet.General
         /// <returns>float</returns>
         public static float FloatVariance(float startingValue, float variance)
         {
-            return (float) R.NextDouble() * ((startingValue + variance) - (startingValue - variance)) + (startingValue - variance);
+            return (float) (R.NextDouble() * ((startingValue + variance) - (startingValue - variance))) + (startingValue - variance);
         }
         
         
@@ -231,7 +231,7 @@ namespace Scarlet.General
         /// <returns>float</returns>
         public static float Float(float min, float max)
         {
-            return (float) R.NextDouble() * (max - min) + min;
+            return (float) (R.NextDouble() * (max - min)) + min;
         }
         
         //
@@ -257,7 +257,7 @@ namespace Scarlet.General
         /// <returns>double</returns>
         public static double DoubleVariance(double startingValue, double variance)
         {
-            return R.NextDouble() * ((startingValue + variance) - (startingValue - variance)) + (startingValue - variance);
+            return (R.NextDouble() * ((startingValue + variance) - (startingValue - variance))) + (startingValue - variance);
         }
         
         
@@ -280,7 +280,7 @@ namespace Scarlet.General
         /// <returns>double</returns>
         public static double Double(double min, double max)
         {
-            return R.NextDouble() * (max - min) + min;
+            return (R.NextDouble() * (max - min)) + min;
         }
         
         
@@ -308,9 +308,9 @@ namespace Scarlet.General
         public static Vector2 Vector2Variance(Vector2 startingValue, float variance)
         {
             return new Vector2(
-                (float)R.NextDouble() * ((startingValue.x + variance) - (startingValue.x - variance)) +
+                (float) (R.NextDouble() * ((startingValue.x + variance) - (startingValue.x - variance))) +
                 (startingValue.x - variance),
-                (float)R.NextDouble() * ((startingValue.y + variance) - (startingValue.y - variance)) +
+                (float) (R.NextDouble() * ((startingValue.y + variance) - (startingValue.y - variance))) +
                 (startingValue.y - variance));
         }
         
@@ -324,9 +324,9 @@ namespace Scarlet.General
         public static Vector2 Vector2Variance(Vector2 startingValue, Vector2 variance)
         {
             return new Vector2(
-                (float)R.NextDouble() * ((startingValue.x + variance.x) - (startingValue.x - variance.x)) +
+                (float) (R.NextDouble() * ((startingValue.x + variance.x) - (startingValue.x - variance.x))) +
                 (startingValue.x - variance.x),
-                (float)R.NextDouble() * ((startingValue.y + variance.y) - (startingValue.y - variance.y)) +
+                (float) (R.NextDouble() * ((startingValue.y + variance.y) - (startingValue.y - variance.y))) +
                 (startingValue.y - variance.y));
         }
         
@@ -350,7 +350,7 @@ namespace Scarlet.General
         /// <returns>Vector2</returns>
         public static Vector2 Vector2(float min, float max)
         {
-            return new Vector2((float)R.NextDouble() * (max - min) + min, (float)R.NextDouble() * (max - min) + min);
+            return new Vector2((float) (R.NextDouble() * (max - min)) + min, (float) (R.NextDouble() * (max - min)) + min);
         }
         
         
@@ -364,8 +364,8 @@ namespace Scarlet.General
         /// <returns>Vector2</returns>
         public static Vector2 Vector2(float minX, float maxX, float minY, float maxY)
         {
-            return new Vector2((float)R.NextDouble() * (maxX - minX) + minX,
-                (float)R.NextDouble() * (maxY - minY) + minY);
+            return new Vector2((float) (R.NextDouble() * (maxX - minX)) + minX,
+                (float) (R.NextDouble() * (maxY - minY)) + minY);
         }
         
         //
@@ -379,7 +379,7 @@ namespace Scarlet.General
         /// <returns>Vector3</returns>
         public static Vector3 Vector301()
         {
-            return new Vector3((float)R.NextDouble() * 1f, (float)R.NextDouble() * 1f, (float)R.NextDouble() * 1f);
+            return new Vector3((float) R.NextDouble() * 1f, (float) R.NextDouble() * 1f, (float) R.NextDouble() * 1f);
         }
         
         
@@ -392,11 +392,11 @@ namespace Scarlet.General
         public static Vector3 Vector3Variance(Vector3 startingValue, float variance)
         {
             return new Vector3(
-                (float)R.NextDouble() * ((startingValue.x + variance) - (startingValue.x - variance)) +
+                (float) (R.NextDouble() * ((startingValue.x + variance) - (startingValue.x - variance))) +
                 (startingValue.x - variance),
-                (float)R.NextDouble() * ((startingValue.y + variance) - (startingValue.y - variance)) +
+                (float) (R.NextDouble() * ((startingValue.y + variance) - (startingValue.y - variance))) +
                 (startingValue.y - variance),
-                (float)R.NextDouble() * ((startingValue.z + variance) - (startingValue.z - variance)) +
+                (float) (R.NextDouble() * ((startingValue.z + variance) - (startingValue.z - variance))) +
                 (startingValue.z - variance));
         }
 
@@ -410,11 +410,11 @@ namespace Scarlet.General
         public static Vector3 Vector3Variance(Vector3 startingValue, Vector3 variance)
         {
             return new Vector3(
-                (float)R.NextDouble() * ((startingValue.x + variance.x) - (startingValue.x - variance.x)) +
+                (float) (R.NextDouble() * ((startingValue.x + variance.x) - (startingValue.x - variance.x))) +
                 (startingValue.x - variance.x),
-                (float)R.NextDouble() * ((startingValue.y + variance.y) - (startingValue.y - variance.y)) +
+                (float) (R.NextDouble() * ((startingValue.y + variance.y) - (startingValue.y - variance.y))) +
                 (startingValue.y - variance.y), 
-                (float)R.NextDouble() * ((startingValue.z + variance.z) - (startingValue.z - variance.z)) +
+                (float) (R.NextDouble() * ((startingValue.z + variance.z) - (startingValue.z - variance.z))) +
                 (startingValue.z - variance.z));
         }
 
@@ -438,8 +438,8 @@ namespace Scarlet.General
         /// <returns>Vector3</returns>
         public static Vector3 Vector3(float min, float max)
         {
-            return new Vector3((float)R.NextDouble() * (max - min) + min, (float)R.NextDouble() * (max - min) + min,
-                (float)R.NextDouble() * (max - min) + min);
+            return new Vector3((float) (R.NextDouble() * (max - min)) + min, (float) (R.NextDouble() * (max - min)) + min,
+                (float) (R.NextDouble() * (max - min)) + min);
         }
 
         
@@ -455,9 +455,9 @@ namespace Scarlet.General
         /// <returns></returns>
         public static Vector3 Vector3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
         {
-            return new Vector3((float)R.NextDouble() * (maxX - minX) + minX,
-                (float)R.NextDouble() * (maxY - minY) + minY,
-                (float)R.NextDouble() * (maxZ - minZ) + minZ);
+            return new Vector3((float) (R.NextDouble() * (maxX - minX)) + minX,
+                (float) (R.NextDouble() * (maxY - minY)) + minY,
+                (float) (R.NextDouble() * (maxZ - minZ)) + minZ);
         }
         
         
@@ -472,7 +472,7 @@ namespace Scarlet.General
         /// <returns>Vector4</returns>
         public static Vector4 Vector401()
         {
-            return new Vector4((float)R.NextDouble() * 1f, (float)R.NextDouble() * 1f, (float)R.NextDouble() * 1f,
+            return new Vector4((float) R.NextDouble() * 1f, (float)R.NextDouble() * 1f, (float)R.NextDouble() * 1f,
                 (float)R.NextDouble() * 1f);
         }
 
@@ -486,13 +486,13 @@ namespace Scarlet.General
         public static Vector4 Vector4Variance(Vector4 startingValue, float variance)
         {
             return new Vector4(
-                (float)R.NextDouble() * ((startingValue.x + variance) - (startingValue.x - variance)) +
+                (float) (R.NextDouble() * ((startingValue.x + variance)) - (startingValue.x - variance)) +
                 (startingValue.x - variance),
-                (float)R.NextDouble() * ((startingValue.y + variance) - (startingValue.y - variance)) +
+                (float) (R.NextDouble() * ((startingValue.y + variance)) - (startingValue.y - variance)) +
                 (startingValue.y - variance),
-                (float)R.NextDouble() * ((startingValue.z + variance) - (startingValue.z - variance)) +
+                (float) (R.NextDouble() * ((startingValue.z + variance)) - (startingValue.z - variance)) +
                 (startingValue.z - variance),
-                (float)R.NextDouble() * ((startingValue.w + variance) - (startingValue.w - variance)) +
+                (float) (R.NextDouble() * ((startingValue.w + variance)) - (startingValue.w - variance)) +
                 (startingValue.w - variance));
         }
 
@@ -506,13 +506,13 @@ namespace Scarlet.General
         public static Vector4 Vector4Variance(Vector4 startingValue, Vector4 variance)
         {
             return new Vector4(
-                (float)R.NextDouble() * ((startingValue.x + variance.x) - (startingValue.x - variance.x)) +
+                (float) (R.NextDouble() * ((startingValue.x + variance.x)) - (startingValue.x - variance.x)) +
                 (startingValue.x - variance.x),
-                (float)R.NextDouble() * ((startingValue.y + variance.y) - (startingValue.y - variance.y)) +
+                (float) (R.NextDouble() * ((startingValue.y + variance.y)) - (startingValue.y - variance.y)) +
                 (startingValue.y - variance.y), 
-                (float)R.NextDouble() * ((startingValue.z + variance.z) - (startingValue.z - variance.z)) +
+                (float) (R.NextDouble() * ((startingValue.z + variance.z)) - (startingValue.z - variance.z)) +
                 (startingValue.z - variance.z),
-                (float)R.NextDouble() * ((startingValue.w + variance.w) - (startingValue.w - variance.w)) +
+                (float) (R.NextDouble() * ((startingValue.w + variance.w)) - (startingValue.w - variance.w)) +
                 (startingValue.w - variance.w));
         }
 
@@ -537,8 +537,8 @@ namespace Scarlet.General
         /// <returns>Vector4</returns>
         public static Vector4 Vector4(float min, float max)
         {
-            return new Vector4((float)R.NextDouble() * (max - min) + min, (float)R.NextDouble() * (max - min) + min,
-                (float)R.NextDouble() * (max - min) + min, (float)R.NextDouble() * (max - min) + min);
+            return new Vector4((float) (R.NextDouble() * (max - min)) + min, (float) (R.NextDouble() * (max - min)) + min,
+                (float) (R.NextDouble() * (max - min)) + min, (float) (R.NextDouble() * (max - min)) + min);
         }
 
         
@@ -557,10 +557,10 @@ namespace Scarlet.General
         public static Vector4 Vector4(float minX, float maxX, float minY, float maxY, float minZ, float maxZ,
             float minW, float maxW)
         {
-            return new Vector4((float)R.NextDouble() * (maxX - minX) + minX,
-                (float)R.NextDouble() * (maxY - minY) + minY,
-                (float)R.NextDouble() * (maxZ - minZ) + minZ,
-                (float)R.NextDouble() * (maxW - minW) + minW);
+            return new Vector4((float) (R.NextDouble() * (maxX - minX)) + minX,
+                (float) (R.NextDouble() * (maxY - minY)) + minY,
+                (float) (R.NextDouble() * (maxZ - minZ)) + minZ,
+                (float) (R.NextDouble() * (maxW - minW)) + minW);
         }
     }
 }
