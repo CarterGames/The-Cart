@@ -14,7 +14,6 @@ Simply download the repo and import its contents into Unity or download the late
 
 ## Docs
 The docs for the project are still a work in progress. Each script is fairly well commented as is but it will all be documented over time before a full 1.x release. 
-https://github.com/JonathanMCarter/ScarletLibrary/wiki
 
 ## Authors
 - Jonathan Carter
