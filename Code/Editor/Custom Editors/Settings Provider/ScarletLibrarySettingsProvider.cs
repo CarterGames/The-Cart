@@ -23,6 +23,8 @@
 
 using System.Collections.Generic;
 using Scarlet.Editor.Utility;
+using Scarlet.General.Reflection;
+using Scarlet.Random;
 using UnityEditor;
 using UnityEngine;
 
@@ -35,6 +37,12 @@ namespace Scarlet.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private static Rect deselectRect;
+        
+        private static readonly GUIContent VersionTitle = new GUIContent("Version", "The version of the package in use.");
+        private static readonly GUIContent VersionValue = new GUIContent(ScarletVersionData.VersionNumber, "The version you currently have installed.");
+        private static readonly GUIContent ReleaseTitle = new GUIContent("Release Date", "The date this version of the package was published on.");
+        private static readonly GUIContent ReleaseValue = new GUIContent(ScarletVersionData.ReleaseDate, "The data the version you currently have installed was released on.");
+
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Menu Items
@@ -64,6 +72,7 @@ namespace Scarlet.Editor
                 guiHandler = (searchContext) =>
                 {
                     DrawHeader();
+                    DrawVersionInfo();
                     DrawGeneralOptions();
                     DrawButtons();
 
@@ -97,6 +106,20 @@ namespace Scarlet.Editor
 
 
 
+        private static void DrawVersionInfo()
+        {
+            EditorGUILayout.BeginVertical("HelpBox");
+            GUILayout.Space(1.5f);
+            EditorGUILayout.LabelField("Info", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
+            
+            EditorGUILayout.LabelField(VersionTitle, VersionValue);
+            EditorGUILayout.LabelField(ReleaseTitle, ReleaseValue);
+            
+            EditorGUILayout.EndVertical();
+        }
+
+
         /// <summary>
         /// Draws the general options shown on the settings provider. 
         /// </summary>
@@ -108,7 +131,9 @@ namespace Scarlet.Editor
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("rngProvider"));
+
+            DrawRngSettings();
+            
             if (EditorGUI.EndChangeCheck())
             {
                 UtilEditor.SettingsObject.ApplyModifiedProperties();
@@ -145,6 +170,94 @@ namespace Scarlet.Editor
             // }
 
             EditorGUILayout.EndHorizontal();
+        }
+
+
+        
+        /// <summary>
+        /// Draws the rng options in the library settings.
+        /// </summary>
+        private static void DrawRngSettings()
+        {
+            UtilEditor.SettingsObject.FindProperty("isRngExpanded").boolValue =
+                EditorGUILayout.Foldout(UtilEditor.SettingsObject.FindProperty("isRngExpanded").boolValue, "Rng");
+
+            
+            if (!UtilEditor.SettingsObject.FindProperty("isRngExpanded").boolValue) return;
+
+
+            EditorGUILayout.BeginVertical();
+            EditorGUI.indentLevel++;
+            
+            
+            // Draw the provider enum field on the GUI...
+            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("rngProvider"));
+
+            
+            var rngProvider = UtilEditor.SettingsObject.FindProperty("rngProvider");
+            
+            
+            // If set to a provider that doesn't have a seed, return...
+            // Currently this is only 0 - (Unity Random)
+            if (rngProvider.intValue <= 0)
+            {
+                EditorGUI.indentLevel--;
+                EditorGUILayout.EndVertical();
+                return;
+            }
+            
+
+            EditorGUILayout.BeginHorizontal();
+            
+        
+            var systemSeedProperty = UtilEditor.SettingsObject.FindProperty("systemSeed");
+            var aleaSeedProperty = UtilEditor.SettingsObject.FindProperty("aleaSeed");
+
+            
+            // System Seed Field
+            if (rngProvider.intValue == 1)
+            {
+                EditorGUILayout.PropertyField(systemSeedProperty);
+            }
+                
+            
+            // Alea Seed Field
+            if (rngProvider.intValue == 2)
+            {
+                EditorGUILayout.PropertyField(aleaSeedProperty);
+            }
+
+
+            // Draws the button to copy the seed...
+            if (GUILayout.Button("Copy", GUILayout.Width(65)))
+            {
+                if (rngProvider.intValue == 1)
+                {
+                    systemSeedProperty.intValue.ToString().CopyToClipboard();
+                }
+                if (rngProvider.intValue == 2)
+                {
+                    aleaSeedProperty.stringValue.CopyToClipboard();
+                }
+                    
+                Dialogue.Display("Seed Copy", "The seed has been added to your clipboard", "Continue");
+            }
+
+            
+            // Draws the button the regenerate the seed. 
+            if (GUILayout.Button("Regenerate", GUILayout.Width(100)))
+            {
+                ReflectionHelper.GetField(typeof(Rng), "providerCache", false, true).SetValue(null, null);
+                var seededProvider = (ISeededRngProvider) ReflectionHelper.GetProperty(typeof(Rng), "Provider", false, true).GetValue(null);
+
+                Dialogue.Display("Regen Seed", "Are you sure you want to regen the Seed?", "Yes",
+                    "Cancel", seededProvider.GenerateSeed);
+            }
+
+            
+            EditorGUILayout.EndHorizontal();
+            EditorGUI.indentLevel--;
+            EditorGUILayout.EndVertical();
         }
     }
 }

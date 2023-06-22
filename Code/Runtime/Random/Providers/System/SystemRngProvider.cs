@@ -22,16 +22,21 @@
  */
 
 using System;
+using Scarlet.Management;
 
 namespace Scarlet.Random
 {
-    public class SystemRngProvider : IRngProvider
+    public class SystemRngProvider : ISeededRngProvider
     {
         /// <summary>
         /// The seed used the generate all the random values. 
         /// </summary>
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
-        public static readonly int Seed = Guid.NewGuid().GetHashCode();
+        public static int Seed
+        {
+            get => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().SystemRngSeed;
+            set => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().SystemRngSeed = value;
+        }
 
 
         /// <summary>
@@ -59,6 +64,12 @@ namespace Scarlet.Random
         public double Double(double min, double max)
         {
             return (R.NextDouble() * (max - min)) + min;
+        }
+        
+        
+        public void GenerateSeed()
+        {
+            Seed = Guid.NewGuid().GetHashCode();
         }
     }
 }

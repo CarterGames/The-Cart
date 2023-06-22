@@ -70,5 +70,31 @@ namespace Scarlet.General
         {
             return new Color(r ?? col.r, g ?? col.g, b ?? col.b, a ?? col.a);
         }
+        
+        
+        /// <summary>
+        /// Changes any value of the color to the new value entered.
+        /// </summary>
+        /// <param name="col">The color to edit.</param>
+        /// <param name="r">The new R value.</param>
+        /// <param name="g">The new G value.</param>
+        /// <param name="b">The new B value.</param>
+        /// <param name="a">The new A value.</param>
+        /// <returns>The edited Color</returns>
+        public static Color Adjust(this Color col, float? r = null, float? g = null, float? b = null, float? a = null)
+        {
+            return new Color(col.r + r ?? col.r, col.g + g ?? col.g, col.b + b ?? col.b, col.a + a ?? col.a);
+        }
+        
+        
+        /// <summary>
+        /// Inverts the colour entered.
+        /// </summary>
+        /// <param name="color">The colour to edit.</param>
+        /// <returns>The inverted colour.</returns>
+        public static Color Invert(this Color color)
+        {
+            return new Color(1.0f - color.r, 1.0f - color.g, 1.0f - color.b);
+        }
     }
 }

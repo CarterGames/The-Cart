@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using Scarlet.Random;
 using UnityEngine;
 
@@ -32,8 +33,11 @@ namespace Scarlet.Management
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
+        [SerializeField] private bool isRngExpanded;
         [SerializeField] private RngProviders rngProvider;
+        [SerializeField] private int systemSeed = Guid.NewGuid().GetHashCode();
+        [SerializeField] private string aleaSeed = Guid.NewGuid().ToString();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -43,5 +47,17 @@ namespace Scarlet.Management
         /// The current RNG provider for the 
         /// </summary>
         public RngProviders RngProvider => rngProvider;
+
+        public int SystemRngSeed
+        {
+            get => systemSeed;
+            set => systemSeed = value;
+        }
+
+        public string AleaRngSeed
+        {
+            get => aleaSeed;
+            set => aleaSeed = value;
+        }
     }
 }

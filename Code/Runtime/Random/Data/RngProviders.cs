@@ -29,6 +29,6 @@ namespace Scarlet.Random
     {
         [InspectorName("Unity (Standard)")] Unity = 0,
         [InspectorName("System (Seeded)")] System = 1,
-        [InspectorName("Alea PRNG (Seeded)")] AleaPRNG = 2,
+        [InspectorName("Alea PRNG (Seeded) (Experimental)")] AleaPRNG = 2,
     }
 }

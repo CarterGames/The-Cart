@@ -219,5 +219,48 @@ namespace Scarlet.General
         {
             return new Vector4(w ?? original.w, x ?? original.x, y ?? original.y, z ?? original.z);
         }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Adjust
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Returns a vector with the adjusted x or y values...
+        /// </summary>
+        /// <param name="original">The initial vector to edit...</param>
+        /// <param name="x">The new x value</param>
+        /// <param name="y">The new y value</param>
+        /// <returns>Vector2</returns>
+        public static Vector2 Adjust(this Vector2 original, float? x = null, float? y = null)
+        {
+            return new Vector2(original.x + x ?? original.x, original.y + y ?? original.y);
+        }
+
+        /// <summary>
+        /// Returns a vector with the adjusted x, y, z value...
+        /// </summary>
+        /// <param name="original">The initial vector to edit...</param>
+        /// <param name="x">The new x value</param>
+        /// <param name="y">The new y value</param>
+        /// <param name="z">The new z value</param>
+        /// <returns>Vector3</returns>
+        public static Vector3 Adjust(this Vector3 original, float? x = null, float? y = null, float? z = null)
+        {
+            return new Vector3(original.x + x ?? original.x, original.y + y ?? original.y, original.z + z ?? original.z);
+        }
+
+        /// <summary>
+        /// Returns a vector with the adjusted w, x, y, z value...
+        /// </summary>
+        /// <param name="original">The initial vector to edit...</param>
+        /// <param name="w">The new w value</param>
+        /// <param name="x">The new x value</param>
+        /// <param name="y">The new y value</param>
+        /// <param name="z">The new z value</param>
+        /// <returns>Vector4</returns>
+        public static Vector4 Adjust(this Vector4 original, float? w = null, float? x = null, float? y = null, float? z = null)
+        {
+            return new Vector4(original.w + w ?? original.w, original.x + x ?? original.x, original.y + y ?? original.y, original.z + z ?? original.z);
+        }
     }
 }

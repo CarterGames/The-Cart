@@ -22,16 +22,21 @@
  */
 
 using System;
+using Scarlet.Management;
 
 namespace Scarlet.Random.AleaPRNG
 {
-    public class AleaRngProvider : IRngProvider
+    public class AleaRngProvider : ISeededRngProvider
     {
         /// <summary>
         /// The seed used the generate all the random values. 
         /// </summary>
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
-        public static readonly string Seed = Guid.NewGuid().ToString();
+        public static string Seed
+        {
+            get => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().AleaRngSeed;
+            set => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().AleaRngSeed = value;
+        }
 
 
         /// <summary>
@@ -60,6 +65,12 @@ namespace Scarlet.Random.AleaPRNG
         {
             var random = R.Next();
             return ((random - 0f) / (1f - 0)) * (max - min) + min;
+        }
+        
+        
+        public void GenerateSeed()
+        {
+            Seed = Guid.NewGuid().ToString();
         }
     }
 }

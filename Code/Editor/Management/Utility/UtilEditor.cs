@@ -40,12 +40,14 @@ namespace Scarlet.Editor.Utility
         
         private const string LibrarySettingsFilter = "t:scarletlibraryruntimesettings";
         private const string AssetIndexFilter = "t:assetindex";
+        private const string ScarletRoseFilter = "ScarletRose";
         private const string ScarletBannerFilter = "ScarletBanner";
         
         
         private static ScarletLibraryRuntimeSettings settingsCache;
         private static SerializedObject settingsObjectCache;
         private static ScarletLibraryAssetIndex assetIndexCache;
+        private static Texture2D scarletRoseGraphicCache;
         private static Texture2D scarletBannerGraphicCache;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -59,10 +61,18 @@ namespace Scarlet.Editor.Utility
         {
             get
             {
-                var script = AssetDatabase.FindAssets($"t:Script {nameof(UtilEditor)}")[0];
-                var path = AssetDatabase.GUIDToAssetPath(script);
+                string path = string.Empty;
+                
+                foreach (var scriptFound in AssetDatabase.FindAssets($"t:Script {nameof(UtilEditor)}"))
+                {
+                    path = AssetDatabase.GUIDToAssetPath(scriptFound);
+                    
+                    if (!path.Contains("Scarlet Library") || !path.Contains("/UtilEditor.cs")) continue;
+                    path = AssetDatabase.GUIDToAssetPath(scriptFound);
+                    path = path.Replace("Code/Editor/Management/Utility/UtilEditor.cs", "");
+                    return path;
+                }
 
-                path = path.Replace("Code/Editor/Management/Utility/UtilEditor.cs", "");
                 return path;
             }
         }
@@ -97,6 +107,12 @@ namespace Scarlet.Editor.Utility
         }
 
 
+        /// <summary>
+        /// The banner graphic for the settings provider.
+        /// </summary>
+        public static Texture2D ScarletRose => FileEditorUtil.GetOrAssignCache(ref scarletRoseGraphicCache, ScarletRoseFilter);
+        
+        
         /// <summary>
         /// The banner graphic for the settings provider.
         /// </summary>

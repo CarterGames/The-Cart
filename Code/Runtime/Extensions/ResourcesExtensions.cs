@@ -29,7 +29,7 @@ using Object = UnityEngine.Object;
 
 namespace Scarlet.General
 {
-    public class ResourcesExtension
+    public class ResourcesExtensions
     {
         /// <summary>
         /// Loads a asset from the resources folder.

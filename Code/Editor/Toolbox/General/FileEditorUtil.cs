@@ -90,8 +90,10 @@ namespace Scarlet.Editor
 
             if (cache == null)
             {
-                cache = FileEditorUtil.CreateScriptableObject<T>(path);
+                cache = CreateScriptableObject<T>(path);
             }
+            
+            AssetIndexHandler.UpdateIndex();
 
             return cache;
         }
