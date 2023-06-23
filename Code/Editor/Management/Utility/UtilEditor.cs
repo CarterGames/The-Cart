@@ -39,7 +39,7 @@ namespace Scarlet.Editor.Utility
         
         
         private const string LibrarySettingsFilter = "t:scarletlibraryruntimesettings";
-        private const string AssetIndexFilter = "t:assetindex";
+        private const string AssetIndexFilter = "t:scarletlibraryassetindex";
         private const string ScarletRoseFilter = "ScarletRose";
         private const string ScarletBannerFilter = "ScarletBanner";
         
@@ -118,10 +118,13 @@ namespace Scarlet.Editor.Utility
         /// </summary>
         public static Texture2D ScarletBanner => FileEditorUtil.GetOrAssignCache(ref scarletBannerGraphicCache, ScarletBannerFilter);
         
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        
-        
-        
+        /// <summary>
+        /// Initializes the library.
+        /// </summary>
         public static void Initialize()
         {
             AssetDatabase.Refresh();
