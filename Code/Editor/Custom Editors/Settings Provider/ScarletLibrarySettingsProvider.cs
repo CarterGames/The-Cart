@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using Scarlet.Editor.Utility;
+using Scarlet.Editor.VersionCheck;
 using Scarlet.General.Reflection;
 using Scarlet.Random;
 using UnityEditor;
@@ -73,6 +74,7 @@ namespace Scarlet.Editor
                 {
                     DrawHeader();
                     DrawVersionInfo();
+                    GUILayout.Space(1.5f);
                     DrawGeneralOptions();
                     DrawButtons();
 
@@ -104,18 +106,27 @@ namespace Scarlet.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-
-
+        
+        /// <summary>
+        /// Draws the version info section on the settings provider.
+        /// </summary>
         private static void DrawVersionInfo()
         {
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
             EditorGUILayout.LabelField("Info", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
+
+
+            EditorGUILayout.BeginHorizontal();
             
             EditorGUILayout.LabelField(VersionTitle, VersionValue);
-            EditorGUILayout.LabelField(ReleaseTitle, ReleaseValue);
+            VersionEditorGUI.DrawCheckForUpdatesButton();
             
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.LabelField(ReleaseTitle, ReleaseValue);
+
             EditorGUILayout.EndVertical();
         }
 

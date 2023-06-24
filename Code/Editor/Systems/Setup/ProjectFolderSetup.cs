@@ -22,7 +22,6 @@
  */
 
 using UnityEditor;
-using UnityEngine;
 
 namespace Scarlet.Editor.Setup
 {
@@ -81,7 +80,6 @@ namespace Scarlet.Editor.Setup
         {
             if (AssetDatabase.IsValidFolder(parentPath + "/" + newFolderName)) return;
             AssetDatabase.CreateFolder(parentPath, newFolderName);
-            Debug.Log($"{parentPath}{newFolderName}");
         }
     }
 }

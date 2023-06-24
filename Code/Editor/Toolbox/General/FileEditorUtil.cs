@@ -34,6 +34,36 @@ namespace Scarlet.Editor
         /// Gets a file via filter.
         /// </summary>
         /// <param name="filter">The filter to search for.</param>
+        /// <param name="containsChecks">Parts of a string the path should contain.</param>
+        /// <typeparam name="T">The type.</typeparam>
+        /// <returns>The found file as an object if found successfully.</returns>
+        private static object GetFileViaFilter<T>(string filter, params string[] containsChecks)
+        {
+            string path = string.Empty;
+                
+            foreach (var scriptFound in AssetDatabase.FindAssets($"t:Script {nameof(T)}"))
+            {
+                path = AssetDatabase.GUIDToAssetPath(scriptFound);
+
+                foreach (var containCheck in containsChecks)
+                {
+                    if (!path.Contains(containCheck)) goto Loop;
+                }
+                
+                path = AssetDatabase.GUIDToAssetPath(scriptFound);
+                path = path.Replace("Code/Editor/Management/Utility/UtilEditor.cs", "");
+                return AssetDatabase.LoadAssetAtPath(path, typeof(T));
+                Loop: ;
+            }
+
+            return null;
+        }
+        
+        
+        /// <summary>
+        /// Gets a file via filter.
+        /// </summary>
+        /// <param name="filter">The filter to search for.</param>
         /// <typeparam name="T">The type.</typeparam>
         /// <returns>The found file as an object if found successfully.</returns>
         private static object GetFileViaFilter<T>(string filter)
@@ -73,6 +103,22 @@ namespace Scarlet.Editor
             cache = (T) GetFileViaFilter<T>(filter);
             return cache;
         }
+        
+        
+        /// <summary>
+        /// Gets or assigned the cached value of any type, just saving writing the same lines over and over xD
+        /// </summary>
+        /// <param name="cache">The cached value to assign or get.</param>
+        /// <param name="filter">The filter to use.</param>
+        /// <param name="containsChecks">Parts of a string the path should contain.</param>
+        /// <typeparam name="T">The type.</typeparam>
+        /// <returns>The assigned cache.</returns>
+        public static T GetOrAssignCache<T>(ref T cache, string filter, params string[] containsChecks)
+        {
+            if (cache != null) return cache;
+            cache = (T) GetFileViaFilter<T>(filter, containsChecks);
+            return cache;
+        }
 
 
         /// <summary>
@@ -81,12 +127,13 @@ namespace Scarlet.Editor
         /// <param name="cache">The cached value to assign or get.</param>
         /// <param name="path">The path to create to if needed.</param>
         /// <param name="filter">The filter to use.</param>
+        /// <param name="containChecks">Parts of a string the path should contain.</param>
         /// <typeparam name="T">The type.</typeparam>
         /// <returns>The assigned cache.</returns>
-        public static T CreateSoGetOrAssignCache<T>(ref T cache, string path, string filter) where T : ScriptableObject
+        public static T CreateSoGetOrAssignCache<T>(ref T cache, string path, string filter, params string[] containChecks) where T : ScriptableObject
         {
             if (cache != null) return cache;
-            cache = (T)GetFileViaFilter<T>(filter);
+            cache = (T)GetFileViaFilter<T>(filter, containChecks);
 
             if (cache == null)
             {

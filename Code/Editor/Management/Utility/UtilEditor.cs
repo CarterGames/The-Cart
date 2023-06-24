@@ -89,7 +89,7 @@ namespace Scarlet.Editor.Utility
         /// Gets/Sets the save manager settings asset.
         /// </summary>
         public static ScarletLibraryAssetIndex AssetIndex
-            => FileEditorUtil.CreateSoGetOrAssignCache(ref assetIndexCache, AssetIndexPath, AssetIndexFilter);
+            => FileEditorUtil.CreateSoGetOrAssignCache(ref assetIndexCache, AssetIndexPath, AssetIndexFilter, "Scarlet Library", "/UtilEditor.cs");
 
         
         
