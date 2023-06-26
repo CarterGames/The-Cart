@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2018-Present Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,68 +21,61 @@
  * THE SOFTWARE.
  */
 
-using System;
-using Scarlet.Utility;
+using System.Collections.Generic;
+using Scarlet.General;
 using UnityEngine;
 
-namespace Scarlet.Logs
+namespace Scarlet.Data
 {
     /// <summary>
-    /// A custom logger class to aid show logs for scarlet library scripts.
+    /// The index for all data assets in the project.
     /// </summary>
-    public static class ScarletLogs
+    public sealed class DataAssetIndex : ScriptableObject
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private const string LogPrefix = "<color=#E36B6B><b>Scarlet Library</b></color> | ";
-        private const string WarningPrefix = "<color=#D6BA64><b>Warning</b></color> | ";
-        private const string ErrorPrefix = "<color=#E77A7A><b>Error</b></color> | ";
+        [SerializeField] private SerializableDictionary<string, List<DataAsset>> assets;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// A lookup of all the assets in the project that can be used at runtime.
+        /// </summary>
+        public SerializableDictionary<string, List<DataAsset>> Lookup => assets;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Displays a normal debug message for the build versions asset...
+        /// Sets the lookup to the value entered.
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Normal(Type type, string message, bool editorOnly = true)
+        /// <param name="value">The data to insert.</param>
+        public void SetLookup(List<DataAsset> value)
         {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.Log($"{LogPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
-        }
+            assets = new SerializableDictionary<string, List<DataAsset>>();
 
-
-        /// <summary>
-        /// Displays a warning debug message for the build versions asset...
-        /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Warning(Type type, string message, bool editorOnly = true)
-        {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogWarning($"{LogPrefix}{WarningPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
-        }
-        
-        
-        /// <summary>
-        /// Displays a error debug message for the build versions asset...
-        /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Error(Type type, string message, bool editorOnly = true)
-        {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogError($"{LogPrefix}{ErrorPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
+            foreach (var foundAsset in value)
+            {
+                var key = foundAsset.GetType().ToString();
+                
+                if (assets.ContainsKey(key))
+                {
+                    if (assets[key].Contains(foundAsset)) continue;
+                    assets[key].Add(foundAsset);
+                }
+                else
+                {
+                    assets.Add(key, new List<DataAsset>()
+                    {
+                        foundAsset
+                    });
+                }
+            }
         }
     }
 }

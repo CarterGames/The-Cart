@@ -24,40 +24,94 @@
 using System;
 using Scarlet.Random;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scarlet.Management
 {
+    /// <summary>
+    /// Handles any runtime specific settings for the package.
+    /// </summary>
     [CreateAssetMenu(fileName = "Runtime Settings Asset", menuName = "Scarlet Library/Management/Setttings (Runtime)")]
-    public class ScarletLibraryRuntimeSettings : ScarletLibraryAsset
+    public sealed class ScarletLibraryRuntimeSettings : ScarletLibraryAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        // Rng
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         [SerializeField] private bool isRngExpanded;
-        [SerializeField] private RngProviders rngProvider;
-        [SerializeField] private int systemSeed = Guid.NewGuid().GetHashCode();
-        [SerializeField] private string aleaSeed = Guid.NewGuid().ToString();
+        [SerializeField] private RngProviders rngRngProvider;
+        [SerializeField] private int rngSystemSeed = Guid.NewGuid().GetHashCode();
+        [SerializeField] private string rngAleaSeed = Guid.NewGuid().ToString();
         
+        // Logging
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        [SerializeField] private bool isLoggingExpanded;
+        [SerializeField] private bool loggingUseScarletLogs = true;
+        
+        // Game Ticks
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        [SerializeField] private bool isGameTicksExpanded;
+        [SerializeField] private int gameTickTicksPerSecond = 5;
+        [SerializeField] private bool gameTickUseUnscaledTime;
+        [SerializeField] private bool gameTickUseGlobalTicker = true;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        // Rng
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         /// <summary>
         /// The current RNG provider for the 
         /// </summary>
-        public RngProviders RngProvider => rngProvider;
+        public RngProviders RngRngProvider => rngRngProvider;
 
-        public int SystemRngSeed
+        
+        /// <summary>
+        /// The System Rng Seed.
+        /// </summary>
+        public int RngSystemRngSeed
         {
-            get => systemSeed;
-            set => systemSeed = value;
+            get => rngSystemSeed;
+            set => rngSystemSeed = value;
         }
 
-        public string AleaRngSeed
+        
+        /// <summary>
+        /// The Alea Rng Seed.
+        /// </summary>
+        public string RngAleaRngSeed
         {
-            get => aleaSeed;
-            set => aleaSeed = value;
+            get => rngAleaSeed;
+            set => rngAleaSeed = value;
         }
+        
+        // Logging
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        public bool LoggingUseScarletLogs => loggingUseScarletLogs;
+        
+        // Game Ticks
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The number of ticks per second.
+        /// </summary>
+        public int GameTickTicksPerSecond => gameTickTicksPerSecond;
+        
+        
+        /// <summary>
+        /// Should the tick system be in unscaled time?
+        /// </summary>
+        public bool GameTickUseUnscaledTime => gameTickUseUnscaledTime;
+        
+        
+        /// <summary>
+        /// Should the global ticker be initialized & used at runtime?
+        /// </summary>
+        public bool GameTickUseGlobalTicker => gameTickUseGlobalTicker;
     }
 }

@@ -22,10 +22,11 @@
  */
 
 using Scarlet.Management;
+using Scarlet.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor.Utility
+namespace Scarlet.Editor
 {
     public static class UtilEditor
     {
@@ -33,19 +34,29 @@ namespace Scarlet.Editor.Utility
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        // Paths
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         public const string SettingsWindowPath = "Project/Scarlet Library";
         private static readonly string SettingsAssetPath = $"{AssetBasePath}/Data/Runtime Settings.asset";
+        private static readonly string EditorSettingsAssetPath = $"{AssetBasePath}/Data/Editor Settings.asset";
         private const string AssetIndexPath = "Assets/Resources/Scarlet Library/Asset Index.asset";
         
         
+        // Filters
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         private const string LibrarySettingsFilter = "t:scarletlibraryruntimesettings";
+        private const string LibraryEditorSettingsFilter = "t:scarletlibraryeditorsettings";
         private const string AssetIndexFilter = "t:scarletlibraryassetindex";
         private const string ScarletRoseFilter = "ScarletRose";
         private const string ScarletBannerFilter = "ScarletBanner";
         
         
+        // Caches
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         private static ScarletLibraryRuntimeSettings settingsCache;
+        private static ScarletLibraryEditorSettings editorSettingsCache;
         private static SerializedObject settingsObjectCache;
+        private static SerializedObject editorSettingsObjectCache;
         private static ScarletLibraryAssetIndex assetIndexCache;
         private static Texture2D scarletRoseGraphicCache;
         private static Texture2D scarletBannerGraphicCache;
@@ -88,8 +99,15 @@ namespace Scarlet.Editor.Utility
         /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
+        public static ScarletLibraryEditorSettings EditorSettings
+            => FileEditorUtil.CreateSoGetOrAssignCache(ref editorSettingsCache, EditorSettingsAssetPath, LibraryEditorSettingsFilter);
+        
+        
+        /// <summary>
+        /// Gets/Sets the save manager settings asset.
+        /// </summary>
         public static ScarletLibraryAssetIndex AssetIndex
-            => FileEditorUtil.CreateSoGetOrAssignCache(ref assetIndexCache, AssetIndexPath, AssetIndexFilter, "Scarlet Library", "/UtilEditor.cs");
+            => FileEditorUtil.CreateSoGetOrAssignCache(ref assetIndexCache, AssetIndexPath, AssetIndexFilter);
 
         
         
@@ -103,6 +121,20 @@ namespace Scarlet.Editor.Utility
                 if (settingsObjectCache != null) return settingsObjectCache;
                 settingsObjectCache = new SerializedObject(Settings);
                 return settingsObjectCache;
+            }
+        }
+        
+        
+        /// <summary>
+        /// Gets/Sets the save manager editor settings asset.
+        /// </summary>
+        public static SerializedObject EditorSettingsObject
+        {
+            get
+            {
+                if (editorSettingsObjectCache != null) return editorSettingsObjectCache;
+                editorSettingsObjectCache = new SerializedObject(EditorSettings);
+                return editorSettingsObjectCache;
             }
         }
 
@@ -137,6 +169,11 @@ namespace Scarlet.Editor.Utility
             if (settingsCache == null)
             {
                 settingsCache = Settings;
+            }//
+            
+            if (editorSettingsCache == null)
+            {
+                editorSettingsCache = EditorSettings;
             }
 
             AssetIndexHandler.UpdateIndex();

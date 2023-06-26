@@ -34,8 +34,8 @@ namespace Scarlet.Random.AleaPRNG
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
         public static string Seed
         {
-            get => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().AleaRngSeed;
-            set => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().AleaRngSeed = value;
+            get => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngAleaRngSeed;
+            set => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngAleaRngSeed = value;
         }
 
 

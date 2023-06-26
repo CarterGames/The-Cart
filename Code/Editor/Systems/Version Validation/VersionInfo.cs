@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Editor.Utility;
+using Scarlet.Management.Editor;
 
 namespace Scarlet.Editor.VersionCheck
 {

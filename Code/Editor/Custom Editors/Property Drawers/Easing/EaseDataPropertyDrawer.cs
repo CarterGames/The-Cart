@@ -27,7 +27,7 @@ using UnityEngine;
 namespace Scarlet.Easing.Editor
 {
     [CustomPropertyDrawer(typeof(EaseData))]
-    public class EaseDataPropertyDrawer : PropertyDrawer
+    public sealed class EaseDataPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -42,7 +42,7 @@ namespace Scarlet.Easing.Editor
 
 
     [CustomPropertyDrawer(typeof(InEaseData))]
-    public class InEaseDataPropertyDrawer : PropertyDrawer
+    public sealed class InEaseDataPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -57,7 +57,7 @@ namespace Scarlet.Easing.Editor
     
     
     [CustomPropertyDrawer(typeof(OutEaseData))]
-    public class OutEaseDataPropertyDrawer : PropertyDrawer
+    public sealed class OutEaseDataPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

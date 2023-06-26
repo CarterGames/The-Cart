@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.Editor.Utility
+namespace Scarlet.Management.Editor
 {
     /// <summary>
     /// Contains details for the package.
@@ -31,7 +31,7 @@ namespace Scarlet.Editor.Utility
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.2.2";
+        public static string VersionNumber => "0.3.0";
         
         
         /// <summary>
@@ -40,6 +40,6 @@ namespace Scarlet.Editor.Utility
         /// <remarks>
         /// Asset owner is in the UK, so its D/M/Y format.
         /// </remarks>
-        public static string ReleaseDate => "24/06/2023";
+        public static string ReleaseDate => "26/06/2023";
     }
 }

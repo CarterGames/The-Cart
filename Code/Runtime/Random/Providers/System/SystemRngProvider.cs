@@ -34,8 +34,8 @@ namespace Scarlet.Random
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
         public static int Seed
         {
-            get => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().SystemRngSeed;
-            set => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().SystemRngSeed = value;
+            get => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngSystemRngSeed;
+            set => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngSystemRngSeed = value;
         }
 
 

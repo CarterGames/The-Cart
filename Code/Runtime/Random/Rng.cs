@@ -44,7 +44,7 @@ namespace Scarlet.Random
             get
             {
                 if (providerCache != null) return providerCache;
-                providerCache = ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngProvider switch
+                providerCache = ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngRngProvider switch
                 {
                     RngProviders.Unity => new UnityRngProvider(),
                     RngProviders.System => new SystemRngProvider(),

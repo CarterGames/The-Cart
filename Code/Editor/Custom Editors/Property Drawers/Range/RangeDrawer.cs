@@ -62,7 +62,7 @@ namespace Scarlet.General.Editor
 
 
     [CustomPropertyDrawer(typeof(IntRange))]
-    public class IntRangeDrawer : PropertyDrawer
+    public sealed class IntRangeDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -76,7 +76,7 @@ namespace Scarlet.General.Editor
     }
     
     [CustomPropertyDrawer(typeof(FloatRange))]
-    public class FloatRangeDrawer : PropertyDrawer
+    public sealed class FloatRangeDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -91,7 +91,7 @@ namespace Scarlet.General.Editor
     
     
     [CustomPropertyDrawer(typeof(DoubleRange))]
-    public class DoubleRangeDrawer : PropertyDrawer
+    public sealed class DoubleRangeDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

@@ -1,14 +1,14 @@
-﻿using Scarlet.Management;
+﻿using Scarlet.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace Scarlet.Editor
 {
     /// <summary>
-    /// Handles the custom editor for the runtime settings asset.
+    /// Handles the custom editor for the editor settings asset.
     /// </summary>
-    [CustomEditor(typeof(ScarletLibraryRuntimeSettings))]
-    public sealed class ScarletRuntimeSettingsInspector : UnityEditor.Editor
+    [CustomEditor(typeof(ScarletLibraryEditorSettings))]
+    public sealed class ScarletEditorSettingsInspector : UnityEditor.Editor
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Editor Methods
@@ -22,9 +22,7 @@ namespace Scarlet.Editor
             DrawHeaderTitle();
             GUILayout.Space(7.5f);
             DrawScript();
-            RngSettingsDrawer.DrawInspector(serializedObject);
-            LoggingSettingsDrawer.DrawInspector(serializedObject);
-            GameTickerSettingsDrawer.DrawInspector(serializedObject);
+            HierarchySeparatorSettingsDrawer.DrawInspector(serializedObject);
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -51,12 +49,12 @@ namespace Scarlet.Editor
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            EditorGUILayout.LabelField("Runtime Settings", EditorStyles.boldLabel, GUILayout.Width("Runtime Settings ".Width()));
+            EditorGUILayout.LabelField("Editor Settings", EditorStyles.boldLabel, GUILayout.Width("Editor Settings ".Width()));
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
-        
-        
+
+
         /// <summary>
         /// Draws the script reference section.
         /// </summary>
@@ -64,7 +62,7 @@ namespace Scarlet.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             FileEditorUtil.DrawSoScriptSection(target);
-            EditorGUILayout.EndVertical(); 
+            EditorGUILayout.EndVertical();
         }
     }
 }

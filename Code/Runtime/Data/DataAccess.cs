@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2018-Present Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,68 +21,77 @@
  * THE SOFTWARE.
  */
 
-using System;
-using Scarlet.Utility;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace Scarlet.Logs
+namespace Scarlet.Data
 {
     /// <summary>
-    /// A custom logger class to aid show logs for scarlet library scripts.
+    /// Helper class to access data assets at runtime.
     /// </summary>
-    public static class ScarletLogs
+    public static class DataAccess
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+     
+        private const string IndexPath = "Data Asset Index";
         
-        private const string LogPrefix = "<color=#E36B6B><b>Scarlet Library</b></color> | ";
-        private const string WarningPrefix = "<color=#D6BA64><b>Warning</b></color> | ";
-        private const string ErrorPrefix = "<color=#E77A7A><b>Error</b></color> | ";
+        
+        // A cache of all the assets found...
+        private static DataAssetIndex indexCache;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Gets all the assets from the build versions asset...
+        /// </summary>
+        public static DataAssetIndex Index
+        {
+            get
+            {
+                if (indexCache != null) return indexCache;
+                indexCache = (DataAssetIndex) Resources.Load(IndexPath, typeof(DataAssetIndex));
+                return indexCache;
+            }
+        }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Displays a normal debug message for the build versions asset...
-        /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Normal(Type type, string message, bool editorOnly = true)
-        {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.Log($"{LogPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
-        }
-
 
         /// <summary>
-        /// Displays a warning debug message for the build versions asset...
+        /// Gets the Save Manager Asset requested.
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Warning(Type type, string message, bool editorOnly = true)
+        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <returns>The asset if it exists.</returns>
+        public static T GetAsset<T>() where T : DataAsset
         {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogWarning($"{LogPrefix}{WarningPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
+            if (Index.Lookup.ContainsKey(typeof(T).ToString()))
+            {
+                return (T)Index.Lookup[typeof(T).ToString()][0];
+            }
+
+            return null;
         }
         
         
         /// <summary>
-        /// Displays a error debug message for the build versions asset...
+        /// Gets the Save Manager Asset requested.
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Error(Type type, string message, bool editorOnly = true)
+        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <returns>The asset if it exists.</returns>
+        public static List<T> GetAssets<T>() where T : DataAsset
         {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogError($"{LogPrefix}{ErrorPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
+            if (Index.Lookup.ContainsKey(typeof(T).ToString()))
+            {
+                return Index.Lookup[typeof(T).ToString()].Cast<T>().ToList();
+            }
+
+            return null;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2018-Present Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,59 +21,32 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using Scarlet.General;
+using System;
 using UnityEngine;
 
-namespace Scarlet.Management
+namespace Scarlet.Data
 {
-    [CreateAssetMenu(fileName = "Asset Index", menuName = "Scarlet Library/Management/Asset Index", order = -1)]
-    public sealed class ScarletLibraryAssetIndex : ScarletLibraryAsset
+    /// <summary>
+    /// Inherit from to define a data asset that the data system will detect and allow access at runtime.
+    /// </summary>
+    public abstract class DataAsset : ScriptableObject
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [SerializeField] private SerializableDictionary<string, List<ScarletLibraryAsset>> assets;
+        /// <summary>
+        /// Defines a id for this data asset.
+        /// </summary>
+        [SerializeField] private string variantId = Guid.NewGuid().ToString();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// A lookup of all the assets in the project that can be used at runtime.
-        /// </summary>
-        public SerializableDictionary<string, List<ScarletLibraryAsset>> Lookup => assets;
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Sets the lookup to the value entered.
+        /// Override to define a custom variant id for the data asset.
         /// </summary>
-        /// <param name="value">The data to insert.</param>
-        public void SetLookup(List<ScarletLibraryAsset> value)
-        {
-            assets = new SerializableDictionary<string, List<ScarletLibraryAsset>>();
-
-            foreach (var foundAsset in value)
-            {
-                var key = foundAsset.GetType().ToString();
-                
-                if (assets.ContainsKey(key))
-                {
-                    if (assets[key].Contains(foundAsset)) continue;
-                    assets[key].Add(foundAsset);
-                }
-                else
-                {
-                    assets.Add(key, new List<ScarletLibraryAsset>()
-                    {
-                        foundAsset
-                    });
-                }
-            }
-        }
+        public virtual string VariantId => variantId;
     }
 }

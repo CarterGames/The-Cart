@@ -21,68 +21,56 @@
  * THE SOFTWARE.
  */
 
-using System;
-using Scarlet.Utility;
 using UnityEngine;
 
-namespace Scarlet.Logs
+namespace Scarlet.Management.Editor
 {
     /// <summary>
-    /// A custom logger class to aid show logs for scarlet library scripts.
+    /// A data asset containing any editor specific settings for the package.
     /// </summary>
-    public static class ScarletLogs
+    [CreateAssetMenu(fileName = "Editor Settings Asset", menuName = "Scarlet Library/Management/Setttings (Editor)")]
+    public sealed class ScarletLibraryEditorSettings : ScarletLibraryAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private const string LogPrefix = "<color=#E36B6B><b>Scarlet Library</b></color> | ";
-        private const string WarningPrefix = "<color=#D6BA64><b>Warning</b></color> | ";
-        private const string ErrorPrefix = "<color=#E77A7A><b>Error</b></color> | ";
+        // Hierarchy Blocks
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        [SerializeField] private bool isHierarchySeparatorExpanded;
+        [SerializeField] private string hierarchyHeaderPrefix = "<---";
+        [SerializeField] private string hierarchySeparatorPrefix = "--->";
+        [SerializeField] private Color hierarchyHeaderBackgroundColor = Color.gray;
+        [SerializeField] private Color hierarchyHeaderTextColor = Color.white;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
+        |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Displays a normal debug message for the build versions asset...
-        /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Normal(Type type, string message, bool editorOnly = true)
-        {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.Log($"{LogPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
-        }
 
-
+        // Hierarchy Blocks
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         /// <summary>
-        /// Displays a warning debug message for the build versions asset...
+        /// The hierarchy header prefix string.
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Warning(Type type, string message, bool editorOnly = true)
-        {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogWarning($"{LogPrefix}{WarningPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
-        }
+        public string HierarchyHeaderPrefix => hierarchyHeaderPrefix;
         
         
         /// <summary>
-        /// Displays a error debug message for the build versions asset...
+        /// The hierarchy separator prefix string.
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
-        /// <param name="message">The message to show...</param>
-        /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Error(Type type, string message, bool editorOnly = true)
-        {
-            if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogError($"{LogPrefix}{ErrorPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
-        }
+        public string HierarchySeparatorPrefix => hierarchySeparatorPrefix;
+        
+        
+        /// <summary>
+        /// The hierarchy header background color.
+        /// </summary>
+        public Color HierarchyHeaderBackgroundColor => hierarchyHeaderBackgroundColor;
+        
+        
+        /// <summary>
+        /// The hierarchy header text color.
+        /// </summary>
+        public Color HierarchyHeaderTextColor => hierarchyHeaderTextColor;
     }
 }

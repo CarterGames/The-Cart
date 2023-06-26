@@ -22,15 +22,16 @@
  */
 
 using System.Collections.Generic;
-using Scarlet.Editor.Utility;
 using Scarlet.Editor.VersionCheck;
-using Scarlet.General.Reflection;
-using Scarlet.Random;
+using Scarlet.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace Scarlet.Editor
 {
+    /// <summary>
+    /// Handles the settings for the package.
+    /// </summary>
     public static class ScarletLibrarySettingsProvider
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -75,7 +76,9 @@ namespace Scarlet.Editor
                     DrawHeader();
                     DrawVersionInfo();
                     GUILayout.Space(1.5f);
-                    DrawGeneralOptions();
+                    DrawRuntimeOptions();
+                    GUILayout.Space(1.5f);
+                    DrawEditorOptions();
                     DrawButtons();
 
                     WindowUtilEditor.CreateDeselectZone(ref deselectRect);
@@ -116,8 +119,7 @@ namespace Scarlet.Editor
             GUILayout.Space(1.5f);
             EditorGUILayout.LabelField("Info", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
-
-
+            
             EditorGUILayout.BeginHorizontal();
             
             EditorGUILayout.LabelField(VersionTitle, VersionValue);
@@ -134,16 +136,18 @@ namespace Scarlet.Editor
         /// <summary>
         /// Draws the general options shown on the settings provider. 
         /// </summary>
-        private static void DrawGeneralOptions()
+        private static void DrawRuntimeOptions()
         {
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
-            EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Runtime", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUI.BeginChangeCheck();
 
-            DrawRngSettings();
+            RngSettingsDrawer.DrawSettings();
+            LoggingSettingsDrawer.DrawSettings();
+            GameTickerSettingsDrawer.DrawSettings();
             
             if (EditorGUI.EndChangeCheck())
             {
@@ -154,6 +158,29 @@ namespace Scarlet.Editor
             EditorGUILayout.EndVertical();
         }
         
+        
+        /// <summary>
+        /// Draws the general options shown on the settings provider. 
+        /// </summary>
+        private static void DrawEditorOptions()
+        {
+            EditorGUILayout.BeginVertical("HelpBox");
+            GUILayout.Space(1.5f);
+            EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
+            
+            EditorGUI.BeginChangeCheck();
+
+            HierarchySeparatorSettingsDrawer.DrawSettings();
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                UtilEditor.EditorSettingsObject.ApplyModifiedProperties();
+                UtilEditor.EditorSettingsObject.Update();
+            }
+            
+            EditorGUILayout.EndVertical();
+        }
         
         
         /// <summary>
@@ -181,94 +208,6 @@ namespace Scarlet.Editor
             // }
 
             EditorGUILayout.EndHorizontal();
-        }
-
-
-        
-        /// <summary>
-        /// Draws the rng options in the library settings.
-        /// </summary>
-        private static void DrawRngSettings()
-        {
-            UtilEditor.SettingsObject.FindProperty("isRngExpanded").boolValue =
-                EditorGUILayout.Foldout(UtilEditor.SettingsObject.FindProperty("isRngExpanded").boolValue, "Rng");
-
-            
-            if (!UtilEditor.SettingsObject.FindProperty("isRngExpanded").boolValue) return;
-
-
-            EditorGUILayout.BeginVertical();
-            EditorGUI.indentLevel++;
-            
-            
-            // Draw the provider enum field on the GUI...
-            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("rngProvider"));
-
-            
-            var rngProvider = UtilEditor.SettingsObject.FindProperty("rngProvider");
-            
-            
-            // If set to a provider that doesn't have a seed, return...
-            // Currently this is only 0 - (Unity Random)
-            if (rngProvider.intValue <= 0)
-            {
-                EditorGUI.indentLevel--;
-                EditorGUILayout.EndVertical();
-                return;
-            }
-            
-
-            EditorGUILayout.BeginHorizontal();
-            
-        
-            var systemSeedProperty = UtilEditor.SettingsObject.FindProperty("systemSeed");
-            var aleaSeedProperty = UtilEditor.SettingsObject.FindProperty("aleaSeed");
-
-            
-            // System Seed Field
-            if (rngProvider.intValue == 1)
-            {
-                EditorGUILayout.PropertyField(systemSeedProperty);
-            }
-                
-            
-            // Alea Seed Field
-            if (rngProvider.intValue == 2)
-            {
-                EditorGUILayout.PropertyField(aleaSeedProperty);
-            }
-
-
-            // Draws the button to copy the seed...
-            if (GUILayout.Button("Copy", GUILayout.Width(65)))
-            {
-                if (rngProvider.intValue == 1)
-                {
-                    systemSeedProperty.intValue.ToString().CopyToClipboard();
-                }
-                if (rngProvider.intValue == 2)
-                {
-                    aleaSeedProperty.stringValue.CopyToClipboard();
-                }
-                    
-                Dialogue.Display("Seed Copy", "The seed has been added to your clipboard", "Continue");
-            }
-
-            
-            // Draws the button the regenerate the seed. 
-            if (GUILayout.Button("Regenerate", GUILayout.Width(100)))
-            {
-                ReflectionHelper.GetField(typeof(Rng), "providerCache", false, true).SetValue(null, null);
-                var seededProvider = (ISeededRngProvider) ReflectionHelper.GetProperty(typeof(Rng), "Provider", false, true).GetValue(null);
-
-                Dialogue.Display("Regen Seed", "Are you sure you want to regen the Seed?", "Yes",
-                    "Cancel", seededProvider.GenerateSeed);
-            }
-
-            
-            EditorGUILayout.EndHorizontal();
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndVertical();
         }
     }
 }

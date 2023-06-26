@@ -23,6 +23,7 @@
 
 using System;
 using System.IO;
+using Scarlet.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace Scarlet.Editor
         /// <param name="containsChecks">Parts of a string the path should contain.</param>
         /// <typeparam name="T">The type.</typeparam>
         /// <returns>The found file as an object if found successfully.</returns>
-        private static object GetFileViaFilter<T>(string filter, params string[] containsChecks)
+        private static object GetFileViaFilter<T>(string filter, string assetPath, params string[] containsChecks)
         {
             string path = string.Empty;
                 
@@ -51,7 +52,7 @@ namespace Scarlet.Editor
                 }
                 
                 path = AssetDatabase.GUIDToAssetPath(scriptFound);
-                path = path.Replace("Code/Editor/Management/Utility/UtilEditor.cs", "");
+                path = path.Replace(assetPath, "");
                 return AssetDatabase.LoadAssetAtPath(path, typeof(T));
                 Loop: ;
             }
@@ -116,7 +117,23 @@ namespace Scarlet.Editor
         public static T GetOrAssignCache<T>(ref T cache, string filter, params string[] containsChecks)
         {
             if (cache != null) return cache;
-            cache = (T) GetFileViaFilter<T>(filter, containsChecks);
+            cache = (T) GetFileViaFilter<T>(filter, "", containsChecks);
+            return cache;
+        }
+        
+        
+        /// <summary>
+        /// Gets or assigned the cached value of any type, just saving writing the same lines over and over xD
+        /// </summary>
+        /// <param name="cache">The cached value to assign or get.</param>
+        /// <param name="filter">The filter to use.</param>
+        /// <param name="containsChecks">Parts of a string the path should contain.</param>
+        /// <typeparam name="T">The type.</typeparam>
+        /// <returns>The assigned cache.</returns>
+        public static T GetOrAssignCache<T>(ref T cache, string filter, string assetPath, params string[] containsChecks)
+        {
+            if (cache != null) return cache;
+            cache = (T) GetFileViaFilter<T>(filter, assetPath, containsChecks);
             return cache;
         }
 
@@ -130,10 +147,18 @@ namespace Scarlet.Editor
         /// <param name="containChecks">Parts of a string the path should contain.</param>
         /// <typeparam name="T">The type.</typeparam>
         /// <returns>The assigned cache.</returns>
-        public static T CreateSoGetOrAssignCache<T>(ref T cache, string path, string filter, params string[] containChecks) where T : ScriptableObject
+        public static T CreateSoGetOrAssignCache<T>(ref T cache, string path, string filter, string assetPath = "", params string[] containChecks) where T : ScriptableObject
         {
             if (cache != null) return cache;
-            cache = (T)GetFileViaFilter<T>(filter, containChecks);
+            
+            if (containChecks.Length > 0)
+            {
+                cache = (T)GetFileViaFilter<T>(filter, assetPath, containChecks);
+            }
+            else
+            {
+                cache = (T)GetFileViaFilter<T>(filter);
+            }
 
             if (cache == null)
             {
@@ -191,6 +216,35 @@ namespace Scarlet.Editor
 
                 Directory.CreateDirectory(currentPath);
             }
+        }
+        
+        
+        /// <summary>
+        /// Draws the script fields in the custom inspector...
+        /// </summary>
+        public static void DrawMonoScriptSection<T>(T target) where T : MonoBehaviour
+        {
+            EditorGUILayout.BeginVertical("HelpBox");
+            GUILayout.Space(1.5f);
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ObjectField("Script:", MonoScript.FromMonoBehaviour(target), typeof(T), false);
+            EditorGUI.EndDisabledGroup();
+
+            GUILayout.Space(1.5f);
+            EditorGUILayout.EndVertical();
+        }
+
+
+        /// <summary>
+        /// Draws the script fields in the custom inspector...
+        /// </summary>
+        public static void DrawSoScriptSection(object target)
+        {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ObjectField("Script:", MonoScript.FromScriptableObject((ScriptableObject)target),
+                typeof(object), false);
+            EditorGUI.EndDisabledGroup();
         }
     }
 }

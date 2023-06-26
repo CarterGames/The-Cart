@@ -25,5 +25,8 @@ using UnityEngine;
 
 namespace Scarlet.Management
 {
+    /// <summary>
+    /// Defines a library asset that can be found via the asset index system.
+    /// </summary>
     public abstract class ScarletLibraryAsset : ScriptableObject { }
 }
