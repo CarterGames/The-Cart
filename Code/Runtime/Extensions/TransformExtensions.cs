@@ -54,6 +54,31 @@ namespace Scarlet.General
         
         
         /// <summary>
+        /// Gets the total number of parent transform to the entered transform.
+        /// </summary>
+        /// <param name="transform">The transform to effect.</param>
+        /// <returns>The count of parents to this transform.</returns>
+        public static int GetParentCount(this Transform transform)
+        {
+            var parent = transform.parent;
+
+            if (parent == null) return 0;
+            
+            var root = transform.root;
+            var count = 1;
+            
+            while (parent != root)
+            {
+                transform = parent;
+                parent = parent.parent;
+                count++;
+            }
+
+            return count;
+        }
+        
+        
+        /// <summary>
         /// Sets the parent of the transform as well as setting the transform at the first in the index list of said parent.
         /// </summary>
         /// <param name="transform">The transform the effect.</param>

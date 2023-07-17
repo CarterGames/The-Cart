@@ -22,6 +22,8 @@
  */
 
 using System;
+using System.Linq;
+using Scarlet.General;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -141,13 +143,14 @@ namespace Scarlet.Editor.Hierarchy
             style.normal.background = CreateColorTexture(hasSettings ? settings.BackgroundColor : UtilEditor.EditorSettings.HierarchyHeaderBackgroundColor);
 
             var textStyle = hasSettings ? settings.BoldLabel ? new GUIStyle(EditorStyles.boldLabel) : new GUIStyle() : new GUIStyle(EditorStyles.boldLabel);
-            textStyle.alignment = TextAnchor.MiddleCenter;
+
+            AlignText(textStyle, hasSettings ? settings.TextAlign : UtilEditor.EditorSettings.HierarchyTextAlign);
+                
             textStyle.normal.textColor = hasSettings ? settings.LabelColor : UtilEditor.EditorSettings.HierarchyHeaderTextColor;
 
             // Adjusts the rect to fill the hierarchy blank space between the normal label field space.
-            rect.x -= 28;
-            rect.width += 44;
-            
+            rect = AdjustRect(rect, gameObject, hasSettings ? settings.FullWidth : UtilEditor.EditorSettings.HierarchyAlwaysFullWidth);
+
             if (Event.current.type == EventType.Repaint)
             {
                 style.Draw(rect, false, false, false, false);
@@ -155,7 +158,7 @@ namespace Scarlet.Editor.Hierarchy
             
             var iconContent = GetObjectContent(gameObject, typeof(GameObject));
             var itemContent = new GUIContent(hasSettings ? settings.Label : label, iconContent.image);
-
+            
             EditorGUI.LabelField(rect, itemContent, textStyle);
         }
         
@@ -177,8 +180,7 @@ namespace Scarlet.Editor.Hierarchy
                     : new Color32(184, 184, 184, 255));
 
             // Adjusts the rect to fill the hierarchy blank space between the normal label field space.
-            rect.x -= 28;
-            rect.width += 44;
+            rect = AdjustRect(rect, gameObject, hasSettings ? settings.FullWidth : UtilEditor.EditorSettings.HierarchyAlwaysFullWidth);
             
             if (Event.current.type == EventType.Repaint)
             {
@@ -194,6 +196,65 @@ namespace Scarlet.Editor.Hierarchy
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Utility Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Adjusts the rect based on the settings & parent depth.
+        /// </summary>
+        /// <param name="rect">The rect to edit.</param>
+        /// <param name="gameObject">The target object.</param>
+        private static Rect AdjustRect(Rect rect, GameObject gameObject, bool fullWidth)
+        {
+            if (gameObject.transform.parent == null)
+            {
+                rect.x -= 28;
+                rect.width += 44;
+            }
+            else
+            {
+                if (fullWidth)
+                {
+                    rect.x -= 28 + (13.5f * gameObject.transform.GetParentCount());
+                    rect.width += 44 + (13.5f * gameObject.transform.GetParentCount());
+                }
+                else
+                {
+                    rect.x -= 28 - (13 * gameObject.transform.GetParentCount());
+                    rect.width += 44 - (13 * gameObject.transform.GetParentCount()); 
+                }
+            }
+
+            return rect;
+        }
+
+
+        /// <summary>
+        /// Aligns the text of a header when called.
+        /// </summary>
+        /// <param name="style">The style to edit.</param>
+        /// <param name="alignment">The alignment to set to.</param>
+        private static void AlignText(GUIStyle style, HierarchyTitleTextAlign alignment)
+        {
+            style.alignment = alignment switch
+            {
+                HierarchyTitleTextAlign.Center => TextAnchor.UpperCenter,
+                HierarchyTitleTextAlign.Left => TextAnchor.UpperLeft,
+                HierarchyTitleTextAlign.Right => TextAnchor.UpperRight,
+            };
+            
+            switch (alignment)
+            {
+                case HierarchyTitleTextAlign.Left:
+                    style.padding.left = 5;
+                    break;
+                case HierarchyTitleTextAlign.Right:
+                    style.padding.right = 5;
+                    break;
+                case HierarchyTitleTextAlign.Center:
+                default:
+                    break;
+            }
+        }
+        
         
         /// <summary>
         /// Creates a colour square to use as a texture without drawing loads of pixels.

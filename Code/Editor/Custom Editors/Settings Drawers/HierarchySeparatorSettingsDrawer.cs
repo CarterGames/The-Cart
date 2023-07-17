@@ -50,6 +50,8 @@ namespace Scarlet.Editor
             // Draw the provider enum field on the GUI...
             EditorGUILayout.PropertyField(UtilEditor.EditorSettingsObject.FindProperty("hierarchyHeaderPrefix"), new GUIContent("Header Prefix"));
             EditorGUILayout.PropertyField(UtilEditor.EditorSettingsObject.FindProperty("hierarchySeparatorPrefix"), new GUIContent("Separator Prefix"));
+            EditorGUILayout.PropertyField(UtilEditor.EditorSettingsObject.FindProperty("hierarchyAlwaysFullWidth"), new GUIContent("Always Full Width?"));
+            EditorGUILayout.PropertyField(UtilEditor.EditorSettingsObject.FindProperty("hierarchyTextAlign"), new GUIContent("Header Text Alignment"));
             EditorGUILayout.PropertyField(UtilEditor.EditorSettingsObject.FindProperty("hierarchyHeaderBackgroundColor"), new GUIContent("Background Color"));
             EditorGUILayout.PropertyField(UtilEditor.EditorSettingsObject.FindProperty("hierarchyHeaderTextColor"), new GUIContent("Label Color"));
 
@@ -69,9 +71,13 @@ namespace Scarlet.Editor
             
             EditorGUILayout.LabelField("Hierarchy", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
+            EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("isHierarchySeparatorExpanded"), new GUIContent("Is Hierarchy Expanded"));
+            EditorGUI.EndDisabledGroup();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("hierarchyHeaderPrefix"), new GUIContent("Header Prefix"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("hierarchySeparatorPrefix"), new GUIContent("Separator Prefix"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("hierarchyAlwaysFullWidth"), new GUIContent("Always Full Width?"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("hierarchyTextAlign"), new GUIContent("Header Text Alignment"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("hierarchyHeaderBackgroundColor"), new GUIContent("Header Background Color"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("hierarchyHeaderTextColor"), new GUIContent("Header Text Color"));
             

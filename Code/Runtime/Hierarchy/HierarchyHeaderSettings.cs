@@ -38,9 +38,11 @@ namespace Scarlet.Editor.Hierarchy
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         [SerializeField] private string label;
+        [SerializeField] private HierarchyTitleTextAlign textAlign;
         [SerializeField, ColorUsage(false)] private Color backgroundColor = Color.gray;
         [SerializeField, ColorUsage(false)] private Color labelColor = Color.white;
         [SerializeField] private bool boldLabel = true;
+        [SerializeField] private bool fullWidth;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -50,6 +52,12 @@ namespace Scarlet.Editor.Hierarchy
         /// The label to show in the hierarchy.
         /// </summary>
         public string Label => label;
+           
+        
+        /// <summary>
+        /// The text alignment for the header.
+        /// </summary>
+        public HierarchyTitleTextAlign TextAlign => textAlign;
         
         
         /// <summary>
@@ -68,6 +76,12 @@ namespace Scarlet.Editor.Hierarchy
         /// Defines if the label should be bold or not.
         /// </summary>
         public bool BoldLabel => boldLabel;
+
+
+        /// <summary>
+        /// Defines if the label should take up the full hierarchy width.
+        /// </summary>
+        public bool FullWidth => fullWidth;
     }
 }
 

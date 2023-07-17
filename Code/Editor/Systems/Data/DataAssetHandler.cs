@@ -14,7 +14,22 @@ namespace Scarlet.Data.Editor
 
         private static DataAssetIndex cache;
         private const string AssetFilter = "t:dataasset";
+        private const string IndexFilter = "t:dataassetindex";
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        private static DataAssetIndex Index
+        {
+            get
+            {
+                if (cache != null) return cache;
+                TryMakeIndex();
+                return cache;
+            }
+        }
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IPreprocessBuildWithReport Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -68,7 +83,7 @@ namespace Scarlet.Data.Editor
         {
             if (cache != null) return;
             
-            cache = (DataAssetIndex) FileEditorUtil.GetFileViaFilter(typeof(DataAssetIndex), "t:dataassetindex");
+            cache = (DataAssetIndex) FileEditorUtil.GetFileViaFilter(typeof(DataAssetIndex), IndexFilter);
 
             if (cache == null)
             {
@@ -82,6 +97,7 @@ namespace Scarlet.Data.Editor
         /// <summary>
         /// Updates the index with all the asset scriptable objects in the project.
         /// </summary>
+        [MenuItem("Tools/Scarlet Library/Data/Update Index", priority = 50)]
         private static void UpdateIndex()
         {
             var foundAssets = new List<DataAsset>();
@@ -92,8 +108,7 @@ namespace Scarlet.Data.Editor
             foreach (var assetInstance in asset)
             {
                 var assetPath = AssetDatabase.GUIDToAssetPath(assetInstance);
-                var assetObj =
-                    (DataAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset));
+                var assetObj = (DataAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset));
 
                 // Doesn't include editor only or the index itself.
                 if (assetObj == null) continue;
@@ -101,9 +116,11 @@ namespace Scarlet.Data.Editor
                 foundAssets.Add((DataAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));
             }
             
-            ((DataAssetIndex)FileEditorUtil.GetFileViaFilter(typeof(DataAssetIndex), AssetFilter)).SetLookup(foundAssets);
-            EditorUtility.SetDirty(UtilEditor.AssetIndex);
+            Index.SetLookup(foundAssets);
+            
+            EditorUtility.SetDirty(Index);
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

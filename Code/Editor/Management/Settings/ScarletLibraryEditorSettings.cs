@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using Scarlet.Editor.Hierarchy;
 using UnityEngine;
 
 namespace Scarlet.Management.Editor
@@ -40,6 +41,8 @@ namespace Scarlet.Management.Editor
         [SerializeField] private bool isHierarchySeparatorExpanded;
         [SerializeField] private string hierarchyHeaderPrefix = "<---";
         [SerializeField] private string hierarchySeparatorPrefix = "--->";
+        [SerializeField] private HierarchyTitleTextAlign hierarchyTextAlign = HierarchyTitleTextAlign.Center;
+        [SerializeField] private bool hierarchyAlwaysFullWidth = true;
         [SerializeField] private Color hierarchyHeaderBackgroundColor = Color.gray;
         [SerializeField] private Color hierarchyHeaderTextColor = Color.white;
 
@@ -60,6 +63,18 @@ namespace Scarlet.Management.Editor
         /// The hierarchy separator prefix string.
         /// </summary>
         public string HierarchySeparatorPrefix => hierarchySeparatorPrefix;
+        
+        
+        /// <summary>
+        /// Gets the text alignment for the title text.
+        /// </summary>
+        public HierarchyTitleTextAlign HierarchyTextAlign => hierarchyTextAlign;
+        
+        
+        /// <summary>
+        /// Gets if the section should always be full width or adjust to child hierarchy size.
+        /// </summary>
+        public bool HierarchyAlwaysFullWidth => hierarchyAlwaysFullWidth;
         
         
         /// <summary>

@@ -36,7 +36,7 @@ namespace Scarlet.Data
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
      
-        private const string IndexPath = "Data Asset Index";
+        private const string IndexPath = "Scarlet Library/Data Asset Index";
         
         
         // A cache of all the assets found...

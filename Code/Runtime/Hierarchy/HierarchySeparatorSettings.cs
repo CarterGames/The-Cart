@@ -23,6 +23,7 @@
 
 #if UNITY_EDITOR
 
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,19 +37,35 @@ namespace Scarlet.Editor.Hierarchy
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField, ColorUsage(false)] private Color32 backgroundColor = EditorGUIUtility.isProSkin
-            ? new Color32(46, 46, 46, 255)
-            : new Color32(184, 184, 184, 255);
+
+        [SerializeField, ColorUsage(false)] private Color32 backgroundColor;
+        [SerializeField] private bool fullWidth;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The background color of the hierarchy line.
         /// </summary>
         public Color32 BackgroundColor => backgroundColor;
+
+
+        /// <summary>
+        /// Defines if the label should take up the full hierarchy width.
+        /// </summary>
+        public bool FullWidth => fullWidth;
+
+
+        private void OnValidate()
+        {
+            if (backgroundColor == Color.clear)
+            {
+                backgroundColor = EditorGUIUtility.isProSkin
+                    ? new Color32(46, 46, 46, 255)
+                    : new Color32(184, 184, 184, 255);
+            }
+        }
     }
 }
 
