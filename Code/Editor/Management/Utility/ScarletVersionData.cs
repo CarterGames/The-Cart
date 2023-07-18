@@ -31,7 +31,7 @@ namespace Scarlet.Management.Editor
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.3.1";
+        public static string VersionNumber => "0.3.2";
         
         
         /// <summary>

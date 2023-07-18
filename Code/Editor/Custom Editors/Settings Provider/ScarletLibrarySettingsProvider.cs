@@ -121,12 +121,13 @@ namespace Scarlet.Editor
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUILayout.BeginHorizontal();
-            
+
             EditorGUILayout.LabelField(VersionTitle, VersionValue);
+            GUILayout.FlexibleSpace();
             VersionEditorGUI.DrawCheckForUpdatesButton();
             
             EditorGUILayout.EndHorizontal();
-            
+
             EditorGUILayout.LabelField(ReleaseTitle, ReleaseValue);
 
             EditorGUILayout.EndVertical();
