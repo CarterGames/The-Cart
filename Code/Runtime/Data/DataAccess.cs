@@ -49,7 +49,7 @@ namespace Scarlet.Data
         /// <summary>
         /// Gets all the assets from the build versions asset...
         /// </summary>
-        public static DataAssetIndex Index
+        private static DataAssetIndex Index
         {
             get
             {
@@ -73,6 +73,22 @@ namespace Scarlet.Data
             if (Index.Lookup.ContainsKey(typeof(T).ToString()))
             {
                 return (T)Index.Lookup[typeof(T).ToString()][0];
+            }
+
+            return null;
+        }
+        
+        
+        /// <summary>
+        /// Gets the Save Manager Asset requested.
+        /// </summary>
+        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <returns>The asset if it exists.</returns>
+        public static T GetAsset<T>(string id) where T : DataAsset
+        {
+            if (Index.Lookup.ContainsKey(typeof(T).ToString()))
+            {
+                return (T)Index.Lookup[typeof(T).ToString()].FirstOrDefault(t => t.VariantId.Equals(id));
             }
 
             return null;

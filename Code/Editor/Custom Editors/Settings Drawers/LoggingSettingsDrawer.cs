@@ -49,6 +49,7 @@ namespace Scarlet.Editor
             
             // Draw the provider enum field on the GUI...
             EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("loggingUseScarletLogs"), new GUIContent("Use Logs"));
+            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("useLogsInProductionBuilds"), new GUIContent("Production Build Logs"));
 
 
             EditorGUI.indentLevel--;

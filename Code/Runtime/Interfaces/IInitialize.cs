@@ -28,6 +28,30 @@ namespace Scarlet.General
     /// </summary>
     public interface IInitialize
     {
+#if UNITY_2021_2_OR_NEWER
+        /// <summary>
+        /// Gets if the class is initialized.
+        /// </summary>
+        bool IsInitialized { get; set; }
+        
+
+        /// <summary>
+        /// Initializes the class when called.
+        /// </summary>
+        void Initialize()
+        {
+            if (IsInitialized) return;
+            IsInitialized = true;
+
+            OnInitialize();
+        }
+
+        
+        /// <summary>
+        /// Runs only when the class is initialized.
+        /// </summary>
+        void OnInitialize();
+#else
         /// <summary>
         /// Gets if the class is initialized.
         /// </summary>
@@ -38,5 +62,6 @@ namespace Scarlet.General
         /// Initializes the class when called.
         /// </summary>
         void Initialize();
+#endif
     }
 }

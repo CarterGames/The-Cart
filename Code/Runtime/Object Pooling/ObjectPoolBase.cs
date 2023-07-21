@@ -128,7 +128,7 @@ namespace Scarlet.General
 
             if (!ShouldExpand)
             {
-                ScarletLogs.Normal(typeof(ObjectPoolBase<>), "No free member objects to return.");
+                ScarletLogs.Normal<ObjectPoolBase<T>>("No free member objects to return.");
                 return default;
             }
             

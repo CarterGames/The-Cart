@@ -49,6 +49,7 @@ namespace Scarlet.Management
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         [SerializeField] private bool isLoggingExpanded;
         [SerializeField] private bool loggingUseScarletLogs = true;
+        [SerializeField] private bool useLogsInProductionBuilds = false;
         
         // Game Ticks
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -92,7 +93,16 @@ namespace Scarlet.Management
         // Logging
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        /// <summary>
+        /// Gets if the logs should be shown at all.
+        /// </summary>
         public bool LoggingUseScarletLogs => loggingUseScarletLogs;
+        
+        
+        /// <summary>
+        /// Gets if the logs should appear in production builds, by default they will not.
+        /// </summary>
+        public bool UseLogsInProductionBuilds => useLogsInProductionBuilds;
         
         // Game Ticks
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */

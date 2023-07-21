@@ -38,7 +38,7 @@ namespace Scarlet.General
         /// <summary>
         /// The instance reference for use.
         /// </summary>
-        public static SingletonBase<T> Instance;
+        public static T Instance;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
@@ -52,8 +52,19 @@ namespace Scarlet.General
             }
             else
             {
-                Instance = this;
+                Instance = GetComponent<T>();
             }
+
+            OnAwake();
         }
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Implement to run logic on awake.
+        /// </summary>
+        protected virtual void OnAwake() { }
     }
 }

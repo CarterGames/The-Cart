@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-using System;
 using Scarlet.Utility;
 using UnityEngine;
 
@@ -41,48 +40,60 @@ namespace Scarlet.Logs
         private const string ErrorPrefix = "<color=#E77A7A><b>Error</b></color> | ";
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Gets if the build is a production build.
+        /// </summary>
+        private static bool IsProductionBuild => !Application.isEditor && !Debug.isDebugBuild;
+
+        
+        /// <summary>
+        /// Gets if the system should show logs (in a production build) based on the current settings.
+        /// </summary>
+        private static bool ShowLogsOnProductionBuild => IsProductionBuild && UtilRuntime.Settings.UseLogsInProductionBuilds;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
         /// Displays a normal debug message for the build versions asset...
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
         /// <param name="message">The message to show...</param>
         /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Normal(Type type, string message, bool editorOnly = true)
+        public static void Normal<T>(string message, bool editorOnly = true)
         {
             if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.Log($"{LogPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
+            if (!ShowLogsOnProductionBuild) return;
+            Debug.Log($"{LogPrefix}<color=#D6BA64>{typeof(T).Name}</color>: {message}");
         }
 
 
         /// <summary>
         /// Displays a warning debug message for the build versions asset...
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
         /// <param name="message">The message to show...</param>
         /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Warning(Type type, string message, bool editorOnly = true)
+        public static void Warning<T>(string message, bool editorOnly = true)
         {
             if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogWarning($"{LogPrefix}{WarningPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
+            if (!ShowLogsOnProductionBuild) return;
+            Debug.LogWarning($"{LogPrefix}{WarningPrefix}<color=#D6BA64>{typeof(T).Name}</color>: {message}");
         }
         
         
         /// <summary>
         /// Displays a error debug message for the build versions asset...
         /// </summary>
-        /// <param name="type">The class type to report from...</param>
         /// <param name="message">The message to show...</param>
         /// <param name="editorOnly">Stops the log running outside of the editor (set to false to runtime build logs)...</param>
-        public static void Error(Type type, string message, bool editorOnly = true)
+        public static void Error<T>(string message, bool editorOnly = true)
         {
             if (!UtilRuntime.Settings.LoggingUseScarletLogs) return;
-            if (!Application.isEditor && editorOnly) return;
-            Debug.LogError($"{LogPrefix}{ErrorPrefix}<color=#D6BA64>{type.Name}</color>: {message}");
+            if (!ShowLogsOnProductionBuild) return;
+            Debug.LogError($"{LogPrefix}{ErrorPrefix}<color=#D6BA64>{typeof(T).Name}</color>: {message}");
         }
     }
 }

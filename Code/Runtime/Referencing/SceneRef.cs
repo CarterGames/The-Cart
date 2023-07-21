@@ -37,7 +37,7 @@ namespace Scarlet.General
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Gets the first of any and all of the type requested from the active scene...
+        /// Gets the first of any and all of the type requested from the active scene.
         /// </summary>
         /// <typeparam name="T">The type to get</typeparam>
         /// <returns>First instance of the type found in the active scene</returns>

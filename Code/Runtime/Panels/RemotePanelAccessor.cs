@@ -42,7 +42,7 @@ namespace Scarlet.Panels
                 return panel;
             }
 
-            ScarletLogs.Error(typeof(RemotePanelAccessor) ,$"Unable to find the panel of the Id {panelId}");
+            ScarletLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
             return null;
         }
         
@@ -59,7 +59,7 @@ namespace Scarlet.Panels
                 return;
             }
 
-            ScarletLogs.Error(typeof(RemotePanelAccessor) ,$"Unable to find the panel of the Id {panelId}");
+            ScarletLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
         }
         
         
@@ -75,7 +75,7 @@ namespace Scarlet.Panels
                 return;
             }
             
-            ScarletLogs.Error(typeof(RemotePanelAccessor) ,$"Unable to find the panel of the Id {panelId}");
+            ScarletLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
         }
     }
 }

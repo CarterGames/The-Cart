@@ -85,8 +85,7 @@ namespace Scarlet.General
         {
             if (instance.Value == null)
             {
-                ScarletLogs.Error(typeof(Instance<>),
-                    "Instance is null. Please ensure the instance is initialised and all.");
+                ScarletLogs.Error<Instance<T>>("Instance is null. Please ensure the instance is initialised and all.");
             }
             
             return instance.Value;

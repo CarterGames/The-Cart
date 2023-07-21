@@ -14,6 +14,9 @@ namespace Scarlet.Optimisation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         [SerializeField] private int ticksPerSecond;
+
+        private bool hasTimescaleOverride;
+        private bool timescaleOverride;
         
         private float tickTimer;
         
@@ -41,7 +44,18 @@ namespace Scarlet.Optimisation
         
         private void Update()
         {
-            tickTimer += UtilRuntime.Settings.GameTickUseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            var change = 0f;
+
+            if (hasTimescaleOverride)
+            {
+                change = timescaleOverride ? Time.unscaledDeltaTime : Time.deltaTime;
+            }
+            else
+            {
+                change = UtilRuntime.Settings.GameTickUseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            }
+
+            tickTimer += change;
 
             if (tickTimer < MaxTimeBetweenTicks) return;
             
@@ -60,6 +74,17 @@ namespace Scarlet.Optimisation
         public void SetTicksPerSecond(int value)
         {
             ticksPerSecond = value;
+        }
+
+
+        /// <summary>
+        /// Sets the timescale type from unscaled or scaled regardless of the global setting.
+        /// </summary>
+        /// <param name="useUnscaled">The scale to use.</param>
+        public void OverrideTimeScaleType(bool useUnscaled)
+        {
+            hasTimescaleOverride = true;
+            timescaleOverride = useUnscaled;
         }
     }
 }

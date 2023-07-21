@@ -38,7 +38,6 @@ namespace Scarlet.General
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         protected Coroutine timerRoutine;
-        protected Evt TimerCompleted;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -50,10 +49,19 @@ namespace Scarlet.General
         public bool TimerActive => timerRoutine != null;
         
         
+        private bool TimerPaused { get; set; }
+        
+        
         /// <summary>
         /// Gets the time remaining on the timer.
         /// </summary>
         public float TimeRemaining { get; protected set; }
+
+
+        /// <summary>
+        /// Gets the time remaining on the timer.
+        /// </summary>
+        public int TimeRemainingInSeconds => Mathf.CeilToInt(TimeRemaining);
 
         
         /// <summary>
@@ -74,6 +82,13 @@ namespace Scarlet.General
         public float TimeRemainingFraction => TimeRemaining / TimerDuration;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        public readonly Evt TimerCompleted = new Evt();
+        public readonly Evt<int> TimerSecondPassed = new Evt<int>();
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
@@ -85,7 +100,6 @@ namespace Scarlet.General
         protected virtual void Initialize(float duration, Action onComplete)
         {
             TimerDuration = duration;
-            TimerCompleted ??= new Evt();
             TimerCompleted.Add(onComplete);
 
             if (gameObject.activeSelf) return;
@@ -160,14 +174,48 @@ namespace Scarlet.General
         /// </summary>
         public void StartTimer()
         {
-            if (TimerActive) return;
+            if (TimerActive)
+            {
+                if (TimerPaused)
+                {
+                    ResumeTimer();
+                }
+                
+                return;
+            }
             
             if (!gameObject.activeSelf)
             {
                 gameObject.SetActive(true);    
             }
             
+            TimerPaused = false;
             timerRoutine = StartCoroutine(Co_TimerRoutine());
+        }
+
+
+        public void PauseTimer()
+        {
+            StopCoroutine(timerRoutine);
+            TimerPaused = true;
+        }
+
+
+        public void ResumeTimer()
+        {
+            if (!TimerPaused) return;
+            timerRoutine = StartCoroutine(Co_TimerRoutine(TimeRemaining));
+            TimerPaused = false;
+        }
+
+
+        public void StopTimer()
+        {
+            StopCoroutine(timerRoutine);
+            timerRoutine = null;
+            TimeRemaining = 0;
+            TimerPaused = false;
+            RuntimeTimerManager.UnRegister(this);
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -177,13 +225,27 @@ namespace Scarlet.General
         /// <summary>
         /// Runs the actual timer & complete evt.
         /// </summary>
-        private IEnumerator Co_TimerRoutine()
+        private IEnumerator Co_TimerRoutine(float duration = -1)
         {
-            TimeRemaining = TimerDuration;
+            if (duration.Equals(-1))
+            {
+                TimeRemaining = TimerDuration;
+            }
+            
+            var t = 0f;
 
             while (TimeRemaining > 0f)
-            {
-                TimeRemaining -= UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            { 
+                var change = UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                TimeRemaining -= change;
+                t += change;
+
+                if (t > 1)
+                {
+                    t = 0;
+                    TimerSecondPassed.Raise(TimeRemainingInSeconds);
+                }
+                
                 yield return null;
             }
             

@@ -46,7 +46,13 @@ namespace Scarlet.Editor.VersionCheck
                 
             VersionChecker.ResponseReceived.Add(() =>
             {
-                if (!VersionChecker.IsLatestVersion)
+                if (VersionChecker.IsNewerVersion)
+                {
+                    Dialogue.Display("Update Checker",
+                        $"You are using a newer version than the currently released one.\n\nYours: {VersionInfo.ProjectVersionNumber}\nLatest: {VersionChecker.LatestVersionNumberString}",
+                        "Continue");
+                }
+                else if (!VersionChecker.IsLatestVersion)
                 {
                     if (Dialogue.Display("Update Checker",
                             $"You are using an older version of this package.\n\nCurrent: {VersionInfo.ProjectVersionNumber}\nLatest: {VersionChecker.LatestVersionNumberString}",

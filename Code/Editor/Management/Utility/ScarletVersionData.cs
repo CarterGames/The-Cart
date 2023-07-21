@@ -31,7 +31,7 @@ namespace Scarlet.Management.Editor
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.3.2";
+        public static string VersionNumber => "0.3.3";
         
         
         /// <summary>
@@ -40,6 +40,6 @@ namespace Scarlet.Management.Editor
         /// <remarks>
         /// Asset owner is in the UK, so its D/M/Y format.
         /// </remarks>
-        public static string ReleaseDate => "17/07/2023";
+        public static string ReleaseDate => "21/07/2023";
     }
 }
