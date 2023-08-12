@@ -1,4 +1,4 @@
-![V3 Banner 150 height](https://github.com/CarterGames/Common/assets/33253710/bc398b6d-3c38-4f22-ae26-50e255fffe52)
+![Banner](https://github.com/CarterGames/Common/assets/33253710/7cf281e5-23c3-41c0-9d17-34831500ffe1)
 
 <p align="center">A code library of tools that I use in conjunction with game specific code to make my game projects.</p>
 
@@ -20,4 +20,3 @@ The docs for the project are still a work in progress. Each script is fairly wel
 
 ## Licence
 MIT Licence
-
