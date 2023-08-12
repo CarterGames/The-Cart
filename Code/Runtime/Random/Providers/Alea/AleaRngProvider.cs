@@ -22,11 +22,11 @@
  */
 
 using System;
-using Scarlet.Management;
+using CarterGames.Common.Management;
 
-namespace Scarlet.Random.AleaPRNG
+namespace CarterGames.Common.Random.AleaPRNG
 {
-    public class AleaRngProvider : ISeededRngProvider
+    public sealed class AleaRngProvider : ISeededRngProvider
     {
         /// <summary>
         /// The seed used the generate all the random values. 
@@ -34,8 +34,8 @@ namespace Scarlet.Random.AleaPRNG
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
         public static string Seed
         {
-            get => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngAleaRngSeed;
-            set => ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngAleaRngSeed = value;
+            get => CommonAssetAccessor.GetAsset<CommonLibraryRuntimeSettings>().RngAleaRngSeed;
+            set => CommonAssetAccessor.GetAsset<CommonLibraryRuntimeSettings>().RngAleaRngSeed = value;
         }
 
 

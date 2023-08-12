@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// Implement to add basic initialization to a class. 

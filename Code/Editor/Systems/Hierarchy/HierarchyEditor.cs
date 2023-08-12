@@ -22,13 +22,13 @@
  */
 
 using System;
-using System.Linq;
-using Scarlet.General;
+using CarterGames.Common.Editor;
+using CarterGames.Common.General;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Scarlet.Editor.Hierarchy
+namespace CarterGames.Common.Hierarchy.Editor
 {
     /// <summary>
     /// Handles the editing of some gameObjects in the hierarchy to display as headers/separators.

@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A collection of extension methods for Quaternions

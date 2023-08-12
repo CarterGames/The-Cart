@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     /// <summary>
     /// Handles the editor GUI for the game ticker system.
@@ -43,7 +43,8 @@ namespace Scarlet.Editor
             if (!UtilEditor.SettingsObject.FindProperty("isGameTicksExpanded").boolValue) return;
 
 
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
             
             
@@ -54,6 +55,7 @@ namespace Scarlet.Editor
 
 
             EditorGUI.indentLevel--;
+            EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
 

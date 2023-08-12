@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A class that formats numbers into a formatted position.

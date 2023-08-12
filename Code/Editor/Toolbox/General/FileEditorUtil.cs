@@ -10,35 +10,118 @@
  * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  *    
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-using System;
+using System.Collections.Generic;
 using System.IO;
-using Scarlet.Management.Editor;
+using System.Linq;
+using CarterGames.Common.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
+    /// <summary>
+    /// Handles finding assets in the project in editor space and creating/referencing/caching them for use.
+    /// </summary>
     public static class FileEditorUtil
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
         /// <summary>
-        /// Gets a file via filter.
+        /// The name of the asset, used in path checks.
         /// </summary>
-        /// <param name="filter">The filter to search for.</param>
-        /// <param name="containsChecks">Parts of a string the path should contain.</param>
+        public const string AssetName = "Common Library";
+        
+        
+        /// <summary>
+        /// The path to a script in the asset to verify the asset base path.
+        /// </summary>
+        private static readonly string BasePathScriptPath = $"/Carter Games/{AssetName}/Code/Editor/Management/Utility/{BasePathScriptName}.cs";
+        
+        
+        /// <summary>
+        /// The base path check script name.
+        /// </summary>
+        private const string BasePathScriptName = "UtilEditor";
+        
+        
+        /// <summary>
+        /// The base path cache.
+        /// </summary>
+        private static string basePath = "";
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The base path for the asset code.
+        /// </summary>
+        public static string AssetBasePath
+        {
+            get
+            {
+                if (basePath.Length > 0) return basePath;
+                basePath = GetBaseAssetPath();
+                return basePath;
+            }
+        }
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Getter Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Gets the base path of the asset code, will break if the code is split up by the user.
+        /// </summary>
+        /// <returns>The base path found.</returns>
+        private static string GetBaseAssetPath()
+        {
+            string path = string.Empty;
+            var containsChecks = new List<string> { AssetName, $"/{BasePathScriptName}.cs" };
+            
+            foreach (var scriptFound in AssetDatabase.FindAssets($"t:Script {nameof(UtilEditor)}"))
+            {
+                path = AssetDatabase.GUIDToAssetPath(scriptFound);
+
+                foreach (var check in containsChecks)
+                {
+                    if (!path.Contains(check)) goto SkipAndLoop;
+                }
+                
+                path = AssetDatabase.GUIDToAssetPath(scriptFound);
+                path = path.Replace(BasePathScriptPath, "");
+                
+                return path;
+                
+                // Skips the return as the path contained an invalid element for the asset...
+                SkipAndLoop: ;
+            }
+
+            return path;
+        }
+        
+        
+        /// <summary>
+        /// Gets a script file in the asset.
+        /// </summary>
+        /// <param name="assetPath">The path to the script.</param>
+        /// <param name="pathContains">Parts of a string the path should contain.</param>
         /// <typeparam name="T">The type.</typeparam>
         /// <returns>The found file as an object if found successfully.</returns>
-        private static object GetFileViaFilter<T>(string filter, string assetPath, params string[] containsChecks)
+        public static object GetScriptInAsset<T>(string assetPath, params string[] pathContains)
         {
             string path = string.Empty;
                 
@@ -46,13 +129,12 @@ namespace Scarlet.Editor
             {
                 path = AssetDatabase.GUIDToAssetPath(scriptFound);
 
-                foreach (var containCheck in containsChecks)
+                foreach (var containCheck in pathContains)
                 {
                     if (!path.Contains(containCheck)) goto Loop;
                 }
                 
                 path = AssetDatabase.GUIDToAssetPath(scriptFound);
-                path = path.Replace(assetPath, "");
                 return AssetDatabase.LoadAssetAtPath(path, typeof(T));
                 Loop: ;
             }
@@ -62,103 +144,99 @@ namespace Scarlet.Editor
         
         
         /// <summary>
-        /// Gets a file via filter.
+        /// Gets a asset file in the asset.
         /// </summary>
-        /// <param name="filter">The filter to search for.</param>
+        /// <param name="filter">The filter to check.</param>
+        /// <param name="pathContains">Parts of a string the path should contain.</param>
         /// <typeparam name="T">The type.</typeparam>
         /// <returns>The found file as an object if found successfully.</returns>
-        private static object GetFileViaFilter<T>(string filter)
+        public static object GetAssetInstance<T>(string filter, params string[] pathContains)
         {
-            var asset = AssetDatabase.FindAssets(filter, null);
-            if (asset == null || asset.Length <= 0) return null;
-            var path = AssetDatabase.GUIDToAssetPath(asset[0]);
-            return AssetDatabase.LoadAssetAtPath(path, typeof(T));
-        }
-        
-        
-        /// <summary>
-        /// Gets a file via filter.
-        /// </summary>
-        /// <param name="filter">The filter to search for.</param>
-        /// <typeparam name="T">The type.</typeparam>
-        /// <returns>The found file as an object if found successfully.</returns>
-        public static object GetFileViaFilter(Type type, string filter)
-        {
-            var asset = AssetDatabase.FindAssets(filter, null);
-            if (asset == null || asset.Length <= 0) return null;
-            var path = AssetDatabase.GUIDToAssetPath(asset[0]);
-            return AssetDatabase.LoadAssetAtPath(path, type);
-        }
-
-
-        /// <summary>
-        /// Gets or assigned the cached value of any type, just saving writing the same lines over and over xD
-        /// </summary>
-        /// <param name="cache">The cached value to assign or get.</param>
-        /// <param name="filter">The filter to use.</param>
-        /// <typeparam name="T">The type.</typeparam>
-        /// <returns>The assigned cache.</returns>
-        public static T GetOrAssignCache<T>(ref T cache, string filter)
-        {
-            if (cache != null) return cache;
-            cache = (T) GetFileViaFilter<T>(filter);
-            return cache;
-        }
-        
-        
-        /// <summary>
-        /// Gets or assigned the cached value of any type, just saving writing the same lines over and over xD
-        /// </summary>
-        /// <param name="cache">The cached value to assign or get.</param>
-        /// <param name="filter">The filter to use.</param>
-        /// <param name="containsChecks">Parts of a string the path should contain.</param>
-        /// <typeparam name="T">The type.</typeparam>
-        /// <returns>The assigned cache.</returns>
-        public static T GetOrAssignCache<T>(ref T cache, string filter, params string[] containsChecks)
-        {
-            if (cache != null) return cache;
-            cache = (T) GetFileViaFilter<T>(filter, "", containsChecks);
-            return cache;
-        }
-        
-        
-        /// <summary>
-        /// Gets or assigned the cached value of any type, just saving writing the same lines over and over xD
-        /// </summary>
-        /// <param name="cache">The cached value to assign or get.</param>
-        /// <param name="filter">The filter to use.</param>
-        /// <param name="containsChecks">Parts of a string the path should contain.</param>
-        /// <typeparam name="T">The type.</typeparam>
-        /// <returns>The assigned cache.</returns>
-        public static T GetOrAssignCache<T>(ref T cache, string filter, string assetPath, params string[] containsChecks)
-        {
-            if (cache != null) return cache;
-            cache = (T) GetFileViaFilter<T>(filter, assetPath, containsChecks);
-            return cache;
-        }
-
-
-        /// <summary>
-        /// Creates a scriptable object if it doesn't exist and then assigns it to its cache. 
-        /// </summary>
-        /// <param name="cache">The cached value to assign or get.</param>
-        /// <param name="path">The path to create to if needed.</param>
-        /// <param name="filter">The filter to use.</param>
-        /// <param name="containChecks">Parts of a string the path should contain.</param>
-        /// <typeparam name="T">The type.</typeparam>
-        /// <returns>The assigned cache.</returns>
-        public static T CreateSoGetOrAssignCache<T>(ref T cache, string path, string filter, string assetPath = "", params string[] containChecks) where T : ScriptableObject
-        {
-            if (cache != null) return cache;
+            string path = string.Empty;
             
-            if (containChecks.Length > 0)
+            foreach (var assetFound in AssetDatabase.FindAssets(filter, null))
             {
-                cache = (T)GetFileViaFilter<T>(filter, assetPath, containChecks);
+                path = AssetDatabase.GUIDToAssetPath(assetFound);
+
+                foreach (var containCheck in pathContains)
+                {
+                    if (!path.Contains(containCheck)) goto Loop;
+                }
+                
+                path = AssetDatabase.GUIDToAssetPath(assetFound);
+                return AssetDatabase.LoadAssetAtPath(path, typeof(T));
+                Loop: ;
             }
-            else
+
+            return null;
+        }
+        
+        
+        /// <summary>
+        /// Gets a asset file in the asset.
+        /// </summary>
+        /// <param name="filter">The filter to check.</param>
+        /// <param name="assetPath">The path to check.</param>
+        /// <param name="pathContains">Parts of a string the path should contain.</param>
+        /// <typeparam name="T">The type.</typeparam>
+        /// <returns>The found file as an object if found successfully.</returns>
+        public static object GetAssetInstance<T>(string filter, string assetPath, params string[] pathContains)
+        {
+            if (AssetDatabase.AssetPathToGUID(assetPath).Length > 0)
             {
-                cache = (T)GetFileViaFilter<T>(filter);
+                return AssetDatabase.LoadAssetAtPath(assetPath, typeof(T));
             }
+            
+            string path = string.Empty;
+            
+            foreach (var assetFound in AssetDatabase.FindAssets(filter, null))
+            {
+                path = AssetDatabase.GUIDToAssetPath(assetFound);
+
+                foreach (var containCheck in pathContains)
+                {
+                    if (!path.Contains(containCheck)) goto Loop;
+                }
+                
+                path = AssetDatabase.GUIDToAssetPath(assetFound);
+                return AssetDatabase.LoadAssetAtPath(path, typeof(T));
+                Loop: ;
+            }
+
+            return null;
+        }
+        
+        
+        /// <summary>
+        /// Does the traditional get or assign cache method but with the new get asset instance variant.
+        /// </summary>
+        /// <param name="cache">The cache to update.</param>
+        /// <param name="filter">The filter to search for.</param>
+        /// <param name="pathContains">The strings to match in the path for the asset.</param>
+        /// <typeparam name="T">The type to get.</typeparam>
+        /// <returns>The updated cache.</returns>
+        public static T GetOrAssignCache<T>(ref T cache, string filter, params string[] pathContains)
+        {
+            if (cache != null) return cache;
+            cache = (T) GetAssetInstance<T>(filter, pathContains);
+            return cache;
+        }
+        
+
+        /// <summary>
+        /// Creates a scriptable object or assigns the cache to an existing instance if one is found.
+        /// </summary>
+        /// <param name="cache">The cache to check.</param>
+        /// <param name="filter">The filter to use.</param>
+        /// <param name="path">The path to create the asset to if not found.</param>
+        /// <param name="pathContains">Any string that should be in the path to make sure its the right asset.</param>
+        /// <typeparam name="T">The type to check for.</typeparam>
+        /// <returns>The found or created asset.</returns>
+        public static T CreateSoGetOrAssignAssetCache<T>(ref T cache, string filter, string path, params string[] pathContains) where T : ScriptableObject
+        {
+            if (cache != null) return cache;
+
+            cache = (T)GetAssetInstance<T>(filter, path, pathContains);
 
             if (cache == null)
             {
@@ -169,6 +247,21 @@ namespace Scarlet.Editor
 
             return cache;
         }
+        
+        
+        /// <summary>
+        /// Creates, gets or assigns a serialized object reference.
+        /// </summary>
+        /// <param name="cache">The cache to assign to.</param>
+        /// <param name="reference">The reference to set from.,</param>
+        /// <typeparam name="T">The type to reference.</typeparam>
+        /// <returns>The updated cache.</returns>
+        public static SerializedObject CreateGetOrAssignSerializedObjectCache<T>(ref SerializedObject cache, T reference)
+        {
+            if (cache != null && cache.targetObject != null) return cache;
+            cache = new SerializedObject(reference as Object);
+            return cache;
+        }
 
 
         /// <summary>
@@ -177,7 +270,7 @@ namespace Scarlet.Editor
         /// <param name="path">The path to create the new asset at.</param>
         /// <typeparam name="T">The type to make.</typeparam>
         /// <returns>The newly created asset.</returns>
-        public static T CreateScriptableObject<T>(string path) where T : ScriptableObject
+        private static T CreateScriptableObject<T>(string path) where T : ScriptableObject
         {
             var instance = ScriptableObject.CreateInstance(typeof(T));
 
@@ -204,47 +297,28 @@ namespace Scarlet.Editor
                 var element = path.Split('/')[i];
                 currentPath += element + "/";
 
-                if (i.Equals(split.Length - 1))
-                {
-                    continue;
-                }
-
-                if (Directory.Exists(currentPath))
-                {
-                    continue;
-                }
-
+                if (i.Equals(split.Length - 1))continue;
+                if (Directory.Exists(currentPath))continue;
+                
                 Directory.CreateDirectory(currentPath);
             }
         }
         
         
         /// <summary>
-        /// Draws the script fields in the custom inspector...
+        /// Deletes a directory and any assets within when called.
         /// </summary>
-        public static void DrawMonoScriptSection<T>(T target) where T : MonoBehaviour
+        /// <param name="path">The path to delete.</param>
+        public static void DeleteDirectoryAndContents(string path)
         {
-            EditorGUILayout.BeginVertical("HelpBox");
-            GUILayout.Space(1.5f);
+            foreach (var file in Directory.GetFiles(path).ToList())
+            {
+                AssetDatabase.DeleteAsset(file);
+            }
 
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.ObjectField("Script:", MonoScript.FromMonoBehaviour(target), typeof(T), false);
-            EditorGUI.EndDisabledGroup();
-
-            GUILayout.Space(1.5f);
-            EditorGUILayout.EndVertical();
-        }
-
-
-        /// <summary>
-        /// Draws the script fields in the custom inspector...
-        /// </summary>
-        public static void DrawSoScriptSection(object target)
-        {
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.ObjectField("Script:", MonoScript.FromScriptableObject((ScriptableObject)target),
-                typeof(object), false);
-            EditorGUI.EndDisabledGroup();
+            AssetDatabase.DeleteAsset(path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

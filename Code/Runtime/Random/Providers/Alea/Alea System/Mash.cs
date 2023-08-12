@@ -21,9 +21,9 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.Random.AleaPRNG
+namespace CarterGames.Common.Random.AleaPRNG
 {
-    public class Mash
+    public sealed class Mash
     {
         double n = 0xefc8249d;
 

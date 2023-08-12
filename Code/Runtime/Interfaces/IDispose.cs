@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// Implement to add logic to dispose a class or object safely.

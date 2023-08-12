@@ -24,7 +24,7 @@
 using System;
 using System.Reflection;
 
-namespace Scarlet.General.Reflection
+namespace CarterGames.Common.General.Reflection
 {
     /// <summary>
     /// A helper class for getting values from any script via reflection.

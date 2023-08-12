@@ -21,9 +21,9 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Management.Editor;
+using CarterGames.Common.Management.Editor;
 
-namespace Scarlet.Editor.VersionCheck
+namespace CarterGames.Common.Editor.VersionCheck
 {
     /// <summary>
     /// The info used in the version validation system.
@@ -55,6 +55,6 @@ namespace Scarlet.Editor.VersionCheck
         /// <summary>
         /// The version string for the package.
         /// </summary>
-        public static string ProjectVersionNumber => ScarletVersionData.VersionNumber;
+        public static string ProjectVersionNumber => CommonVersionData.VersionNumber;
     }
 }

@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Easing.Editor
+namespace CarterGames.Common.Easing.Editor
 {
     public static class BaseEaseDataPropertyDrawer
     {

@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// Defines a data structure for a key pair value that is serializable.

@@ -21,11 +21,11 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Events;
+using CarterGames.Common.Events;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Scarlet.Editor.VersionCheck
+namespace CarterGames.Common.Editor.VersionCheck
 {
     /// <summary>
     /// Handles checking for the latest version.

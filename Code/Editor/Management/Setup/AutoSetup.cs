@@ -21,28 +21,36 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Editor;
+using CarterGames.Common.Editor;
 using UnityEditor;
-using UnityEditor.Callbacks;
 
-namespace Scarlet.Management.Editor
+namespace CarterGames.Common.Management.Editor
 {
     /// <summary>
     /// Handles the auto setup of the package for use.
     /// </summary>
-    public static class AutoSetup
+    public sealed class AutoSetup : AssetPostprocessor
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
+        /// Runs after assets have imported / script reload etc at a safe time to edit assets.
+        /// </summary>
+        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
+            string[] movedFromAssetPaths)
+        {
+            TryInitialize();
+        }
+        
+        
+        /// <summary>
         /// Creates the scriptable objects for the asset if they don't exist yet.
         /// </summary>
-        [DidReloadScripts(-10)]
-        private static void OnScriptsReloaded() 
+        private static void TryInitialize() 
         {
-            if (UtilEditor.AssetIndex.Lookup.ContainsKey(typeof(ScarletLibraryRuntimeSettings).ToString())) return;
+            if (UtilEditor.HasInitialized) return;
             UtilEditor.Initialize();
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

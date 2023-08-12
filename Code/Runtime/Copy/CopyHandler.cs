@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace Scarlet
+namespace CarterGames.Common
 {
     /// <summary>
     /// Handles copying things.

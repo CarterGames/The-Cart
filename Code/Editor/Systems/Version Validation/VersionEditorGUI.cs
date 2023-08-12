@@ -21,10 +21,10 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.General;
+using CarterGames.Common.General;
 using UnityEngine;
 
-namespace Scarlet.Editor.VersionCheck
+namespace CarterGames.Common.Editor.VersionCheck
 {
     /// <summary>
     /// A helper class for using the version system on editor.

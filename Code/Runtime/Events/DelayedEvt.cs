@@ -23,9 +23,9 @@
 
 using System;
 using System.Collections.Generic;
-using Scarlet.General;
+using CarterGames.Common.General;
 
-namespace Scarlet.Events
+namespace CarterGames.Common.Events
 {
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   No Parameters Evt
@@ -35,7 +35,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt
+    public sealed class DelayedEvt
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -128,7 +128,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T>
+    public sealed class DelayedEvt<T>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -222,7 +222,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T1,T2>
+    public sealed class DelayedEvt<T1,T2>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -317,7 +317,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T1,T2,T3>
+    public sealed class DelayedEvt<T1,T2,T3>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -413,7 +413,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T1,T2,T3,T4>
+    public sealed class DelayedEvt<T1,T2,T3,T4>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -510,7 +510,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T1,T2,T3,T4,T5>
+    public sealed class DelayedEvt<T1,T2,T3,T4,T5>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -608,7 +608,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T1,T2,T3,T4,T5,T6>
+    public sealed class DelayedEvt<T1,T2,T3,T4,T5,T6>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -707,7 +707,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T1,T2,T3,T4,T5,T6,T7>
+    public sealed class DelayedEvt<T1,T2,T3,T4,T5,T6,T7>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -807,7 +807,7 @@ namespace Scarlet.Events
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class DelayedEvt<T1,T2,T3,T4,T5,T6,T7,T8>
+    public sealed class DelayedEvt<T1,T2,T3,T4,T5,T6,T7,T8>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields

@@ -24,7 +24,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Scarlet.Panels
+namespace CarterGames.Common.Panels
 {
     /// <summary>
     /// A script to manage a UI panel to appear and disappear at will, but with events that you can assign in the inspector.

@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace Scarlet.Editor.VersionCheck
+namespace CarterGames.Common.Editor.VersionCheck
 {
     /// <summary>
     /// A data class to hold a x.x.x version number for comparisons.

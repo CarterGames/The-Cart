@@ -21,9 +21,9 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.Random
+namespace CarterGames.Common.Random
 {
-    public class UnityRngProvider : IRngProvider
+    public sealed class UnityRngProvider : IRngProvider
     {
         public bool Bool => UnityEngine.Random.Range(0, 2).Equals(1);
         

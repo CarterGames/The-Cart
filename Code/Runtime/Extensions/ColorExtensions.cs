@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// An extension class for color's

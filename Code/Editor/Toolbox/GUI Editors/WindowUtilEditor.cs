@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     public static class WindowUtilEditor
     {

@@ -21,10 +21,10 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Logs;
+using CarterGames.Common.Logs;
 using UnityEngine;
 
-namespace Scarlet.Panels
+namespace CarterGames.Common.Panels
 {
     /// <summary>
     /// A script to access a panel without a direct reference to it. 
@@ -42,7 +42,7 @@ namespace Scarlet.Panels
                 return panel;
             }
 
-            ScarletLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
+            CommonLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
             return null;
         }
         
@@ -59,7 +59,7 @@ namespace Scarlet.Panels
                 return;
             }
 
-            ScarletLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
+            CommonLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
         }
         
         
@@ -75,7 +75,7 @@ namespace Scarlet.Panels
                 return;
             }
             
-            ScarletLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
+            CommonLogs.Error<RemotePanelAccessor>($"Unable to find the panel of the Id {panelId}");
         }
     }
 }

@@ -23,7 +23,7 @@
 
 using UnityEditor;
 
-namespace Scarlet.Editor.Setup
+namespace CarterGames.Common.Editor.Setup
 {
     /// <summary>
     /// A script to handle the creation of a basic project folder structure.
@@ -33,7 +33,7 @@ namespace Scarlet.Editor.Setup
         /// <summary>
         /// Static | Adds the button to call to run the setup.
         /// </summary>
-        [MenuItem("Tools/Scarlet Library/Setup Basic Folder Structure", priority = 2000)]
+        [MenuItem("Tools/Carter Games/Common/Setup Basic Folder Structure", priority = 2000)]
         public static void RunSetupProject()
         {
             CreateBasicProjectFolderStructure();

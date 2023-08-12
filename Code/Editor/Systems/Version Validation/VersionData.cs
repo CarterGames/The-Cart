@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace Scarlet.Editor.VersionCheck
+namespace CarterGames.Common.Editor.VersionCheck
 {
     /// <summary>
     /// A copy of the Json data for each entry stored on the server.

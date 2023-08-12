@@ -23,10 +23,10 @@
 
 using System;
 
-namespace Scarlet.Random.AleaPRNG
+namespace CarterGames.Common.Random.AleaPRNG
 {
     [Serializable]
-    public class AleaState
+    public sealed class AleaState
     {
         public int c;
         public double s0;

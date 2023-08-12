@@ -23,7 +23,7 @@
 
 using System;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     [Serializable]
     public class ClampedValueDouble : ValueSystemBase<double>

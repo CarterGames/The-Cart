@@ -23,7 +23,7 @@
 
 using System.Collections.Generic;
 
-namespace Scarlet.Random.AleaPRNG
+namespace CarterGames.Common.Random.AleaPRNG
 {
     public static class AleaHandler
     {

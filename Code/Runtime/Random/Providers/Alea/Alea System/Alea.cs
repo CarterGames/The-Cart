@@ -21,9 +21,9 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.Random.AleaPRNG
+namespace CarterGames.Common.Random.AleaPRNG
 {
-    public class Alea
+    public sealed class Alea
     {
         private string seed;
         private AleaState state;

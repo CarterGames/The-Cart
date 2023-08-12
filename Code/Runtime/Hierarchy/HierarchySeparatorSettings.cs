@@ -23,11 +23,10 @@
 
 #if UNITY_EDITOR
 
-using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor.Hierarchy
+namespace CarterGames.Common.Hierarchy
 {
     /// <summary>
     /// (EDITOR ONLY) Handles the settings for a hierarchy header object.

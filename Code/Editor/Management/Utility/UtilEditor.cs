@@ -21,12 +21,12 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Management;
-using Scarlet.Management.Editor;
+using CarterGames.Common.Management;
+using CarterGames.Common.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     public static class UtilEditor
     {
@@ -36,28 +36,16 @@ namespace Scarlet.Editor
         
         // Paths
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        public const string SettingsWindowPath = "Project/Scarlet Library";
-        private static readonly string SettingsAssetPath = $"{AssetBasePath}/Data/Runtime Settings.asset";
-        private static readonly string EditorSettingsAssetPath = $"{AssetBasePath}/Data/Editor Settings.asset";
-        private const string AssetIndexPath = "Assets/Resources/Scarlet Library/Asset Index.asset";
+        public const string SettingsWindowPath = "Project/Carter Games/Common";
         
         
         // Filters
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private const string LibrarySettingsFilter = "t:scarletlibraryruntimesettings";
-        private const string LibraryEditorSettingsFilter = "t:scarletlibraryeditorsettings";
-        private const string AssetIndexFilter = "t:scarletlibraryassetindex";
-        private const string ScarletRoseFilter = "ScarletRose";
-        private const string ScarletBannerFilter = "ScarletBanner";
+        private const string BannerGraphicFilter = "LibraryBannerGraphic";
         
         
         // Caches
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static ScarletLibraryRuntimeSettings settingsCache;
-        private static ScarletLibraryEditorSettings editorSettingsCache;
-        private static SerializedObject settingsObjectCache;
-        private static SerializedObject editorSettingsObjectCache;
-        private static ScarletLibraryAssetIndex assetIndexCache;
         private static Texture2D scarletRoseGraphicCache;
         private static Texture2D scarletBannerGraphicCache;
         
@@ -66,25 +54,14 @@ namespace Scarlet.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Gets the path where the asset code is located.
+        /// Gets if there is a settings asset in the project.
         /// </summary>
-        private static string AssetBasePath
+        public static bool HasInitialized
         {
             get
             {
-                string path = string.Empty;
-                
-                foreach (var scriptFound in AssetDatabase.FindAssets($"t:Script {nameof(UtilEditor)}"))
-                {
-                    path = AssetDatabase.GUIDToAssetPath(scriptFound);
-                    
-                    if (!path.Contains("Scarlet Library") || !path.Contains("/UtilEditor.cs")) continue;
-                    path = AssetDatabase.GUIDToAssetPath(scriptFound);
-                    path = path.Replace("Code/Editor/Management/Utility/UtilEditor.cs", "");
-                    return path;
-                }
-
-                return path;
+                AssetIndexHandler.UpdateIndex();
+                return ScriptableRef.HasAllAssets;
             }
         }
         
@@ -92,63 +69,38 @@ namespace Scarlet.Editor
         /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
-        public static ScarletLibraryRuntimeSettings Settings
-            => FileEditorUtil.CreateSoGetOrAssignCache(ref settingsCache, SettingsAssetPath, LibrarySettingsFilter);
-        
-        
-        /// <summary>
-        /// Gets/Sets the save manager settings asset.
-        /// </summary>
-        public static ScarletLibraryEditorSettings EditorSettings
-            => FileEditorUtil.CreateSoGetOrAssignCache(ref editorSettingsCache, EditorSettingsAssetPath, LibraryEditorSettingsFilter);
-        
-        
-        /// <summary>
-        /// Gets/Sets the save manager settings asset.
-        /// </summary>
-        public static ScarletLibraryAssetIndex AssetIndex
-            => FileEditorUtil.CreateSoGetOrAssignCache(ref assetIndexCache, AssetIndexPath, AssetIndexFilter);
+        public static CommonLibraryRuntimeSettings Settings => ScriptableRef.RuntimeSettings;
 
+
+        /// <summary>
+        /// Gets/Sets the save manager settings asset.
+        /// </summary>
+        public static CommonLibraryEditorSettings EditorSettings => ScriptableRef.EditorSettings;
+
+
+        /// <summary>
+        /// Gets/Sets the save manager settings asset.
+        /// </summary>
+        public static CommonLibraryAssetIndex AssetIndex => ScriptableRef.AssetIndex;
+
+
+
+        /// <summary>
+        /// Gets/Sets the save manager editor settings asset.
+        /// </summary>
+        public static SerializedObject SettingsObject => ScriptableRef.RuntimeSettingsObject;
         
         
         /// <summary>
         /// Gets/Sets the save manager editor settings asset.
         /// </summary>
-        public static SerializedObject SettingsObject
-        {
-            get
-            {
-                if (settingsObjectCache != null) return settingsObjectCache;
-                settingsObjectCache = new SerializedObject(Settings);
-                return settingsObjectCache;
-            }
-        }
-        
-        
-        /// <summary>
-        /// Gets/Sets the save manager editor settings asset.
-        /// </summary>
-        public static SerializedObject EditorSettingsObject
-        {
-            get
-            {
-                if (editorSettingsObjectCache != null) return editorSettingsObjectCache;
-                editorSettingsObjectCache = new SerializedObject(EditorSettings);
-                return editorSettingsObjectCache;
-            }
-        }
-
-
-        /// <summary>
-        /// The banner graphic for the settings provider.
-        /// </summary>
-        public static Texture2D ScarletRose => FileEditorUtil.GetOrAssignCache(ref scarletRoseGraphicCache, ScarletRoseFilter);
+        public static SerializedObject EditorSettingsObject => ScriptableRef.EditorSettingsObject;
         
         
         /// <summary>
         /// The banner graphic for the settings provider.
         /// </summary>
-        public static Texture2D ScarletBanner => FileEditorUtil.GetOrAssignCache(ref scarletBannerGraphicCache, ScarletBannerFilter);
+        public static Texture2D BannerGraphic => FileEditorUtil.GetOrAssignCache(ref scarletBannerGraphicCache, BannerGraphicFilter);
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -160,21 +112,11 @@ namespace Scarlet.Editor
         public static void Initialize()
         {
             AssetDatabase.Refresh();
-            
-            if (assetIndexCache == null)
-            {
-                assetIndexCache = AssetIndex;
-            }
-            
-            if (settingsCache == null)
-            {
-                settingsCache = Settings;
-            }//
-            
-            if (editorSettingsCache == null)
-            {
-                editorSettingsCache = EditorSettings;
-            }
+
+            var index = AssetIndex;
+            var runtimeSettings = Settings;
+            var editorSettings = EditorSettings;
+            var dataAssetIndex = ScriptableRef.DataAssetIndex;
 
             AssetIndexHandler.UpdateIndex();
             EditorUtility.SetDirty(AssetIndex);

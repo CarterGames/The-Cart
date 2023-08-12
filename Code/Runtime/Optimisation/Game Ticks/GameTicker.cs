@@ -1,8 +1,8 @@
-﻿using Scarlet.Events;
-using Scarlet.Utility;
+﻿using CarterGames.Common.Events;
+using CarterGames.Common.Utility;
 using UnityEngine;
 
-namespace Scarlet.Optimisation
+namespace CarterGames.Common.Optimisation
 {
     /// <summary>
     /// Handles a tick system with the ticks defined locally.

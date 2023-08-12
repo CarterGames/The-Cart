@@ -22,9 +22,9 @@
  */
 
 using System.Collections.Generic;
-using Scarlet.Random;
+using CarterGames.Common.Random;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// An extension class for lists.

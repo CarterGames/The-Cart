@@ -24,7 +24,7 @@
 using System;
 using UnityEditor;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     /// <summary>
     /// Handles displaying editor dialogue boxes.

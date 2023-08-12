@@ -23,7 +23,7 @@
 
 using System;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A base class for the min/max value system.

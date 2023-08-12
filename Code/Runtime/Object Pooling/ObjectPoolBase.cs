@@ -22,10 +22,10 @@
  */
 
 using System.Collections.Generic;
-using Scarlet.Logs;
+using CarterGames.Common.Logs;
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A base class for an object pool.
@@ -128,7 +128,7 @@ namespace Scarlet.General
 
             if (!ShouldExpand)
             {
-                ScarletLogs.Normal<ObjectPoolBase<T>>("No free member objects to return.");
+                CommonLogs.Normal<ObjectPoolBase<T>>("No free member objects to return.");
                 return default;
             }
             

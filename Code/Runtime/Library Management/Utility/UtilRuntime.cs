@@ -1,6 +1,6 @@
-﻿using Scarlet.Management;
+﻿using CarterGames.Common.Management;
 
-namespace Scarlet.Utility
+namespace CarterGames.Common.Utility
 {
     /// <summary>
     /// A utility class to get common things at runtime.
@@ -13,7 +13,7 @@ namespace Scarlet.Utility
         
         // Caches
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static ScarletLibraryRuntimeSettings settingsCache;
+        private static CommonLibraryRuntimeSettings settingsCache;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -22,12 +22,12 @@ namespace Scarlet.Utility
         /// <summary>
         /// The runtime settings asset.
         /// </summary>
-        public static ScarletLibraryRuntimeSettings Settings
+        public static CommonLibraryRuntimeSettings Settings
         {
             get
             {
                 if (settingsCache != null) return settingsCache;
-                settingsCache = ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>();
+                settingsCache = CommonAssetAccessor.GetAsset<CommonLibraryRuntimeSettings>();
                 return settingsCache;
             }
         }

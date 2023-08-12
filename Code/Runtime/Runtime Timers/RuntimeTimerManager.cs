@@ -24,7 +24,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// Handles the management of runtime timers when the game is active. Only gets used if a runtime timer is called into existence.

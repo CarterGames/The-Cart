@@ -24,7 +24,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// An extension class for scroll rects.

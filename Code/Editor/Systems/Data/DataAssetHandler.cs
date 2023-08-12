@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using Scarlet.Editor;
+using CarterGames.Common.Editor;
+using CarterGames.Common.Management.Editor;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-namespace Scarlet.Data.Editor
+namespace CarterGames.Common.Data.Editor
 {
     public sealed class DataAssetHandler : IPreprocessBuildWithReport
     {
@@ -81,23 +82,14 @@ namespace Scarlet.Data.Editor
         /// </summary>
         private static void TryMakeIndex()
         {
-            if (cache != null) return;
-            
-            cache = (DataAssetIndex) FileEditorUtil.GetFileViaFilter(typeof(DataAssetIndex), IndexFilter);
-
-            if (cache == null)
-            {
-                cache = FileEditorUtil.CreateScriptableObject<DataAssetIndex>("Assets/Resources/Scarlet Library/Data Asset Index.asset");
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
+            if (ScriptableRef.HasAllAssets) return;
         }
         
 
         /// <summary>
         /// Updates the index with all the asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Scarlet Library/Data/Update Index", priority = 50)]
+        [MenuItem("Tools/Carter Games/Common/Data/Update Index", priority = 50)]
         private static void UpdateIndex()
         {
             var foundAssets = new List<DataAsset>();
@@ -116,9 +108,13 @@ namespace Scarlet.Data.Editor
                 foundAssets.Add((DataAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));
             }
             
+            EditorGUI.BeginChangeCheck();
             Index.SetLookup(foundAssets);
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(Index);
+            }
             
-            EditorUtility.SetDirty(Index);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }

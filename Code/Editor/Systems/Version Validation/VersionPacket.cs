@@ -25,7 +25,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace Scarlet.Editor.VersionCheck
+namespace CarterGames.Common.Editor.VersionCheck
 {
     /// <summary>
     /// A data class to hold the data downloaded from the server when requested.

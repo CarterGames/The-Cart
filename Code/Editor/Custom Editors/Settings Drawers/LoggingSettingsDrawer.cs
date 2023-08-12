@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     /// <summary>
     /// Handles the settings GUI for the logging system.
@@ -43,16 +43,18 @@ namespace Scarlet.Editor
             if (!UtilEditor.SettingsObject.FindProperty("isLoggingExpanded").boolValue) return;
 
 
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
             
             
             // Draw the provider enum field on the GUI...
-            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("loggingUseScarletLogs"), new GUIContent("Use Logs"));
+            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("loggingUseCommonLogs"), new GUIContent("Use Logs"));
             EditorGUILayout.PropertyField(UtilEditor.SettingsObject.FindProperty("useLogsInProductionBuilds"), new GUIContent("Production Build Logs"));
 
 
             EditorGUI.indentLevel--;
+            EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
 
@@ -72,7 +74,7 @@ namespace Scarlet.Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty("isLoggingExpanded"));
             EditorGUI.EndDisabledGroup();
             
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("loggingUseScarletLogs"), new GUIContent("Use Logs"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("loggingUseCommonLogs"), new GUIContent("Use Logs"));
 
             EditorGUILayout.EndVertical();
         }

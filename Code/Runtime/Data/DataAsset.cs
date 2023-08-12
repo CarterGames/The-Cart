@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace Scarlet.Data
+namespace CarterGames.Common.Data
 {
     /// <summary>
     /// Inherit from to define a data asset that the data system will detect and allow access at runtime.

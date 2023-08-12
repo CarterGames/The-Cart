@@ -23,9 +23,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CarterGames.Common.Management;
 using UnityEngine;
 
-namespace Scarlet.Data
+namespace CarterGames.Common.Data
 {
     /// <summary>
     /// Helper class to access data assets at runtime.
@@ -35,9 +36,6 @@ namespace Scarlet.Data
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-     
-        private const string IndexPath = "Scarlet Library/Data Asset Index";
-        
         
         // A cache of all the assets found...
         private static DataAssetIndex indexCache;
@@ -54,7 +52,7 @@ namespace Scarlet.Data
             get
             {
                 if (indexCache != null) return indexCache;
-                indexCache = (DataAssetIndex) Resources.Load(IndexPath, typeof(DataAssetIndex));
+                indexCache = CommonAssetAccessor.GetAsset<DataAssetIndex>();
                 return indexCache;
             }
         }

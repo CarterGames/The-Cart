@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// Handles getting referencing for fields etc, mostly to save writing.

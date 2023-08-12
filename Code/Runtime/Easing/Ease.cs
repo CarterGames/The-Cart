@@ -23,7 +23,7 @@
 
 using System;
 
-namespace Scarlet.Easing
+namespace CarterGames.Common.Easing
 {
     /// <summary>
     /// The main ease class used to read an ease value based on a normalised 0-1 value entered.

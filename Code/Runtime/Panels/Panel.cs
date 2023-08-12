@@ -22,12 +22,12 @@
  */
 
 using System.Collections;
-using Scarlet.Easing;
-using Scarlet.Events;
+using CarterGames.Common.Easing;
+using CarterGames.Common.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scarlet.Panels
+namespace CarterGames.Common.Panels
 {
     /// <summary>
     /// A script to manage a UI panel to appear and disappear at will.

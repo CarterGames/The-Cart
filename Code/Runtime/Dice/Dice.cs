@@ -21,9 +21,9 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Random;
+using CarterGames.Common.Random;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A helper class for getting common dice rolls.

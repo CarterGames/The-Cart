@@ -21,12 +21,12 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.General.Reflection;
-using Scarlet.Random;
+using CarterGames.Common.General.Reflection;
+using CarterGames.Common.Random;
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     /// <summary>
     /// Handles the settings drawing for the random system.
@@ -45,7 +45,8 @@ namespace Scarlet.Editor
             if (!UtilEditor.SettingsObject.FindProperty("isRngExpanded").boolValue) return;
 
 
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
             
             
@@ -61,6 +62,7 @@ namespace Scarlet.Editor
             if (rngProvider.intValue <= 0)
             {
                 EditorGUI.indentLevel--;
+                EditorGUILayout.Space(1.5f);
                 EditorGUILayout.EndVertical();
                 return;
             }
@@ -116,6 +118,7 @@ namespace Scarlet.Editor
             
             EditorGUILayout.EndHorizontal();
             EditorGUI.indentLevel--;
+            EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
 

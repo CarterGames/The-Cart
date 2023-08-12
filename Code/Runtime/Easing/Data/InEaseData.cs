@@ -23,7 +23,7 @@
 
 using System;
 
-namespace Scarlet.Easing
+namespace CarterGames.Common.Easing
 {
     /// <summary>
     /// Ease data for in ease types.

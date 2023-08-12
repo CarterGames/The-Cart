@@ -1,4 +1,4 @@
-﻿namespace Scarlet.Editor.Hierarchy
+﻿namespace CarterGames.Common.Hierarchy
 {
     public enum HierarchyTitleTextAlign
     {

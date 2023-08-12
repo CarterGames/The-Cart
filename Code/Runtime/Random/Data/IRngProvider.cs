@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.Random
+namespace CarterGames.Common.Random
 {
     public interface IRngProvider
     {

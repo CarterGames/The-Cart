@@ -22,15 +22,16 @@
  */
 
 using System.Collections.Generic;
-using Scarlet.General;
+using CarterGames.Common.General;
+using CarterGames.Common.Management;
 using UnityEngine;
 
-namespace Scarlet.Data
+namespace CarterGames.Common.Data
 {
     /// <summary>
     /// The index for all data assets in the project.
     /// </summary>
-    public sealed class DataAssetIndex : ScriptableObject
+    public sealed class DataAssetIndex : CommonLibraryAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields

@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.General.Editor
+namespace CarterGames.Common.General.Editor
 {
     public class RangeDrawer
     {

@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A formatter class to turn numbers into currency.

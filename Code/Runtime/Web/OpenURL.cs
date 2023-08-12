@@ -23,12 +23,12 @@
 
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A helper class for opening websites, discord links and email.
     /// </summary>
-    public class OpenURL : MonoBehaviour
+    public sealed class OpenURL : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Instanced Methods

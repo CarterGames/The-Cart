@@ -23,13 +23,13 @@
 
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A modular class to handle basic generic object pooling.
     /// </summary>
     /// <typeparam name="T">The type to pool.</typeparam>
-    public class ObjectPoolGeneric<T> : ObjectPoolBase<T>
+    public sealed class ObjectPoolGeneric<T> : ObjectPoolBase<T>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors

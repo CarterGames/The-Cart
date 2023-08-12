@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     /// <summary>
     /// Handles the settings drawing for the hierarchy block system.
@@ -43,7 +43,8 @@ namespace Scarlet.Editor
             if (!UtilEditor.EditorSettingsObject.FindProperty("isHierarchySeparatorExpanded").boolValue) return;
 
 
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
             
             
@@ -57,6 +58,7 @@ namespace Scarlet.Editor
 
             
             EditorGUI.indentLevel--;
+            EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
 

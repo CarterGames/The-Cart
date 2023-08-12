@@ -22,9 +22,9 @@
  */
 
 using System;
-using Scarlet.Logs;
+using CarterGames.Common.Logs;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A modular class to handle an instance of another class.
@@ -85,7 +85,7 @@ namespace Scarlet.General
         {
             if (instance.Value == null)
             {
-                ScarletLogs.Error<Instance<T>>("Instance is null. Please ensure the instance is initialised and all.");
+                CommonLogs.Error<Instance<T>>("Instance is null. Please ensure the instance is initialised and all.");
             }
             
             return instance.Value;

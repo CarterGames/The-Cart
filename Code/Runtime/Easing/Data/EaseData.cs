@@ -23,7 +23,7 @@
 
 using System;
 
-namespace Scarlet.Easing
+namespace CarterGames.Common.Easing
 {
     /// <summary>
     /// A data class for use in the easing system.

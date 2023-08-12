@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// Just like the TryGetComponent, but with options to get from parents and children.

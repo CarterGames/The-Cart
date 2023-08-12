@@ -22,9 +22,9 @@
  */
 
 using System.Collections.Generic;
-using Scarlet.Events;
+using CarterGames.Common.Events;
 
-namespace Scarlet.Panels
+namespace CarterGames.Common.Panels
 {
     /// <summary>
     /// Tracks the panels active in the game.

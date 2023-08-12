@@ -22,9 +22,9 @@
  */
 
 using System;
-using Scarlet.Random;
+using CarterGames.Common.Random;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A int variant of the min/max value system.

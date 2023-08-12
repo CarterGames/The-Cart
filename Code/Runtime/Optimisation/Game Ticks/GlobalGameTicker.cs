@@ -1,8 +1,8 @@
-﻿using Scarlet.Events;
-using Scarlet.Utility;
+﻿using CarterGames.Common.Events;
+using CarterGames.Common.Utility;
 using UnityEngine;
 
-namespace Scarlet.Optimisation
+namespace CarterGames.Common.Optimisation
 {
     /// <summary>
     /// A game ticker that is intended for global use instead of local use.

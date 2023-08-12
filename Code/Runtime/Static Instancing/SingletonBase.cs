@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// Your standard singleton base class, with initialization on awake.

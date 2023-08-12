@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     public static class MathExtensions
     {

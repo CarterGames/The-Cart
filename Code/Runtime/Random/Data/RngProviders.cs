@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace Scarlet.Random
+namespace CarterGames.Common.Random
 {
     public enum RngProviders
     {

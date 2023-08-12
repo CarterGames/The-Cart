@@ -27,7 +27,7 @@ using System.IO;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     public class ResourcesExtensions
     {

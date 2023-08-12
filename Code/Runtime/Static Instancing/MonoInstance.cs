@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// An instance that can be statically referenced for things such as coroutines in static classes etc.

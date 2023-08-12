@@ -23,10 +23,10 @@
 
 using System;
 using System.Collections;
-using Scarlet.Events;
+using CarterGames.Common.Events;
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A runtime timer that can invoke actions when completed and can be created from anywhere in runtime space.

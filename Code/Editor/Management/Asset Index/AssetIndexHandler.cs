@@ -22,12 +22,12 @@
  */
 
 using System.Collections.Generic;
-using Scarlet.Editor;
+using CarterGames.Common.Editor;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-namespace Scarlet.Management.Editor
+namespace CarterGames.Common.Management.Editor
 {
     /// <summary>
     /// Handles the setup of the asset index for runtime references to scriptable objects used for the asset.
@@ -38,7 +38,7 @@ namespace Scarlet.Management.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private const string AssetFilter = "t:scarletlibraryasset";
+        private const string AssetFilter = "t:commonlibraryasset";
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IPreprocessBuildWithReport Implementation
@@ -88,10 +88,10 @@ namespace Scarlet.Management.Editor
         /// <summary>
         /// Updates the index with all the save manager asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Scarlet Library/Update Asset Index")]
+        [MenuItem("Tools/Carter Games/Common/Update Asset Index")]
         public static void UpdateIndex()
         {
-            var foundAssets = new List<ScarletLibraryAsset>();
+            var foundAssets = new List<CommonLibraryAsset>();
             var asset = AssetDatabase.FindAssets(AssetFilter, null);
 
             if (asset == null || asset.Length <= 0) return;
@@ -100,17 +100,23 @@ namespace Scarlet.Management.Editor
             {
                 var assetPath = AssetDatabase.GUIDToAssetPath(assetInstance);
                 var assetObj =
-                    (ScarletLibraryAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(ScarletLibraryAsset));
+                    (CommonLibraryAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(CommonLibraryAsset));
 
                 // Doesn't include editor only or the index itself.
                 if (assetObj == null) continue;
-                if (assetObj.GetType() == typeof(ScarletLibraryAssetIndex) || assetObj.GetType() == typeof(ScarletLibraryEditorSettings)) continue;
-                foundAssets.Add((ScarletLibraryAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(ScarletLibraryAsset)));
+                if (assetObj.GetType() == typeof(CommonLibraryAssetIndex) || assetObj.GetType() == typeof(CommonLibraryEditorSettings)) continue;
+                foundAssets.Add((CommonLibraryAsset)AssetDatabase.LoadAssetAtPath(assetPath, typeof(CommonLibraryAsset)));
             }
             
+            EditorGUI.BeginChangeCheck();
             UtilEditor.AssetIndex.SetLookup(foundAssets);
-            EditorUtility.SetDirty(UtilEditor.AssetIndex);
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(UtilEditor.AssetIndex);
+            }
+            
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

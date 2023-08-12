@@ -21,11 +21,11 @@
  * THE SOFTWARE.
  */
 
-using Scarlet.Management;
-using Scarlet.Random.AleaPRNG;
+using CarterGames.Common.Management;
+using CarterGames.Common.Random.AleaPRNG;
 using UnityEngine;
 
-namespace Scarlet.Random
+namespace CarterGames.Common.Random
 {
     /// <summary>
     /// Gets random values for a lot of common types.
@@ -44,7 +44,7 @@ namespace Scarlet.Random
             get
             {
                 if (providerCache != null) return providerCache;
-                providerCache = ScarletLibraryAssetAccessor.GetAsset<ScarletLibraryRuntimeSettings>().RngRngProvider switch
+                providerCache = CommonAssetAccessor.GetAsset<CommonLibraryRuntimeSettings>().RngRngProvider switch
                 {
                     RngProviders.Unity => new UnityRngProvider(),
                     RngProviders.System => new SystemRngProvider(),

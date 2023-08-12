@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Scarlet.Easing
+namespace CarterGames.Common.Easing
 {
     /// <summary>
     /// An enum of all the ease types implemented in the ease system.

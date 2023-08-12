@@ -24,7 +24,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scarlet.Panels
+namespace CarterGames.Common.Panels
 {
     /// <summary>
     /// Handles the close logic for a panel using a UI button.

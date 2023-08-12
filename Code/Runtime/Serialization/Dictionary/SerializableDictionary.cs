@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scarlet.General
+namespace CarterGames.Common.General
 {
     /// <summary>
     /// A custom dictionary class to store a serializable version of a dictionaries data.

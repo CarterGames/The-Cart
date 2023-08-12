@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Scarlet.Editor
+namespace CarterGames.Common.Editor
 {
     public static class GeneralUtilEditor
     {
@@ -33,7 +33,7 @@ namespace Scarlet.Editor
         /// </summary>
         /// <param name="text">The text to size.</param>
         /// <returns>The resulting size.</returns>
-        public static float Width(this string text)
+        public static float GUIWidth(this string text)
         {
             return GUI.skin.label.CalcSize(new GUIContent(text)).x;
         }
@@ -68,6 +68,35 @@ namespace Scarlet.Editor
             EditorGUILayout.BeginVertical();
             GUILayout.Box("", boxStyle, GUILayout.Width(2), GUILayout.ExpandHeight(true));
             EditorGUILayout.EndVertical();
+        }
+        
+        
+        /// <summary>
+        /// Draws the script fields in the custom inspector...
+        /// </summary>
+        public static void DrawMonoScriptSection<T>(T target) where T : MonoBehaviour
+        {
+            EditorGUILayout.BeginVertical("HelpBox");
+            GUILayout.Space(1.5f);
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ObjectField("Script:", MonoScript.FromMonoBehaviour(target), typeof(T), false);
+            EditorGUI.EndDisabledGroup();
+
+            GUILayout.Space(1.5f);
+            EditorGUILayout.EndVertical();
+        }
+
+
+        /// <summary>
+        /// Draws the script fields in the custom inspector...
+        /// </summary>
+        public static void DrawSoScriptSection(object target)
+        {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ObjectField("Script:", MonoScript.FromScriptableObject((ScriptableObject)target),
+                typeof(object), false);
+            EditorGUI.EndDisabledGroup();
         }
     }
 }
