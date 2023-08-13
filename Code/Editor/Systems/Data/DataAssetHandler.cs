@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CarterGames.Common.Editor;
+using CarterGames.Common.General;
 using CarterGames.Common.Management.Editor;
 using UnityEditor;
 using UnityEditor.Build;
@@ -15,21 +16,12 @@ namespace CarterGames.Common.Data.Editor
 
         private static DataAssetIndex cache;
         private const string AssetFilter = "t:dataasset";
-        private const string IndexFilter = "t:dataassetindex";
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private static DataAssetIndex Index
-        {
-            get
-            {
-                if (cache != null) return cache;
-                TryMakeIndex();
-                return cache;
-            }
-        }
+        private static DataAssetIndex Index => CacheRef.GetOrAssign(ref cache, ScriptableRef.DataAssetIndex);
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IPreprocessBuildWithReport Implementation

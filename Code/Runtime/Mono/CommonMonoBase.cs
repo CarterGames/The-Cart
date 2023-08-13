@@ -43,7 +43,11 @@ namespace CarterGames.Common.General
         private void OnEnable()
         {
             if (!autoInitialize) return;
+#if UNITY_2021_2_OR_NEWER
+            GetComponent<IInitialize>().Initialize();
+#else
             Initialize();
+#endif
         }
 
 
@@ -58,11 +62,18 @@ namespace CarterGames.Common.General
 
         public bool IsInitialized { get; set; }
         
+#if UNITY_2021_2_OR_NEWER
+        public virtual void OnInitialize()
+        {
+            
+        }
+#else
         public virtual void Initialize()
         {
             if (IsInitialized) return;
             IsInitialized = true;
         }
+#endif
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IDispose Implementation
