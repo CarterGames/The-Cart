@@ -49,7 +49,7 @@ namespace CarterGames.Common.Editor.VersionCheck
         /// <summary>
         /// The key of the package to get from the JSON blob.
         /// </summary>
-        public const string Key = "Scarlet Library";
+        public const string Key = "Common";
 
 
         /// <summary>
