@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c0e9236ccdde024485926cfcb9de3f4, type: 3}
+  m_Name: Runtime Settings
+  m_EditorClassIdentifier: 
+  isRngExpanded: 0
+  rngRngProvider: 0
+  rngSystemSeed: 427772247
+  rngAleaSeed: ebcfe3f8-9811-4ef3-81ee-fd323d34dcee
+  isLoggingExpanded: 0
+  loggingUseCartLogs: 1
+  useLogsInProductionBuilds: 0
+  isGameTicksExpanded: 0
+  gameTickTicksPerSecond: 5
+  gameTickUseUnscaledTime: 0
+  gameTickUseGlobalTicker: 1
+  notionApiKey: secret_1tc4tOCpDdhOZprbydt3pnk0O5MhGqdU4T4uPKNXx4D

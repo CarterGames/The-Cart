@@ -1,0 +1,18 @@
+{
+    "name": "The Cart Editor",
+    "rootNamespace": "CarterGames.Cart.Editor",
+    "references": [
+        "GUID:5102aed48a0829843a44f70606735a48"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
