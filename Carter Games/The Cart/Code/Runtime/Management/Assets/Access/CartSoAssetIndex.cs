@@ -22,10 +22,9 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Cart.General;
 using UnityEngine;
 
-namespace CarterGames.Cart.Management
+namespace CarterGames.Cart.Core.Management
 {
     public sealed class CartSoAssetIndex : CartSoAsset
     {

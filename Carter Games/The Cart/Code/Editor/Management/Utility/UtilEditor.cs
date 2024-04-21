@@ -21,12 +21,10 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Management;
-using CarterGames.Cart.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Cart.Editor
+namespace CarterGames.Cart.Core.Management.Editor
 {
     public static class UtilEditor
     {
@@ -54,22 +52,9 @@ namespace CarterGames.Cart.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Gets if there is a settings asset in the project.
-        /// </summary>
-        public static bool HasInitialized
-        {
-            get
-            {
-                AssetIndexHandler.UpdateIndex();
-                return ScriptableRef.HasAllAssets;
-            }
-        }
-        
-        
-        /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
-        public static CartSoRuntimeSettings Settings => ScriptableRef.RuntimeSettings;
+        public static CartGlobalRuntimeSettings Settings => ScriptableRef.RuntimeSettings;
 
 
         /// <summary>
@@ -103,7 +88,6 @@ namespace CarterGames.Cart.Editor
 
             var index = AssetIndex;
             var runtimeSettings = Settings;
-            var dataAssetIndex = ScriptableRef.DataAssetIndex;
 
             AssetIndexHandler.UpdateIndex();
             EditorUtility.SetDirty(AssetIndex);

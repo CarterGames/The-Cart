@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace CarterGames.Cart.Management
+namespace CarterGames.Cart.Core.Management
 {
     public static class CartSoAssetAccessor
     {
