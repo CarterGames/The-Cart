@@ -1,0 +1,15 @@
+﻿{
+  "labels": {
+    "list": [
+      { "key": "sectionTitle", "value": "Random" }
+    ]
+  },
+  "content": {
+    "list": [
+        { "key": "sectionTitle", "value": { "title": "Random", "toolTip": "The settings for the 'Rng' system." }},
+        { "key": "provider", "value": { "title": "Provider", "toolTip": "Defines which rng system is used." }},
+        { "key": "systemSeed", "value": { "title": "System seed", "toolTip": "Defines the seed to use for random numbers." }},
+        { "key": "aleaSeed", "value": { "title": "Alea seed", "toolTip": "Defines the seed to use for random numbers." }}
+    ]
+  }
+}

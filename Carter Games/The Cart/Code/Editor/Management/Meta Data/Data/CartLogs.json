@@ -1,0 +1,14 @@
+﻿{
+  "labels": {
+    "list": [
+      { "key": "sectionTitle", "value": "Logging" }
+    ]
+  },
+  "content": {
+    "list": [
+        { "key": "sectionTitle", "value": { "title": "Logging", "toolTip": "The settings for the 'Cart Logger' system." }},
+        { "key": "useLogs", "value": { "title": "Use logs", "toolTip": "Defines if the logs are shown at all." }},
+        { "key": "useInProduction", "value": { "title": "Production build logs", "toolTip": "Defines if the logs will show in production builds or not." }}
+    ]
+  }
+}

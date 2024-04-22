@@ -18,9 +18,4 @@ MonoBehaviour:
   rngAleaSeed: ebcfe3f8-9811-4ef3-81ee-fd323d34dcee
   isLoggingExpanded: 0
   loggingUseCartLogs: 1
-  useLogsInProductionBuilds: 0
-  isGameTicksExpanded: 0
-  gameTickTicksPerSecond: 5
-  gameTickUseUnscaledTime: 0
-  gameTickUseGlobalTicker: 1
-  notionApiKey: secret_1tc4tOCpDdhOZprbydt3pnk0O5MhGqdU4T4uPKNXx4D
+  useLogsInProductionBuilds: 1

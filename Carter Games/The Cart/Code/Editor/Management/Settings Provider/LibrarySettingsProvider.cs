@@ -22,12 +22,13 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Cart.Editor.Hierarchy;
-using CarterGames.Cart.Management.Editor;
+using CarterGames.Cart.Core.Logs.Editor;
+using CarterGames.Cart.Core.MetaData.Editor;
+using CarterGames.Cart.Core.Random.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Cart.Editor
+namespace CarterGames.Cart.Core.Management.Editor
 {
     /// <summary>
     /// Handles the settings for the package.
@@ -73,8 +74,10 @@ namespace CarterGames.Cart.Editor
                     DrawAssetOptions();
                     GUILayout.Space(1.5f);
                     DrawRuntimeOptions();
+                    // GUILayout.Space(1.5f);
+                    // DrawEditorOptions();
                     GUILayout.Space(1.5f);
-                    DrawEditorOptions();
+                    DrawModuleOptions();
                     DrawButtons();
 
                     WindowUtilEditor.CreateDeselectZone(ref deselectRect);
@@ -117,14 +120,14 @@ namespace CarterGames.Cart.Editor
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUILayout.BeginHorizontal();
-
-            EditorGUILayout.LabelField(EditorMetaData.AssetVersionInfo.Number, new GUIContent(CartVersionData.VersionNumber));
+            
+            EditorGUILayout.LabelField(Meta.Asset.Content("version"), new GUIContent(CartVersionData.VersionNumber));
             GUILayout.FlexibleSpace();
             VersionEditorGUI.DrawCheckForUpdatesButton();
             
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.LabelField(EditorMetaData.AssetVersionInfo.Date, new GUIContent(CartVersionData.ReleaseDate));
+            EditorGUILayout.LabelField(Meta.Asset.Content("releaseDate"), new GUIContent(CartVersionData.ReleaseDate));
 
             EditorGUILayout.EndVertical();
         }
@@ -137,7 +140,7 @@ namespace CarterGames.Cart.Editor
             EditorGUILayout.LabelField("Asset", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            PerUserSettings.AssetSettingsEditorDropdown = EditorGUILayout.Foldout(PerUserSettings.AssetSettingsEditorDropdown, "Editor");
+            PerUserSettings.AssetSettingsEditorDropdown = EditorGUILayout.Foldout(PerUserSettings.AssetSettingsEditorDropdown, Meta.Asset.Content("editorSection"));
 
             if (PerUserSettings.AssetSettingsEditorDropdown)
             {
@@ -145,7 +148,7 @@ namespace CarterGames.Cart.Editor
                 GUILayout.Space(1.5f);
                 
                 PerUserSettings.VersionValidationAutoCheckOnLoad = EditorGUILayout.Toggle(
-                    EditorMetaData.PerUser.AutoVersionCheck, PerUserSettings.VersionValidationAutoCheckOnLoad);
+                    Meta.Asset.Content("autoVersionCheck"), PerUserSettings.VersionValidationAutoCheckOnLoad);
                 
                 GUILayout.Space(1.5f);
                 EditorGUILayout.EndVertical();
@@ -170,7 +173,6 @@ namespace CarterGames.Cart.Editor
 
             RngSettingsDrawer.DrawSettings();
             LoggingSettingsDrawer.DrawSettings();
-            GameTickerSettingsDrawer.DrawSettings();
             
             if (EditorGUI.EndChangeCheck())
             {
@@ -186,17 +188,36 @@ namespace CarterGames.Cart.Editor
         /// <summary>
         /// Draws the general options shown on the settings provider. 
         /// </summary>
-        private static void DrawEditorOptions()
+        // private static void DrawEditorOptions()
+        // {
+        //     EditorGUILayout.BeginVertical("HelpBox");
+        //     GUILayout.Space(1.5f);
+        //     EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
+        //     GeneralUtilEditor.DrawHorizontalGUILine();
+        //     
+        //     EditorGUI.BeginChangeCheck();
+        //     
+        //     GUILayout.Space(1.5f);
+        //     EditorGUILayout.EndVertical();
+        // }
+        
+        
+        /// <summary>
+        /// Draws all module settings on the settings provider. 
+        /// </summary>
+        private static void DrawModuleOptions()
         {
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
-            EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Modules", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUI.BeginChangeCheck();
 
-            HierarchySettingsDrawer.DrawSettings();
-            NotionDataSettingsDrawer.DrawSettings();
+            foreach (var provider in SettingsProviderHandler.Providers)
+            {
+                provider.Value.OnProjectSettingsGUI();   
+            }
             
             GUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();

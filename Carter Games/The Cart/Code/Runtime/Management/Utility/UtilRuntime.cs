@@ -21,9 +21,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Management;
-
-namespace CarterGames.Cart.Utility
+namespace CarterGames.Cart.Core.Management
 {
     /// <summary>
     /// A utility class to get common things at runtime.
@@ -36,7 +34,7 @@ namespace CarterGames.Cart.Utility
         
         // Caches
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static CartSoRuntimeSettings settingsCache;
+        private static CartGlobalRuntimeSettings settingsCache;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -45,12 +43,12 @@ namespace CarterGames.Cart.Utility
         /// <summary>
         /// The runtime settings asset.
         /// </summary>
-        public static CartSoRuntimeSettings Settings
+        public static CartGlobalRuntimeSettings Settings
         {
             get
             {
                 if (settingsCache != null) return settingsCache;
-                settingsCache = CartSoAssetAccessor.GetAsset<CartSoRuntimeSettings>();
+                settingsCache = CartSoAssetAccessor.GetAsset<CartGlobalRuntimeSettings>();
                 return settingsCache;
             }
         }

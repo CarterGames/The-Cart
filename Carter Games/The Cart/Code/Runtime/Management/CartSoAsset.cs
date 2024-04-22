@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace CarterGames.Cart.Management
+namespace CarterGames.Cart.Core.Management
 {
     /// <summary>
     /// Defines a library asset that can be found via the asset index system.

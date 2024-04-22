@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assets:
     list:
-    - key: CarterGames.Cart.Data.DataAssetIndex
+    - key: CarterGames.Cart.Modules.ModuleCache
       value:
-      - {fileID: 11400000, guid: b68869a560cf89649976451cf4287e21, type: 2}
-    - key: CarterGames.Cart.Management.CartSoRuntimeSettings
+      - {fileID: 11400000, guid: 990a87da3ce6aeb458c5c2de95818e99, type: 2}
+    - key: CarterGames.Cart.Core.Management.CartGlobalRuntimeSettings
       value:
       - {fileID: 11400000, guid: 09b81cb71b0378045a50bc1fdd444cb4, type: 2}
