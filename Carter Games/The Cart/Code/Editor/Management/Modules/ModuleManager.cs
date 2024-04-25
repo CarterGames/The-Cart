@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Json;
 using CarterGames.Cart.Core.Management;
@@ -227,9 +228,12 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public static void RefreshNamespaceCache()
         {
-            var found = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .SelectMany(x => x.GetTypes())
+            var assemblies = new List<Assembly>();
+            assemblies.Add(Assembly.Load("CarterGames.TheCart.Modules"));
+            assemblies.Add(Assembly.Load("CarterGames.TheCart.Editor"));
+            assemblies.Add(Assembly.Load("CarterGames.TheCart.Runtime"));
+            
+            var found = assemblies.SelectMany(x => x.GetTypes())
                 .Select(x => x.Namespace).Where(t => t != null && t.Contains("CarterGames.Cart.Modules")).Distinct().ToList();
 
             PerUserSettings.SetValue<string>(ModuleNamespacesSettingKey, SettingType.SessionState, JsonUtility.ToJson(new ListWrapper<string>(found)));
@@ -240,7 +244,7 @@ namespace CarterGames.Cart.Modules
         /// Gets the colourised status icon for the module's status.
         /// </summary>
         /// <param name="module">The module to get the icon for.</param>
-        /// <returns>The rach text string for the icon.</returns>
+        /// <returns>The rich text string for the icon.</returns>
         public static string GetModuleStatusIcon(IModule module)
         {
             if (!IsInstalled(module)) return CrossIconColourised;

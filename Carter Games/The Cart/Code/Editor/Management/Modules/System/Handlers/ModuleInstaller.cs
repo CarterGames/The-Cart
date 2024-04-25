@@ -21,11 +21,15 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Window;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
@@ -67,27 +71,30 @@ namespace CarterGames.Cart.Modules
             AssetDatabase.importPackageCompleted -= OnImportPackageCompleted;
             AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
 
-            var toInstall = new List<string>();
+            var toInstall = Array.Empty<IModule>();
             
             if (module.PreRequisites.Length > 0)
             {
-                toInstall.AddRange(module.PreRequisites.Select(t => t.ModulePackagePath));
+                foreach (var preReq in module.PreRequisites)
+                {
+                    toInstall = toInstall.Add(preReq);
+                }
             }
             
-            toInstall.Add(module.ModulePackagePath);
-            ModuleManager.ProcessQueue = toInstall;
+            toInstall = toInstall.Add(module);
+            ModuleManager.ProcessQueue = toInstall.Select(t => t.ModulePackagePath).ToList();
 
             if (!ModuleManager.CurrentProcess.Equals(ModuleOperations.Updating))
             {
                 ModuleManager.CurrentProcess = ModuleOperations.Installing;
                 ModuleManager.IsProcessing = true;
             }
-
+            
             AssetDatabase.StartAssetEditing();
             
-            foreach (var package in toInstall)
+            foreach (var mod in toInstall)
             {
-                AssetDatabase.ImportPackage(package, false);
+                AssetDatabase.ImportPackage(mod.ModulePackagePath, false);
             }
             
             AssetDatabase.StopAssetEditing();
@@ -111,6 +118,28 @@ namespace CarterGames.Cart.Modules
         
         private static void OnImportPackageCompleted(string packagename)
         {
+            if (!ScriptableRef.AssetBasePath.Equals(("Assets")))
+            {
+                AssetDatabase.StartAssetEditing();
+                
+                foreach (var mod in ModuleManager.ProcessQueue)
+                {
+                    // Skip if in the right path already
+                    var path = "Assets/";
+                    path += ModuleManager.AllModules.First(t => t.ModulePackagePath.Equals(mod)).ModuleInstallPath
+                        .Replace(ScriptableRef.AssetBasePath, string.Empty);
+                    AssetDatabase.MoveAsset(path,
+                        ModuleManager.AllModules.First(t => t.ModulePackagePath.Equals(mod)).ModuleInstallPath);
+                }
+
+                // Remove left over directories...
+                AssetDatabase.DeleteAsset("Assets/Carter Games/The Cart/Modules");
+                AssetDatabase.DeleteAsset("Assets/Carter Games/The Cart/");
+                AssetDatabase.DeleteAsset("Assets/Carter Games/");
+                
+                AssetDatabase.StopAssetEditing();
+            }
+            
             ModuleManager.RefreshNamespaceCache();
             ModulesWindow.RepaintWindow();
 

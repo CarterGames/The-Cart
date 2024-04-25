@@ -1,6 +1,6 @@
 {
-    "name": "The Cart Editor",
-    "rootNamespace": "CarterGames.Cart.Editor",
+    "name": "CarterGames.TheCart.Editor",
+    "rootNamespace": "CarterGames.TheCart.Editor",
     "references": [
         "GUID:5102aed48a0829843a44f70606735a48",
         "GUID:a947e9e88a7b3e34e987775c68e4678f"

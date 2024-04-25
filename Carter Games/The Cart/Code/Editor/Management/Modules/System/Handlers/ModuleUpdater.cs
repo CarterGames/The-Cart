@@ -58,6 +58,10 @@ namespace CarterGames.Cart.Modules
             };
             
             AssetDatabase.DeleteAsset(module.ModuleInstallPath);
+            ModuleInstaller.Install(ModuleManager.AllModules.FirstOrDefault(t => t.ModulePackagePath.Equals(ModuleManager.ProcessQueue[0])));
+            
+            CartSoAssetAccessor.GetAsset<ModuleCache>().AddInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
+            ModuleManager.UpdatingModule = string.Empty;
             
             AssetDatabase.StopAssetEditing();
         }
@@ -71,19 +75,10 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public void OnEditorReloaded()
         {
+            ModuleManager.RefreshNamespaceCache();
+            
             if (!ModuleManager.CurrentProcess.Equals(ModuleOperations.Updating)) return;
-
-            if (!string.IsNullOrEmpty(ModuleManager.UpdatingModule))
-            {
-                AssetDatabase.StartAssetEditing();
-                AssetDatabase.ImportPackage(ModuleManager.ProcessQueue.First(), false);
-                ModuleManager.UpdatingModule = string.Empty;
-                ModuleManager.RefreshNamespaceCache();
-                AssetDatabase.StopAssetEditing();
-
-                return;
-            }
-
+            
             var module = ModuleManager.AllModules.First(t => t.ModulePackagePath.Equals(ModuleManager.ProcessQueue.First()));
             CartSoAssetAccessor.GetAsset<ModuleCache>().AddInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
             
