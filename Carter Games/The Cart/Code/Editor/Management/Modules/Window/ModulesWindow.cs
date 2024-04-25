@@ -62,6 +62,8 @@ namespace CarterGames.Cart.Modules.Window
         
         private void OnEnable()
         {
+            ModuleManager.RefreshNamespaceCache();
+            
             if (string.IsNullOrEmpty(EditorSettingsModuleWindow.SelectedModuleName)) return;
             selectedModule = ModuleManager.AllModules.FirstOrDefault(t => t.ModuleName.Equals(EditorSettingsModuleWindow.SelectedModuleName));
         }
@@ -224,7 +226,7 @@ namespace CarterGames.Cart.Modules.Window
             if (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule) != null)
             {
                 GeneralUtilEditor.DrawHorizontalGUILine();
-                EditorGUILayout.LabelField("<b>Rev:</b> " + (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule).Revision), labelStyle);
+                EditorGUILayout.LabelField("<b>Rev:</b> " + (CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo[selectedModule.Namespace].Revision), labelStyle);
                 EditorGUILayout.LabelField("<b>Author:</b> " + (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule).Author), labelStyle);
             }
             

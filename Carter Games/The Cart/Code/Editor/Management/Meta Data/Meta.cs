@@ -69,9 +69,6 @@ namespace CarterGames.Cart.Core.MetaData.Editor
         public static MetaData Asset => GetData("Asset");
         public static MetaData Logs => GetData("CartLogs");
         public static MetaData Rng => GetData("Rng");
-        public static MetaData GenericLoading => GetData("GenericLoadingScreen");
-        public static MetaData Hierarchy => GetData("Hierarchy");
-        public static MetaData Data => GetData("Data");
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods

@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Module Json Cache
   m_EditorClassIdentifier: 
   installedModuleReceipts:
-    list:
+    list: []
   manifest: {fileID: 4900000, guid: e78d45899da84bbb98346843cea7b2e3, type: 3}
-
