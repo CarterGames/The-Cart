@@ -21,8 +21,10 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Random;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core
 {
@@ -177,30 +179,31 @@ namespace CarterGames.Cart.Core
         /// </summary>
         /// <param name="array">The array to edit.</param>
         /// <param name="element">The element to add.</param>
-        /// <param name="index">The index to add the element to.</param>
         /// <typeparam name="T">The type the array is.</typeparam>
         /// <returns>The newly setup array.</returns>
-        public static T[] Insert<T>(this T[] array, T element, int index)
+        public static T[] Add<T>(this T[] array, T element)
         {
-            var updatedArray = new T[array.Length + 1];
-
-            for (var i = 0; i < array.Length + 1; i++)
+            Array.Resize(ref array, array.Length + 1);
+            array[array.Length - 1] = element;
+            return array;
+        }
+        
+        
+        /// <summary>
+        /// Gets if the array contains the requested element.
+        /// </summary>
+        /// <param name="array">The array to check.</param>
+        /// <param name="elementToMatch">The element to match</param>
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// <returns>If the element is in the array.</returns>
+        public static bool Contains<T>(this T[] array, T elementToMatch)
+        {
+            foreach (var elly in array)
             {
-                if (i < index - 1)
-                {
-                    updatedArray[i] = array[i];
-                }
-                else if (i == index - 1)
-                {
-                    updatedArray[i] = element;
-                }
-                else
-                {
-                    updatedArray[i] = array[i - 1];
-                }
+                if (elly.Equals(elementToMatch)) return true;
             }
 
-            return updatedArray;
+            return false;
         }
     }
 }

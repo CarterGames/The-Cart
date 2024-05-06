@@ -225,8 +225,14 @@ namespace CarterGames.Cart.Modules.Window
             // Author & revision will go here...
             if (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule) != null)
             {
+                var revisionLabel = CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo
+                    .ContainsKey(selectedModule.Namespace)
+                    ? CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo[selectedModule.Namespace]
+                        .Revision
+                    : CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule).Revision;
+                
                 GeneralUtilEditor.DrawHorizontalGUILine();
-                EditorGUILayout.LabelField("<b>Rev:</b> " + (CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo[selectedModule.Namespace].Revision), labelStyle);
+                EditorGUILayout.LabelField("<b>Rev:</b> " + revisionLabel, labelStyle);
                 EditorGUILayout.LabelField("<b>Author:</b> " + (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule).Author), labelStyle);
             }
             
