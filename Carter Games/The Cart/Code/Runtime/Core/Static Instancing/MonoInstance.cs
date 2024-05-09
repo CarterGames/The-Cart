@@ -50,7 +50,7 @@ namespace CarterGames.Cart.Core
             {
                 if (instance != null) return instance;
                 
-                var obj = Instantiate(new GameObject(MonoName));
+                var obj = new GameObject(MonoName);
                 obj.AddComponent<MonoInstance>();
                 instance = new Instance<MonoInstance>(obj.GetComponent<MonoInstance>(), true);
                 

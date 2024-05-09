@@ -20,15 +20,3 @@ MonoBehaviour:
     - key: CarterGames.Cart.Core.Management.CartGlobalRuntimeSettings
       value:
       - {fileID: 11400000, guid: 09b81cb71b0378045a50bc1fdd444cb4, type: 2}
-    - key: CarterGames.Cart.Modules.Data.DataAssetIndex
-      value:
-      - {fileID: 11400000, guid: b68869a560cf89649976451cf4287e21, type: 2}
-    - key: CarterGames.Cart.Modules.GameTicks.RuntimeSettingsGameTicks
-      value:
-      - {fileID: 11400000, guid: 99748cd6eb64a8942ab4f95cafc305f7, type: 2}
-    - key: CarterGames.Cart.Modules.LoadingScreens.RuntimeSettingsLoadingScreens
-      value:
-      - {fileID: 11400000, guid: 0dc34fab11951574a9d2190559ef4017, type: 2}
-    - key: CarterGames.Cart.Modules.NotionData.RuntimeSettingsNotionData
-      value:
-      - {fileID: 11400000, guid: ac3533e51296d114cb8b3b4752cbfcfe, type: 2}
