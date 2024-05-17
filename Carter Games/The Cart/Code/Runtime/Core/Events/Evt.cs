@@ -21,804 +21,180 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
-
 namespace CarterGames.Cart.Core.Events
 {
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   No Parameters Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public class Evt : EvtBase
+    public sealed class Evt : EvtBase
     {
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
         public void Raise() => RaiseAction();
-        
-        public void Add(Action action) => AddAction(action);
-
-        public void AddAnonymous(string id, Action action) => AddAnonymousAction(id, action);
-        
-        public void Remove(Action action) => RemoveAction(action);
-        
-        public void RemoveAnonymous(string id) => RemoveAnonymousAction(id);
     }
-    
     
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   1 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T>
+    public sealed class Evt<T> : EvtBase<T>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T>> anonymous = new Dictionary<string, Action<T>>();
-        private event Action<T> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
         /// <param name="param">The params to pass through when raising.</param>
-        public void Raise(T param)
-        {
-            Action?.Invoke(param);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-
-
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        public void Raise(T param) => RaiseAction(param);
     }
-    
     
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   2 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T1,T2>
+    public sealed class Evt<T1,T2> : EvtBase<T1,T2>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T1,T2>> anonymous = new Dictionary<string, Action<T1,T2>>();
-        private event Action<T1,T2> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
-        /// <param name="param1">A param to pass through when raising.</param>
-        /// <param name="param2">A param to pass through when raising.</param>
-        public void Raise(T1 param1, T2 param2)
-        {
-            Action?.Invoke(param1, param2);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T1,T2> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T1,T2> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T1,T2> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-        
-        
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        /// <param name="param">The 1st param to pass through when raising.</param>
+        /// <param name="param2">The 2nd param to pass through when raising.</param>
+        public void Raise(T1 param, T2 param2) => RaiseAction(param, param2);
     }
-    
     
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   3 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T1,T2,T3>
+    public sealed class Evt<T1,T2,T3> : EvtBase<T1,T2,T3>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T1,T2,T3>> anonymous = new Dictionary<string, Action<T1,T2,T3>>();
-        private event Action<T1,T2,T3> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
-        /// <param name="param1">A param to pass through when raising.</param>
-        /// <param name="param2">A param to pass through when raising.</param>
-        /// <param name="param3">A param to pass through when raising.</param>
-        public void Raise(T1 param1, T2 param2, T3 param3)
-        {
-            Action?.Invoke(param1, param2, param3);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T1,T2,T3> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T1,T2,T3> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T1,T2,T3> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-        
-        
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        /// <param name="param">The 1st param to pass through when raising.</param>
+        /// <param name="param2">The 2nd param to pass through when raising.</param>
+        /// <param name="param3">The 3rd param to pass through when raising.</param>
+        public void Raise(T1 param, T2 param2, T3 param3) => RaiseAction(param, param2, param3);
     }
-    
     
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   4 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T1,T2,T3,T4>
+    public sealed class Evt<T1,T2,T3,T4> : EvtBase<T1,T2,T3,T4>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T1,T2,T3,T4>> anonymous = new Dictionary<string, Action<T1,T2,T3,T4>>();
-        private event Action<T1,T2,T3,T4> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
-        /// <param name="param1">A param to pass through when raising.</param>
-        /// <param name="param2">A param to pass through when raising.</param>
-        /// <param name="param3">A param to pass through when raising.</param>
-        /// <param name="param4">A param to pass through when raising.</param>
-        public void Raise(T1 param1, T2 param2, T3 param3, T4 param4)
-        {
-            Action?.Invoke(param1, param2, param3, param4);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T1,T2,T3,T4> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T1,T2,T3,T4> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T1,T2,T3,T4> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-        
-        
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        /// <param name="param">The 1st param to pass through when raising.</param>
+        /// <param name="param2">The 2nd param to pass through when raising.</param>
+        /// <param name="param3">The 3rd param to pass through when raising.</param>
+        /// <param name="param4">The 4th param to pass through when raising.</param>
+        public void Raise(T1 param, T2 param2, T3 param3, T4 param4) => RaiseAction(param, param2, param3, param4);
     }
-
 
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   5 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T1,T2,T3,T4,T5>
+    public sealed class Evt<T1,T2,T3,T4,T5> : EvtBase<T1,T2,T3,T4,T5>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T1,T2,T3,T4,T5>> anonymous = new Dictionary<string, Action<T1,T2,T3,T4,T5>>();
-        private event Action<T1,T2,T3,T4,T5> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
-        /// <param name="param1">A param to pass through when raising.</param>
-        /// <param name="param2">A param to pass through when raising.</param>
-        /// <param name="param3">A param to pass through when raising.</param>
-        /// <param name="param4">A param to pass through when raising.</param>
-        /// <param name="param5">A param to pass through when raising.</param>
-        public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5)
-        {
-            Action?.Invoke(param1, param2, param3, param4, param5);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T1,T2,T3,T4,T5> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T1,T2,T3,T4,T5> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-        
-        
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        /// <param name="param">The 1st param to pass through when raising.</param>
+        /// <param name="param2">The 2nd param to pass through when raising.</param>
+        /// <param name="param3">The 3rd param to pass through when raising.</param>
+        /// <param name="param4">The 4th param to pass through when raising.</param>
+        /// <param name="param5">The 5th param to pass through when raising.</param>
+        public void Raise(T1 param, T2 param2, T3 param3, T4 param4, T5 param5) 
+            => RaiseAction(param, param2, param3, param4, param5);
     }
-    
 
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   6 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T1,T2,T3,T4,T5,T6>
+    public sealed class Evt<T1,T2,T3,T4,T5,T6> : EvtBase<T1,T2,T3,T4,T5,T6>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T1,T2,T3,T4,T5,T6>> anonymous = new Dictionary<string, Action<T1,T2,T3,T4,T5,T6>>();
-        private event Action<T1,T2,T3,T4,T5,T6> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
-        /// <param name="param1">A param to pass through when raising.</param>
-        /// <param name="param2">A param to pass through when raising.</param>
-        /// <param name="param3">A param to pass through when raising.</param>
-        /// <param name="param4">A param to pass through when raising.</param>
-        /// <param name="param5">A param to pass through when raising.</param>
-        /// <param name="param6">A param to pass through when raising.</param>
-        public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6)
-        {
-            Action?.Invoke(param1, param2, param3, param4, param5, param6);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T1,T2,T3,T4,T5,T6> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T1,T2,T3,T4,T5,T6> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-        
-        
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        /// <param name="param">The 1st param to pass through when raising.</param>
+        /// <param name="param2">The 2nd param to pass through when raising.</param>
+        /// <param name="param3">The 3rd param to pass through when raising.</param>
+        /// <param name="param4">The 4th param to pass through when raising.</param>
+        /// <param name="param5">The 5th param to pass through when raising.</param>
+        /// <param name="param6">The 6th param to pass through when raising.</param>
+        public void Raise(T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6) 
+            => RaiseAction(param, param2, param3, param4, param5, param6);
     }
     
-
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   7 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T1,T2,T3,T4,T5,T6,T7>
+    public sealed class Evt<T1,T2,T3,T4,T5,T6,T7> : EvtBase<T1,T2,T3,T4,T5,T6,T7>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T1,T2,T3,T4,T5,T6,T7>> anonymous = new Dictionary<string, Action<T1,T2,T3,T4,T5,T6,T7>>();
-        private event Action<T1,T2,T3,T4,T5,T6,T7> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
-        /// <param name="param1">A param to pass through when raising.</param>
-        /// <param name="param2">A param to pass through when raising.</param>
-        /// <param name="param3">A param to pass through when raising.</param>
-        /// <param name="param4">A param to pass through when raising.</param>
-        /// <param name="param5">A param to pass through when raising.</param>
-        /// <param name="param6">A param to pass through when raising.</param>
-        /// <param name="param7">A param to pass through when raising.</param>
-        public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7)
-        {
-            Action?.Invoke(param1, param2, param3, param4, param5, param6, param7);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T1,T2,T3,T4,T5,T6,T7> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6,T7> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T1,T2,T3,T4,T5,T6,T7> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-        
-        
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        /// <param name="param">The 1st param to pass through when raising.</param>
+        /// <param name="param2">The 2nd param to pass through when raising.</param>
+        /// <param name="param3">The 3rd param to pass through when raising.</param>
+        /// <param name="param4">The 4th param to pass through when raising.</param>
+        /// <param name="param5">The 5th param to pass through when raising.</param>
+        /// <param name="param6">The 6th param to pass through when raising.</param>
+        /// <param name="param7">The 7th param to pass through when raising.</param>
+        public void Raise(T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7) 
+            => RaiseAction(param, param2, param3, param4, param5, param6, param7);
     }
-    
     
     /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     |   8 Parameter Evt
     ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
     
-    
     /// <summary>
     /// A custom event class that helps avoid over subscription and more.
     /// </summary>
-    public sealed class Evt<T1,T2,T3,T4,T5,T6,T7,T8>
+    public sealed class Evt<T1,T2,T3,T4,T5,T6,T7,T8> : EvtBase<T1,T2,T3,T4,T5,T6,T7,T8>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private readonly Dictionary<string, Action<T1,T2,T3,T4,T5,T6,T7,T8>> anonymous = new Dictionary<string, Action<T1,T2,T3,T4,T5,T6,T7,T8>>();
-        private event Action<T1,T2,T3,T4,T5,T6,T7,T8> Action = delegate { };
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
-        /// <param name="param1">A param to pass through when raising.</param>
-        /// <param name="param2">A param to pass through when raising.</param>
-        /// <param name="param3">A param to pass through when raising.</param>
-        /// <param name="param4">A param to pass through when raising.</param>
-        /// <param name="param5">A param to pass through when raising.</param>
-        /// <param name="param6">A param to pass through when raising.</param>
-        /// <param name="param7">A param to pass through when raising.</param>
-        /// <param name="param8">A param to pass through when raising.</param>
-        public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8)
-        {
-            Action?.Invoke(param1, param2, param3, param4, param5, param6, param7, param8);
-        }
-
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void Add(Action<T1,T2,T3,T4,T5,T6,T7,T8> listener)
-        {
-            Action -= listener;
-            Action += listener;
-        }
-        
-        
-        /// <summary>
-        /// Adds the action/method to the event listeners.
-        /// </summary>
-        /// <param name="id">The id to refer to this listener.</param>
-        /// <param name="listener">The listener to add.</param>
-        public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6,T7,T8> listener)
-        {
-            if (anonymous.TryGetValue(id, out var anon))
-            {
-                Add(anon);
-                return;
-            }
-            
-            anonymous.Add(id, listener);
-            Add(anonymous[id]);
-        }
-
-        
-        /// <summary>
-        /// Removes the action/method to the event listeners.
-        /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        public void Remove(Action<T1,T2,T3,T4,T5,T6,T7,T8> listener) 
-        {
-            Action -= listener;
-        }
-        
-        
-        /// <summary>
-        /// Removes the action/method from the event listeners.
-        /// </summary>
-        /// <param name="id">The id of the listener to remove.</param>
-        public void RemoveAnonymous(string id)
-        {
-            if (!anonymous.ContainsKey(id)) return;
-            Remove(anonymous[id]);
-            anonymous.Remove(id);
-        }
-        
-        
-        /// <summary>
-        /// Clears all listeners from the event.
-        /// </summary>
-        public void Clear() 
-        {
-            anonymous.Clear();
-            Action = null;
-        }
+        /// <param name="param">The 1st param to pass through when raising.</param>
+        /// <param name="param2">The 2nd param to pass through when raising.</param>
+        /// <param name="param3">The 3rd param to pass through when raising.</param>
+        /// <param name="param4">The 4th param to pass through when raising.</param>
+        /// <param name="param5">The 5th param to pass through when raising.</param>
+        /// <param name="param6">The 6th param to pass through when raising.</param>
+        /// <param name="param7">The 7th param to pass through when raising.</param>
+        /// <param name="param8">The 8th param to pass through when raising.</param>
+        public void Raise(T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8) 
+            => RaiseAction(param, param2, param3, param4, param5, param6, param7, param8);
     }
 }
