@@ -37,6 +37,9 @@ namespace CarterGames.Cart.Core.Random
 
         private static IRngProvider providerCache;
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private static IRngProvider Provider
         {
