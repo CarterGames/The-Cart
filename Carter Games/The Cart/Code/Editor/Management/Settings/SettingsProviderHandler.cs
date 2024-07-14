@@ -39,17 +39,9 @@ namespace CarterGames.Cart.Core.Management.Editor
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private static int ProvidersInProject
-        {
-            get
-            {
-                return AppDomain.CurrentDomain
-                    .GetAssemblies()
-                    .SelectMany(x => x.GetTypes()).Count(x => x.IsClass && typeof(ISettingsProvider).IsAssignableFrom(x));
-            }
-        }
-        
-        
+        private static int ProvidersInProject => AssemblyHelper.CountClassesOfType<ISettingsProvider>();
+
+
         public static Dictionary<Type, ISettingsProvider> Providers
         {
             get
@@ -75,11 +67,8 @@ namespace CarterGames.Cart.Core.Management.Editor
             }
             
             if (providers.Count.Equals(ProvidersInProject)) return;
-            
-            var found = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass && typeof(ISettingsProvider).IsAssignableFrom(x))
-                .Select(type => (ISettingsProvider)Activator.CreateInstance(type)).ToArray();
+
+            var found = AssemblyHelper.GetClassesOfType<ISettingsProvider>().OrderBy(t => t.GetType().Name);
             
             providers = new Dictionary<Type, ISettingsProvider>();
 

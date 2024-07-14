@@ -42,8 +42,6 @@ namespace CarterGames.Cart.Core.Management.Editor
         
         private static readonly string AssetSettingsEditorExpandedId = $"{UniqueId}_CarterGames_TheCart_AssetSettings_Expanded";
         
-
-        
         private static readonly string RuntimeRngExpandedId = $"{UniqueId}_CarterGames_TheCart_Settings_Rng_Expanded";
         private static readonly string RuntimeLoggingExpandedId = $"{UniqueId}_CarterGames_TheCart_Settings_Logging_Expanded";
 
@@ -114,6 +112,12 @@ namespace CarterGames.Cart.Core.Management.Editor
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        public static T GetValue<T>(string key, SettingType type, object defaultValue = null)
+        {
+            return (T) GetOrCreateValue<T>(key, type, defaultValue);
+        }
+        
+        
         public static object GetOrCreateValue<T>(string key, SettingType type, object defaultValue = null)
         {
             switch (type)

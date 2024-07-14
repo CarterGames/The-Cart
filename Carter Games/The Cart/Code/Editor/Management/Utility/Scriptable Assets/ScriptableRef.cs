@@ -22,6 +22,8 @@
  */
 
 using System.IO;
+using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Logs;
 using UnityEditor;
 
 namespace CarterGames.Cart.Core.Management.Editor
@@ -37,19 +39,22 @@ namespace CarterGames.Cart.Core.Management.Editor
         
         // Asset Paths
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static readonly string AssetIndexPath = $"{AssetBasePath}/Carter Games/{AssetName}/Resources/Asset Index.asset";
+        private static readonly string AssetIndexPath = $"{AssetBasePath}/Carter Games/{AssetName}/Resources/Data Asset Index.asset";
         private static readonly string SettingsAssetPath = $"{AssetBasePath}/Carter Games/{AssetName}/Data/Runtime Settings.asset";
+        private static readonly string LogCategoriesAssetPath = $"{AssetBasePath}/Carter Games/{AssetName}/Data/Log Category Statuses.asset";
 
         // Asset Filters
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static readonly string RuntimeSettingsFilter = $"t:{typeof(CartGlobalRuntimeSettings).FullName}";
-        private static readonly string AssetIndexFilter = $"t:{typeof(CartSoAssetIndex).FullName}";
+        private static readonly string RuntimeSettingsFilter = $"t:{typeof(DataAssetCartGlobalRuntimeSettings).FullName}";
+        private static readonly string AssetIndexFilter = $"t:{typeof(DataAssetIndex).FullName}";
+        private static readonly string LogFilter = $"t:{typeof(DataAssetCartLogCategories).FullName}";
         
         
         // Asset Caches
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static CartGlobalRuntimeSettings settingsAssetRuntimeCache;
-        private static CartSoAssetIndex assetIndexCache;
+        private static DataAssetCartGlobalRuntimeSettings settingsAssetRuntimeCache;
+        private static DataAssetIndex assetIndexCache;
+        private static DataAssetCartLogCategories logCategoriesAssetCache;
 
         
         
@@ -57,6 +62,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         private static SerializedObject settingsAssetRuntimeObjectCache;
         private static SerializedObject settingsAssetEditorObjectCache;
+        private static SerializedObject logCategoriesObjectCache;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -83,15 +89,19 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// The asset index for the asset.
         /// </summary>
-        public static CartSoAssetIndex AssetIndex =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref assetIndexCache, AssetIndexFilter, AssetIndexPath, AssetName, $"{AssetName}/Resources/Asset Index.asset");
+        public static DataAssetIndex AssetIndex =>
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref assetIndexCache, AssetIndexFilter, AssetIndexPath, AssetName, $"{AssetName}/Resources/Data Asset Index.asset");
         
         
         /// <summary>
         /// The runtime settings for the asset.
         /// </summary>
-        public static CartGlobalRuntimeSettings RuntimeSettings =>
+        public static DataAssetCartGlobalRuntimeSettings RuntimeSettings =>
             FileEditorUtil.CreateSoGetOrAssignAssetCache(ref settingsAssetRuntimeCache, RuntimeSettingsFilter, SettingsAssetPath, AssetName, $"{AssetName}/Data/Runtime Settings.asset");
+
+        
+        private static DataAssetCartLogCategories LogCategories =>
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref logCategoriesAssetCache, LogFilter, LogCategoriesAssetPath, AssetName, $"{AssetName}/Data/Log Category Statuses.asset");
 
         
         // Object Properties
@@ -102,6 +112,14 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// </summary>
         public static SerializedObject RuntimeSettingsObject =>
             FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref settingsAssetRuntimeObjectCache, RuntimeSettings);
+
+
+        /// <summary>
+        /// The log categories asset.
+        /// </summary>
+        public static SerializedObject LogCategoriesObject =>
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref logCategoriesObjectCache, LogCategories);
+        
         
         // Assets Initialized Check
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -124,7 +142,7 @@ namespace CarterGames.Cart.Core.Management.Editor
                     ref assetIndexCache, 
                     AssetIndexFilter, 
                     AssetIndexPath,
-                    AssetName, $"{AssetName}/Resources/Asset Index.asset");
+                    AssetName, $"{AssetName}/Resources/Data Asset Index.asset");
             }
 
             

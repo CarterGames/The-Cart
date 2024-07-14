@@ -23,7 +23,7 @@
 
 using System.Linq;
 using CarterGames.Cart.Core;
-using CarterGames.Cart.Core.Management;
+using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -31,7 +31,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules
 {
     [CreateAssetMenu(fileName = "Module Cache Asset", menuName = "Carter Games/The Cart/Modules/Cache Asset")]
-    public sealed class ModuleCache : CartSoAsset
+    public sealed class ModuleCache : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -95,6 +95,19 @@ namespace CarterGames.Cart.Modules
             }
             
             installedModuleReceipts.Add(module.Namespace, JsonUtility.FromJson<ModuleInstallWrapper>(asset.text));
+            EditorUtility.SetDirty(this);
+        }
+
+
+        /// <summary>
+        /// Updates the info when called.
+        /// </summary>
+        /// <param name="module">The module to update info for.</param>
+        /// <param name="asset">The test asset to read and update from.</param>
+        public void UpdateInstalledModuleInfo(IModule module, TextAsset asset)
+        {
+            if (!installedModuleReceipts.ContainsKey(module.Namespace)) return;
+            installedModuleReceipts[module.Namespace] = JsonUtility.FromJson<ModuleInstallWrapper>(asset.text);
             EditorUtility.SetDirty(this);
         }
 

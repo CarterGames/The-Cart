@@ -12,6 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7011008de024b598bbdac5ab5e5a933, type: 3}
   m_Name: Module Json Cache
   m_EditorClassIdentifier: 
+  variantId: cdafe99a-64cc-4135-bb7f-906918c66a2d
   installedModuleReceipts:
-    list: []
+    list:
+    - key: CarterGames.Cart.Modules.ClampedValues
+      value:
+        revision: 1
+    - key: CarterGames.Cart.Modules.DelayedEvents
+      value:
+        revision: 2
+    - key: CarterGames.Cart.Modules.Dice
+      value:
+        revision: 1
+    - key: CarterGames.Cart.Modules.Easing
+      value:
+        revision: 1
+    - key: CarterGames.Cart.Modules.GameTicks
+      value:
+        revision: 3
+    - key: CarterGames.Cart.Modules.Hierarchy
+      value:
+        revision: 2
+    - key: CarterGames.Cart.Modules.LoadingScreens
+      value:
+        revision: 2
+    - key: CarterGames.Cart.Modules.Mockup
+      value:
+        revision: 2
+    - key: CarterGames.Cart.Modules.NotionData
+      value:
+        revision: 6
+    - key: CarterGames.Cart.Modules.Panels
+      value:
+        revision: 2
+    - key: CarterGames.Cart.Modules.RuntimeTimers
+      value:
+        revision: 1
+    - key: CarterGames.Cart.Modules.TimeScales
+      value:
+        revision: 1
   manifest: {fileID: 4900000, guid: e78d45899da84bbb98346843cea7b2e3, type: 3}

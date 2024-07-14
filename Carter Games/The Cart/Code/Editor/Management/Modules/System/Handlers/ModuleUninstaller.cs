@@ -21,12 +21,15 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CarterGames.Cart.Core.Management;
+using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
@@ -54,7 +57,6 @@ namespace CarterGames.Cart.Modules
         {
             var toUninstall = new List<string>();
             ModuleManager.HasPrompted = false;
-            ModuleManager.CurrentProcess = ModuleOperations.Uninstalling;
 
             if (ModuleManager.AllModules.Any(t =>
                     t.PreRequisites.Any(x => x.ModuleInstallPath.Equals(module.ModuleInstallPath))))
@@ -67,12 +69,25 @@ namespace CarterGames.Cart.Modules
             }
 
             toUninstall.Add(module.ModuleInstallPath);
-            ModuleManager.ProcessQueue = toUninstall;
 
-            if (toUninstall.Count > 1 && ModuleManager.CurrentProcess.Equals(ModuleOperations.Uninstalling) && !ModuleManager.HasPrompted)
+            
+            foreach (var toProcess in toUninstall)
+            {
+                var moduleData = ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(toProcess));
+                
+                if (!ModuleManager.IsInstalled(moduleData)) continue;
+                ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(moduleData, ModuleOperations.Uninstall));
+            }
+            
+
+            if (toUninstall.Count > 1 && ModuleManager.CurrentProcess.FlowInUse.Equals(ModuleOperations.Uninstall) && !ModuleManager.HasPrompted)
             {
                 Builder.Clear();
-                Builder.Append("Uninstalling this module will also uninstall:");
+                Builder.Append("This module is a dependency for some other modules.");
+                Builder.AppendLine();
+                Builder.AppendLine();
+                Builder.Append("Proceeding with the uninstall will also uninstall these modules:");
+                Builder.AppendLine();
                 Builder.AppendLine();
 
                 for (var i = 0; i < toUninstall.Count - 1; i++)
@@ -88,7 +103,7 @@ namespace CarterGames.Cart.Modules
 
                 if (!Dialogue.Display("Uninstall " + module.ModuleName, Builder.ToString(), "Uninstall", "Cancel"))
                 {
-                    ModuleManager.ProcessQueue = new List<string>();
+                    ModuleManager.ClearProcessQueue();
                     return;
                 }
                 else
@@ -97,16 +112,26 @@ namespace CarterGames.Cart.Modules
                 }
             }
 
-            ModuleManager.IsProcessing = true;
             
-            AssetDatabase.StartAssetEditing();
-
-            foreach (var toRemove in ModuleManager.ProcessQueue)
+            try
             {
-                DeleteDirectoryAndContents(ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(toRemove)));
+                AssetDatabase.StartAssetEditing();
+                DeleteDirectoryAndContents(ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(ModuleManager.CurrentProcess.PackageInstallLocation)));
+                AssetDatabase.StopAssetEditing();
             }
+#pragma warning disable
+            catch (Exception e)
+#pragma warning restore
+            {
+                CartLogger.LogError<LogCategoryModules>("Failed to uninstall a module. Stopping the operation.", typeof(ModuleUninstaller),true);
+                ModuleManager.RefreshNamespaceCache();
+                ModuleManager.ClearProcessQueue();
 
-            AssetDatabase.StopAssetEditing();
+                if (ModuleManager.IsUpdating)
+                {
+                    ModuleManager.IsUpdating = false;
+                }
+            }
         }
 
 
@@ -117,7 +142,15 @@ namespace CarterGames.Cart.Modules
         private static void DeleteDirectoryAndContents(IModule module)
         {
             AssetDatabase.DeleteAsset(module.ModuleInstallPath);
-            CartSoAssetAccessor.GetAsset<ModuleCache>().RemoveInstalledInfo(module);
+            DataAccess.GetAsset<ModuleCache>().RemoveInstalledInfo(module);
+        }
+
+
+        public static void UninstallFromQueue()
+        {
+            AssetDatabase.StartAssetEditing();
+            DeleteDirectoryAndContents(ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(ModuleManager.CurrentProcess.PackageInstallLocation)));
+            AssetDatabase.StopAssetEditing();
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -129,12 +162,17 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public void OnEditorReloaded()
         {
-            if (!ModuleManager.CurrentProcess.Equals(ModuleOperations.Uninstalling)) return;
+            if (ModuleManager.IsUpdating) return;
+            if (ModuleManager.CurrentProcess == null) return;
+            if (!ModuleManager.CurrentProcess.FlowInUse.Equals(ModuleOperations.Uninstall)) return;
             
             ModuleManager.RefreshNamespaceCache();
+
+            CartLogger.Log<LogCategoryModules>($"Module {ModuleManager.CurrentProcess.Package} uninstalled.", typeof(ModuleUninstaller),true);
             
-            ModuleManager.CurrentProcess = string.Empty;
-            ModuleManager.IsProcessing = false;
+            if (ModuleManager.TryProcessNext()) return;
+            
+            ModuleManager.ClearProcessQueue();
         }
     }
 }

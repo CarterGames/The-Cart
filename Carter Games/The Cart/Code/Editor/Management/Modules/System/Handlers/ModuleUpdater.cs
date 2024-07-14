@@ -21,13 +21,8 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using System.Linq;
-using CarterGames.Cart.Core.Management;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules.Window;
-using UnityEditor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
@@ -46,24 +41,15 @@ namespace CarterGames.Cart.Modules
         /// <param name="module">The module to update.</param>
         public static void UpdateModule(IModule module)
         {
-            ModuleManager.CurrentProcess = ModuleOperations.Updating;
-            ModuleManager.IsProcessing = true;
             ModuleManager.UpdatingModule = module.ModuleName;
             
-            AssetDatabase.StartAssetEditing();
+            // Uninstall and re-install the module by hard delete of old first...
+            ModuleManager.IsUpdating = true;
             
-            ModuleManager.ProcessQueue = new List<string>()
-            {
-                module.ModulePackagePath
-            };
-            
-            AssetDatabase.DeleteAsset(module.ModuleInstallPath);
-            ModuleInstaller.Install(ModuleManager.AllModules.FirstOrDefault(t => t.ModulePackagePath.Equals(ModuleManager.ProcessQueue[0])));
-            
-            CartSoAssetAccessor.GetAsset<ModuleCache>().AddInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
-            ModuleManager.UpdatingModule = string.Empty;
-            
-            AssetDatabase.StopAssetEditing();
+            ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(module, ModuleOperations.Uninstall));
+            ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(module, ModuleOperations.Install));
+
+            ModuleManager.CurrentProcess.Process();
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -75,19 +61,25 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public void OnEditorReloaded()
         {
+            if (!ModuleManager.IsUpdating) return;
+            if (ModuleManager.CurrentProcess == null) return;
+            
+            
             ModuleManager.RefreshNamespaceCache();
             
-            if (!ModuleManager.CurrentProcess.Equals(ModuleOperations.Updating)) return;
+            if (ModuleManager.TryProcessNext())
+            {
+                CartLogger.Log<LogCategoryModules>("Continue to next step.", typeof(ModuleUpdater), true);
+                return;
+            }
             
-            var module = ModuleManager.AllModules.First(t => t.ModulePackagePath.Equals(ModuleManager.ProcessQueue.First()));
-            CartSoAssetAccessor.GetAsset<ModuleCache>().AddInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
             
-            ModuleManager.ProcessQueue = new List<string>();
-            ModuleManager.RefreshNamespaceCache();
-            ModulesWindow.RepaintWindow();
+            ModuleManager.UpdateModuleInstallInfo(ModuleManager.ProcessQueue.ModulesEditing[0]);
             
-            ModuleManager.CurrentProcess = string.Empty;
-            ModuleManager.IsProcessing = false;
+            ModuleManager.ClearProcessQueue();
+            ModuleManager.IsUpdating = false;
+            
+            CartLogger.Log<LogCategoryModules>($"Module {ModuleManager.CurrentProcess.Package} updated.", typeof(ModuleUpdater), true);
         }
     }
 }

@@ -31,13 +31,13 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// When modules are been installed.
         /// </summary>
-        public const string Installing = "Install";
+        public const string Install = "Install";
         
         
         /// <summary>
         /// When modules are been uninstalled.
         /// </summary>
-        public const string Uninstalling = "Uninstall";
+        public const string Uninstall = "Uninstall";
         
         
         /// <summary>

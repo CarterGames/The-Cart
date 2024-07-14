@@ -22,10 +22,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core;
-using CarterGames.Cart.Core.Management;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Window;
 using UnityEditor;
@@ -59,99 +58,65 @@ namespace CarterGames.Cart.Modules
         {
             InstallingModule = module;
             
-            AssetDatabase.importPackageStarted -= OnImportPackageStarted;
-            AssetDatabase.importPackageStarted += OnImportPackageStarted;
-            
-            AssetDatabase.importPackageCancelled -= OnImportPackageCancelled;
-            AssetDatabase.importPackageCancelled += OnImportPackageCancelled;
-            
-            AssetDatabase.importPackageFailed -= OnImportPackageFailed;
-            AssetDatabase.importPackageFailed += OnImportPackageFailed;
-            
-            AssetDatabase.importPackageCompleted -= OnImportPackageCompleted;
-            AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
-
             var toInstall = Array.Empty<IModule>();
             
             if (module.PreRequisites.Length > 0)
             {
                 foreach (var preReq in module.PreRequisites)
                 {
+                    if (ModuleManager.IsInstalled(preReq)) continue;
+                    
                     toInstall = toInstall.Add(preReq);
+                    ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(preReq, ModuleOperations.Install));
                 }
             }
             
-            toInstall = toInstall.Add(module);
-            ModuleManager.ProcessQueue = toInstall.Select(t => t.ModulePackagePath).ToList();
+            ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(module, ModuleOperations.Install));
+            
+            InstallNextInQueue();
+        }
 
-            if (!ModuleManager.CurrentProcess.Equals(ModuleOperations.Updating))
+
+        public static void InstallNextInQueue()
+        {
+            try
             {
-                ModuleManager.CurrentProcess = ModuleOperations.Installing;
-                ModuleManager.IsProcessing = true;
+                AssetDatabase.StartAssetEditing();
+                AssetDatabase.ImportPackage(ModuleManager.CurrentProcess.PackageFileLocation, false);
+                AssetDatabase.StopAssetEditing();
             }
-            
-            AssetDatabase.StartAssetEditing();
-            
-            foreach (var mod in toInstall)
+#pragma warning disable
+            catch (Exception e)
+#pragma warning restore
             {
-                AssetDatabase.ImportPackage(mod.ModulePackagePath, false);
+                CartLogger.LogError<LogCategoryModules>("Failed to install a module. Stopping the operation.", typeof(ModuleInstaller), true);
+                ModuleManager.RefreshNamespaceCache();
+                ModuleManager.ClearProcessQueue();
+                
+                if (ModuleManager.IsUpdating)
+                {
+                    ModuleManager.IsUpdating = false;
+                }
             }
-            
-            AssetDatabase.StopAssetEditing();
         }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Package Import Listeners
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private static void OnImportPackageStarted(string packagename)
+        private static void OnImportPackageCompleted()
         {
-            ModuleManager.IsProcessing = false;
-        }
-        
+            var module = ModuleManager.AllModules.First(t =>
+                t.ModulePackagePath.Equals(ModuleManager.CurrentProcess.PackageFileLocation));
 
-        private static void OnImportPackageCancelled(string packageName)
-        {
-            ModuleManager.IsProcessing = false;
-        }
-
-        
-        private static void OnImportPackageCompleted(string packagename)
-        {
-            if (!ScriptableRef.AssetBasePath.Equals(("Assets")))
+            if (!PostImportFileMover.IsInRightPath(module))
             {
-                AssetDatabase.StartAssetEditing();
-                
-                foreach (var mod in ModuleManager.ProcessQueue)
-                {
-                    // Skip if in the right path already
-                    var path = "Assets/";
-                    path += ModuleManager.AllModules.First(t => t.ModulePackagePath.Equals(mod)).ModuleInstallPath
-                        .Replace(ScriptableRef.AssetBasePath, string.Empty);
-                    AssetDatabase.MoveAsset(path,
-                        ModuleManager.AllModules.First(t => t.ModulePackagePath.Equals(mod)).ModuleInstallPath);
-                }
-
-                // Remove left over directories...
-                AssetDatabase.DeleteAsset("Assets/Carter Games/The Cart/Modules");
-                AssetDatabase.DeleteAsset("Assets/Carter Games/The Cart/");
-                AssetDatabase.DeleteAsset("Assets/Carter Games/");
-                
-                AssetDatabase.StopAssetEditing();
+                CartLogger.Log<LogCategoryModules>("Module not in the right path, moving to the correct path.", typeof(ModuleInstaller), true);
+                PostImportFileMover.UpdateFileLocation(module);
             }
             
             ModuleManager.RefreshNamespaceCache();
             ModulesWindow.RepaintWindow();
-
-            if (!ModuleManager.CurrentProcess.Equals(ModuleOperations.Installing)) return;
-            ModuleManager.IsProcessing = false;
-            ModuleManager.CurrentProcess = string.Empty;
-        }
-
-        
-        private static void OnImportPackageFailed(string packagename, string errormessage)
-        {
-            ModuleManager.IsProcessing = false;
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -163,12 +128,19 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public void OnEditorReloaded()
         {
-            if (!ModuleManager.CurrentProcess.Equals(ModuleOperations.Installing)) return;
+            if (ModuleManager.IsUpdating) return;
+            if (ModuleManager.CurrentProcess == null) return;
+            if (!ModuleManager.CurrentProcess.FlowInUse.Equals(ModuleOperations.Install)) return;
+
+            OnImportPackageCompleted();
             
             ModuleManager.RefreshNamespaceCache();
             
-            ModuleManager.CurrentProcess = string.Empty;
-            ModuleManager.IsProcessing = false;
+            CartLogger.Log<LogCategoryModules>($"Module {ModuleManager.CurrentProcess.Package} Installed.", typeof(ModuleInstaller), true);
+            
+            if (ModuleManager.TryProcessNext()) return;
+
+            ModuleManager.ClearProcessQueue();
         }
     }
 }

@@ -32,9 +32,9 @@ namespace CarterGames.Cart.Core.Setup.Editor
     public static class ProjectFolderSetup
     {
         /// <summary>
-        /// Static | Adds the button to call to run the setup.
+        /// Adds the button to call to run the setup.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Setup Basic Folder Structure", priority = 2000)]
+        [MenuItem("Tools/Carter Games/The Cart/Core/Setup Basic Folder Structure", priority = 601)]
         public static void RunSetupProject()
         {
             CreateBasicProjectFolderStructure();
@@ -63,7 +63,7 @@ namespace CarterGames.Cart.Core.Setup.Editor
             TryCreateFolder("UI", "Assets/_Project/Scenes");
             TryCreateFolder("Menu", "Assets/_Project/Scenes");
             TryCreateFolder("Game", "Assets/_Project/Scenes");
-            TryCreateFolder("_Dev", "Assets");
+            TryCreateFolder("_Scratch", "Assets");
             
             AssetDatabase.SaveAssets();   
             AssetDatabase.Refresh();

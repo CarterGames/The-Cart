@@ -77,7 +77,7 @@ namespace CarterGames.Cart.Core.MetaData.Editor
         /// <summary>
         /// Updates the meta data when called, in-case of edits without any script changes.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Editor/Meta Data/Force Update")]
+        [MenuItem("Tools/Carter Games/The Cart/Core/Meta Data/Force Update", priority = 502)]
         private static void ForceUpdate()
         {
             dataCache.Clear();
@@ -100,7 +100,7 @@ namespace CarterGames.Cart.Core.MetaData.Editor
 
             if (asset == null)
             {
-                CartLogger.LogError(typeof(Meta), $"Unable to find JSON for {key}");
+                CartLogger.LogError<LogCategoryCore>($"Unable to find JSON for {key}", typeof(Meta));
                 return null;
             }
             
@@ -126,7 +126,7 @@ namespace CarterGames.Cart.Core.MetaData.Editor
 
             if (asset == null)
             {
-                CartLogger.LogError(typeof(Meta), $"Unable to find JSON for {key}");
+                CartLogger.LogError<LogCategoryCore>($"Unable to find JSON for {key}", typeof(Meta));
                 return null;
             }
             

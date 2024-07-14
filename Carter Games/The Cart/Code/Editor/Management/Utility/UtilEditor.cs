@@ -21,6 +21,8 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Data.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -54,13 +56,13 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
-        public static CartGlobalRuntimeSettings Settings => ScriptableRef.RuntimeSettings;
+        public static DataAssetCartGlobalRuntimeSettings Settings => ScriptableRef.RuntimeSettings;
 
 
         /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
-        public static CartSoAssetIndex AssetIndex => ScriptableRef.AssetIndex;
+        public static DataAssetIndex AssetIndex => ScriptableRef.AssetIndex;
 
 
 
@@ -89,7 +91,7 @@ namespace CarterGames.Cart.Core.Management.Editor
             var index = AssetIndex;
             var runtimeSettings = Settings;
 
-            AssetIndexHandler.UpdateIndex();
+            DataAssetIndexHandler.UpdateIndex();
             EditorUtility.SetDirty(AssetIndex);
             
             AssetDatabase.SaveAssets();

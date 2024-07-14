@@ -74,8 +74,6 @@ namespace CarterGames.Cart.Core.Management.Editor
                     DrawAssetOptions();
                     GUILayout.Space(1.5f);
                     DrawRuntimeOptions();
-                    // GUILayout.Space(1.5f);
-                    // DrawEditorOptions();
                     GUILayout.Space(1.5f);
                     DrawModuleOptions();
                     DrawButtons();
@@ -186,27 +184,12 @@ namespace CarterGames.Cart.Core.Management.Editor
         
         
         /// <summary>
-        /// Draws the general options shown on the settings provider. 
-        /// </summary>
-        // private static void DrawEditorOptions()
-        // {
-        //     EditorGUILayout.BeginVertical("HelpBox");
-        //     GUILayout.Space(1.5f);
-        //     EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
-        //     GeneralUtilEditor.DrawHorizontalGUILine();
-        //     
-        //     EditorGUI.BeginChangeCheck();
-        //     
-        //     GUILayout.Space(1.5f);
-        //     EditorGUILayout.EndVertical();
-        // }
-        
-        
-        /// <summary>
         /// Draws all module settings on the settings provider. 
         /// </summary>
         private static void DrawModuleOptions()
         {
+            if (SettingsProviderHandler.Providers.Count <= 0) return;
+            
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
             EditorGUILayout.LabelField("Modules", EditorStyles.boldLabel);
