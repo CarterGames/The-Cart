@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Management.Editor;
 
 namespace CarterGames.Cart.Modules
@@ -50,12 +51,12 @@ namespace CarterGames.Cart.Modules
         /// The namespace the module code is under.
         /// </summary>
         public string Namespace => "CarterGames.Cart.Modules.NotionData";
-        
-        
+
+
         /// <summary>
         /// Any modules that are required for the module to work.
         /// </summary>
-        public IModule[] PreRequisites => new IModule[] {new ModuleData()};
+        public IModule[] PreRequisites => Array.Empty<IModule>();
         
         
         /// <summary>

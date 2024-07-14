@@ -32,27 +32,88 @@ namespace CarterGames.Cart.Core.Logs.Editor
     /// </summary>
     public static class LoggingSettingsDrawer
     {
+        private static readonly string LoggingExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_Expanded";
+        private static readonly string LoggingSettingsExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_SettingsExpanded";
+        private static readonly string LoggingCategoriesExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_CategoriesExpanded";
+
+
+        private static bool IsExpanded
+        {
+            get => PerUserSettings.GetValue<bool>(LoggingExpanded, SettingType.EditorPref, false);
+            set => PerUserSettings.SetValue<bool>(LoggingExpanded, SettingType.EditorPref, value);
+        }
+        
+        
+        private static bool IsSettingsExpanded
+        {
+            get => PerUserSettings.GetValue<bool>(LoggingSettingsExpanded, SettingType.EditorPref, false);
+            set => PerUserSettings.SetValue<bool>(LoggingSettingsExpanded, SettingType.EditorPref, value);
+        }
+        
+        
+        private static bool IsCategoriesExpanded
+        {
+            get => PerUserSettings.GetValue<bool>(LoggingCategoriesExpanded, SettingType.EditorPref, false);
+            set => PerUserSettings.SetValue<bool>(LoggingCategoriesExpanded, SettingType.EditorPref, value);
+        }
+
+
+
+        public static void ExpandSection(bool showSettings, bool showCategories)
+        {
+            IsExpanded = true;
+            IsSettingsExpanded = showSettings;
+            IsCategoriesExpanded = showCategories;
+        }
+        
+        
         /// <summary>
         /// Draws the settings provider version of the settings.
         /// </summary>
         public static void DrawSettings()
         {
-            UtilEditor.SettingsObject.Fp("isLoggingExpanded").boolValue =
-                EditorGUILayout.Foldout(UtilEditor.SettingsObject.Fp("isLoggingExpanded").boolValue, Meta.Logs.Content(Meta.SectionTitle));
-
+            EditorGUI.BeginChangeCheck();
             
-            if (!UtilEditor.SettingsObject.Fp("isLoggingExpanded").boolValue) return;
+            IsExpanded = EditorGUILayout.Foldout(IsExpanded, Meta.Logs.Content(Meta.SectionTitle));
+            
+            if (!IsExpanded) return;
 
 
             EditorGUILayout.BeginVertical("Box");
             EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
             
-            
-            // Draw the provider enum field on the GUI...
-            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("loggingUseCartLogs"), Meta.Logs.Content("useLogs"));
-            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("useLogsInProductionBuilds"), Meta.Logs.Content("useInProduction"));
+            IsSettingsExpanded = EditorGUILayout.Foldout(IsSettingsExpanded, Meta.Logs.Content("sectionSettingsTitle"));
 
+            if (IsSettingsExpanded)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.BeginVertical("Box");
+                
+                // Draw the provider enum field on the GUI...
+                EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("loggingUseCartLogs"),
+                    Meta.Logs.Content("useLogs"));
+                EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("useLogsInProductionBuilds"),
+                    Meta.Logs.Content("useInProduction"));
+                
+                EditorGUILayout.EndVertical();
+                EditorGUI.indentLevel--;
+            }
+
+            IsCategoriesExpanded = EditorGUILayout.Foldout(IsCategoriesExpanded, Meta.Logs.Content("sectionCategoriesTitle"));
+            
+            if (IsCategoriesExpanded)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.BeginVertical("Box");
+                
+                EditorGUILayout.HelpBox("Toggle categories here to define if logs of that type appear in the console.", MessageType.Info);
+                
+                LogCategoryDrawer.DrawLogCategories();
+                
+                EditorGUILayout.EndVertical();
+                EditorGUI.indentLevel--;
+            }
 
             EditorGUI.indentLevel--;
             EditorGUILayout.Space(1.5f);

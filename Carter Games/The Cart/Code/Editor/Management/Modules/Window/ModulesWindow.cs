@@ -47,11 +47,11 @@ namespace CarterGames.Cart.Modules.Window
         |   Menu Items
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Window")]
+        [MenuItem("Tools/Carter Games/The Cart/Modules/Module Manager", priority = 1000)]
         private static void ShowWindow()
         {
             var window = GetWindow<ModulesWindow>();
-            window.titleContent = new GUIContent("Modules");
+            window.titleContent = new GUIContent("Cart Modules");
             window.maxSize = new Vector2(750, 600);
             window.Show();
         }
@@ -123,24 +123,11 @@ namespace CarterGames.Cart.Modules.Window
 
         
         /// <summary>
-        /// Handles the right GUI for the window, showing the infomation for the selected module.
+        /// Handles the right GUI for the window, showing the information for the selected module.
         /// </summary>
         private void OnRightGUI()
         {
-            EditorGUILayout.BeginVertical();
-
-            if (ModuleManager.IsProcessing)
-            {
-                EditorGUILayout.HelpBox("Processing changes...", MessageType.None);
-            }
-            else
-            {
-                DrawModuleControls();
-                GUILayout.Space(5f);
-                DrawModule();
-            }
-            
-            EditorGUILayout.EndVertical();
+            ModuleDisplay.DrawModule(selectedModule);
         }
 
 
@@ -148,121 +135,6 @@ namespace CarterGames.Cart.Modules.Window
         public static void RepaintWindow()
         {
             GetWindow<ModulesWindow>().Repaint();
-        }
-
-
-        private void DrawModuleControls()
-        {
-            if (string.IsNullOrEmpty(EditorSettingsModuleWindow.SelectedModuleName)) return;
-            if (selectedModule == null) return;
-            
-            EditorGUILayout.BeginVertical("HelpBox");
-            EditorGUILayout.BeginHorizontal();
-
-            if (!ModuleManager.IsInstalled(selectedModule))
-            {
-                EditorGUI.BeginDisabledGroup(!ModuleManager.HasPackage(selectedModule));
-                GUI.backgroundColor = ModuleManager.InstallCol;
-                
-                if (GUILayout.Button(ModuleManager.TickIcon + " Install", GUILayout.Height(25f)))
-                {
-                    ModuleInstaller.Install(selectedModule);
-                }
-
-                GUI.backgroundColor = Color.white;
-                EditorGUI.EndDisabledGroup();
-            }
-            else
-            {
-                if (ModuleManager.HasUpdate(selectedModule))
-                {
-                    EditorGUILayout.BeginVertical();
-                    GUI.backgroundColor = ModuleManager.UpdateCol;
-                    
-                    if (GUILayout.Button(ModuleManager.UpdateIcon + " Update", GUILayout.Height(25f)))
-                    {
-                        ModuleUpdater.UpdateModule(selectedModule);
-                    }
-                    
-                    GUI.backgroundColor = Color.white;
-                    GUILayout.Space(1.75f);
-                    
-                    EditorGUILayout.LabelField("This module has an update available.", labelStyle);
-                    GeneralUtilEditor.DrawHorizontalGUILine();
-                    EditorGUILayout.LabelField($"Current: Rev.{ModuleManager.InstalledRevisionNumber(selectedModule)}\nLatest: Rev.{CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule).Revision}", labelStyle);
-
-                    EditorGUILayout.EndVertical();
-                }
-                else
-                {
-                    GUI.backgroundColor = ModuleManager.UninstallCol;
-                    
-                    if (GUILayout.Button(ModuleManager.CrossIcon + " Uninstall", GUILayout.Height(25f)))
-                    {
-                        ModuleManager.HasPrompted = false;
-                        ModuleUninstaller.Uninstall(selectedModule);
-                    }
-                    
-                    GUI.backgroundColor = Color.white;
-                }
-            }
-            
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-        }
-        
-        
-
-        private void DrawModule()
-        {
-            if (string.IsNullOrEmpty(EditorSettingsModuleWindow.SelectedModuleName)) return;
-            if (selectedModule == null) return;
-            
-            EditorGUILayout.BeginVertical("HelpBox");
-            
-            EditorGUILayout.LabelField(selectedModule.ModuleName, EditorStyles.boldLabel);
-            
-            // Author & revision will go here...
-            if (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule) != null)
-            {
-                var revisionLabel = CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo
-                    .ContainsKey(selectedModule.Namespace)
-                    ? CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo[selectedModule.Namespace]
-                        .Revision
-                    : CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule).Revision;
-                
-                GeneralUtilEditor.DrawHorizontalGUILine();
-                EditorGUILayout.LabelField("<b>Rev:</b> " + revisionLabel, labelStyle);
-                EditorGUILayout.LabelField("<b>Author:</b> " + (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(selectedModule).Author), labelStyle);
-            }
-            
-
-            // Pre-requirements..
-            if (selectedModule.PreRequisites.Length > 0)
-            {
-                GeneralUtilEditor.DrawHorizontalGUILine();
-                
-                EditorGUILayout.LabelField("Requires", EditorStyles.boldLabel);
-
-                foreach (var preRequisite in selectedModule.PreRequisites)
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    
-                    EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsInstalled(preRequisite) ? "<color=#71ff50>\u2714</color>" : "<color=#ff9494>\u2718</color>"), labelStyle);
-                    
-                    EditorGUILayout.EndHorizontal();
-                }
-            }
-            
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            
-            EditorGUILayout.LabelField(selectedModule.ModuleDescription, labelStyle);
-            
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            
-
-            
-            EditorGUILayout.EndVertical();
         }
     }
 }

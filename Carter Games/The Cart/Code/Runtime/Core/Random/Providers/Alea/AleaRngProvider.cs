@@ -22,6 +22,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management;
 
 namespace CarterGames.Cart.Core.Random
@@ -34,8 +35,8 @@ namespace CarterGames.Cart.Core.Random
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
         public static string Seed
         {
-            get => CartSoAssetAccessor.GetAsset<CartGlobalRuntimeSettings>().RngAleaRngSeed;
-            set => CartSoAssetAccessor.GetAsset<CartGlobalRuntimeSettings>().RngAleaRngSeed = value;
+            get => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngAleaRngSeed;
+            set => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngAleaRngSeed = value;
         }
 
 

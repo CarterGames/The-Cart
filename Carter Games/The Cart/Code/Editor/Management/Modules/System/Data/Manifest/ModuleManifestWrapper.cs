@@ -28,7 +28,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
-    /// 
+    /// A wrapper class for the module manifest for JSON parsing purposes.
     /// </summary>
     [Serializable]
     public sealed class ModuleManifestWrapper

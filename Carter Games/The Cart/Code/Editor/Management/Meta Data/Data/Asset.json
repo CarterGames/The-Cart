@@ -8,7 +8,7 @@
     "list": [
         { "key": "editorSection", "value": { "title": "Editor", "toolTip": "Any editor settings for the asset specifically." }},
         { "key": "version", "value": { "title": "Version", "toolTip": "The version number of the asset you currently have imported." }},
-        { "key": "releaseDate", "value": { "title": "Release date", "toolTip": "The date the version of the asset you are using was released on." }},
+        { "key": "releaseDate", "value": { "title": "Release date (Y/M/D)", "toolTip": "The date the version of the asset you are using was released on. (Y/M/D)" }},
         { "key": "autoVersionCheck", "value": { "title": "Update check on load", "toolTip": "Checks for any updates to the asset from the GitHub page when you load the project." }}
     ]
   }

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0e9236ccdde024485926cfcb9de3f4, type: 3}
   m_Name: Runtime Settings
   m_EditorClassIdentifier: 
+  variantId: d0df3b06-bc08-4e37-a0cf-422ccba49c4b
   isRngExpanded: 0
   rngRngProvider: 0
-  rngSystemSeed: 427772247
-  rngAleaSeed: ebcfe3f8-9811-4ef3-81ee-fd323d34dcee
+  rngSystemSeed: 1001727792
+  rngAleaSeed: 8aee7ddd-d880-44c4-940c-47d48e8ff1ba
   isLoggingExpanded: 0
   loggingUseCartLogs: 1
-  useLogsInProductionBuilds: 1
+  useLogsInProductionBuilds: 0

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99fc8d49eca440a086cfbced3aec0857, type: 3}
+  m_Name: Data Asset Index
+  m_EditorClassIdentifier: 
+  variantId: be732ef2-7827-4148-a5b5-2b336a852ec5
+  assets:
+    list:
+    - key: CarterGames.Cart.Core.Logs.DataAssetCartLogCategories
+      value:
+      - {fileID: 11400000, guid: b8baa1849fb6f9b4fabce365e57a4e83, type: 2}
+    - key: CarterGames.Cart.Modules.ModuleCache
+      value:
+      - {fileID: 11400000, guid: 990a87da3ce6aeb458c5c2de95818e99, type: 2}
+    - key: CarterGames.Cart.Core.Management.DataAssetCartGlobalRuntimeSettings
+      value:
+      - {fileID: 11400000, guid: 09b81cb71b0378045a50bc1fdd444cb4, type: 2}

@@ -27,30 +27,30 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Core.Editor
 {
-    public class RangeDrawer
+    public static class RangeDrawer
     {
         public static void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             label = EditorGUI.BeginProperty(position, label, property);
             position = EditorGUI.PrefixLabel(position, label);
             
-            var _elementOne = property.Fpr("min");
-            var _elementTwo = property.Fpr("max");
+            var elementOne = property.Fpr("min");
+            var elementTwo = property.Fpr("max");
             
             EditorGUI.BeginChangeCheck();
 
-            int indent = EditorGUI.indentLevel;
+            var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            var _left = new Rect(position.x, position.y, (position.width / 6) - 1.5f, EditorGUIUtility.singleLineHeight);
-            var _leftLower = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight + 1.5f, (position.width / 6) - 1.5f, EditorGUIUtility.singleLineHeight);
-            var _right = new Rect(position.x + (position.width / 6) + 1.5f, position.y, (position.width / 6) * 5 - 1.5f, EditorGUIUtility.singleLineHeight);
-            var _rightLower = new Rect(position.x + (position.width / 6) + 1.5f, position.y + EditorGUIUtility.singleLineHeight + 1.5f, (position.width / 6) * 5 - 1.5f, EditorGUIUtility.singleLineHeight);
+            var left = new Rect(position.x, position.y, (position.width / 6) - 1.5f, EditorGUIUtility.singleLineHeight);
+            var leftLower = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight + 1.5f, (position.width / 6) - 1.5f, EditorGUIUtility.singleLineHeight);
+            var right = new Rect(position.x + (position.width / 6) + 1.5f, position.y, (position.width / 6) * 5 - 1.5f, EditorGUIUtility.singleLineHeight);
+            var rightLower = new Rect(position.x + (position.width / 6) + 1.5f, position.y + EditorGUIUtility.singleLineHeight + 1.5f, (position.width / 6) * 5 - 1.5f, EditorGUIUtility.singleLineHeight);
 
-            EditorGUI.LabelField(_left, "Min:");
-            EditorGUI.LabelField(_leftLower, "Max:");
-            EditorGUI.PropertyField(_right, _elementOne, GUIContent.none);
-            EditorGUI.PropertyField(_rightLower, _elementTwo, GUIContent.none);
+            EditorGUI.LabelField(left, "Min:");
+            EditorGUI.LabelField(leftLower, "Max:");
+            EditorGUI.PropertyField(right, elementOne, GUIContent.none);
+            EditorGUI.PropertyField(rightLower, elementTwo, GUIContent.none);
    
 
             if (EditorGUI.EndChangeCheck())

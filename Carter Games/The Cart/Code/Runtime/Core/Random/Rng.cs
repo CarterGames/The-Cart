@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management;
 using UnityEngine;
 
@@ -46,7 +47,7 @@ namespace CarterGames.Cart.Core.Random
             get
             {
                 if (providerCache != null) return providerCache;
-                providerCache = CartSoAssetAccessor.GetAsset<CartGlobalRuntimeSettings>().RngRngProvider switch
+                providerCache = DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngRngProvider switch
                 {
                     RngProviders.Unity => new UnityRngProvider(),
                     RngProviders.System => new SystemRngProvider(),

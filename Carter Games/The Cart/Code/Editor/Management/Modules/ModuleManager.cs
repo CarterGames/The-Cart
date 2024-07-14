@@ -28,8 +28,8 @@ using System.Linq;
 using System.Reflection;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Json;
-using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Data;
 using UnityEditor;
 using UnityEngine;
 
@@ -45,10 +45,10 @@ namespace CarterGames.Cart.Modules
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         private static readonly string ModuleNamespacesSettingKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_ProjectNamespacesList";
         private static readonly string CurrentlyUpdatingModuleNameKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_UpdateModuleName";
-        private static readonly string InstallModulesQueueKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_InstallQueue";
         private static readonly string IsProcessingKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_IsProcessing";
-        private static readonly string CurrentProcessKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_CurrentProcess";
+        private static readonly string ProcessQueueKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_ProcessQueue";
         private static readonly string HasPromptedKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_HasPrompted";
+        private static readonly string IsUpdatingKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_IsUpdatingCurrently";
         
         
         // Icons
@@ -116,17 +116,20 @@ namespace CarterGames.Cart.Modules
             set => PerUserSettings.SetValue<bool>(HasPromptedKey, SettingType.SessionState, value);
         }
 
-        
+
         /// <summary>
         /// Gets the current process
         /// </summary>
-        public static string CurrentProcess
+        public static ModuleChangeStateElement CurrentProcess
         {
-            get => (string) PerUserSettings.GetOrCreateValue<string>(CurrentProcessKey, SettingType.SessionState, string.Empty);
-            set => PerUserSettings.SetValue<string>(CurrentProcessKey, SettingType.SessionState, value);
+            get
+            {
+                if (!ProcessQueue.HasNext) return null;
+                return ProcessQueue.CurrentProcess;
+            }
         }
-        
-        
+
+
         /// <summary>
         /// Gets the namespaces in the project
         /// </summary>
@@ -136,10 +139,10 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// Gets all the elements to process before the process is completed.
         /// </summary>
-        public static List<string> ProcessQueue
+        public static ModuleProcessQueue ProcessQueue
         {
-            get => JsonUtility.FromJson<ListWrapper<string>>((string) PerUserSettings.GetOrCreateValue<string>(InstallModulesQueueKey, SettingType.SessionState, JsonUtility.ToJson(new ListWrapper<string>()))).Data;
-            set => PerUserSettings.SetValue<string>(InstallModulesQueueKey, SettingType.SessionState, JsonUtility.ToJson(new ListWrapper<string>(value)));
+            get => JsonUtility.FromJson<ModuleProcessQueue>((string) PerUserSettings.GetOrCreateValue<string>(ProcessQueueKey, SettingType.EditorPref, JsonUtility.ToJson(new ModuleProcessQueue())));
+            set => PerUserSettings.SetValue<string>(ProcessQueueKey, SettingType.EditorPref, JsonUtility.ToJson(value));
         }
 
 
@@ -150,6 +153,12 @@ namespace CarterGames.Cart.Modules
         {
             get => (string) PerUserSettings.GetOrCreateValue<string>(CurrentlyUpdatingModuleNameKey, SettingType.SessionState, string.Empty);
             set => PerUserSettings.SetValue<string>(CurrentlyUpdatingModuleNameKey, SettingType.SessionState, value);
+        }
+
+        public static bool IsUpdating
+        {
+            get => (bool) PerUserSettings.GetOrCreateValue<bool>(IsUpdatingKey, SettingType.SessionState, false);
+            set => PerUserSettings.SetValue<bool>(IsUpdatingKey, SettingType.SessionState, value);
         }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -190,24 +199,31 @@ namespace CarterGames.Cart.Modules
         /// <returns>Int</returns>
         public static int InstalledRevisionNumber(IModule module)
         {
-            if (IsProcessing) return CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(module).Revision;
+            if (IsProcessing) return DataAccess.GetAsset<ModuleCache>().Manifest.GetData(module).Revision;
             if (!IsInstalled(module)) return -1;
 
-            if (CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo.ContainsKey(module.Namespace))
+            if (DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo.ContainsKey(module.Namespace))
             {
-                if (CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace] == null)
+                if (DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace] == null)
                 {
-                    CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo.Remove(module.Namespace);
+                    DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo.Remove(module.Namespace);
                     return -1;
                 }
                 
-                return CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].Revision;
+                return DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].Revision;
             }
             else
             {
-                CartSoAssetAccessor.GetAsset<ModuleCache>().AddInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
-                return CartSoAssetAccessor.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].Revision;
+                DataAccess.GetAsset<ModuleCache>().AddInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
+                return DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].Revision;
             }
+        }
+
+
+        public static void UpdateModuleInstallInfo(IModule module)
+        {
+            if (!IsInstalled(module)) return;
+            DataAccess.GetAsset<ModuleCache>().UpdateInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
         }
 
 
@@ -219,7 +235,7 @@ namespace CarterGames.Cart.Modules
         public static bool HasUpdate(IModule module)
         {
             if (!IsInstalled(module)) return false;
-            return InstalledRevisionNumber(module) < (CartSoAssetAccessor.GetAsset<ModuleCache>().Manifest.GetData(module).Revision);
+            return InstalledRevisionNumber(module) < (DataAccess.GetAsset<ModuleCache>().Manifest.GetData(module).Revision);
         }
         
         
@@ -250,6 +266,35 @@ namespace CarterGames.Cart.Modules
             if (!IsInstalled(module)) return CrossIconColourised;
             if (HasUpdate(module)) return UpdateIconColourised;
             return TickIconColourised;
+        }
+
+
+        public static bool TryProcessNext()
+        {
+            var test = ProcessQueue;
+            test.IncrementIndex();
+            
+            if (!test.HasNext) return false;
+            ProcessQueue = test;
+            
+            CurrentProcess.Process();
+            return true;
+        }
+
+
+        public static void AddModuleToQueue(ModuleChangeStateElement changeStateElement)
+        {
+            var test = ProcessQueue;
+            test.AddToQueue(changeStateElement);
+            ProcessQueue = test;
+        }
+
+
+        public static void ClearProcessQueue()
+        {
+            var test = ProcessQueue;
+            test.ClearQueue();
+            ProcessQueue = test;
         }
     }
 }

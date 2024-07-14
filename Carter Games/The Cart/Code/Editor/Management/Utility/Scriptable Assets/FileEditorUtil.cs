@@ -24,6 +24,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CarterGames.Cart.Core.Data.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -242,7 +243,7 @@ namespace CarterGames.Cart.Core.Management.Editor
                 cache = CreateScriptableObject<T>(path);
             }
             
-            AssetIndexHandler.UpdateIndex();
+            DataAssetIndexHandler.UpdateIndex();
 
             return cache;
         }

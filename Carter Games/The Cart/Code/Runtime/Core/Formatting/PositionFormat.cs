@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Core
         /// <summary>
         /// Returns the position entered formatted with the correct ending characters as a string...
         /// </summary>
-        /// <param name="pos">The position to get</param>
+        /// <param name="value">The position to get</param>
         /// <returns>String of the position with the correct ending characters...</returns>
         public static string ToPosition(this int value)
         {

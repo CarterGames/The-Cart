@@ -34,6 +34,7 @@ namespace CarterGames.Cart.Core
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         public ObjectPoolGeneric(GameObject prefab, Transform parent, int initialCount = 3, bool startActive = false) : base(prefab, parent, initialCount)
         { }
 
