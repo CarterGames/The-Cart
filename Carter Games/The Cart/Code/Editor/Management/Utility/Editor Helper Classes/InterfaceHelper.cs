@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Linq;
 
 namespace CarterGames.Cart.Core.Management.Editor
@@ -34,11 +33,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <returns>An Array of the interface type</returns>
         public static T[] GetAllInterfacesInstancesOfType<T>()
         {
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x));
-
-            return types.Select(type => (T)Activator.CreateInstance(type)).ToArray();
+            return AssemblyHelper.GetClassesOfType<T>(false).ToArray();
         }
     }
 }

@@ -22,7 +22,6 @@
  */
 
 using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -36,6 +35,12 @@ namespace CarterGames.Cart.Modules.Window
         
         public static void DrawModule(IModule module)
         {
+            if (module == null)
+            {
+                EditorGUILayout.HelpBox("Select a module to view details here.", MessageType.Info);
+                return;
+            }
+            
             TrySetupStyles();
             
             EditorGUI.BeginDisabledGroup(ModuleManager.CurrentProcess != null);
@@ -166,6 +171,8 @@ namespace CarterGames.Cart.Modules.Window
 
         private static void DrawModuleOptions(IModule module)
         {
+            if (module == null) return;
+            
             EditorGUILayout.BeginVertical("HelpBox");
             
             EditorGUILayout.LabelField("Module Actions:", EditorStyles.boldLabel);

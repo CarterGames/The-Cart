@@ -87,11 +87,7 @@ namespace CarterGames.Cart.Modules
             get
             {
                 if (!allModulesCache.IsEmptyOrNull()) return allModulesCache;
-                allModulesCache = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(x => x.GetTypes())
-                    .Where(x => x.IsClass && typeof(IModule).IsAssignableFrom(x))
-                    .Select(type => (IModule)Activator.CreateInstance(type)).ToArray();
-
+                allModulesCache = AssemblyHelper.GetClassesOfType<IModule>().ToArray();
                 return allModulesCache;
             }
         }

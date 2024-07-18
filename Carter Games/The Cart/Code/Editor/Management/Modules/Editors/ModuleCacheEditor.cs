@@ -80,17 +80,26 @@ namespace CarterGames.Cart.Modules.Editors
             EditorGUILayout.LabelField("Installed Modules", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            
-            for (var i = 0; i < serializedObject.Fp("installedModuleReceipts").Fpr("list").arraySize; i++)
+            if (serializedObject.Fp("installedModuleReceipts").Fpr("list").arraySize > 0)
             {
-                EditorGUILayout.BeginHorizontal();
-                EditorGUI.BeginDisabledGroup(true);
-                
-                EditorGUILayout.LabelField(serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("key").stringValue);
-                EditorGUILayout.IntField(serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("value").Fpr("revision").intValue, GUILayout.Width(50));
-                
-                EditorGUI.EndDisabledGroup();
-                EditorGUILayout.EndHorizontal();
+                for (var i = 0; i < serializedObject.Fp("installedModuleReceipts").Fpr("list").arraySize; i++)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUI.BeginDisabledGroup(true);
+
+                    EditorGUILayout.LabelField(serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i)
+                        .Fpr("key").stringValue);
+                    EditorGUILayout.IntField(
+                        serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("value")
+                            .Fpr("revision").intValue, GUILayout.Width(50));
+
+                    EditorGUI.EndDisabledGroup();
+                    EditorGUILayout.EndHorizontal();
+                }
+            }
+            else
+            {
+                EditorGUILayout.LabelField("No modules currently installed.");
             }
             
             EditorGUILayout.Space(1.5f);
