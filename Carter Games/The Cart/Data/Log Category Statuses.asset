@@ -19,3 +19,7 @@ MonoBehaviour:
       value: 1
     - key: CarterGames.Cart.Modules.LogCategoryModules
       value: 1
+    - key: CarterGames.Cart.Modules.NotionData.LogCategoryNotionData
+      value: 1
+    - key: CarterGames.Cart.Modules.Panels.LogCategoryPanels
+      value: 1

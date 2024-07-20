@@ -107,8 +107,7 @@ namespace CarterGames.Cart.Modules.Window
             {
                 var revisionLabel = DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo
                     .ContainsKey(module.Namespace)
-                    ? DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace]
-                        .Revision
+                    ? JsonUtility.FromJson<ModuleInstallWrapper>(DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].text).Revision
                     : DataAccess.GetAsset<ModuleCache>().Manifest.GetData(module).Revision;
                 
                 GeneralUtilEditor.DrawHorizontalGUILine();

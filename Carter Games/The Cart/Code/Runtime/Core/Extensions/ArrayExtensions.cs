@@ -190,6 +190,30 @@ namespace CarterGames.Cart.Core
         
         
         /// <summary>
+        /// Removes the element from the array and re-sizes it.
+        /// </summary>
+        /// <param name="array">The array to edit.</param>
+        /// <param name="element">The element to add.</param>
+        /// <typeparam name="T">The type the array is.</typeparam
+        /// <returns>The edited array.</returns>
+        public static T[] Remove<T>(this T[] array, T element)
+        {
+            var index = Array.IndexOf(array, element);
+            var newArray = new T[array.Length - 1];
+
+            if (newArray.Length <= 0) return newArray;
+            
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (i.Equals(index)) continue;
+                newArray[i] = array[i];
+            }
+
+            return newArray;
+        }
+        
+        
+        /// <summary>
         /// Gets if the array contains the requested element.
         /// </summary>
         /// <param name="array">The array to check.</param>

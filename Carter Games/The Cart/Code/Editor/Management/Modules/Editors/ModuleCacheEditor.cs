@@ -21,6 +21,8 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
+using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -76,22 +78,37 @@ namespace CarterGames.Cart.Modules.Editors
         {
             EditorGUILayout.BeginVertical("HelpBox");
             EditorGUILayout.Space(1f);
+
+            EditorGUILayout.BeginHorizontal();
             
             EditorGUILayout.LabelField("Installed Modules", EditorStyles.boldLabel);
+
+            GUI.backgroundColor = Color.yellow;
+            if (GUILayout.Button("Refresh", GUILayout.Width(75)))
+            {
+                ScanAndApplyReceipts();
+            }
+            GUI.backgroundColor = Color.white;
+            
+            EditorGUILayout.EndHorizontal();
+            
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             if (serializedObject.Fp("installedModuleReceipts").Fpr("list").arraySize > 0)
             {
                 for (var i = 0; i < serializedObject.Fp("installedModuleReceipts").Fpr("list").arraySize; i++)
                 {
+                    if (serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("value").objectReferenceValue == null) continue;
+                    
                     EditorGUILayout.BeginHorizontal();
                     EditorGUI.BeginDisabledGroup(true);
 
                     EditorGUILayout.LabelField(serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i)
                         .Fpr("key").stringValue);
-                    EditorGUILayout.IntField(
-                        serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("value")
-                            .Fpr("revision").intValue, GUILayout.Width(50));
+
+                    var textAsset = (TextAsset) serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("value").objectReferenceValue;
+                    
+                    EditorGUILayout.IntField((JsonUtility.FromJson<ModuleInstallWrapper>(textAsset.text)).Revision, GUILayout.Width(50));
 
                     EditorGUI.EndDisabledGroup();
                     EditorGUILayout.EndHorizontal();
@@ -119,6 +136,44 @@ namespace CarterGames.Cart.Modules.Editors
             
             EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
+        }
+
+
+        private void ScanAndApplyReceipts()
+        {
+            serializedObject.Fp("installedModuleReceipts").Fpr("list").ClearArray();
+            
+            var pathToSearch = $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules";
+            var assets = AssetDatabase.FindAssets("Installation", new string[] { pathToSearch });
+
+            if (assets.Length <= 0)
+            {
+                serializedObject.ApplyModifiedProperties();
+                serializedObject.Update();
+                return;
+            }
+
+            for (var i = 0; i < assets.Length; i++)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(assets[i]);
+                var instance = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+                
+                var moduleName = path
+                    .Replace($"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/", string.Empty)
+                    .Replace("/Installation.json", string.Empty)
+                    .Replace(" ", string.Empty)
+                    .Trim();
+
+                var key = $"CarterGames.Cart.Modules.{moduleName}";
+
+                serializedObject.Fp("installedModuleReceipts").Fpr("list").InsertIndex(i);
+                
+                serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("key").stringValue = key;
+                serializedObject.Fp("installedModuleReceipts").Fpr("list").GetIndex(i).Fpr("value").objectReferenceValue = instance;
+            }
+            
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
         }
     }
 }

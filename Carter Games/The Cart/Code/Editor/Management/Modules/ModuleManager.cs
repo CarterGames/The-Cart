@@ -206,12 +206,12 @@ namespace CarterGames.Cart.Modules
                     return -1;
                 }
                 
-                return DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].Revision;
+                return JsonUtility.FromJson<ModuleInstallWrapper>(DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].text).Revision;
             }
             else
             {
                 DataAccess.GetAsset<ModuleCache>().AddInstalledModuleInfo(module, AssetDatabase.LoadAssetAtPath<TextAsset>(module.ModuleInstallPath + "/Installation.json"));
-                return DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].Revision;
+                return JsonUtility.FromJson<ModuleInstallWrapper>(DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].text).Revision;
             }
         }
 

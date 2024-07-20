@@ -37,7 +37,7 @@ namespace CarterGames.Cart.Modules
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] private SerializableDictionary<string, ModuleInstallWrapper> installedModuleReceipts;
+        [SerializeField] private SerializableDictionary<string, TextAsset> installedModuleReceipts;
         [SerializeField] private TextAsset manifest;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -74,7 +74,7 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// Gets the installed info for the modules.
         /// </summary>
-        public SerializableDictionary<string, ModuleInstallWrapper> InstalledModulesInfo => installedModuleReceipts;
+        public SerializableDictionary<string, TextAsset> InstalledModulesInfo => installedModuleReceipts;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -89,12 +89,12 @@ namespace CarterGames.Cart.Modules
         {
             if (installedModuleReceipts.ContainsKey(module.Namespace))
             {
-                installedModuleReceipts[module.Namespace] = JsonUtility.FromJson<ModuleInstallWrapper>(asset.text);
+                installedModuleReceipts[module.Namespace] = asset;
                 EditorUtility.SetDirty(this);
                 return;
             }
             
-            installedModuleReceipts.Add(module.Namespace, JsonUtility.FromJson<ModuleInstallWrapper>(asset.text));
+            installedModuleReceipts.Add(module.Namespace, asset);
             EditorUtility.SetDirty(this);
         }
 
@@ -107,7 +107,7 @@ namespace CarterGames.Cart.Modules
         public void UpdateInstalledModuleInfo(IModule module, TextAsset asset)
         {
             if (!installedModuleReceipts.ContainsKey(module.Namespace)) return;
-            installedModuleReceipts[module.Namespace] = JsonUtility.FromJson<ModuleInstallWrapper>(asset.text);
+            installedModuleReceipts[module.Namespace] = asset;
             EditorUtility.SetDirty(this);
         }
 
