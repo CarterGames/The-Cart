@@ -45,12 +45,20 @@ namespace CarterGames.Cart.Core.Management.Editor
         {
             GUILayout.Space(4f);
             GeneralUtilEditor.DrawSoScriptSection((DataAssetCartGlobalRuntimeSettings)target);
-            GUILayout.Space(2f);
+            GUILayout.Space(10f);
+            
+            EditorGUILayout.LabelField("Core", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
             
             RngSettingsDrawer.DrawInspector(serializedObject);
             GUILayout.Space(2f);
             LoggingSettingsDrawer.DrawInspector(serializedObject);
-            GUILayout.Space(2f);
+            GUILayout.Space(12.5f);
+            
+            if (SettingsProviderHandler.Providers.Count <= 0) return;
+            
+            EditorGUILayout.LabelField("Modules", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
             
             foreach (var providerKvp in SettingsProviderHandler.Providers)
             {

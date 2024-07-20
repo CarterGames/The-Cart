@@ -63,6 +63,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         private static SerializedObject settingsAssetRuntimeObjectCache;
         private static SerializedObject settingsAssetEditorObjectCache;
         private static SerializedObject logCategoriesObjectCache;
+        private static SerializedObject assetIndexObjectCache;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -100,6 +101,7 @@ namespace CarterGames.Cart.Core.Management.Editor
             FileEditorUtil.CreateSoGetOrAssignAssetCache(ref settingsAssetRuntimeCache, RuntimeSettingsFilter, SettingsAssetPath, AssetName, $"{AssetName}/Data/Runtime Settings.asset");
 
         
+        
         private static DataAssetCartLogCategories LogCategories =>
             FileEditorUtil.CreateSoGetOrAssignAssetCache(ref logCategoriesAssetCache, LogFilter, LogCategoriesAssetPath, AssetName, $"{AssetName}/Data/Log Category Statuses.asset");
 
@@ -119,6 +121,13 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// </summary>
         public static SerializedObject LogCategoriesObject =>
             FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref logCategoriesObjectCache, LogCategories);
+        
+        
+        /// <summary>
+        /// The log categories asset.
+        /// </summary>
+        public static SerializedObject DataAssetIndexObject =>
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref assetIndexObjectCache, AssetIndex);
         
         
         // Assets Initialized Check

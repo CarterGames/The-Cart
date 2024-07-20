@@ -39,19 +39,8 @@ namespace CarterGames.Cart.Core.Data.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         internal static readonly string DataAssetIndexPath = $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Resources/Data Asset Index.asset"; 
-        private static DataAssetIndex dataAssetIndexCache;
         private static readonly string DataAssetIndexFilter = $"t:{typeof(DataAssetIndex).FullName}";
-        private const string AssetFilter = "t:dataasset";
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// The data asset index for the asset.
-        /// </summary>
-        public static DataAssetIndex DataAssetIndex =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref dataAssetIndexCache, DataAssetIndexFilter, DataAssetIndexPath, "The Cart", $"The Cart/Resources/Data Asset Index.asset");
+        private static readonly string AssetFilter = typeof(DataAsset).FullName;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IPreprocessBuildWithReport Implementation
@@ -96,24 +85,7 @@ namespace CarterGames.Cart.Core.Data.Editor
             if (!EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isPlaying) return;
             UpdateIndex();
         }
-
-
-        /// <summary>
-        /// Tries to make the asset index if it doesn't exist yet.
-        /// </summary>
-        internal static void TryMakeIndex()
-        {
-            if (dataAssetIndexCache == null)
-            {
-                FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref dataAssetIndexCache, 
-                    DataAssetIndexFilter, 
-                    DataAssetIndexPath, 
-                    "The Cart", "The Cart/Resources/Data Asset Index.asset");
-
-            }
-        }
-
+        
 
         /// <summary>
         /// Updates the index with all the save manager asset scriptable objects in the project.
@@ -122,7 +94,7 @@ namespace CarterGames.Cart.Core.Data.Editor
         public static void UpdateIndex()
         {
             var foundAssets = new List<DataAsset>();
-            var asset = AssetDatabase.FindAssets(AssetFilter, null);
+            var asset = AssetDatabase.FindAssets($"t:{AssetFilter}", null);
             
             if (asset == null || asset.Length <= 0) return;
 
@@ -137,35 +109,11 @@ namespace CarterGames.Cart.Core.Data.Editor
                 
                 foundAssets.Add((DataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));
             }
-
-            var indexProp = new SerializedObject(DataAssetIndex);
             
-            RemoveNullReferences(indexProp);
-            UpdateIndexReferences(foundAssets ,indexProp);
+            UpdateIndexReferences(foundAssets);
             
-            indexProp.ApplyModifiedProperties();
-            indexProp.Update();
-        }
-
-
-        /// <summary>
-        /// Removes any null references from the index when called.
-        /// </summary>
-        /// <param name="indexProp">The property to base off.</param>
-        private static void RemoveNullReferences(SerializedObject indexProp)
-        {
-            for (var i = 0; i < indexProp.Fp("assets").Fpr("list").arraySize; i++)
-            {
-                var entry = indexProp.Fp("assets").Fpr("list").GetIndex(i);
-                var jIndexAdjustment = 0;
-
-                for (var j = 0; j < entry.Fpr("value").arraySize; j++)
-                {
-                    if (entry.Fpr("value").GetIndex(j - jIndexAdjustment).objectReferenceValue != null) continue;
-                    entry.Fpr("value").DeleteIndex(j);
-                    jIndexAdjustment++;
-                }
-            }
+            ScriptableRef.DataAssetIndexObject.ApplyModifiedProperties();
+            ScriptableRef.DataAssetIndexObject.Update();
         }
 
 
@@ -173,14 +121,15 @@ namespace CarterGames.Cart.Core.Data.Editor
         /// Updates any references when called with the latest in the project. 
         /// </summary>
         /// <param name="foundAssets">The found assets to update.</param>
-        /// <param name="indexProp">The property to base off.</param>
-        private static void UpdateIndexReferences(IReadOnlyList<DataAsset> foundAssets, SerializedObject indexProp)
+        private static void UpdateIndexReferences(IReadOnlyList<DataAsset> foundAssets)
         {
+            ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").ClearArray();
+            
             for (var i = 0; i < foundAssets.Count; i++)
             {
-                for (var j = 0; j < indexProp.Fp("assets").Fpr("list").arraySize; j++)
+                for (var j = 0; j < ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize; j++)
                 {
-                    var entry = indexProp.Fp("assets").Fpr("list").GetIndex(j);
+                    var entry = ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(j);
                     
                     if (entry.Fpr("key").stringValue.Equals(foundAssets[i].GetType().ToString()))
                     {
@@ -195,21 +144,21 @@ namespace CarterGames.Cart.Core.Data.Editor
                     }
                 }
                 
-                indexProp.Fp("assets").Fpr("list").InsertIndex(indexProp.Fp("assets").Fpr("list").arraySize);
-                indexProp.Fp("assets").Fpr("list").GetIndex(indexProp.Fp("assets").Fpr("list").arraySize - 1).Fpr("key").stringValue = foundAssets[i].GetType().ToString();
+                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").InsertIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize);
+                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1).Fpr("key").stringValue = foundAssets[i].GetType().ToString();
                 
-                if (indexProp.Fp("assets").Fpr("list").GetIndex(indexProp.Fp("assets").Fpr("list").arraySize - 1).Fpr("value").arraySize > 0)
+                if (ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1).Fpr("value").arraySize > 0)
                 {
-                    indexProp.Fp("assets").Fpr("list").GetIndex(indexProp.Fp("assets").Fpr("list").arraySize - 1)
+                    ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1)
                         .Fpr("value").ClearArray();
                 }
                 
-                indexProp.Fp("assets").Fpr("list").GetIndex(indexProp.Fp("assets").Fpr("list").arraySize - 1).Fpr("value").InsertIndex(0);
-                indexProp.Fp("assets").Fpr("list").GetIndex(indexProp.Fp("assets").Fpr("list").arraySize - 1)
+                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1).Fpr("value").InsertIndex(0);
+                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1)
                     .Fpr("value").GetIndex(0).objectReferenceValue = foundAssets[i];
 
                 AlreadyExists: ;
-            } 
+            }
         }
     }
 }

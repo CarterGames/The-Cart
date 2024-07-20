@@ -14,5 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variantId: cdafe99a-64cc-4135-bb7f-906918c66a2d
   installedModuleReceipts:
-    list: []
+    list:
+    - key: CarterGames.Cart.Modules.ClampedValues
+      value: {fileID: 4900000, guid: cbc5b92143ef43439689706f3e539d47, type: 3}
+    - key: CarterGames.Cart.Modules.DelayedEvents
+      value: {fileID: 4900000, guid: eb22dbc4cc2f4ebc85f06b1392167ce4, type: 3}
+    - key: CarterGames.Cart.Modules.Dice
+      value: {fileID: 4900000, guid: 1c9c717e674f44a998067c5e2cd27c13, type: 3}
+    - key: CarterGames.Cart.Modules.Easing
+      value: {fileID: 4900000, guid: 5c3c1f84cf3949919bce5371ebd678c6, type: 3}
+    - key: CarterGames.Cart.Modules.GameTicks
+      value: {fileID: 4900000, guid: 3c57fa0ff6e447129b66f9e9ade7315d, type: 3}
+    - key: CarterGames.Cart.Modules.Hierarchy
+      value: {fileID: 4900000, guid: e6bfc982f35b4c0eaef462e309c296a8, type: 3}
+    - key: CarterGames.Cart.Modules.LoadingScreens
+      value: {fileID: 4900000, guid: 236f7bccbf434b4dacb42e506dd39292, type: 3}
+    - key: CarterGames.Cart.Modules.Mockup
+      value: {fileID: 4900000, guid: 13f90e36629c4f7cbfbecba1b9ab648b, type: 3}
+    - key: CarterGames.Cart.Modules.Notion
+      value: {fileID: 4900000, guid: 08e6210a523a4093b51380f7090c5359, type: 3}
+    - key: CarterGames.Cart.Modules.Panels
+      value: {fileID: 4900000, guid: efa40065ef91456cb0a4171134ec3ef1, type: 3}
+    - key: CarterGames.Cart.Modules.RuntimeTimers
+      value: {fileID: 4900000, guid: 6788e706a84f44c3a3e93789dd1d6195, type: 3}
+    - key: CarterGames.Cart.Modules.TimeScales
+      value: {fileID: 4900000, guid: d0de99072b634902a92aac9de3dcdf3c, type: 3}
   manifest: {fileID: 4900000, guid: e78d45899da84bbb98346843cea7b2e3, type: 3}
