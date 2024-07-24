@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4400b2eba63b44fca0e1531b38c30259, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d5f93291fa0a4b4e8a645436cf0853f, type: 3}
   m_Name: Log Category Statuses
   m_EditorClassIdentifier: 
-  variantId: 8c33a079-22a9-4908-b241-bef4b480cdae
+  variantId: e0fbdfd1-2bc8-46e9-a905-631c0c18096b
   lookup:
     list:
     - key: CarterGames.Cart.Core.Logs.LogCategoryCore

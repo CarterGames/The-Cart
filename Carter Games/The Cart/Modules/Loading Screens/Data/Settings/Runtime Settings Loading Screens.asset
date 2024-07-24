@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64335c2aa8b04e4d98728de4ecaeb94f, type: 3}
+  m_Script: {fileID: 11500000, guid: d222b37f43af26840a529cae57b9bd38, type: 3}
   m_Name: Runtime Settings Loading Screens
   m_EditorClassIdentifier: 
-  loadingScreenPrefab: {fileID: 2745969087689031327, guid: 5ff5740864666044d9e1fc29ca7ba10e, type: 3}
+  loadingScreenPrefab: {fileID: 2745969087689031327, guid: da4fd304b3d9f594aa9d4d31efe5b11c, type: 3}

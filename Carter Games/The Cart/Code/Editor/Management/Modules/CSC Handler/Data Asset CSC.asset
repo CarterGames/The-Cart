@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72da0ccd1a0745cfa67ce59bc879f683, type: 3}
+  m_Script: {fileID: 11500000, guid: ff424f4bc35b9c141968b4c61210a4ba, type: 3}
   m_Name: Data Asset CSC
   m_EditorClassIdentifier: 
   variantId: 9258ce92-bfe4-4eba-a33b-45368a9c4a16

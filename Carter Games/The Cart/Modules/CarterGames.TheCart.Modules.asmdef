@@ -1,7 +1,7 @@
 {
     "name": "CarterGames.TheCart.Modules",
     "rootNamespace": "",
-    "references": ["GUID:5102aed48a0829843a44f70606735a48"],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
