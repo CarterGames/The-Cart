@@ -1,0 +1,15 @@
+{
+  "name": "games.carter.thecart",
+  "version": "0.8.0",
+  "displayName": "The Cart",
+  "description": "A code library of useful tools, classes & systems for game development in Unity.",
+  "unity": "2020.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://carter.games/the-cart",
+  "licensesUrl": "https://github.com/CarterGames/The-Cart/blob/main/LICENSE",
+  "author": {
+    "name": "Carter Games",
+    "email": "hello@carter.games",
+    "url": "https://carter.games"
+  }
+}
