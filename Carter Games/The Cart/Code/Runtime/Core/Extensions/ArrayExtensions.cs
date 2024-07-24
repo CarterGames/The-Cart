@@ -194,7 +194,7 @@ namespace CarterGames.Cart.Core
         /// </summary>
         /// <param name="array">The array to edit.</param>
         /// <param name="element">The element to add.</param>
-        /// <typeparam name="T">The type the array is.</typeparam
+        /// <typeparam name="T">The type the array is.</typeparam>
         /// <returns>The edited array.</returns>
         public static T[] Remove<T>(this T[] array, T element)
         {
@@ -228,6 +228,25 @@ namespace CarterGames.Cart.Core
             }
 
             return false;
+        }
+        
+        
+        /// <summary>
+        /// Gets the index of the entered element in the entered array.
+        /// </summary>
+        /// <param name="array">The array to check.</param>
+        /// <param name="element">The element to find the index of.</param>
+        /// <typeparam name="T">The type the array is.</typeparam>
+        /// <returns>The index of the element of -1 if not found in the array.</returns>
+        public static int IndexOf<T>(this T[] array, T element)
+        {
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (!array[i].Equals(element)) continue;
+                return i;
+            }
+
+            return -1;
         }
     }
 }

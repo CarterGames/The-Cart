@@ -59,11 +59,7 @@ namespace CarterGames.Cart.Core.Data.Editor
         {
             GUILayout.Space(7.5f);
             
-            EditorGUILayout.BeginVertical("HelpBox");
-            GUILayout.Space(1.5f);
             GeneralUtilEditor.DrawSoScriptSection((DataAssetIndex) target);
-            GUILayout.Space(1.5f);
-            EditorGUILayout.EndVertical();
             
             GUILayout.Space(7.5f);
             

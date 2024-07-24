@@ -60,6 +60,7 @@ namespace CarterGames.Cart.Core
                 var obj = Object.Instantiate(prefab, parent);
                 obj.SetActive(startActive);
                 memberObjects.Add(obj);
+                freeObjects.Add(obj);
             }
         }
         
@@ -72,6 +73,7 @@ namespace CarterGames.Cart.Core
         {
             var newMember = Object.Instantiate(prefab, parent);
             memberObjects.Add(newMember);
+            freeObjects.Add(newMember);
             newMember.SetActive(startActive);
             return newMember;
         }

@@ -25,7 +25,7 @@ using System;
 
 namespace CarterGames.Cart.Core
 {
-    public class TimeFormatterDayHourMinSecSimple : ITimeFormatter
+    public sealed class TimeFormatterDayHourMinSecSimple : ITimeFormatter
     {
         public string Format(TimeSpan timeSpan)
         {

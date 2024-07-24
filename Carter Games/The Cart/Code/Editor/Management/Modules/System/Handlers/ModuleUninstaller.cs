@@ -21,29 +21,16 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Logs;
-using CarterGames.Cart.Core.Management.Editor;
-using UnityEditor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
     /// Handles uninstalling modules.
     /// </summary>
-    public sealed class ModuleUninstaller : IAssetEditorReload
+    public sealed class ModuleUninstaller
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private static readonly StringBuilder Builder = new StringBuilder();
-
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -55,124 +42,27 @@ namespace CarterGames.Cart.Modules
         /// <param name="module">The module to uninstall.</param>
         public static void Uninstall(IModule module)
         {
-            var toUninstall = new List<string>();
+            var toUninstall = new List<IModule>();
             ModuleManager.HasPrompted = false;
 
             if (ModuleManager.AllModules.Any(t =>
-                    t.PreRequisites.Any(x => x.ModuleInstallPath.Equals(module.ModuleInstallPath))))
+                    t.PreRequisites.Any(x => x.Equals(module))))
             {
                 toUninstall.AddRange(ModuleManager.AllModules
-                    .Where(t => t.PreRequisites.Any(x =>
-                        x.ModuleInstallPath.Equals(module.ModuleInstallPath) && ModuleManager.IsInstalled(t)))
-                    .Select(t => t.ModuleInstallPath)
+                    .Where(t => t.PreRequisites.Any(x => x.Equals(module) && ModuleManager.IsEnabled(t)))
                     .ToList());
             }
 
-            toUninstall.Add(module.ModuleInstallPath);
+            toUninstall.Add(module);
 
-            
-            foreach (var toProcess in toUninstall)
+            if (toUninstall.Count > 1)
             {
-                var moduleData = ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(toProcess));
-                
-                if (!ModuleManager.IsInstalled(moduleData)) continue;
-                ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(moduleData, ModuleOperations.Uninstall));
+                CscFileHandler.RemoveDefine(toUninstall);
             }
-            
-
-            if (toUninstall.Count > 1 && ModuleManager.CurrentProcess.FlowInUse.Equals(ModuleOperations.Uninstall) && !ModuleManager.HasPrompted)
+            else
             {
-                Builder.Clear();
-                Builder.Append("This module is a dependency for some other modules.");
-                Builder.AppendLine();
-                Builder.AppendLine();
-                Builder.Append("Proceeding with the uninstall will also uninstall these modules:");
-                Builder.AppendLine();
-                Builder.AppendLine();
-
-                for (var i = 0; i < toUninstall.Count - 1; i++)
-                {
-                    Builder.Append("- ");
-                    Builder.Append(ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(toUninstall[i]))
-                        .ModuleName);
-                    Builder.AppendLine();
-                }
-
-                Builder.AppendLine();
-                Builder.Append("Are you sure you want to continue?");
-
-                if (!Dialogue.Display("Uninstall " + module.ModuleName, Builder.ToString(), "Uninstall", "Cancel"))
-                {
-                    ModuleManager.ClearProcessQueue();
-                    return;
-                }
-                else
-                {
-                    ModuleManager.HasPrompted = true;
-                }
+                CscFileHandler.RemoveDefine(toUninstall[0]);
             }
-
-            
-            try
-            {
-                AssetDatabase.StartAssetEditing();
-                DeleteDirectoryAndContents(ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(ModuleManager.CurrentProcess.PackageInstallLocation)));
-                AssetDatabase.StopAssetEditing();
-            }
-#pragma warning disable
-            catch (Exception e)
-#pragma warning restore
-            {
-                CartLogger.LogError<LogCategoryModules>("Failed to uninstall a module. Stopping the operation.", typeof(ModuleUninstaller),true);
-                ModuleManager.RefreshNamespaceCache();
-                ModuleManager.ClearProcessQueue();
-
-                if (ModuleManager.IsUpdating)
-                {
-                    ModuleManager.IsUpdating = false;
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Actually deleted the directory entered along with any contents. 
-        /// </summary>
-        /// <param name="module">The module to uninstall.</param>
-        private static void DeleteDirectoryAndContents(IModule module)
-        {
-            AssetDatabase.DeleteAsset(module.ModuleInstallPath);
-            DataAccess.GetAsset<ModuleCache>().RemoveInstalledInfo(module);
-        }
-
-
-        public static void UninstallFromQueue()
-        {
-            AssetDatabase.StartAssetEditing();
-            DeleteDirectoryAndContents(ModuleManager.AllModules.First(t => t.ModuleInstallPath.Equals(ModuleManager.CurrentProcess.PackageInstallLocation)));
-            AssetDatabase.StopAssetEditing();
-        }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   IAssetEditorReload Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Is raised when the editor reloads.
-        /// </summary>
-        public void OnEditorReloaded()
-        {
-            if (ModuleManager.IsUpdating) return;
-            if (ModuleManager.CurrentProcess == null) return;
-            if (!ModuleManager.CurrentProcess.FlowInUse.Equals(ModuleOperations.Uninstall)) return;
-            
-            ModuleManager.RefreshNamespaceCache();
-
-            CartLogger.Log<LogCategoryModules>($"Module {ModuleManager.CurrentProcess.Package} uninstalled.", typeof(ModuleUninstaller),true);
-            
-            if (ModuleManager.TryProcessNext()) return;
-            
-            ModuleManager.ClearProcessQueue();
         }
     }
 }

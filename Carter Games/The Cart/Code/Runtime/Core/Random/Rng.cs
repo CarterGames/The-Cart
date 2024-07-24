@@ -42,7 +42,10 @@ namespace CarterGames.Cart.Core.Random
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private static IRngProvider Provider
+        /// <summary>
+        /// Gets the current random provider in use.
+        /// </summary>
+        public static IRngProvider Provider
         {
             get
             {

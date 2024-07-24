@@ -45,9 +45,9 @@ namespace CarterGames.Cart.Modules
         
         
         /// <summary>
-        /// The namespace the module code is under.
+        /// The author of the module.
         /// </summary>
-        string Namespace { get; }
+        string ModuleAuthor { get; }
         
         
         /// <summary>
@@ -57,14 +57,8 @@ namespace CarterGames.Cart.Modules
         
         
         /// <summary>
-        /// The path for the package of the module.
+        /// The scripting define for the module.
         /// </summary>
-        string ModulePackagePath { get; }
-        
-        
-        /// <summary>
-        /// The path for the installation of the module.
-        /// </summary>
-        string ModuleInstallPath { get; }
+        string ModuleDefine { get; }
     }
 }

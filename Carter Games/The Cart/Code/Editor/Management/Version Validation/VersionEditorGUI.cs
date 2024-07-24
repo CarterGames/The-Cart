@@ -65,16 +65,26 @@ namespace CarterGames.Cart.Core.Management.Editor
             }
             else if (!VersionChecker.IsLatestVersion)
             {
-                if (EditorUtility.DisplayDialog("Update Checker",
-                        $"You are using an older version of this package.\n\nCurrent: {VersionInfo.ProjectVersionNumber}\nLatest: {VersionChecker.LatestVersionNumberString}",
-                        "Latest Release", "Continue"))
+                if (InstallMethodChecker.IsPackageInstalled)
                 {
-                    Application.OpenURL(VersionChecker.DownloadURL);
+                    EditorUtility.DisplayDialog("Update Checker",
+                            $"You are using an older version of this package.\n\nCurrent: {VersionInfo.ProjectVersionNumber}\nLatest: {VersionChecker.LatestVersionNumberString}\n\nYou can get the latest release from the package manager.",
+                            "Continue");
+                }
+                else
+                {
+                    if (EditorUtility.DisplayDialog("Update Checker",
+                            $"You are using an older version of this package.\n\nCurrent: {VersionInfo.ProjectVersionNumber}\nLatest: {VersionChecker.LatestVersionNumberString}",
+                            "Latest Release", "Continue"))
+                    {
+                        Application.OpenURL(VersionChecker.DownloadURL);
+                    }
                 }
             }
             else
             {
                 if (!showIfUptoDate) return;
+                
                 EditorUtility.DisplayDialog("Update Checker",
                     "You are using the latest version!",
                     "Continue");

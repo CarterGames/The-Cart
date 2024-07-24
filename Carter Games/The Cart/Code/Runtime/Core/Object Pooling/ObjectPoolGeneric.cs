@@ -56,6 +56,7 @@ namespace CarterGames.Cart.Core
                 
                 obj.SetActive(startActive);
                 memberObjects.Add(comp);
+                freeObjects.Add(comp);
             }
         }
 
@@ -69,6 +70,7 @@ namespace CarterGames.Cart.Core
             var newObj = Object.Instantiate(prefab, parent);
             var newMember = newObj.GetComponentInChildren<T>(true);
             memberObjects.Add(newMember);
+            freeObjects.Add(newMember);
             newObj.SetActive(startActive);
             return newMember;
         }

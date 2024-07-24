@@ -47,10 +47,7 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "Pull data from Notion databases into data assets.";
         
         
-        /// <summary>
-        /// The namespace the module code is under.
-        /// </summary>
-        public string Namespace => "CarterGames.Cart.Modules.NotionData";
+        public string ModuleAuthor => "Carter Games";
 
 
         /// <summary>
@@ -59,15 +56,7 @@ namespace CarterGames.Cart.Modules
         public IModule[] PreRequisites => Array.Empty<IModule>();
         
         
-        /// <summary>
-        /// The path for the package of the module.
-        /// </summary>
-        public string ModulePackagePath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Data/Module Packages/CartModuleNotionData.unitypackage";
         
-        
-        /// <summary>
-        /// The path for the installation of the module.
-        /// </summary>
-        public string ModuleInstallPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Notion";
+        public string ModuleDefine => "CARTERGAMES_CART_MODULE_NOTIONDATA";
     }
 }

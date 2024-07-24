@@ -15,12 +15,12 @@ MonoBehaviour:
   variantId: be732ef2-7827-4148-a5b5-2b336a852ec5
   assets:
     list:
+    - key: CarterGames.Cart.Modules.DataAssetCsc
+      value:
+      - {fileID: 11400000, guid: fa91b72734e8ce3458bccbc6f18528f1, type: 2}
     - key: CarterGames.Cart.Core.Logs.DataAssetCartLogCategories
       value:
       - {fileID: 11400000, guid: b8baa1849fb6f9b4fabce365e57a4e83, type: 2}
-    - key: CarterGames.Cart.Modules.ModuleCache
-      value:
-      - {fileID: 11400000, guid: 990a87da3ce6aeb458c5c2de95818e99, type: 2}
     - key: CarterGames.Cart.Core.Management.DataAssetCartGlobalRuntimeSettings
       value:
       - {fileID: 11400000, guid: 09b81cb71b0378045a50bc1fdd444cb4, type: 2}

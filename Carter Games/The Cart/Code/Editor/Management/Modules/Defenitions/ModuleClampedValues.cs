@@ -45,29 +45,18 @@ namespace CarterGames.Cart.Modules
         /// A description of what the module does.
         /// </summary>
         public string ModuleDescription => "A wrapper system that lets you have values that are clamped or looping from their bounds.";
-       
+
         
-        /// <summary>
-        /// The namespace the module code is under.
-        /// </summary>
-        public string Namespace => "CarterGames.Cart.Modules.ClampedValues";
-        
-        
+        public string ModuleAuthor => "Carter Games";
+
+
         /// <summary>
         /// Any modules that are required for the module to work.
         /// </summary>
         public IModule[] PreRequisites => Array.Empty<IModule>();
         
         
-        /// <summary>
-        /// The path for the package of the module.
-        /// </summary>
-        public string ModulePackagePath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Data/Module Packages/CartModuleClampedValues.unitypackage";
-        
-        
-        /// <summary>
-        /// The path for the installation of the module.
-        /// </summary>
-        public string ModuleInstallPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Clamped Values";
+
+        public string ModuleDefine => "CARTERGAMES_CART_MODULE_CLAMPEDVALUES";
     }
 }

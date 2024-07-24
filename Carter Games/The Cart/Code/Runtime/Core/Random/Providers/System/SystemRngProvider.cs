@@ -36,7 +36,7 @@ namespace CarterGames.Cart.Core.Random
         public static int Seed
         {
             get => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngSystemRngSeed;
-            set => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngSystemRngSeed = value;
+            private set => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngSystemRngSeed = value;
         }
 
 

@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using CarterGames.Cart.Core.Logs;
 using UnityEngine;
 
 namespace CarterGames.Cart.Core
@@ -38,6 +39,7 @@ namespace CarterGames.Cart.Core
         
         protected readonly List<T> memberObjects;
         protected readonly HashSet<T> unavailableObjects;
+        protected HashSet<T> freeObjects;
         protected readonly GameObject prefab;
         protected readonly Transform parent;
         protected bool startActive;
@@ -68,6 +70,12 @@ namespace CarterGames.Cart.Core
         /// Gets all the in use members of the pool.
         /// </summary>
         public HashSet<T> AllInUse => unavailableObjects;
+        
+        
+        /// <summary>
+        /// Gets all the free members of the pool.
+        /// </summary>
+        public IReadOnlyCollection<T> FreeMembers => freeObjects;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
@@ -89,7 +97,8 @@ namespace CarterGames.Cart.Core
 
             memberObjects = new List<T>();
             unavailableObjects = new HashSet<T>();
-
+            freeObjects = new HashSet<T>();
+            
             Initialize(initialCount, startActive);
         }
 
@@ -122,12 +131,13 @@ namespace CarterGames.Cart.Core
             {
                 if (unavailableObjects.Contains(t)) continue;
                 unavailableObjects.Add(t);
+                freeObjects.Remove(t);
                 return t;
             }
 
             if (!ShouldExpand)
             {
-                // CartLogs.Log<ObjectPoolBase<T>>("No free member objects to return.");
+                CartLogger.Log<LogCategoryCore>("No free member objects to return.", typeof(ObjectPoolBase<>));
                 return default;
             }
             
@@ -144,6 +154,7 @@ namespace CarterGames.Cart.Core
         public virtual void Return(T member)
         {
             unavailableObjects?.Remove(member);
+            freeObjects?.Add(member);
         }
         
         
@@ -159,6 +170,7 @@ namespace CarterGames.Cart.Core
             }
             
             unavailableObjects?.Clear();
+            freeObjects = new HashSet<T>(AllMembers);
         }
     }
 }

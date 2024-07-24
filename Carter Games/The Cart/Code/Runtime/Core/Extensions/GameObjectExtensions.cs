@@ -7,6 +7,6 @@ namespace CarterGames.Cart.Core
         public static T OrNull<T>(this T obj) where T : Object
         {
             return obj ? obj : null;
-        } 
+        }
     }
 }

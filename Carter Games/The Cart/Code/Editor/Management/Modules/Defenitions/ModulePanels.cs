@@ -46,11 +46,7 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "A UI panel setup for showing & hiding popups or screens of info.";
         
         
-        
-        /// <summary>
-        /// The namespace the module code is under.
-        /// </summary>
-        public string Namespace => "CarterGames.Cart.Modules.Panels";
+        public string ModuleAuthor => "Carter Games";
         
         
         /// <summary>
@@ -59,15 +55,7 @@ namespace CarterGames.Cart.Modules
         public IModule[] PreRequisites => new IModule[] { new ModuleEasing() };
         
         
-        /// <summary>
-        /// The path for the package of the module.
-        /// </summary>
-        public string ModulePackagePath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Data/Module Packages/CartModulePanels.unitypackage";
         
-        
-        /// <summary>
-        /// The path for the installation of the module.
-        /// </summary>
-        public string ModuleInstallPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Panels";
+        public string ModuleDefine => "CARTERGAMES_CART_MODULE_PANELS";
     }
 }

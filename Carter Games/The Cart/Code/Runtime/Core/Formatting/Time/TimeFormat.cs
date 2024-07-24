@@ -22,7 +22,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 
 namespace CarterGames.Cart.Core
 {
@@ -31,22 +30,21 @@ namespace CarterGames.Cart.Core
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private static Dictionary<Type, ITimeFormatter> formatterLookupCache;
-        private static Dictionary<Type, ITimeFormatter> FormatterLookup { get; } = CacheRef.GetOrAssign(ref formatterLookupCache, GetFormatters);
 
+        private static Formatter<ITimeFormatter> formatter;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private static Dictionary<Type, ITimeFormatter> GetFormatters()
+        private static Formatter<ITimeFormatter> Formatter
         {
-            return new Dictionary<Type, ITimeFormatter>()
+            get
             {
-                { typeof(TimeFormatterStopWatchSimple), new TimeFormatterStopWatchSimple() },
-                { typeof(TimeFormatterDayHourMinSecSimple), new TimeFormatterDayHourMinSecSimple() },
-                { typeof(TimeFormatterDayHourMinSecDetailed), new TimeFormatterDayHourMinSecDetailed() },
-            };
+                if (formatter != null) return formatter;
+                formatter = new Formatter<ITimeFormatter>();
+                return formatter;
+            }
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -54,64 +52,38 @@ namespace CarterGames.Cart.Core
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Creates a new time formatter instance if one doesn't exist at the time of requesting.
-        /// </summary>
-        /// <typeparam name="T">The type to create.</typeparam>
-        /// <returns>The formatter to use.</returns>
-        private static ITimeFormatter Create<T>() where T : ITimeFormatter
-        {
-            var formatter = Activator.CreateInstance<T>();
-            FormatterLookup.Add(typeof(T), formatter);
-            return formatter;
-        }
-
-
-        /// <summary>
-        /// Gets or make the time formatter requested for use.
-        /// </summary>
-        /// <typeparam name="T">The type to create.</typeparam>
-        /// <returns>The formatter to use.</returns>
-        private static ITimeFormatter Get<T>() where T : ITimeFormatter
-        {
-            return FormatterLookup.ContainsKey(typeof(T)) 
-                ? FormatterLookup[typeof(T)] 
-                : Create<T>();
-        }
-
-
-        /// <summary>
         /// Formats the int as a time formatter.
         /// </summary>
         /// <param name="secondsLeft">The seconds to convert.</param>
         /// <typeparam name="T">The time formatter type to use.</typeparam>
         /// <returns>The formatted string</returns>
-        public static string FormatAsTime<T>(this int secondsLeft) where T : ITimeFormatter
+        public static string Format<T>(this int secondsLeft) where T : ITimeFormatter
         {
-            return Get<T>().Format(TimeSpan.FromSeconds(secondsLeft));
+            return Formatter.Get<T>().Format(TimeSpan.FromSeconds(secondsLeft));
         }
-        
-        
+
+
         /// <summary>
         /// Formats the double as a time formatter.
         /// </summary>
         /// <param name="secondsLeft">The seconds to convert.</param>
         /// <typeparam name="T">The time formatter type to use.</typeparam>
         /// <returns>The formatted string</returns>
-        public static string FormatAsTime<T>(this double secondsLeft) where T : ITimeFormatter
+        public static string Format<T>(this double secondsLeft) where T : ITimeFormatter
         {
-            return Get<T>().Format(TimeSpan.FromSeconds(secondsLeft));
+            return Formatter.Get<T>().Format(TimeSpan.FromSeconds(secondsLeft));
         }
-        
-        
+
+
         /// <summary>
         /// Formats the float as a time formatter.
         /// </summary>
         /// <param name="secondsLeft">The seconds to convert.</param>
         /// <typeparam name="T">The time formatter type to use.</typeparam>
         /// <returns>The formatted string</returns>
-        public static string FormatAsTime<T>(this float secondsLeft) where T : ITimeFormatter
+        public static string Format<T>(this float secondsLeft) where T : ITimeFormatter
         {
-            return Get<T>().Format(TimeSpan.FromSeconds(secondsLeft));
+            return Formatter.Get<T>().Format(TimeSpan.FromSeconds(secondsLeft));
         }
         
         
@@ -121,9 +93,9 @@ namespace CarterGames.Cart.Core
         /// <param name="timeSpan">The timespan to convert.</param>
         /// <typeparam name="T">The time formatter type to use.</typeparam>
         /// <returns>The formatted string</returns>
-        public static string FormatAsTime<T>(this TimeSpan timeSpan) where T : ITimeFormatter
+        public static string Format<T>(this TimeSpan timeSpan) where T : ITimeFormatter
         {
-            return Get<T>().Format(timeSpan);
+            return Formatter.Get<T>().Format(timeSpan);
         }
     }
 }

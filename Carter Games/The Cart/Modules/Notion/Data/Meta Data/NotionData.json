@@ -1,0 +1,16 @@
+﻿{
+  "labels": {
+    "list": [
+      { "key": "sectionTitle", "value": "Notion Data" }
+    ]
+  },
+  "content": {
+    "list": [
+        { "key": "notionTitle", "value": { "title": "Notion Data", "toolTip": "Any specific settings for the Notion data system." }},
+        { "key": "notion_defaultAPIKey", "value": { "title": "Default API key", "toolTip": "The default API key to use for notion data asset downloads unless overriden on the asset." }},
+        { "key": "notion_apiKey", "value": { "title": "API key", "toolTip": "The API key to use with the download." }},
+        { "key": "notion_databaseLink", "value": { "title": "Database link", "toolTip": "The link to the page with the database on that you want to download." }},
+        { "key": "notion_useOverrideAPIKey", "value": { "title": "Override API key", "toolTip": "Should the asset use a different API key from the default one assigned?" }}
+    ]
+  }
+}

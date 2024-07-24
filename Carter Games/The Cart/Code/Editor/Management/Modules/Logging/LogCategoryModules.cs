@@ -30,5 +30,5 @@ namespace CarterGames.Cart.Modules
     /// Log category for module management systems.
     /// </summary>
     [Serializable]
-    public class LogCategoryModules : CartLogCategory { }
+    public sealed class LogCategoryModules : CartLogCategory { }
 }

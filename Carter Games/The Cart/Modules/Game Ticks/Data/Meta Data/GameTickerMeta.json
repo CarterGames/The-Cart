@@ -1,0 +1,20 @@
+﻿{
+  "labels": {
+    "list": [
+      { "key": "sectionTitle", "value": "Game Ticker" }
+    ]
+  },
+  "content": {
+    "list": [
+        { "key": "sectionTitle", "value": { "title": "Game Ticker", "toolTip": "The settings for the 'Game Ticker' system." }},
+      
+        { "key": "useGlobalTicker", "value": { "title": "Use global ticker?", "toolTip": "Defines if the global ticker should be used or not." }},
+        { "key": "globalTicksPerSecond", "value": { "title": "Global ticks per second", "toolTip": "Defines the tick rate of the global ticker." }},
+        { "key": "globalUseUnscaledTime", "value": { "title": "Use unscaled time", "toolTip": "Defines if the global ticker uses unscaled time." }},
+        { "key": "globalSyncState", "value": { "title": "Global sync state", "toolTip": "Defines the sync state for the global ticker." }},
+
+        { "key": "inspector_syncState", "value": { "title": "Sync state", "toolTip": "Defines the sync state for the ticker." }},
+        { "key": "inspector_tickRate", "value": { "title": "Tick rate", "toolTip": "Defines the tick rate for the ticker." }}
+    ]
+  }
+}

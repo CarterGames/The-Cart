@@ -22,8 +22,6 @@
  */
 
 using System.Linq;
-using CarterGames.Cart.Core.Management;
-using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -62,8 +60,6 @@ namespace CarterGames.Cart.Modules.Window
         
         private void OnEnable()
         {
-            ModuleManager.RefreshNamespaceCache();
-            
             if (string.IsNullOrEmpty(EditorSettingsModuleWindow.SelectedModuleName)) return;
             selectedModule = ModuleManager.AllModules.FirstOrDefault(t => t.ModuleName.Equals(EditorSettingsModuleWindow.SelectedModuleName));
         }

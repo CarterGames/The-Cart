@@ -21,31 +21,16 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Linq;
-using CarterGames.Cart.Core;
-using CarterGames.Cart.Core.Logs;
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules.Window;
+using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
     /// Handles installing modules.
     /// </summary>
-    public sealed class ModuleInstaller : IAssetEditorReload
+    public sealed class ModuleInstaller
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// The module that is being installed.
-        /// </summary>
-        public static IModule InstallingModule { get; private set; }
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -56,91 +41,30 @@ namespace CarterGames.Cart.Modules
         /// <param name="module">The module to install.</param>
         public static void Install(IModule module)
         {
-            InstallingModule = module;
-            
-            var toInstall = Array.Empty<IModule>();
+            var toInstall = new List<IModule>();
             
             if (module.PreRequisites.Length > 0)
             {
                 foreach (var preReq in module.PreRequisites)
                 {
-                    if (ModuleManager.IsInstalled(preReq)) continue;
-                    
-                    toInstall = toInstall.Add(preReq);
-                    ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(preReq, ModuleOperations.Install));
+                    if (ModuleManager.IsEnabled(preReq)) continue;
+                    toInstall.Add(preReq);
                 }
             }
             
-            ModuleManager.AddModuleToQueue(new ModuleChangeStateElement(module, ModuleOperations.Install));
-            
-            InstallNextInQueue();
-        }
+            toInstall.Add(module);
 
 
-        public static void InstallNextInQueue()
-        {
-            try
+            if (toInstall.Count > 1)
             {
-                AssetDatabase.StartAssetEditing();
-                AssetDatabase.ImportPackage(ModuleManager.CurrentProcess.PackageFileLocation, false);
-                AssetDatabase.StopAssetEditing();
+                CscFileHandler.AddDefine(toInstall);
             }
-#pragma warning disable
-            catch (Exception e)
-#pragma warning restore
+            else
             {
-                CartLogger.LogError<LogCategoryModules>("Failed to install a module. Stopping the operation.", typeof(ModuleInstaller), true);
-                ModuleManager.RefreshNamespaceCache();
-                ModuleManager.ClearProcessQueue();
-                
-                if (ModuleManager.IsUpdating)
-                {
-                    ModuleManager.IsUpdating = false;
-                }
-            }
-        }
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Package Import Listeners
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private static void OnImportPackageCompleted()
-        {
-            var module = ModuleManager.AllModules.First(t =>
-                t.ModulePackagePath.Equals(ModuleManager.CurrentProcess.PackageFileLocation));
-
-            if (!PostImportFileMover.IsInRightPath(module))
-            {
-                CartLogger.Log<LogCategoryModules>("Module not in the right path, moving to the correct path.", typeof(ModuleInstaller), true);
-                PostImportFileMover.UpdateFileLocation(module);
+                CscFileHandler.AddDefine(toInstall[0]);
             }
             
-            ModuleManager.RefreshNamespaceCache();
-            ModulesWindow.RepaintWindow();
-        }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   IAssetEditorReload Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Is raised when the editor reloads.
-        /// </summary>
-        public void OnEditorReloaded()
-        {
-            if (ModuleManager.IsUpdating) return;
-            if (ModuleManager.CurrentProcess == null) return;
-            if (!ModuleManager.CurrentProcess.FlowInUse.Equals(ModuleOperations.Install)) return;
-
-            OnImportPackageCompleted();
-            
-            ModuleManager.RefreshNamespaceCache();
-            
-            CartLogger.Log<LogCategoryModules>($"Module {ModuleManager.CurrentProcess.Package} Installed.", typeof(ModuleInstaller), true);
-            
-            if (ModuleManager.TryProcessNext()) return;
-
-            ModuleManager.ClearProcessQueue();
+            AssetDatabase.Refresh();
         }
     }
 }

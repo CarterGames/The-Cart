@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -31,8 +30,8 @@ namespace CarterGames.Cart.Modules.Window
     public static class ModuleDisplay
     {
         private static GUIStyle labelStyle;
-        
-        
+
+
         public static void DrawModule(IModule module)
         {
             if (module == null)
@@ -40,42 +39,24 @@ namespace CarterGames.Cart.Modules.Window
                 EditorGUILayout.HelpBox("Select a module to view details here.", MessageType.Info);
                 return;
             }
-            
+
             TrySetupStyles();
-            
-            EditorGUI.BeginDisabledGroup(ModuleManager.CurrentProcess != null);
-            
+
             EditorGUILayout.BeginVertical();
-            
-            if (ModuleManager.CurrentProcess != null)
-            {
-                EditorGUILayout.HelpBox("Processing...", MessageType.Info);
-            }
-            
+
             if (ModuleManager.IsProcessing)
             {
-                EditorGUILayout.HelpBox("Processing changes...", MessageType.None);
+                EditorGUILayout.EndVertical();
+                EditorGUI.EndDisabledGroup();
+                return;
             }
-            else
-            {
-                DrawModuleInfo(module);
-                GUILayout.Space(3.5f);
-                
-                // Update info if applicable...
-                if (ModuleManager.IsInstalled(module))
-                {
-                    if (ModuleManager.HasUpdate(module))
-                    {
-                        DrawUpdateInfo(module);
-                        GUILayout.Space(3.5f);
-                    }
-                }
-                
-                DrawModuleOptions(module);
-            }
-            
+
+            DrawModuleInfo(module);
+            GUILayout.Space(3.5f);
+            DrawModuleOptions(module);
+
+
             EditorGUILayout.EndVertical();
-            EditorGUI.EndDisabledGroup();
         }
 
 
@@ -101,19 +82,6 @@ namespace CarterGames.Cart.Modules.Window
             DrawModuleStatusButton(module);
             
             EditorGUILayout.EndHorizontal();
-            
-            // Author & revision will go here...
-            if (DataAccess.GetAsset<ModuleCache>().Manifest.GetData(module) != null)
-            {
-                var revisionLabel = DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo
-                    .ContainsKey(module.Namespace)
-                    ? JsonUtility.FromJson<ModuleInstallWrapper>(DataAccess.GetAsset<ModuleCache>().InstalledModulesInfo[module.Namespace].text).Revision
-                    : DataAccess.GetAsset<ModuleCache>().Manifest.GetData(module).Revision;
-                
-                GeneralUtilEditor.DrawHorizontalGUILine();
-                EditorGUILayout.LabelField("<b>Rev:</b> " + revisionLabel, labelStyle);
-                EditorGUILayout.LabelField("<b>Author:</b> " + (DataAccess.GetAsset<ModuleCache>().Manifest.GetData(module).Author), labelStyle);
-            }
 
             // Pre-requirements..
             if (module.PreRequisites.Length > 0)
@@ -126,41 +94,41 @@ namespace CarterGames.Cart.Modules.Window
                 {
                     EditorGUILayout.BeginHorizontal();
                     
-                    EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsInstalled(preRequisite) ? "<color=#71ff50>\u2714</color>" : "<color=#ff9494>\u2718</color>"), labelStyle);
+                    EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsEnabled(preRequisite) ? "<color=#71ff50>\u2714</color>" : "<color=#ff9494>\u2718</color>"), labelStyle);
                     
                     EditorGUILayout.EndHorizontal();
                 }
             }
             
             GeneralUtilEditor.DrawHorizontalGUILine();
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Author:", GUILayout.MaxWidth(45));
+            EditorGUILayout.LabelField(module.ModuleAuthor);
+            EditorGUILayout.EndHorizontal();
             
+            GUILayout.Space(10f);
             EditorGUILayout.LabelField(module.ModuleDescription, labelStyle);
-            
-            GeneralUtilEditor.DrawHorizontalGUILine();
+
+            GUILayout.Space(2.5f);
             
             EditorGUILayout.EndVertical();
         }
 
 
         private static void DrawModuleStatusButton(IModule module)
-        {
-            if (ModuleManager.HasUpdate(module))
-            {
-                GUI.backgroundColor = ModuleManager.UpdateCol;
-                
-                GUILayout.Label(ModuleManager.UpdateIcon + " Update Available", new GUIStyle("minibutton"));
-            }
-            else if (ModuleManager.IsInstalled(module))
+        { 
+            if (ModuleManager.IsEnabled(module))
             {
                 GUI.backgroundColor = ModuleManager.InstallCol;
                 
-                GUILayout.Label(ModuleManager.TickIcon + " Installed", new GUIStyle("minibutton"));
+                GUILayout.Label(ModuleManager.TickIcon + " Enabled", new GUIStyle("minibutton"), GUILayout.MaxWidth(100));
             }
             else
             {
                 GUI.backgroundColor = ModuleManager.UninstallCol;
                 
-                GUILayout.Label(ModuleManager.CrossIcon + " Not Installed", new GUIStyle("minibutton"));
+                GUILayout.Label(ModuleManager.CrossIcon + " Disabled", new GUIStyle("minibutton"), GUILayout.MaxWidth(100));
             }
             
             GUI.backgroundColor = Color.white;
@@ -177,13 +145,8 @@ namespace CarterGames.Cart.Modules.Window
             EditorGUILayout.LabelField("Module Actions:", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
 
-            if (ModuleManager.IsInstalled(module))
+            if (ModuleManager.IsEnabled(module))
             {
-                if (ModuleManager.HasUpdate(module))
-                {
-                    DrawUpdateButton(module);
-                }
-                
                 DrawUninstallButton(module);
             }
             else
@@ -198,41 +161,14 @@ namespace CarterGames.Cart.Modules.Window
         
         private static void DrawInstallButton(IModule module)
         {
-            EditorGUI.BeginDisabledGroup(!ModuleManager.HasPackage(module));
             GUI.backgroundColor = ModuleManager.InstallCol;
                 
-            if (GUILayout.Button(ModuleManager.TickIcon + " Install"))
+            if (GUILayout.Button(ModuleManager.TickIcon + " Enable"))
             {
                 ModuleInstaller.Install(module);
             }
 
             GUI.backgroundColor = Color.white;
-            EditorGUI.EndDisabledGroup();
-        }
-
-
-        private static void DrawUpdateButton(IModule module)
-        {
-            GUI.backgroundColor = ModuleManager.UpdateCol;
-                    
-            if (GUILayout.Button(ModuleManager.UpdateIcon + " Update"))
-            {
-                ModuleUpdater.UpdateModule(module);
-            }
-                    
-            GUI.backgroundColor = Color.white;
-        }
-
-
-        private static void DrawUpdateInfo(IModule module)
-        {
-            EditorGUILayout.BeginVertical("HelpBox");
-            
-            EditorGUILayout.LabelField("This module has an update available.", labelStyle);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            EditorGUILayout.LabelField($"Current: Rev.{ModuleManager.InstalledRevisionNumber(module)}\nLatest: Rev.{DataAccess.GetAsset<ModuleCache>().Manifest.GetData(module).Revision}", labelStyle);
-
-            EditorGUILayout.EndVertical();
         }
 
 
@@ -240,7 +176,7 @@ namespace CarterGames.Cart.Modules.Window
         {
             GUI.backgroundColor = ModuleManager.UninstallCol;
                     
-            if (GUILayout.Button(ModuleManager.CrossIcon + " Uninstall"))
+            if (GUILayout.Button(ModuleManager.CrossIcon + " Disable"))
             {
                 ModuleManager.HasPrompted = false;
                 ModuleUninstaller.Uninstall(module);
