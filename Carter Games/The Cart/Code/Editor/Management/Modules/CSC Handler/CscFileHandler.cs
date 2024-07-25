@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
@@ -96,12 +95,13 @@ namespace CarterGames.Cart.Modules
 
             if (paths.Any(t => t.Contains(FileName)))
             {
-                if (DataAccess.GetAsset<DataAssetCsc>().Asset != null) return;
+                if (ScriptableRef.CscObject.Fp("asset").objectReferenceValue != null) return;
                 
-                DataAccess.GetAsset<DataAssetCsc>().Asset =
+                ScriptableRef.CscObject.Fp("asset").objectReferenceValue =
                     AssetDatabase.LoadAssetAtPath<DefaultAsset>(paths.First(t => t.Contains(FileName)));
-                
-                EditorUtility.SetDirty(DataAccess.GetAsset<DataAssetCsc>());
+
+                ScriptableRef.CscObject.ApplyModifiedProperties();
+                ScriptableRef.CscObject.Update();
 
                 return;
             }
@@ -118,7 +118,7 @@ namespace CarterGames.Cart.Modules
 
         public static bool HasDefine(IModule module)
         {
-            if (DataAccess.GetAsset<DataAssetCsc>().Asset == null)
+            if (ScriptableRef.CscObject.Fp("asset").objectReferenceValue == null)
             {
                 TryInitialize();
             }
@@ -200,7 +200,7 @@ namespace CarterGames.Cart.Modules
             write.Write(Builder.ToString());
             write.Close();
             
-            EditorUtility.SetDirty(DataAccess.GetAsset<DataAssetCsc>().Asset);
+            EditorUtility.SetDirty(ScriptableRef.CscAsset.Asset);
             AssetDatabase.Refresh();
         }
 
@@ -230,7 +230,7 @@ namespace CarterGames.Cart.Modules
             write.Write(Builder.ToString());
             write.Close();
             
-            EditorUtility.SetDirty(DataAccess.GetAsset<DataAssetCsc>().Asset);
+            EditorUtility.SetDirty(ScriptableRef.CscAsset.Asset);
             AssetDatabase.Refresh();
         }
         
@@ -256,7 +256,7 @@ namespace CarterGames.Cart.Modules
             write.Write(Builder.ToString());
             write.Close();
             
-            EditorUtility.SetDirty(DataAccess.GetAsset<DataAssetCsc>().Asset);
+            EditorUtility.SetDirty(ScriptableRef.CscAsset.Asset);
             AssetDatabase.Refresh();
         }
         
@@ -289,7 +289,7 @@ namespace CarterGames.Cart.Modules
             write.Write(Builder.ToString());
             write.Close();
             
-            EditorUtility.SetDirty(DataAccess.GetAsset<DataAssetCsc>().Asset);
+            EditorUtility.SetDirty(ScriptableRef.CscAsset.Asset);
             AssetDatabase.Refresh();
         }
 

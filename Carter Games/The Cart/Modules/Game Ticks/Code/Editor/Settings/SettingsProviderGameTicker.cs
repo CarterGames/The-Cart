@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
@@ -33,30 +32,13 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
     /// <summary>
     /// Handles the settings GUI for the game ticker module.
     /// </summary>
-    public sealed class SettingsProviderGameTicker : ISettingsProvider, IMeta
+    public sealed class SettingsProviderGameTicker : ModuleDataAssetHandler<DataAssetRuntimeSettingsGameTicks>, ISettingsProvider, IMeta
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
+        |   ModuleDataAssetHandler Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private SerializedObject settingsObj;
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Gets the settings obj.
-        /// </summary>
-        private SerializedObject SettingsObj
-        {
-            get
-            {
-                if (settingsObj != null) return settingsObj;
-                settingsObj = new SerializedObject(DataAccess.GetAsset<DataAssetRuntimeSettingsGameTicks>());
-                return settingsObj;
-            }
-        }
+        protected override string FileNameModuleDataAsset => "[Cart] [GameTicker] Runtime Settings Data Asset";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IMeta Implementation
@@ -88,9 +70,9 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
             EditorGUILayout.LabelField(MetaData.Labels[Meta.SectionTitle], EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            EditorGUILayout.PropertyField(SettingsObj.Fp("gameTickUseGlobalTicker"), MetaData.Content("useGlobalTicker"));
-            EditorGUILayout.PropertyField(SettingsObj.Fp("gameTickTicksPerSecond"), MetaData.Content("globalTicksPerSecond"));
-            EditorGUILayout.PropertyField(SettingsObj.Fp("gameTickUseUnscaledTime"), MetaData.Content("globalUseUnscaledTime"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseGlobalTicker"), MetaData.Content("useGlobalTicker"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickTicksPerSecond"), MetaData.Content("globalTicksPerSecond"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseUnscaledTime"), MetaData.Content("globalUseUnscaledTime"));
 
             EditorGUILayout.EndVertical();
         }
@@ -114,16 +96,16 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
             
             
             // Draw the provider enum field on the GUI...
-            EditorGUILayout.PropertyField(SettingsObj.Fp("gameTickUseGlobalTicker"), MetaData.Content("useGlobalTicker"));
-            EditorGUILayout.PropertyField(SettingsObj.Fp("globalSyncState"), MetaData.Content("globalSyncState"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseGlobalTicker"), MetaData.Content("useGlobalTicker"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("globalSyncState"), MetaData.Content("globalSyncState"));
             
-            if (SettingsObj.Fp("globalSyncState").intValue == 0)
+            if (ObjectModuleAsset.Fp("globalSyncState").intValue == 0)
             {
-                EditorGUILayout.PropertyField(SettingsObj.Fp("gameTickTicksPerSecond"),
+                EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickTicksPerSecond"),
                     MetaData.Content("globalTicksPerSecond"));
             }
             
-            EditorGUILayout.PropertyField(SettingsObj.Fp("gameTickUseUnscaledTime"), MetaData.Content("globalUseUnscaledTime"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseUnscaledTime"), MetaData.Content("globalUseUnscaledTime"));
 
 
             EditorGUI.indentLevel--;

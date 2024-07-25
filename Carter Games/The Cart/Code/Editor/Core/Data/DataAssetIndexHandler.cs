@@ -38,7 +38,7 @@ namespace CarterGames.Cart.Core.Data.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        internal static readonly string DataAssetIndexPath = $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Resources/Data Asset Index.asset"; 
+        internal static readonly string DataAssetIndexPath = $"Assets/Plugins/Carter Games/The Cart/Resources/Data Asset Index.asset"; 
         private static readonly string DataAssetIndexFilter = $"t:{typeof(DataAssetIndex).FullName}";
         private static readonly string AssetFilter = typeof(DataAsset).FullName;
         

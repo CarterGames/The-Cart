@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,90 +21,54 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Management.Editor;
+using UnityEditor;
 
-namespace CarterGames.Cart.Core.Data
+namespace CarterGames.Cart.Modules
 {
     /// <summary>
-    /// Helper class to access data assets at runtime.
+    /// A base class for modules to use data assets without issues.
     /// </summary>
-    public static class DataAccess
+    /// <typeparam name="TAssetType">The asset type.</typeparam>
+    public abstract class ModuleDataAssetHandler<TAssetType> where TAssetType : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        // A cache of all the assets found...
-        private static DataAssetIndex indexCache;
-
+        private readonly string filterModuleDataAsset = $"t:{typeof(TAssetType).FullName}";
+        
+        private TAssetType cacheModuleDataAsset;
+        private SerializedObject objectCacheModuleDataAsset;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
-        /// Gets all the assets from the build versions asset...
+        /// The file name to use.
         /// </summary>
-        private static DataAssetIndex Index
-        {
-            get
-            {
-                if (indexCache != null) return indexCache;
-                indexCache = Resources.Load<DataAssetIndex>("[Cart] Data Asset Index");
-                return indexCache;
-            }
-        }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Gets the Save Manager Asset requested.
-        /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
-        /// <returns>The asset if it exists.</returns>
-        public static T GetAsset<T>() where T : DataAsset
-        {
-            if (Index.Lookup.ContainsKey(typeof(T).ToString()))
-            {
-                return (T)Index.Lookup[typeof(T).ToString()][0];
-            }
-
-            return null;
-        }
+        protected abstract string FileNameModuleDataAsset { get; }
         
         
         /// <summary>
-        /// Gets the Save Manager Asset requested.
+        /// The full path for the data asset.
         /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
-        /// <returns>The asset if it exists.</returns>
-        public static T GetAsset<T>(string id) where T : DataAsset
-        {
-            if (Index.Lookup.ContainsKey(typeof(T).ToString()))
-            {
-                return (T)Index.Lookup[typeof(T).ToString()].FirstOrDefault(t => t.VariantId.Equals(id));
-            }
-
-            return null;
-        }
+        private string FullPathModuleDataAsset => $"{ScriptableRef.FullPathData}Modules/{FileNameModuleDataAsset}.asset";
         
         
         /// <summary>
-        /// Gets the Save Manager Asset requested.
+        /// The asset reference.
         /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
-        /// <returns>The asset if it exists.</returns>
-        public static List<T> GetAssets<T>() where T : DataAsset
-        {
-            if (Index.Lookup.ContainsKey(typeof(T).ToString()))
-            {
-                return Index.Lookup[typeof(T).ToString()].Cast<T>().ToList();
-            }
-
-            return null;
-        }
+        protected TAssetType ModuleAsset =>
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheModuleDataAsset, filterModuleDataAsset, FullPathModuleDataAsset, ScriptableRef.AssetName, $"{ScriptableRef.PathData}Modules/{FileNameModuleDataAsset}.asset");
+        
+        
+        /// <summary>
+        /// The module asset as an object.
+        /// </summary>
+        protected SerializedObject ObjectModuleAsset =>
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheModuleDataAsset, ModuleAsset);
     }
 }

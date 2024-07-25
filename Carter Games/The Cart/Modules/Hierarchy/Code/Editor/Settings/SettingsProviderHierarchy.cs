@@ -34,6 +34,9 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
     /// </summary>
     public class SettingsProviderHierarchy : ISettingsProvider, IMeta
     {
+        
+        
+        
         public string MetaDataPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Hierarchy/Data/Meta Data/";
         public MetaData MetaData => Meta.GetData(MetaDataPath, "Hierarchy");
         

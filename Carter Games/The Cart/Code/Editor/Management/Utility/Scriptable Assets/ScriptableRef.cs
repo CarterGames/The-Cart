@@ -24,6 +24,7 @@
 using System.IO;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Modules;
 using UnityEditor;
 
 namespace CarterGames.Cart.Core.Management.Editor
@@ -37,33 +38,55 @@ namespace CarterGames.Cart.Core.Management.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        // Base Asset Paths
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        public static readonly string Root = $"Assets/Plugins/Carter Games/";
+        public static readonly string PathResources = $"{AssetName}/Resources/";
+        public static readonly string PathData = $"{AssetName}/Data/";
+
+        public static readonly string FullPathResources = $"{Root}{PathResources}";
+        public static readonly string FullPathData = $"{Root}{PathData}";
+        
+        
+        // File Names
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        private static readonly string FileNameAssetIndex = $"[Cart] Data Asset Index.asset";
+        private static readonly string FileNameSettingsAsset = $"[Cart] Runtime Settings Data Asset.asset";
+        private static readonly string FileNameLogCategoriesAsset = $"[Cart] Log Category Statuses Data Asset.asset";
+        private static readonly string FileNameCscAsset = $"[Cart] Csc Data Asset.asset";
+        
+        
         // Asset Paths
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static readonly string AssetIndexPath = $"{AssetBasePath}/Carter Games/{AssetName}/Resources/Data Asset Index.asset";
-        private static readonly string SettingsAssetPath = $"{AssetBasePath}/Carter Games/{AssetName}/Data/Runtime Settings.asset";
-        private static readonly string LogCategoriesAssetPath = $"{AssetBasePath}/Carter Games/{AssetName}/Data/Log Category Statuses.asset";
-
+        private static readonly string FullPathAssetIndex = $"{FullPathResources}{FileNameAssetIndex}";
+        private static readonly string FullPathSettingsAsset = $"{FullPathData}{FileNameSettingsAsset}";
+        private static readonly string FullPathLogCategoriesAsset = $"{FullPathData}{FileNameLogCategoriesAsset}";
+        private static readonly string FullPathCscAsset = $"{FullPathData}{FileNameCscAsset}";
+        
+        
         // Asset Filters
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static readonly string RuntimeSettingsFilter = $"t:{typeof(DataAssetCartGlobalRuntimeSettings).FullName}";
-        private static readonly string AssetIndexFilter = $"t:{typeof(DataAssetIndex).FullName}";
-        private static readonly string LogFilter = $"t:{typeof(DataAssetCartLogCategories).FullName}";
+        private static readonly string FilterAssetIndex = $"t:{typeof(DataAssetIndex).FullName}";
+        private static readonly string FilterRuntimeSettingsAsset = $"t:{typeof(DataAssetCartGlobalRuntimeSettings).FullName}";
+        private static readonly string FilterLogCategoryAsset = $"t:{typeof(DataAssetCartLogCategories).FullName}";
+        private static readonly string FilterCscAsset = $"t:{typeof(DataAssetCsc).FullName}";
         
         
         // Asset Caches
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static DataAssetCartGlobalRuntimeSettings settingsAssetRuntimeCache;
-        private static DataAssetIndex assetIndexCache;
-        private static DataAssetCartLogCategories logCategoriesAssetCache;
-
+        private static DataAssetIndex cacheAssetIndex;
+        private static DataAssetCartGlobalRuntimeSettings cacheSettingsAssetRuntime;
+        private static DataAssetCartLogCategories cacheLogCategoriesAsset;
+        private static DataAssetCsc cacheCscAsset;
         
         
         // SerializedObject Caches
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static SerializedObject settingsAssetRuntimeObjectCache;
-        private static SerializedObject settingsAssetEditorObjectCache;
-        private static SerializedObject logCategoriesObjectCache;
-        private static SerializedObject assetIndexObjectCache;
+        private static SerializedObject objectCacheAssetIndex;
+        private static SerializedObject objectCacheSettingsAssetRuntime;
+        private static SerializedObject objectCacheLogCategoriesAsset;
+        private static SerializedObject objectCacheCscAsset;
+
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -81,7 +104,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Gets the asset name stored in the file util editor class.
         /// </summary>
-        private static string AssetName => FileEditorUtil.AssetName;
+        public static string AssetName => FileEditorUtil.AssetName;
 
         
         // Asset Properties
@@ -91,43 +114,54 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// The asset index for the asset.
         /// </summary>
         public static DataAssetIndex AssetIndex =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref assetIndexCache, AssetIndexFilter, AssetIndexPath, AssetName, $"{AssetName}/Resources/Data Asset Index.asset");
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheAssetIndex, FilterAssetIndex, FullPathAssetIndex, AssetName, $"{PathResources}{FileNameAssetIndex}");
         
         
         /// <summary>
         /// The runtime settings for the asset.
         /// </summary>
         public static DataAssetCartGlobalRuntimeSettings RuntimeSettings =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref settingsAssetRuntimeCache, RuntimeSettingsFilter, SettingsAssetPath, AssetName, $"{AssetName}/Data/Runtime Settings.asset");
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheSettingsAssetRuntime, FilterRuntimeSettingsAsset, FullPathSettingsAsset, AssetName, $"{PathData}{FileNameSettingsAsset}");
 
         
         
         private static DataAssetCartLogCategories LogCategories =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref logCategoriesAssetCache, LogFilter, LogCategoriesAssetPath, AssetName, $"{AssetName}/Data/Log Category Statuses.asset");
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheLogCategoriesAsset, FilterLogCategoryAsset, FullPathLogCategoriesAsset, AssetName, $"{PathData}{FileNameLogCategoriesAsset}");
+        
+        
+        public static DataAssetCsc CscAsset =>
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheCscAsset, FilterCscAsset, FullPathCscAsset, AssetName, $"{PathData}{FileNameCscAsset}");
 
         
         // Object Properties
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
+        /// The asset index.
+        /// </summary>
+        public static SerializedObject DataAssetIndexObject =>
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheAssetIndex, AssetIndex);
+        
+        
+        /// <summary>
         /// The runtime SerializedObject for the asset.
         /// </summary>
         public static SerializedObject RuntimeSettingsObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref settingsAssetRuntimeObjectCache, RuntimeSettings);
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheSettingsAssetRuntime, RuntimeSettings);
 
 
         /// <summary>
         /// The log categories asset.
         /// </summary>
         public static SerializedObject LogCategoriesObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref logCategoriesObjectCache, LogCategories);
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheLogCategoriesAsset, LogCategories);
         
         
         /// <summary>
-        /// The log categories asset.
+        /// The csc asset.
         /// </summary>
-        public static SerializedObject DataAssetIndexObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref assetIndexObjectCache, AssetIndex);
+        public static SerializedObject CscObject =>
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheCscAsset, CscAsset);
         
         
         // Assets Initialized Check
@@ -137,7 +171,10 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// Gets if all the assets needed for the asset to function are in the project at the expected paths.
         /// </summary>
         public static bool HasAllAssets =>
-            File.Exists(AssetIndexPath) && File.Exists(SettingsAssetPath);
+            File.Exists(FullPathAssetIndex) &&
+            File.Exists(FullPathSettingsAsset) &&
+            File.Exists(FullPathLogCategoriesAsset) &&
+            File.Exists(FullPathCscAsset);
         
         
         /// <summary>
@@ -145,23 +182,43 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// </summary>
         public static void TryCreateAssets()
         {
-            if (assetIndexCache == null)
+            if (cacheAssetIndex == null)
             {
                 FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref assetIndexCache, 
-                    AssetIndexFilter, 
-                    AssetIndexPath,
-                    AssetName, $"{AssetName}/Resources/Data Asset Index.asset");
+                    ref cacheAssetIndex, 
+                    FilterAssetIndex, 
+                    FullPathAssetIndex,
+                    AssetName, $"{PathResources}{FileNameAssetIndex}");
             }
 
             
-            if (settingsAssetRuntimeCache == null)
+            if (cacheSettingsAssetRuntime == null)
             {
                 FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref settingsAssetRuntimeCache, 
-                    RuntimeSettingsFilter, 
-                    SettingsAssetPath, 
-                    AssetName, $"{AssetName}/Data/Runtime Settings.asset");
+                    ref cacheSettingsAssetRuntime, 
+                    FilterRuntimeSettingsAsset, 
+                    FullPathSettingsAsset, 
+                    AssetName, $"{PathData}{FileNameSettingsAsset}");
+            }
+            
+            
+            if (cacheLogCategoriesAsset == null)
+            {
+                FileEditorUtil.CreateSoGetOrAssignAssetCache(
+                    ref cacheLogCategoriesAsset, 
+                    FilterLogCategoryAsset, 
+                    FullPathLogCategoriesAsset, 
+                    AssetName, $"{PathData}{FileNameLogCategoriesAsset}");
+            }
+            
+            
+            if (cacheCscAsset == null)
+            {
+                FileEditorUtil.CreateSoGetOrAssignAssetCache(
+                    ref cacheCscAsset, 
+                    FilterCscAsset, 
+                    FullPathCscAsset, 
+                    AssetName, $"{PathData}{FileNameCscAsset}");
             }
         }
     }

@@ -22,8 +22,6 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Cart.Core;
-using CarterGames.Cart.Core.Management;
 using UnityEngine;
 
 namespace CarterGames.Cart.Core.Data

@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
@@ -33,30 +32,13 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
     /// <summary>
     /// Handles the settings provider for the notion data.
     /// </summary>
-    public sealed class SettingsProviderNotionData : ISettingsProvider, IMeta
+    public sealed class SettingsProviderNotionData : ModuleDataAssetHandler<DataAssetRuntimeSettingsNotionData>, ISettingsProvider, IMeta
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
+        |   ModuleDataAssetHandler Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private SerializedObject settingsObj;
 
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Gets the settings obj.
-        /// </summary>
-        private SerializedObject SettingsObj
-        {
-            get
-            {
-                if (settingsObj != null) return settingsObj;
-                settingsObj = new SerializedObject(DataAccess.GetAsset<DataAssetRuntimeSettingsNotionData>());
-                return settingsObj;
-            }
-        }
+        protected override string FileNameModuleDataAsset => "[Cart] [Notion Data] Runtime Settings Data Asset";
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IMeta Implementation
@@ -91,12 +73,12 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(SettingsObj.Fp("notionApiKey"), MetaData.Content("notion_defaultAPIKey"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("notionApiKey"), MetaData.Content("notion_defaultAPIKey"));
 
             if (EditorGUI.EndChangeCheck())
             {
-                SettingsObj.ApplyModifiedProperties();
-                SettingsObj.Update();
+                ObjectModuleAsset.ApplyModifiedProperties();
+                ObjectModuleAsset.Update();
             }
 
             EditorGUILayout.EndVertical();
@@ -122,13 +104,13 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 
                 // Draw the provider enum field on the GUI...
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(SettingsObj.Fp("notionApiKey"), MetaData.Content("notion_defaultAPIKey"));
+                EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("notionApiKey"), MetaData.Content("notion_defaultAPIKey"));
                 
                 
                 if (EditorGUI.EndChangeCheck())
                 {
-                    SettingsObj.ApplyModifiedProperties();
-                    SettingsObj.Update();
+                    ObjectModuleAsset.ApplyModifiedProperties();
+                    ObjectModuleAsset.Update();
                 }
                 
                 EditorGUI.indentLevel--;
