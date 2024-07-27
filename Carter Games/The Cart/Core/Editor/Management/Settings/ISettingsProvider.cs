@@ -27,7 +27,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 {
     public interface ISettingsProvider
     {
-        void OnInspectorSettingsGUI(SerializedObject serializedObject);
+        void OnInspectorSettingsGUI();
         void OnProjectSettingsGUI();
     }
 }

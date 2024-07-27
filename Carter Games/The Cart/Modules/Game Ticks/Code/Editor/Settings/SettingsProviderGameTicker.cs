@@ -32,15 +32,8 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
     /// <summary>
     /// Handles the settings GUI for the game ticker module.
     /// </summary>
-    public sealed class SettingsProviderGameTicker : ModuleDataAssetHandler<DataAssetSettingsGameTicker>, ISettingsProvider
+    public sealed class SettingsProviderGameTicker : ISettingsProvider
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   ModuleDataAssetHandler Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected override string FileNameModuleDataAsset => "[Cart] [GameTicker] Settings Data Asset";
-
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -48,17 +41,16 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
         /// <summary>
         /// Draws the inspector version of the settings.
         /// </summary>
-        /// <param name="serializedObject">The target object</param>
-        public void OnInspectorSettingsGUI(SerializedObject serializedObject)
+        public void OnInspectorSettingsGUI()
         {
             EditorGUILayout.BeginVertical("HelpBox");
             
             EditorGUILayout.LabelField(AssetMeta.GetData("GameTickerMeta").Labels[AssetMeta.SectionTitle], EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseGlobalTicker"), AssetMeta.GetData("GameTickerMeta").Content("useGlobalTicker"));
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickTicksPerSecond"), AssetMeta.GetData("GameTickerMeta").Content("globalTicksPerSecond"));
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseUnscaledTime"), AssetMeta.GetData("GameTickerMeta").Content("globalUseUnscaledTime"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.GameTickerSettingsObject.Fp("gameTickUseGlobalTicker"), AssetMeta.GetData("GameTickerMeta").Content("useGlobalTicker"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.GameTickerSettingsObject.Fp("gameTickTicksPerSecond"), AssetMeta.GetData("GameTickerMeta").Content("globalTicksPerSecond"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.GameTickerSettingsObject.Fp("gameTickUseUnscaledTime"), AssetMeta.GetData("GameTickerMeta").Content("globalUseUnscaledTime"));
 
             EditorGUILayout.EndVertical();
         }
@@ -82,16 +74,16 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
             
             
             // Draw the provider enum field on the GUI...
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseGlobalTicker"), AssetMeta.GetData("GameTickerMeta").Content("useGlobalTicker"));
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("globalSyncState"), AssetMeta.GetData("GameTickerMeta").Content("globalSyncState"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.GameTickerSettingsObject.Fp("gameTickUseGlobalTicker"), AssetMeta.GetData("GameTickerMeta").Content("useGlobalTicker"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.GameTickerSettingsObject.Fp("globalSyncState"), AssetMeta.GetData("GameTickerMeta").Content("globalSyncState"));
             
-            if (ObjectModuleAsset.Fp("globalSyncState").intValue == 0)
+            if (ModulesScriptableRef.GameTickerSettingsObject.Fp("globalSyncState").intValue == 0)
             {
-                EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickTicksPerSecond"),
+                EditorGUILayout.PropertyField(ModulesScriptableRef.GameTickerSettingsObject.Fp("gameTickTicksPerSecond"),
                     AssetMeta.GetData("GameTickerMeta").Content("globalTicksPerSecond"));
             }
             
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("gameTickUseUnscaledTime"), AssetMeta.GetData("GameTickerMeta").Content("globalUseUnscaledTime"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.GameTickerSettingsObject.Fp("gameTickUseUnscaledTime"), AssetMeta.GetData("GameTickerMeta").Content("globalUseUnscaledTime"));
 
 
             EditorGUI.indentLevel--;

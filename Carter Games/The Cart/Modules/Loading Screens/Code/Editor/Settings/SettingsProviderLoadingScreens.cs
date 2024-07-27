@@ -32,14 +32,8 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
     /// <summary>
     /// Handles the settings provider for the hierarchy.
     /// </summary>
-    public sealed class SettingsProviderLoadingScreens : ModuleDataAssetHandler<DataAssetSettingsLoadingScreens>, ISettingsProvider
+    public sealed class SettingsProviderLoadingScreens : ISettingsProvider
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   ModuleDataAssetHandler Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected override string FileNameModuleDataAsset => "[Cart] [Loading Screens] Settings Data Asset";
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -47,8 +41,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
         /// <summary>
         /// Draws the inspector version of the settings.
         /// </summary>
-        /// <param name="serializedObject">The target object</param>
-        public void OnInspectorSettingsGUI(SerializedObject serializedObject)
+        public void OnInspectorSettingsGUI()
         {
             EditorGUILayout.BeginVertical("HelpBox");
             
@@ -57,12 +50,12 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("loadingScreenPrefab"), AssetMeta.GetData("LoadingScreens").Content("prefab"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.LoadingScreensSettingsObject.Fp("loadingScreenPrefab"), AssetMeta.GetData("LoadingScreens").Content("prefab"));
 
             if (EditorGUI.EndChangeCheck())
             {
-                ObjectModuleAsset.ApplyModifiedProperties();
-                ObjectModuleAsset.Update();
+                ModulesScriptableRef.LoadingScreensSettingsObject.ApplyModifiedProperties();
+                ModulesScriptableRef.LoadingScreensSettingsObject.Update();
             }
 
             EditorGUILayout.EndVertical();
@@ -87,13 +80,13 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 
             // Draw the provider enum field on the GUI...
             EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("loadingScreenPrefab"), AssetMeta.GetData("LoadingScreens").Content("prefab"));
+            EditorGUILayout.PropertyField(ModulesScriptableRef.LoadingScreensSettingsObject.Fp("loadingScreenPrefab"), AssetMeta.GetData("LoadingScreens").Content("prefab"));
 
 
             if (EditorGUI.EndChangeCheck())
             {
-                ObjectModuleAsset.ApplyModifiedProperties();
-                ObjectModuleAsset.Update();
+                ModulesScriptableRef.LoadingScreensSettingsObject.ApplyModifiedProperties();
+                ModulesScriptableRef.LoadingScreensSettingsObject.Update();
             }
 
 

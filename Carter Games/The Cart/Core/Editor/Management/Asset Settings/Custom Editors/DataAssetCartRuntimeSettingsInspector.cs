@@ -62,7 +62,7 @@ namespace CarterGames.Cart.Core.Management.Editor
             
             foreach (var providerKvp in SettingsProviderHandler.Providers)
             {
-                providerKvp.Value.OnInspectorSettingsGUI(null);
+                providerKvp.Value.OnInspectorSettingsGUI();
                 GUILayout.Space(2f);
             }
         }

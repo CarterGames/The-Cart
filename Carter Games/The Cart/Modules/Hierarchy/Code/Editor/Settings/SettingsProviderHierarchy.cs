@@ -32,9 +32,16 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
     /// <summary>
     /// Handles the settings drawing for the hierarchy block system.
     /// </summary>
-    public class SettingsProviderHierarchy : ISettingsProvider
+    public sealed class SettingsProviderHierarchy : ISettingsProvider
     {
-        public void OnInspectorSettingsGUI(SerializedObject serializedObject)
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   ISettingsProvider Implementation
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Draws the inspector version of the settings.
+        /// </summary>
+        public void OnInspectorSettingsGUI()
         {
             EditorGUILayout.BeginVertical("HelpBox");
             
@@ -52,6 +59,9 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         }
         
 
+        /// <summary>
+        /// Draws the settings provider version of the settings.
+        /// </summary>
         public void OnProjectSettingsGUI()
         {
             EditorSettingsHierarchy.EditorSettingsSectionExpanded = EditorGUILayout.Foldout(EditorSettingsHierarchy.EditorSettingsSectionExpanded, AssetMeta.GetData("Hierarchy").Content(AssetMeta.SectionTitle));
