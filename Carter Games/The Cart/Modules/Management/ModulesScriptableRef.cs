@@ -37,17 +37,17 @@ namespace CarterGames.Cart.Core.Management.Editor
 		/* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 #if CARTERGAMES_CART_MODULE_GAMETICKER
 		private static readonly string FileNameGameTickerSettingsAsset =
-			"[Cart] [GameTicker] Settings Data Asset";
+			"[Cart] [GameTicker] Settings Data Asset.asset";
 #endif
 
 #if CARTERGAMES_CART_MODULE_LOADINGSCREENS
 		private static readonly string FileNameLoadingScreensSettingsAsset =
-			"[Cart] [Loading Screens] Settings Data Asset";
+			"[Cart] [Loading Screens] Settings Data Asset.asset";
 #endif
 
 #if CARTERGAMES_CART_MODULE_NOTIONDATA
 		private static readonly string FileNameNotionDataSettingsAsset =
-			"[Cart] [Notion Data] Settings Data Asset";
+			"[Cart] [Notion Data] Settings Data Asset.asset";
 #endif
 
 		
