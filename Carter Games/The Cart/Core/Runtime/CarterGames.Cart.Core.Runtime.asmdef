@@ -1,5 +1,5 @@
 {
-    "name": "CarterGames.TheCart.Core.Runtime",
+    "name": "CarterGames.Cart.Core.Runtime",
     "rootNamespace": "CarterGames.Cart.Core.Runtime",
     "references": [],
     "includePlatforms": [],

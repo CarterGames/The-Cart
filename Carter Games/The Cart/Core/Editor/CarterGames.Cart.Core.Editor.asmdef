@@ -1,5 +1,5 @@
 {
-    "name": "CarterGames.TheCart.Core.Editor",
+    "name": "CarterGames.Cart.Core.Editor",
     "rootNamespace": "CarterGames.Cart.Core.Editor",
     "references": [
         "GUID:f9eb8297e33d3b14ea4786f5a0c2ac04"
