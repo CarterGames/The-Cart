@@ -103,7 +103,7 @@ namespace CarterGames.Cart.Modules.GameTicks
             }
             else
             {
-                change = DataAccess.GetAsset<DataAssetRuntimeSettingsGameTicks>().GameTickUseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                change = DataAccess.GetAsset<DataAssetSettingsGameTicker>().GameTickUseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
             }
 
             tickTimer += change;

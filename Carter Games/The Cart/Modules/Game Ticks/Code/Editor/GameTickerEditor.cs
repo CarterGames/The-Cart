@@ -30,23 +30,8 @@ using UnityEditor;
 namespace CarterGames.Cart.Modules.GameTicks.Editor
 {
     [CustomEditor(typeof(GameTicker))]
-    public class GameTickerEditor : UnityEditor.Editor, IMeta
+    public class GameTickerEditor : UnityEditor.Editor
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   IMeta Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Gets the path for the metadata of the module.
-        /// </summary>
-        public string MetaDataPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Game Ticks/Data/Meta Data/";
-        
-        
-        /// <summary>
-        /// Gets the metadata of the module.
-        /// </summary>
-        public MetaData MetaData => Meta.GetData(MetaDataPath, "GameTickerMeta");
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Custom editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -59,7 +44,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
             EditorGUILayout.Space(1.5f);
             
             EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(serializedObject.Fp("syncState"), MetaData.Content("inspector_syncState"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("syncState"), AssetMeta.GetData("GameTickerMeta").Content("inspector_syncState"));
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
@@ -69,7 +54,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
             
             if (serializedObject.Fp("syncState").intValue == 0)
             {
-                EditorGUILayout.PropertyField(serializedObject.Fp("ticksPerSecond"), MetaData.Content("inspector_tickRate"));
+                EditorGUILayout.PropertyField(serializedObject.Fp("ticksPerSecond"), AssetMeta.GetData("GameTickerMeta").Content("inspector_tickRate"));
             }
             
             EditorGUILayout.Space(1.5f);

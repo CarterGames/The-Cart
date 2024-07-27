@@ -1,97 +1,73 @@
-﻿#if CARTERGAMES_CART_MODULE_HIERARCHY
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
-using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Hierarchy.Editor
+namespace CarterGames.Cart.Core.Management.Editor
 {
     /// <summary>
-    /// Handles the custom inspector for the hierarchy header settings script.
+    /// Handles any logic for generating/updating the scriptable objects for the asset where needed.
     /// </summary>
-    [CustomEditor(typeof(HierarchySeparatorSettings))]
-    public sealed class HierarchySeparatorSettingsEditor : UnityEditor.Editor
+    public class ScriptableObjectInitialize : IAssetEditorInitialize, IAssetEditorReload
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Overrides
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        public override void OnInspectorGUI()
-        {
-            GUILayout.Space(4f);
-            GeneralUtilEditor.DrawMonoScriptSection((HierarchySeparatorSettings)target);
-            GUILayout.Space(2f);
-            
-            DrawHeaderBox();
-
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-        }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
+        |   IAssetEditorInitialize
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Draws the header settings box & its options.
+        /// Defines the order that this initializer run at.
         /// </summary>
-        private void DrawHeaderBox()
+        public int InitializeOrder => -1;
+        
+
+        /// <summary>
+        /// Runs when the asset initialize flow is used.
+        /// </summary>
+        public void OnEditorInitialized()
         {
-            EditorGUILayout.BeginVertical("HelpBox");
-            GUILayout.Space(2f);
-            EditorGUILayout.LabelField("Separator", EditorStyles.boldLabel);
-            GUILayout.Space(1f);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            GUILayout.Space(1f);
+            if (ScriptableRef.HasAllAssets) return;
+            ScriptableRef.TryCreateAssets();
+        }
 
-            EditorGUILayout.BeginHorizontal();
-            
-            EditorGUI.BeginChangeCheck();
-            
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customSeparator_backgroundCol")); 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   IAssetEditorReload
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Runs when the asset reload flow is used.
+        /// </summary>
+        public void OnEditorReloaded()
+        {
+            if (ScriptableRef.HasAllAssets) return;
+            ScriptableRef.TryCreateAssets();
+        }
 
-            if (GUILayout.Button("R", GUILayout.Width(25)))
-            {
-                serializedObject.Fp("backgroundColor").colorValue = Color.gray;
-            }
-            
-            EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customSeparator_fullWidth"));
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorApplication.RepaintHierarchyWindow();
-            }
-           
-            GUILayout.Space(2f);
-            EditorGUILayout.EndVertical();
+        [InitializeOnLoadMethod]
+        private static void TryInit()
+        {
+            if (ScriptableRef.HasAllAssets) return;
+            ScriptableRef.TryCreateAssets();
         }
     }
 }
-
-#endif

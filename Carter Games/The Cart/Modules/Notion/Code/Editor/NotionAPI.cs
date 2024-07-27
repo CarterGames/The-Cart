@@ -55,7 +55,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// <summary>
         /// Gets the API the user has set in the settings asset for the library.
         /// </summary>
-        private static string DefaultAPIKey => DataAccess.GetAsset<DataAssetRuntimeSettingsNotionData>().NotionApiKey;
+        private static string DefaultAPIKey => DataAccess.GetAsset<DataAssetSettingsNotionData>().NotionApiKey;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events

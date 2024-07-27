@@ -1,19 +1,17 @@
-#if CARTERGAMES_CART_MODULE_LOADINGSCREENS
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,104 +21,88 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Events;
-using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
-namespace CarterGames.Cart.Modules.LoadingScreens
+namespace CarterGames.Cart.Core.Management
 {
     /// <summary>
-    /// Handles the generic loading screen system.
+    /// A helper class for assembly related logic.
     /// </summary>
-    public static class GenericLoadingScreen
+    public static class AssemblyHelper
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private static GenericLoadingScreenInstance instance;
-
+        private static Assembly[] cartAssembliesCache;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Gets if the loading screen is active or not.
+        /// Gets all the cart assemblies to use when checking in internally only.
         /// </summary>
-        private static bool IsShown { get; set; }
-        
-
-        /// <summary>
-        /// Gets the current instance of the loading screen if it is referenced.
-        /// </summary>
-        private static GenericLoadingScreenInstance ActiveInstance
-        {
-            get
-            {
-                if (instance != null) return instance;
-                var newInstance = Object.Instantiate(DataAccess.GetAsset<DataAssetSettingsLoadingScreens>().LoadingScreenPrefab);
-                Object.DontDestroyOnLoad(newInstance);
-                instance = newInstance;
-                return instance;
-            }
-        }
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Raises when the loading screen is toggled.
-        /// </summary>
-        public static readonly Evt<bool> Toggled = new Evt<bool>();
+        private static Assembly[] CartAssemblies => CacheRef.GetOrAssign(ref cartAssembliesCache, GetCartAssemblies);
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Shows the loading screen when called.
+        /// The assemblies for the library.
         /// </summary>
-        /// <param name="title">The title to display.</param>
-        /// <param name="subTitle">The subtitle to show.</param>
-        /// <param name="backgroundAlpha">The background alpha to set.</param>
-        public static void Show(string title, string subTitle = "", float backgroundAlpha = 1f)
+        /// <returns>Returns all the assemblies for the cart.</returns>
+        private static Assembly[] GetCartAssemblies()
         {
-            if (IsShown) return;
-            
-            ActiveInstance.Run(title, subTitle, Mathf.Clamp01(backgroundAlpha));
-            IsShown = true;
-            Toggled.Raise(true);
-        }
-        
-        
-        /// <summary>
-        /// Shows the loading screen when called.
-        /// </summary>
-        /// <param name="title">The title to display.</param>
-        /// <param name="backgroundAlpha">The background alpha to set.</param>
-        public static void Show(string title, float backgroundAlpha = 1f)
-        {
-            if (IsShown) return;
-            
-            ActiveInstance.Run(title, Mathf.Clamp01(backgroundAlpha));
-            IsShown = true;
-            Toggled.Raise(true);
+#if UNITY_EDITOR
+            return new Assembly[3]
+            {
+                Assembly.Load("CarterGames.Cart.Modules"),
+                Assembly.Load("CarterGames.Cart.Core.Editor"),
+                Assembly.Load("CarterGames.Cart.Core.Runtime")
+            };
+#else
+            return new Assembly[2]
+            {
+                Assembly.Load("CarterGames.Cart.Modules"),
+                Assembly.Load("CarterGames.Cart.Core.Runtime")
+            };
+#endif
         }
 
 
         /// <summary>
-        /// Hides the loading screen when called.
+        /// Gets the number of classes of the requested type in the project.
         /// </summary>
-        public static void Hide()
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>The total in the project.</returns>
+        public static int CountClassesOfType<T>(bool internalCheckOnly = true)
         {
-            if (!IsShown) return;
-            
-            ActiveInstance.Stop();
-            IsShown = false;
-            Toggled.Raise(false);
+            var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+                
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Count(x => x.IsClass && typeof(T).IsAssignableFrom(x));
+        }
+        
+        
+        /// <summary>
+        /// Gets all the classes of the entered type in the project.
+        /// </summary>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = true)
+        {
+            var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
+                .Select(type => (T)Activator.CreateInstance(type));
         }
     }
 }
-
-#endif

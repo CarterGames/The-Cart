@@ -32,28 +32,13 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
     /// <summary>
     /// Handles the settings provider for the hierarchy.
     /// </summary>
-    public sealed class SettingsProviderLoadingScreens : ModuleDataAssetHandler<DataAssetRuntimeSettingsLoadingScreens>, ISettingsProvider, IMeta
+    public sealed class SettingsProviderLoadingScreens : ModuleDataAssetHandler<DataAssetSettingsLoadingScreens>, ISettingsProvider
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ModuleDataAssetHandler Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected override string FileNameModuleDataAsset => "[Cart] [Loading Screens] Runtime Settings Data Asset";
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   IMeta Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Gets the path for the metadata of the module.
-        /// </summary>
-        public string MetaDataPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Loading Screens/Data/Meta Data/";
-        
-        
-        /// <summary>
-        /// Gets the metadata of the module.
-        /// </summary>
-        public MetaData MetaData => Meta.GetData(MetaDataPath, "LoadingScreens");
+        protected override string FileNameModuleDataAsset => "[Cart] [Loading Screens] Settings Data Asset";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
@@ -67,12 +52,12 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             
-            EditorGUILayout.LabelField(MetaData.Labels[Meta.SectionTitle], EditorStyles.boldLabel);
+            EditorGUILayout.LabelField(AssetMeta.GetData("LoadingScreens").Labels[AssetMeta.SectionTitle], EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("loadingScreenPrefab"), MetaData.Content("prefab"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("loadingScreenPrefab"), AssetMeta.GetData("LoadingScreens").Content("prefab"));
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -90,7 +75,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
         public void OnProjectSettingsGUI()
         {
             EditorSettingsLoadingScreens.IsModuleSettingsExpanded =
-                EditorGUILayout.Foldout(EditorSettingsLoadingScreens.IsModuleSettingsExpanded, MetaData.Content(Meta.SectionTitle));
+                EditorGUILayout.Foldout(EditorSettingsLoadingScreens.IsModuleSettingsExpanded, AssetMeta.GetData("LoadingScreens").Content(AssetMeta.SectionTitle));
 
 
             if (!EditorSettingsLoadingScreens.IsModuleSettingsExpanded) return;
@@ -102,7 +87,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 
             // Draw the provider enum field on the GUI...
             EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("loadingScreenPrefab"), MetaData.Content("prefab"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("loadingScreenPrefab"), AssetMeta.GetData("LoadingScreens").Content("prefab"));
 
 
             if (EditorGUI.EndChangeCheck())

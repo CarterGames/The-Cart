@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_HIERARCHY
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,75 +21,72 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
-using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Hierarchy.Editor
+namespace CarterGames.Cart.Modules
 {
     /// <summary>
-    /// Handles the custom inspector for the hierarchy header settings script.
+    /// A base class for modules to use data assets without issues.
     /// </summary>
-    [CustomEditor(typeof(HierarchySeparatorSettings))]
-    public sealed class HierarchySeparatorSettingsEditor : UnityEditor.Editor
+    /// <typeparam name="TAssetType">The asset type.</typeparam>
+    public abstract class ModuleDataAssetHandler<TAssetType> where TAssetType : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Overrides
+        |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public override void OnInspectorGUI()
-        {
-            GUILayout.Space(4f);
-            GeneralUtilEditor.DrawMonoScriptSection((HierarchySeparatorSettings)target);
-            GUILayout.Space(2f);
-            
-            DrawHeaderBox();
-
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-        }
-
+        private readonly string filterModuleDataAsset = $"t:{typeof(TAssetType).FullName}";
+        
+        private TAssetType cacheModuleDataAsset;
+        private SerializedObject objectCacheModuleDataAsset;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
+        |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Draws the header settings box & its options.
+        /// The file name to use.
         /// </summary>
-        private void DrawHeaderBox()
+        protected abstract string FileNameModuleDataAsset { get; }
+        
+        
+        /// <summary>
+        /// The full path for the data asset.
+        /// </summary>
+        private string FullPathModuleDataAsset => $"{ScriptableRef.FullPathData}Modules/{FileNameModuleDataAsset}.asset";
+        
+        
+        /// <summary>
+        /// The asset reference.
+        /// </summary>
+        protected TAssetType ModuleAsset =>
+            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheModuleDataAsset, filterModuleDataAsset, FullPathModuleDataAsset, FileEditorUtil.AssetName, $"{ScriptableRef.PathData}Modules/{FileNameModuleDataAsset}.asset");
+        
+        
+        /// <summary>
+        /// The module asset as an object.
+        /// </summary>
+        protected SerializedObject ObjectModuleAsset =>
+            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheModuleDataAsset, ModuleAsset);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void TryCreateIfNotInProject()
         {
-            EditorGUILayout.BeginVertical("HelpBox");
-            GUILayout.Space(2f);
-            EditorGUILayout.LabelField("Separator", EditorStyles.boldLabel);
-            GUILayout.Space(1f);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            GUILayout.Space(1f);
-
-            EditorGUILayout.BeginHorizontal();
+            if (AssetDatabaseHelper.FileIsInProject<TAssetType>(FullPathModuleDataAsset)) return;
             
-            EditorGUI.BeginChangeCheck();
-            
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customSeparator_backgroundCol")); 
-
-            if (GUILayout.Button("R", GUILayout.Width(25)))
+            if (cacheModuleDataAsset == null)
             {
-                serializedObject.Fp("backgroundColor").colorValue = Color.gray;
+                FileEditorUtil.CreateSoGetOrAssignAssetCache(
+                    ref cacheModuleDataAsset, 
+                    filterModuleDataAsset, 
+                    FullPathModuleDataAsset,
+                    FileEditorUtil.AssetName, $"{ScriptableRef.PathData}Modules/{FileNameModuleDataAsset}.asset");
             }
-            
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customSeparator_fullWidth"));
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorApplication.RepaintHierarchyWindow();
-            }
-           
-            GUILayout.Space(2f);
-            EditorGUILayout.EndVertical();
         }
     }
 }
-
-#endif

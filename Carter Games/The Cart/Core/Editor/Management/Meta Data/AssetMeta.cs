@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_HIERARCHY
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,75 +21,40 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.MetaData.Editor;
-using UnityEditor;
-using UnityEngine;
+using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Logs;
 
-namespace CarterGames.Cart.Modules.Hierarchy.Editor
+namespace CarterGames.Cart.Core.MetaData.Editor
 {
     /// <summary>
-    /// Handles the custom inspector for the hierarchy header settings script.
+    /// A manager class for all meta data used in the editor of the asset.
     /// </summary>
-    [CustomEditor(typeof(HierarchySeparatorSettings))]
-    public sealed class HierarchySeparatorSettingsEditor : UnityEditor.Editor
+    public static class AssetMeta
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Overrides
+        |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public override void OnInspectorGUI()
-        {
-            GUILayout.Space(4f);
-            GeneralUtilEditor.DrawMonoScriptSection((HierarchySeparatorSettings)target);
-            GUILayout.Space(2f);
-            
-            DrawHeaderBox();
-
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-        }
+        public const string SectionTitle = "sectionTitle";
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Draws the header settings box & its options.
+        /// Gets the data for a specific system.
         /// </summary>
-        private void DrawHeaderBox()
+        /// <param name="key">The key to find.</param>
+        /// <returns>The found data.</returns>
+        public static MetaData GetData(string key)
         {
-            EditorGUILayout.BeginVertical("HelpBox");
-            GUILayout.Space(2f);
-            EditorGUILayout.LabelField("Separator", EditorStyles.boldLabel);
-            GUILayout.Space(1f);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            GUILayout.Space(1f);
-
-            EditorGUILayout.BeginHorizontal();
-            
-            EditorGUI.BeginChangeCheck();
-            
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customSeparator_backgroundCol")); 
-
-            if (GUILayout.Button("R", GUILayout.Width(25)))
+            if (!DataAccess.GetAsset<DataAssetMetaData>().TryGetData(key, out var metaData))
             {
-                serializedObject.Fp("backgroundColor").colorValue = Color.gray;
+                CartLogger.LogError<LogCategoryCore>($"Unable to find JSON for {key}", typeof(AssetMeta));
+                return null;
             }
-            
-            EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customSeparator_fullWidth"));
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorApplication.RepaintHierarchyWindow();
-            }
-           
-            GUILayout.Space(2f);
-            EditorGUILayout.EndVertical();
+            return metaData;
         }
     }
 }
-
-#endif

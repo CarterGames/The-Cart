@@ -34,7 +34,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
     [CustomEditor(typeof(NotionDataAsset<>), true)]
-    public sealed class NotionDataAssetEditor : UnityEditor.Editor, IMeta
+    public sealed class NotionDataAssetEditor : UnityEditor.Editor
     {
         private void OnEnable()
         {
@@ -66,17 +66,17 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             EditorGUILayout.LabelField("Notion Database Settings", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            EditorGUILayout.PropertyField(serializedObject.Fp("linkToDatabase"), MetaData.Content("notion_databaseLink"));
-            EditorGUILayout.PropertyField(serializedObject.Fp("useUniqueApiKey"), MetaData.Content("notion_useOverrideAPIKey"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("linkToDatabase"), AssetMeta.GetData("NotionData").Content("notion_databaseLink"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("useUniqueApiKey"), AssetMeta.GetData("NotionData").Content("notion_useOverrideAPIKey"));
             
             if (serializedObject.Fp("useUniqueApiKey").boolValue)
             {
-                EditorGUILayout.PropertyField(serializedObject.Fp("databaseApiKey"), MetaData.Content("notion_apiKey"));
+                EditorGUILayout.PropertyField(serializedObject.Fp("databaseApiKey"), AssetMeta.GetData("NotionData").Content("notion_apiKey"));
             }
             else
             {
                 EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.TextField(MetaData.Content("notion_defaultAPIKey"), DataAccess.GetAsset<DataAssetRuntimeSettingsNotionData>().NotionApiKey);
+                EditorGUILayout.TextField(AssetMeta.GetData("NotionData").Content("notion_defaultAPIKey"), DataAccess.GetAsset<DataAssetSettingsNotionData>().NotionApiKey);
                 EditorGUI.EndDisabledGroup();
             }
 
@@ -89,7 +89,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             else
             {
                 EditorGUI.BeginDisabledGroup(
-                    !NotionAPI.IsValidApiKey(DataAccess.GetAsset<DataAssetRuntimeSettingsNotionData>().NotionApiKey) ||
+                    !NotionAPI.IsValidApiKey(DataAccess.GetAsset<DataAssetSettingsNotionData>().NotionApiKey) ||
                     string.IsNullOrEmpty(serializedObject.Fp("linkToDatabase").stringValue));
             }
 
@@ -154,21 +154,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
         }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   IMeta Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Gets the path for the metadata of the module.
-        /// </summary>
-        public string MetaDataPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Notion/Data/Meta Data/";
-        
-        
-        /// <summary>
-        /// Gets the metadata of the module.
-        /// </summary>
-        public MetaData MetaData => Meta.GetData(MetaDataPath, "NotionData");
     }
 }
 

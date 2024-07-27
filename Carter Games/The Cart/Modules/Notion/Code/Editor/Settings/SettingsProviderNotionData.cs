@@ -32,28 +32,13 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
     /// <summary>
     /// Handles the settings provider for the notion data.
     /// </summary>
-    public sealed class SettingsProviderNotionData : ModuleDataAssetHandler<DataAssetRuntimeSettingsNotionData>, ISettingsProvider, IMeta
+    public sealed class SettingsProviderNotionData : ModuleDataAssetHandler<DataAssetSettingsNotionData>, ISettingsProvider
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ModuleDataAssetHandler Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        protected override string FileNameModuleDataAsset => "[Cart] [Notion Data] Runtime Settings Data Asset";
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   IMeta Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Gets the path for the metadata of the module.
-        /// </summary>
-        public string MetaDataPath => $"{ScriptableRef.AssetBasePath}/Carter Games/The Cart/Modules/Notion/Data/Meta Data/";
-        
-        
-        /// <summary>
-        /// Gets the metadata of the module.
-        /// </summary>
-        public MetaData MetaData => Meta.GetData(MetaDataPath, "NotionData");
+        protected override string FileNameModuleDataAsset => "[Cart] [Notion Data] Settings Data Asset";
         
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -68,12 +53,12 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             
-            EditorGUILayout.LabelField(MetaData.Labels["sectionTitle"], EditorStyles.boldLabel);
+            EditorGUILayout.LabelField(AssetMeta.GetData("NotionData").Labels["sectionTitle"], EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("notionApiKey"), MetaData.Content("notion_defaultAPIKey"));
+            EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("notionApiKey"), AssetMeta.GetData("NotionData").Content("notion_defaultAPIKey"));
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -94,7 +79,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             EditorGUILayout.Space(1.5f);
             
             EditorSettingsNotionData.EditorDataNotionExpanded =
-                EditorGUILayout.Foldout(EditorSettingsNotionData.EditorDataNotionExpanded, MetaData.Content("notionTitle"));
+                EditorGUILayout.Foldout(EditorSettingsNotionData.EditorDataNotionExpanded, AssetMeta.GetData("NotionData").Content("notionTitle"));
             
             if (EditorSettingsNotionData.EditorDataNotionExpanded)
             {
@@ -104,7 +89,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 
                 // Draw the provider enum field on the GUI...
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("notionApiKey"), MetaData.Content("notion_defaultAPIKey"));
+                EditorGUILayout.PropertyField(ObjectModuleAsset.Fp("notionApiKey"), AssetMeta.GetData("NotionData").Content("notion_defaultAPIKey"));
                 
                 
                 if (EditorGUI.EndChangeCheck())

@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_HIERARCHY
+﻿#if CARTERGAMES_CART_MODULE_LOADINGSCREENS
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -23,74 +23,31 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.MetaData.Editor;
-using UnityEditor;
+using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Hierarchy.Editor
+namespace CarterGames.Cart.Modules.LoadingScreens
 {
     /// <summary>
-    /// Handles the custom inspector for the hierarchy header settings script.
+    /// The runtime settings for the loading screens system.
     /// </summary>
-    [CustomEditor(typeof(HierarchySeparatorSettings))]
-    public sealed class HierarchySeparatorSettingsEditor : UnityEditor.Editor
+    [CreateAssetMenu(fileName = "Loading Screens Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Loading Screens/Runtime Settings")]
+    public sealed class DataAssetSettingsLoadingScreens : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Overrides
+        |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public override void OnInspectorGUI()
-        {
-            GUILayout.Space(4f);
-            GeneralUtilEditor.DrawMonoScriptSection((HierarchySeparatorSettings)target);
-            GUILayout.Space(2f);
-            
-            DrawHeaderBox();
-
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-        }
-
+        [SerializeField] private GenericLoadingScreenInstance loadingScreenPrefab;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
+        |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Draws the header settings box & its options.
+        /// Gets the prefab for the loading screen.
         /// </summary>
-        private void DrawHeaderBox()
-        {
-            EditorGUILayout.BeginVertical("HelpBox");
-            GUILayout.Space(2f);
-            EditorGUILayout.LabelField("Separator", EditorStyles.boldLabel);
-            GUILayout.Space(1f);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            GUILayout.Space(1f);
-
-            EditorGUILayout.BeginHorizontal();
-            
-            EditorGUI.BeginChangeCheck();
-            
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customSeparator_backgroundCol")); 
-
-            if (GUILayout.Button("R", GUILayout.Width(25)))
-            {
-                serializedObject.Fp("backgroundColor").colorValue = Color.gray;
-            }
-            
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customSeparator_fullWidth"));
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorApplication.RepaintHierarchyWindow();
-            }
-           
-            GUILayout.Space(2f);
-            EditorGUILayout.EndVertical();
-        }
+        public GenericLoadingScreenInstance LoadingScreenPrefab => loadingScreenPrefab;
     }
 }
 

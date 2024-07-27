@@ -63,14 +63,14 @@ namespace CarterGames.Cart.Modules.GameTicks
         [RuntimeInitializeOnLoadMethod]
         private static void Initialize()
         {
-            if (!DataAccess.GetAsset<DataAssetRuntimeSettingsGameTicks>().GameTickUseGlobalTicker) return;
+            if (!DataAccess.GetAsset<DataAssetSettingsGameTicker>().GameTickUseGlobalTicker) return;
             if (globalTicker != null) return;
             
             var obj = new GameObject("Global Game Ticker");
             obj.AddComponent<GameTicker>();
             globalTicker = obj.GetComponent<GameTicker>();
-            ReflectionHelper.GetField(typeof(GameTicker), "syncState", false).SetValue(globalTicker, DataAccess.GetAsset<DataAssetRuntimeSettingsGameTicks>().GameTickGlobalSyncState);
-            globalTicker.SetTicksPerSecond(DataAccess.GetAsset<DataAssetRuntimeSettingsGameTicks>().GameTickTicksPerSecond);
+            ReflectionHelper.GetField(typeof(GameTicker), "syncState", false).SetValue(globalTicker, DataAccess.GetAsset<DataAssetSettingsGameTicker>().GameTickGlobalSyncState);
+            globalTicker.SetTicksPerSecond(DataAccess.GetAsset<DataAssetSettingsGameTicker>().GameTickTicksPerSecond);
             Object.DontDestroyOnLoad(obj);
         }
     }

@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_HIERARCHY
+﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -23,74 +23,31 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.MetaData.Editor;
-using UnityEditor;
+using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Hierarchy.Editor
+namespace CarterGames.Cart.Modules.NotionData
 {
     /// <summary>
-    /// Handles the custom inspector for the hierarchy header settings script.
+    /// Handles the settings asset for the notion data module.
     /// </summary>
-    [CustomEditor(typeof(HierarchySeparatorSettings))]
-    public sealed class HierarchySeparatorSettingsEditor : UnityEditor.Editor
+    [CreateAssetMenu(fileName = "Notion Data Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Notion Data/Runtime Settings")]
+    public sealed class DataAssetSettingsNotionData : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Overrides
+        |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public override void OnInspectorGUI()
-        {
-            GUILayout.Space(4f);
-            GeneralUtilEditor.DrawMonoScriptSection((HierarchySeparatorSettings)target);
-            GUILayout.Space(2f);
-            
-            DrawHeaderBox();
-
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-        }
-
+        [SerializeField] private string notionApiKey;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
+        |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Draws the header settings box & its options.
+        /// Gets the notion secret api key for use with the notion data asset system.
         /// </summary>
-        private void DrawHeaderBox()
-        {
-            EditorGUILayout.BeginVertical("HelpBox");
-            GUILayout.Space(2f);
-            EditorGUILayout.LabelField("Separator", EditorStyles.boldLabel);
-            GUILayout.Space(1f);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            GUILayout.Space(1f);
-
-            EditorGUILayout.BeginHorizontal();
-            
-            EditorGUI.BeginChangeCheck();
-            
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customSeparator_backgroundCol")); 
-
-            if (GUILayout.Button("R", GUILayout.Width(25)))
-            {
-                serializedObject.Fp("backgroundColor").colorValue = Color.gray;
-            }
-            
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customSeparator_fullWidth"));
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorApplication.RepaintHierarchyWindow();
-            }
-           
-            GUILayout.Space(2f);
-            EditorGUILayout.EndVertical();
-        }
+        public string NotionApiKey => notionApiKey;
     }
 }
 
