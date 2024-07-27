@@ -55,17 +55,17 @@ namespace CarterGames.Cart.Core.Management.Editor
 		/* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 #if CARTERGAMES_CART_MODULE_GAMETICKER
 		private static readonly string FullPathGameTickerSettingsAsset =
-			$"{ScriptableRef.FullPathData}{FileNameGameTickerSettingsAsset}";
+			$"{ScriptableRef.FullPathData}Modules/{FileNameGameTickerSettingsAsset}";
 #endif
 
 #if CARTERGAMES_CART_MODULE_LOADINGSCREENS
 		private static readonly string FullPathLoadingScreensSettingsAsset =
-			$"{ScriptableRef.FullPathData}{FileNameLoadingScreensSettingsAsset}";
+			$"{ScriptableRef.FullPathData}Modules/{FileNameLoadingScreensSettingsAsset}";
 #endif
 
 #if CARTERGAMES_CART_MODULE_NOTIONDATA
 		private static readonly string FullPathNotionDataSettingsAsset =
-			$"{ScriptableRef.FullPathData}{FileNameNotionDataSettingsAsset}";
+			$"{ScriptableRef.FullPathData}Modules/{FileNameNotionDataSettingsAsset}";
 #endif
 
 		
@@ -129,7 +129,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 			FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheGameTickerSettingsAsset,
 				FilterGameTickerSettingsAsset, FullPathGameTickerSettingsAsset,
 				FileEditorUtil.AssetName,
-				$"{ScriptableRef.PathData}{FileNameGameTickerSettingsAsset}");
+				$"{ScriptableRef.PathData}Modules/{FileNameGameTickerSettingsAsset}");
 #endif
 		
 #if CARTERGAMES_CART_MODULE_LOADINGSCREENS
@@ -137,7 +137,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 			FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheLoadingScreensSettingsAsset,
 				FilterLoadingScreensSettingsAsset, FullPathLoadingScreensSettingsAsset,
 				FileEditorUtil.AssetName,
-				$"{ScriptableRef.PathData}{FileNameLoadingScreensSettingsAsset}");
+				$"{ScriptableRef.PathData}Modules/{FileNameLoadingScreensSettingsAsset}");
 #endif
 		
 #if CARTERGAMES_CART_MODULE_NOTIONDATA
@@ -145,7 +145,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 			FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheNotionDataSettingsAsset,
 				FilterNotionDataSettingsAsset, FullPathNotionDataSettingsAsset,
 				FileEditorUtil.AssetName,
-				$"{ScriptableRef.PathData}{FileNameNotionDataSettingsAsset}");
+				$"{ScriptableRef.PathData}Modules/{FileNameNotionDataSettingsAsset}");
 #endif
 
 
@@ -211,7 +211,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 					FilterGameTickerSettingsAsset,
 					FullPathGameTickerSettingsAsset,
 					FileEditorUtil.AssetName,
-					$"{ScriptableRef.PathData}{FileNameGameTickerSettingsAsset}");
+					$"{ScriptableRef.PathData}Modules/{FileNameGameTickerSettingsAsset}");
 			}
 #endif
 			
@@ -223,7 +223,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 					FilterLoadingScreensSettingsAsset,
 					FullPathLoadingScreensSettingsAsset,
 					FileEditorUtil.AssetName,
-					$"{ScriptableRef.PathData}{FileNameLoadingScreensSettingsAsset}");
+					$"{ScriptableRef.PathData}Modules/{FileNameLoadingScreensSettingsAsset}");
 			}
 #endif
 			
@@ -235,7 +235,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 					FilterNotionDataSettingsAsset,
 					FullPathNotionDataSettingsAsset,
 					FileEditorUtil.AssetName,
-					$"{ScriptableRef.PathData}{FileNameNotionDataSettingsAsset}");
+					$"{ScriptableRef.PathData}Modules/{FileNameNotionDataSettingsAsset}");
 			}
 #endif
 		}
