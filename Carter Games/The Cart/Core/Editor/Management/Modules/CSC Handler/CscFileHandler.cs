@@ -112,7 +112,7 @@ namespace CarterGames.Cart.Modules
         
         private static void GenerateFile()
         {
-            File.Create(FilePath);
+            File.Create(FilePath).Dispose();
         }
         
 
