@@ -1,0 +1,14 @@
+{
+    "name": "CarterGames.Cart.Core.Runtime",
+    "rootNamespace": "CarterGames.Cart.Core.Runtime",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
