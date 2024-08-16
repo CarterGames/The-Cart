@@ -39,7 +39,7 @@ namespace CarterGames.Cart.Core.MetaData.Editor
             
             foreach (var defPath in InterfaceHelper.GetAllInterfacesInstancesOfType<IMetaDefinition>())
             {
-                var assets = AssetDatabase.FindAssets("t:textasset", new[] { defPath.Path });
+                var assets = AssetDatabase.FindAssets("t:textasset", new[] { defPath.MetaPath });
                 
                 if (assets.Length <= 0) continue;
 

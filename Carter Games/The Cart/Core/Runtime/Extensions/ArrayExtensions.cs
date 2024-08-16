@@ -83,9 +83,14 @@ namespace CarterGames.Cart.Core
             while (n > 1)
             {  
                 n--;
-                var k = Rng.Int(n + 1);
-                // var value = list[k]; list[k] = list[n]; list[n] = value;
-                (array[k], array[n]) = (array[n], array[k]);
+                
+                var k = Rng.Int(n);
+                
+                // ReSharper disable once SwapViaDeconstruction
+                // Easier to read & understand written this way.
+                var value = array[k];
+                array[k] = array[n];
+                array[n] = value;
             } 
             
             return array.Length <= 0;

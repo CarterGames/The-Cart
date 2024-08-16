@@ -45,7 +45,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// </summary>
         public void OnEditorInitialized()
         {
-            if (ScriptableRef.HasAllAssets) return;
+            if (ScriptableRef.HasAllAssets()) return;
             ScriptableRef.TryCreateAssets();
         }
 
@@ -58,7 +58,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// </summary>
         public void OnEditorReloaded()
         {
-            if (ScriptableRef.HasAllAssets) return;
+            if (ScriptableRef.HasAllAssets()) return;
             ScriptableRef.TryCreateAssets();
         }
 
@@ -66,7 +66,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         [InitializeOnLoadMethod]
         private static void TryInit()
         {
-            if (ScriptableRef.HasAllAssets) return;
+            if (ScriptableRef.HasAllAssets()) return;
             ScriptableRef.TryCreateAssets();
         }
     }

@@ -91,7 +91,7 @@ namespace CarterGames.Cart.Modules.Mockup.Editor
 
 
 
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Mockup/Toggle Tool", priority = 1300)]
+        [MenuItem("Tools/Carter Games/The Cart/Modules/Mockup/Toggle Tool", priority = 100)]
         private static void ToggleTool()
         {
             PerUserSettings.MockupEnabled = !PerUserSettings.MockupEnabled;

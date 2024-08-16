@@ -90,14 +90,14 @@ namespace CarterGames.Cart.Core.Logs.Editor
 
             oldData = new Dictionary<string, bool>();
 
-            for (var i = 0; i < ScriptableRef.LogCategoriesObject.Fp("lookup").Fpr("list").arraySize; i++)
+            for (var i = 0; i < ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").arraySize; i++)
             {
                 oldData.Add(
-                    ScriptableRef.LogCategoriesObject.Fp("lookup").Fpr("list").GetIndex(i).Fpr("key").stringValue,
-                    ScriptableRef.LogCategoriesObject.Fp("lookup").Fpr("list").GetIndex(i).Fpr("value").boolValue);
+                    ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").GetIndex(i).Fpr("key").stringValue,
+                    ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").GetIndex(i).Fpr("value").boolValue);
             }
             
-            var lookup = ScriptableRef.LogCategoriesObject.Fp("lookup").Fpr("list");
+            var lookup = ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list");
             
             lookup.ClearArray();
 
@@ -132,8 +132,8 @@ namespace CarterGames.Cart.Core.Logs.Editor
                 newEntry.Fpr("value").boolValue = toSetAs;
             }
 
-            ScriptableRef.LogCategoriesObject.ApplyModifiedProperties();
-            ScriptableRef.LogCategoriesObject.Update();
+            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
+            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
         }
     }
 }

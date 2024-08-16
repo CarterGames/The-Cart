@@ -21,8 +21,6 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
-
 namespace CarterGames.Cart.Modules
 {
     /// <summary>

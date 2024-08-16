@@ -1,0 +1,19 @@
+﻿{
+  "labels": {
+    "list": [
+      { "key": "sectionTitle", "value": "Runtime Console" }
+    ]
+  },
+  "content": {
+    "list": [
+      { "key": "sectionTitle", "value": { "title": "Runtime Console", "toolTip": "The settings for the 'Runtime Console' system." }},
+
+      { "key": "prefab", "value": { "title": "Display prefab", "toolTip": "Defines the prefab for the console display." }},
+      { "key": "showUnityLogs", "value": { "title": "Show Debug Logs", "toolTip": "Defines if the console will show unity logs by default." }},
+      { "key": "showCartLogs", "value": { "title": "Show Cart Logs", "toolTip": "Defines if the console will show cart logs by default." }},
+
+      { "key": "inspector_syncState", "value": { "title": "Sync state", "toolTip": "Defines the sync state for the ticker." }},
+      { "key": "inspector_tickRate", "value": { "title": "Tick rate", "toolTip": "Defines the tick rate for the ticker." }}
+    ]
+  }
+}

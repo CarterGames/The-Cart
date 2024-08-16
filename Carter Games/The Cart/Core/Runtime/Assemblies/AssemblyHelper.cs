@@ -59,17 +59,19 @@ namespace CarterGames.Cart.Core.Management
         private static Assembly[] GetCartAssemblies()
         {
 #if UNITY_EDITOR
-            return new Assembly[3]
+            return new Assembly[4]
             {
                 Assembly.Load("CarterGames.Cart.Modules"),
                 Assembly.Load("CarterGames.Cart.Core.Editor"),
-                Assembly.Load("CarterGames.Cart.Core.Runtime")
+                Assembly.Load("CarterGames.Cart.Core.Runtime"),
+                Assembly.Load("CarterGames.Cart.Extensions")
             };
 #else
-            return new Assembly[2]
+            return new Assembly[3]
             {
                 Assembly.Load("CarterGames.Cart.Modules"),
-                Assembly.Load("CarterGames.Cart.Core.Runtime")
+                Assembly.Load("CarterGames.Cart.Core.Runtime"),
+                Assembly.Load("CarterGames.Cart.Extensions")
             };
 #endif
         }
@@ -91,6 +93,19 @@ namespace CarterGames.Cart.Core.Management
         
         
         /// <summary>
+        /// Gets the number of classes of the requested type in the project.
+        /// </summary>
+        /// <param name="assemblies">The assemblies to check through.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>The total in the project.</returns>
+        public static int CountClassesOfType<T>(params Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Count(x => x.IsClass && typeof(T).IsAssignableFrom(x));
+        }
+        
+        
+        /// <summary>
         /// Gets all the classes of the entered type in the project.
         /// </summary>
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
@@ -100,6 +115,35 @@ namespace CarterGames.Cart.Core.Management
         {
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
 
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
+                .Select(type => (T)Activator.CreateInstance(type));
+        }
+        
+        
+        /// <summary>
+        /// Gets all the classes of the entered type in the project.
+        /// </summary>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = true)
+        {
+            var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName);
+        }
+        
+        
+        /// <summary>
+        /// Gets all the classes of the entered type in the project.
+        /// </summary>
+        /// <param name="assemblies">The assemblies to check through.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<T> GetClassesOfType<T>(params Assembly[] assemblies)
+        {
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
                 .Select(type => (T)Activator.CreateInstance(type));

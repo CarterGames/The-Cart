@@ -27,6 +27,6 @@ namespace CarterGames.Cart.Core.MetaData.Editor
 {
     public sealed class MetaDataCore : IMetaDefinition
     {
-        public string Path => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Core/Editor/Management/Meta Data/Data";
+        public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Core/Editor/Management/Meta Data/Data";
     }
 }

@@ -22,6 +22,8 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using CarterGames.Cart.Core.Logs.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using CarterGames.Cart.Core.Random.Editor;
@@ -76,6 +78,8 @@ namespace CarterGames.Cart.Core.Management.Editor
                     DrawRuntimeOptions();
                     GUILayout.Space(1.5f);
                     DrawModuleOptions();
+                    GUILayout.Space(1.5f);
+                    DrawExtensionOptions();
                     DrawButtons();
 
                     WindowUtilEditor.CreateDeselectZone(ref deselectRect);
@@ -188,7 +192,8 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// </summary>
         private static void DrawModuleOptions()
         {
-            if (SettingsProviderHandler.Providers.Count <= 0) return;
+            if (AssemblyHelper.CountClassesOfType<ISettingsProvider>(new Assembly[1]
+                    {Assembly.Load("CarterGames.Cart.Modules")}) <= 0) return;
             
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
@@ -197,9 +202,33 @@ namespace CarterGames.Cart.Core.Management.Editor
             
             EditorGUI.BeginChangeCheck();
 
-            foreach (var provider in SettingsProviderHandler.Providers)
+            foreach (var provider in AssemblyHelper.GetClassesOfType<ISettingsProvider>(new Assembly[1]
+                         {Assembly.Load("CarterGames.Cart.Modules")}).OrderBy(t => t.GetType().Name))
             {
-                provider.Value.OnProjectSettingsGUI();   
+                provider.OnProjectSettingsGUI();
+            }
+            
+            GUILayout.Space(1.5f);
+            EditorGUILayout.EndVertical();
+        }
+        
+        
+        private static void DrawExtensionOptions()
+        {
+            if (AssemblyHelper.CountClassesOfType<ISettingsProvider>(new Assembly[1]
+                    {Assembly.Load("CarterGames.Cart.Extensions")}) <= 0) return;
+            
+            EditorGUILayout.BeginVertical("HelpBox");
+            GUILayout.Space(1.5f);
+            EditorGUILayout.LabelField("Extensions", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
+            
+            EditorGUI.BeginChangeCheck();
+
+            foreach (var provider in AssemblyHelper.GetClassesOfType<ISettingsProvider>(new Assembly[1]
+                         {Assembly.Load("CarterGames.Cart.Extensions")}))
+            {
+                provider.OnProjectSettingsGUI();   
             }
             
             GUILayout.Space(1.5f);
