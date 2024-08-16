@@ -59,19 +59,19 @@ namespace CarterGames.Cart.Core.Management
         private static Assembly[] GetCartAssemblies()
         {
 #if UNITY_EDITOR
-            return new Assembly[4]
+            return new Assembly[3]
             {
                 Assembly.Load("CarterGames.Cart.Modules"),
                 Assembly.Load("CarterGames.Cart.Core.Editor"),
                 Assembly.Load("CarterGames.Cart.Core.Runtime"),
-                Assembly.Load("CarterGames.Cart.Extensions")
+                // Assembly.Load("CarterGames.Cart.Extensions")
             };
 #else
-            return new Assembly[3]
+            return new Assembly[2]
             {
                 Assembly.Load("CarterGames.Cart.Modules"),
                 Assembly.Load("CarterGames.Cart.Core.Runtime"),
-                Assembly.Load("CarterGames.Cart.Extensions")
+                // Assembly.Load("CarterGames.Cart.Extensions")
             };
 #endif
         }
