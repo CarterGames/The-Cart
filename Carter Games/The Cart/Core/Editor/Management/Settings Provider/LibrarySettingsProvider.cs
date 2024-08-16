@@ -79,7 +79,7 @@ namespace CarterGames.Cart.Core.Management.Editor
                     GUILayout.Space(1.5f);
                     DrawModuleOptions();
                     GUILayout.Space(1.5f);
-                    DrawExtensionOptions();
+                    // DrawExtensionOptions();
                     DrawButtons();
 
                     WindowUtilEditor.CreateDeselectZone(ref deselectRect);
