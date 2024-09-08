@@ -28,7 +28,6 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Panels
 {
-    [RequireComponent(typeof(CanvasGroup))]
     public class PanelTransitionCanvasGroup : PanelTransition
     {
         [SerializeField] private CanvasGroup canvasGroup;

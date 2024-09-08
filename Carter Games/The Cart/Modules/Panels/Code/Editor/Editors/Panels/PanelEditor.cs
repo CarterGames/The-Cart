@@ -169,7 +169,7 @@ namespace CarterGames.Cart.Modules.Panels.Editor
             {
                 serializedObject.Fp("transitions").ClearArray();
 
-                var components = ((Panel) target).GetComponentsInChildren<PanelTransition>(true);
+                var components = ((Panel) target).transform.root.GetComponentsInChildren<PanelTransition>(true);
 
                 for (var i = 0; i < components.Length; i++)
                 {
