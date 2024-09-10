@@ -1,4 +1,6 @@
-﻿/*
+﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+
+/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -63,3 +65,5 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 "The link to the page with the database on that you want to download.");
     }
 }
+
+#endif
