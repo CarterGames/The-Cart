@@ -106,5 +106,22 @@ namespace CarterGames.Cart.Core.Data
 
             return null;
         }
+
+        
+        /// <summary>
+        /// Gets all the data assets stored in the index.
+        /// </summary>
+        /// <returns>All the assets stored.</returns>
+        public static List<DataAsset> GetAllAssets()
+        {
+            var list = new List<DataAsset>();
+            
+            foreach (var entry in Index.Lookup.Values)
+            {
+                list.AddRange(entry);
+            }
+
+            return list;
+        }
     }
 }
