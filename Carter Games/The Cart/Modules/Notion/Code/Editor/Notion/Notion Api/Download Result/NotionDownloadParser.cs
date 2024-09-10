@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.ThirdParty;
@@ -132,7 +133,16 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// <returns>The value found.</returns>
         private static string GetValueForType(string type, JSONNode element)
         {
-            return DatabasePropertyParserLookup[type].GetJsonValue(element);
+            try
+            {
+                return DatabasePropertyParserLookup[type].GetJsonValue(element);
+            }
+#pragma warning disable
+            catch (Exception e)
+#pragma warning restore
+            {
+                return string.Empty;
+            }
         }
     }
 }
