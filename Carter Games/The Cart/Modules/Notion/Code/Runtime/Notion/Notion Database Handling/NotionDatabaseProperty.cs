@@ -238,30 +238,50 @@ namespace CarterGames.Cart.Modules.NotionData
         private bool TryParseAsList(Type fieldType, out object result)
         {
             result = null;
-
-            JSONArray toRead;
-
-            try
+            JSONArray toRead = null;
+            
+            if (propertyValue.Split(',').Length > 1)
             {
-                toRead = JSON.Parse(propertyValue).AsArray;
-            }
-#pragma warning disable
-            catch (Exception e)
-#pragma warning restore
-            {
-                var builder = new StringBuilder();
-                builder.Append("[");
-
-                for (var i = 0; i < propertyValue.Split(',').Length; i++)
+                try
                 {
-                    builder.Append($"\"{propertyValue.Split(',')[i].Trim()}\"");
-                    
-                    if (i == propertyValue.Split(',').Length - 1) continue;
-                    builder.Append(",");
+                    toRead = JSON.Parse(propertyValue).AsArray;
                 }
-                
-                builder.Append("]");
-                toRead = JSON.Parse(builder.ToString()).AsArray;
+#pragma warning disable
+                catch (Exception e)
+#pragma warning restore
+                {
+                    var builder = new StringBuilder();
+                    builder.Append("[");
+
+                    for (var i = 0; i < propertyValue.Split(',').Length; i++)
+                    {
+                        builder.Append($"\"{propertyValue.Split(',')[i].Trim()}\"");
+
+                        if (i == propertyValue.Split(',').Length - 1) continue;
+                        builder.Append(",");
+                    }
+
+                    builder.Append("]");
+
+                    toRead = JSON.Parse(builder.ToString()).AsArray;
+                }
+            }
+            else
+            {
+                if (propertyValue.Contains("[") && propertyValue.Contains("]"))
+                {
+                    toRead = JSON.Parse(propertyValue).AsArray;
+                }
+                else
+                {
+                    var builder = new StringBuilder();
+                    
+                    builder.Append("[");
+                    builder.Append($"\"{propertyValue.Split(',')[0].Trim()}\"");
+                    builder.Append("]");
+
+                    toRead = JSON.Parse(builder.ToString()).AsArray;
+                }
             }
 
 
