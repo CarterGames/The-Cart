@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,47 +21,44 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Modules.NotionData.Editor;
+using System;
+using CarterGames.Cart.Core;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData
 {
     /// <summary>
-    /// Handles the settings asset for the notion data module.
+    /// A class that contains a row of data from a notion database.
     /// </summary>
-    [CreateAssetMenu(fileName = "Notion Data Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Notion Data/Runtime Settings")]
-    public sealed class DataAssetSettingsNotionData : DataAsset
+    [Serializable]
+    public sealed class NotionDatabaseRow
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        [SerializeField] private NotionApiVersion apiVersion;
-        [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
-        [SerializeField] private string notionApiKey;
         
+        [SerializeField] private SerializableDictionary<string, NotionDatabaseProperty> data;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// A lookup of all the entries stored in the row that were valid.
+        /// </summary>
+        public SerializableDictionary<string, NotionDatabaseProperty> DataLookup => data;
 
-        /// <summary>
-        /// The Notion release API version to use.
-        /// </summary>
-        public NotionApiReleaseVersion NotionAPIReleaseVersion => apiReleaseVersion;
-        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// The Notion API version to use.
+        /// Makes a new instance of the class with the entered lookup.
         /// </summary>
-        public NotionApiVersion NotionApiVersion => apiVersion;
-        
-        
-        /// <summary>
-        /// Gets the notion secret api key for use with the notion data asset system.
-        /// </summary>
-        public string NotionApiKey => notionApiKey;
+        /// <param name="data">The lookup to apply.</param>
+        public NotionDatabaseRow(SerializableDictionary<string, NotionDatabaseProperty> data)
+        {
+            this.data = data;
+        }
     }
 }
-
-#endif

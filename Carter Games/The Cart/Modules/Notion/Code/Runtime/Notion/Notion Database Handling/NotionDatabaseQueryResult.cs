@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,47 +21,46 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Modules.NotionData.Editor;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData
 {
     /// <summary>
-    /// Handles the settings asset for the notion data module.
+    /// A class that contains the result of a notion database query.
     /// </summary>
-    [CreateAssetMenu(fileName = "Notion Data Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Notion Data/Runtime Settings")]
-    public sealed class DataAssetSettingsNotionData : DataAsset
+    [Serializable]
+    public sealed class NotionDatabaseQueryResult
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        [SerializeField] private NotionApiVersion apiVersion;
-        [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
-        [SerializeField] private string notionApiKey;
         
+        [SerializeField] private List<NotionDatabaseRow> dataDownloaded;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The Notion release API version to use.
-        /// </summary>
-        public NotionApiReleaseVersion NotionAPIReleaseVersion => apiReleaseVersion;
-        
         
         /// <summary>
-        /// The Notion API version to use.
+        /// The rows downloaded from notion for use.
         /// </summary>
-        public NotionApiVersion NotionApiVersion => apiVersion;
+        public List<NotionDatabaseRow> Rows => dataDownloaded;
         
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Gets the notion secret api key for use with the notion data asset system.
+        /// Makes a new instance of the class with the data downloaded.
         /// </summary>
-        public string NotionApiKey => notionApiKey;
+        /// <param name="data">The data to apply.</param>
+        public NotionDatabaseQueryResult(List<NotionDatabaseRow> data)
+        {
+            // Reverses the list as it is back to front when downloaded.
+            dataDownloaded = data.AsEnumerable().ToList();
+        }
     }
 }
-
-#endif

@@ -1,19 +1,17 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
- *
+ * 
+ *    
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,106 +21,100 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.MetaData.Editor;
-using CarterGames.Cart.Modules.Settings;
-using UnityEditor;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using CarterGames.Cart.Core.Data;
+using UnityEngine;
 
-namespace CarterGames.Cart.Modules.NotionData.Editor
-{
-	public sealed class SettingsProviderNotionData : ISettingsProvider
-	{
+namespace CarterGames.Cart.Modules.NotionData
+{   
+    /// <summary>
+    /// A base class for any Notion database data assets.
+    /// </summary>
+    /// <typeparam name="T">The type the data is storing.</typeparam>
+    [Serializable]
+    public abstract class NotionDataAsset<T> : DataAsset where T : new()
+    {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private static readonly string ExpandedId = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Modules_NotionData_IsExpanded";
+#pragma warning disable
+        [SerializeField, HideInInspector] private string linkToDatabase;     // Is used in editor space, so ignore the not used warning.
+        [SerializeField, HideInInspector] private string databaseApiKey;     // Is used in editor space, so ignore the not used warning.
+        [SerializeField, HideInInspector] private List<NotionSortProperty> sortProperties;
+#pragma warning restore
         
+        [SerializeField] private List<T> data;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Should the data notion section be shown?
+        /// The data stored on the asset.
         /// </summary>
-        private static bool IsExpanded
-        {
-            get => (bool)PerUserSettings.GetOrCreateValue<bool>(ExpandedId, SettingType.EditorPref);
-            set => PerUserSettings.SetValue<bool>(ExpandedId, SettingType.EditorPref, value);
-        }
-        
-        private IScriptableAssetDef<DataAssetSettingsNotionData> SettingsDef => ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>();
+        public List<T> Data => data;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   ISettingsProvider Implementation
+        |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
-        /// Draws the inspector version of the settings.
+        /// Applies the data found to the asset.
         /// </summary>
-        public void OnInspectorSettingsGUI()
+        /// <param name="result">The resulting data downloaded to try and apply.</param>
+        private void Apply(NotionDatabaseQueryResult result)
         {
-            EditorGUILayout.BeginVertical("HelpBox");
-            
-            EditorGUILayout.LabelField(AssetMeta.GetData("NotionData").Labels["sectionTitle"], EditorStyles.boldLabel);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            
-            EditorGUI.BeginChangeCheck();
-            
-            EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiVersion"));
-            EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiReleaseVersion"));
-            EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("notionApiKey"), AssetMeta.GetData("NotionData").Content("notion_defaultAPIKey"));
+            var list = new List<T>();
 
-            if (EditorGUI.EndChangeCheck())
+
+            foreach (var row in result.Rows)
             {
-                SettingsDef.ObjectRef.ApplyModifiedProperties();
-                SettingsDef.ObjectRef.Update();
-            }
+                var newEntry = new T();
+                var newEntryFields = newEntry.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
-            EditorGUILayout.EndVertical();
-        }
-
-        
-        /// <summary>
-        /// Draws the settings provider version of the settings.
-        /// </summary>
-        public void OnProjectSettingsGUI()
-        {
-            EditorGUILayout.BeginVertical();
-            EditorGUILayout.Space(1.5f);
-            
-            IsExpanded = EditorGUILayout.Foldout(IsExpanded, AssetMeta.GetData("NotionData").Content("notionTitle"));
-            
-            if (IsExpanded)
-            {
-                EditorGUILayout.BeginVertical("Box");
-                EditorGUILayout.Space(1.5f);
-                EditorGUI.indentLevel++;
-                
-                // Draw the provider enum field on the GUI...
-                EditorGUI.BeginChangeCheck();
-                
-                EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiVersion"));
-                EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiReleaseVersion"));
-                EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("notionApiKey"), AssetMeta.GetData("NotionData").Content("notion_defaultAPIKey"));
-                
-                
-                if (EditorGUI.EndChangeCheck())
+                foreach (var field in newEntryFields)
                 {
-                    SettingsDef.ObjectRef.ApplyModifiedProperties();
-                    SettingsDef.ObjectRef.Update();
+                    if (row.DataLookup.ContainsKey(field.Name.Trim().ToLower()))
+                    {
+                        var valueData = row.DataLookup[field.Name.Trim().ToLower()];
+                        var fieldType = field.FieldType;
+                        
+                        if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
+                        {
+                            var instance = valueData.GetValueAs(fieldType);
+                            field.SetValue(newEntry, instance);
+                            
+                            instance.GetType().BaseType.GetMethod("Assign", BindingFlags.NonPublic | BindingFlags.Instance)
+                                ?.Invoke(instance, null);
+                        }
+                        else
+                        {
+                            field.SetValue(newEntry, valueData.GetValueAs(fieldType));
+                        }
+                    }
                 }
                 
-                EditorGUI.indentLevel--;
-                EditorGUILayout.Space(1.5f);
-                EditorGUILayout.EndVertical();
+                list.Add(newEntry);
             }
             
+            data = list;
+            PostDataDownloaded();
             
-            EditorGUILayout.Space(1.5f);
-            EditorGUILayout.EndVertical();
-        }
-	}
-}
-
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
 #endif
+        }
+
+
+        /// <summary>
+        /// Override to run logic post download such as making edits to some data values or assigning others etc.
+        /// </summary>
+        protected virtual void PostDataDownloaded()
+        { }
+    }
+}

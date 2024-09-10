@@ -1,19 +1,17 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,47 +21,35 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Modules.NotionData.Editor;
-using UnityEngine;
-
-namespace CarterGames.Cart.Modules.NotionData
+namespace CarterGames.Cart.Modules.NotionData.Editor
 {
     /// <summary>
-    /// Handles the settings asset for the notion data module.
+    /// Handles basic validation for the secret keys used in Notion API calls.
     /// </summary>
-    [CreateAssetMenu(fileName = "Notion Data Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Notion Data/Runtime Settings")]
-    public sealed class DataAssetSettingsNotionData : DataAsset
+    public static class NotionSecretKeyValidator
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        [SerializeField] private NotionApiVersion apiVersion;
-        [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
-        [SerializeField] private string notionApiKey;
+        
+        private const string APIKeyPrefix = "secret_";
+        private const int APIKeySuffixLength = 43;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
+        |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The Notion release API version to use.
-        /// </summary>
-        public NotionApiReleaseVersion NotionAPIReleaseVersion => apiReleaseVersion;
-        
         
         /// <summary>
-        /// The Notion API version to use.
+        /// Returns if the api key entered is in the valid format for notion or not.
         /// </summary>
-        public NotionApiVersion NotionApiVersion => apiVersion;
-        
-        
-        /// <summary>
-        /// Gets the notion secret api key for use with the notion data asset system.
-        /// </summary>
-        public string NotionApiKey => notionApiKey;
+        /// <param name="key">The key to check.</param>
+        /// <returns>If the key is valid or not.</returns>
+        public static bool IsKeyValid(string key)
+        {
+            return 
+                !string.IsNullOrEmpty(key) &&
+                key.Contains(APIKeyPrefix) && 
+                key.Substring(0, key.Length - APIKeyPrefix.Length).Length.Equals(APIKeySuffixLength);
+        }
     }
 }
-
-#endif

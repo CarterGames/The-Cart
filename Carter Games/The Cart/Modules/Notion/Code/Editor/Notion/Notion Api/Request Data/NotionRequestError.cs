@@ -1,19 +1,17 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,47 +21,70 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Modules.NotionData.Editor;
 using UnityEngine;
+using CarterGames.Cart.ThirdParty;
 
-namespace CarterGames.Cart.Modules.NotionData
+namespace CarterGames.Cart.Modules.NotionData.Editor
 {
     /// <summary>
-    /// Handles the settings asset for the notion data module.
+    /// Handles a wrapper class for notion errors with the asset the error's on.
     /// </summary>
-    [CreateAssetMenu(fileName = "Notion Data Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Notion Data/Runtime Settings")]
-    public sealed class DataAssetSettingsNotionData : DataAsset
+    [Serializable]
+    public sealed class NotionRequestError
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        [SerializeField] private NotionApiVersion apiVersion;
-        [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
-        [SerializeField] private string notionApiKey;
         
+        [SerializeField] private DataAsset asset;
+        [SerializeField] private int errorCode;
+        [SerializeField] private string code;
+        [SerializeField] private string message;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The asset related to the error.
+        /// </summary>
+        public DataAsset Asset => asset;
+        
+        
+        /// <summary>
+        /// The HTTP error code response to the request.
+        /// </summary>
+        public int ErrorCode => errorCode;
+        
+        
+        /// <summary>
+        /// The code for the specific error the user ran into.
+        /// </summary>
+        public string Error => code;
+        
+        
+        /// <summary>
+        /// The message Notion sent back in relation to the error, usually gives decent context to the issue.
+        /// </summary>
+        public string Message => message;
 
-        /// <summary>
-        /// The Notion release API version to use.
-        /// </summary>
-        public NotionApiReleaseVersion NotionAPIReleaseVersion => apiReleaseVersion;
-        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// The Notion API version to use.
+        /// Makes a new error class instance when called.
         /// </summary>
-        public NotionApiVersion NotionApiVersion => apiVersion;
-        
-        
-        /// <summary>
-        /// Gets the notion secret api key for use with the notion data asset system.
-        /// </summary>
-        public string NotionApiKey => notionApiKey;
+        /// <param name="asset">The related asset.</param>
+        /// <param name="errorJson">The json to read for the error message.</param>
+        public NotionRequestError(DataAsset asset, JSONNode errorJson)
+        {
+            this.asset = asset;
+            errorCode = errorJson["errorCode"].AsInt;
+            code = errorJson["code"];
+            message = errorJson["message"];
+        }
     }
 }
-
-#endif
