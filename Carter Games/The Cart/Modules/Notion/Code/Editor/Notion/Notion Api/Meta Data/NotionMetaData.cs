@@ -29,18 +29,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 {
     public static class NotionMetaData
     {
-        public static readonly GUIContent VersionNumber =
-            new GUIContent(
-                "Version:",
-                "The version number for the standalone asset.");
-        
-        
-        public static readonly GUIContent ReleaseDate =
-            new GUIContent(
-                "Release date (Y/M/D):",
-                "The release date of the standalone asset. In Year/Month/Day order.");
-        
-        
         public static readonly GUIContent ApiVersion =
             new GUIContent(
                 "API version:",

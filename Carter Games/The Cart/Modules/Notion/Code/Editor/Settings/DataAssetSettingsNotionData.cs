@@ -40,7 +40,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
         [SerializeField] private NotionApiVersion apiVersion;
         [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
-        [SerializeField] private string notionApiKey;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -56,12 +55,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// The Notion API version to use.
         /// </summary>
         public NotionApiVersion NotionApiVersion => apiVersion;
-        
-        
-        /// <summary>
-        /// Gets the notion secret api key for use with the notion data asset system.
-        /// </summary>
-        public string NotionApiKey => notionApiKey;
     }
 }
 

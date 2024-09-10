@@ -135,6 +135,11 @@ namespace CarterGames.Cart.Modules.NotionData
                 {
                     var combined = string.Empty;
                     var elements = JSON.Parse(propertyValue).AsArray;
+
+                    if (elements.Count <= 1)
+                    {
+                        return Enum.Parse(fieldType, elements[0].Value.Replace(" ", ""));
+                    }
                     
                     for (var index = 0; index < elements.Count; index++)
                     {
@@ -148,7 +153,16 @@ namespace CarterGames.Cart.Modules.NotionData
                 }
                 else
                 {
-                    return Enum.Parse(fieldType, propertyValue.Replace(" ", ""));
+                    try
+                    {
+                        return Enum.Parse(fieldType, propertyValue.Replace(" ", ""));
+                    }
+#pragma warning disable
+                    catch (Exception e)
+#pragma warning restore
+                    {
+                        return fieldType.IsValueType ? Activator.CreateInstance(fieldType) : null;
+                    }
                 }
             }
 

@@ -71,7 +71,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiVersion"));
             EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiReleaseVersion"));
-            EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("notionApiKey"), AssetMeta.GetData("NotionData").Content("notion_defaultAPIKey"));
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -104,8 +103,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 
                 EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiVersion"));
                 EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiReleaseVersion"));
-                EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("notionApiKey"), AssetMeta.GetData("NotionData").Content("notion_defaultAPIKey"));
-                
                 
                 if (EditorGUI.EndChangeCheck())
                 {
