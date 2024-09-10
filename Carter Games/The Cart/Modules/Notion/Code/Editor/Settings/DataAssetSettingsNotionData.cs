@@ -24,10 +24,9 @@
  */
 
 using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Modules.NotionData.Editor;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.NotionData
+namespace CarterGames.Cart.Modules.NotionData.Editor
 {
     /// <summary>
     /// Handles the settings asset for the notion data module.
