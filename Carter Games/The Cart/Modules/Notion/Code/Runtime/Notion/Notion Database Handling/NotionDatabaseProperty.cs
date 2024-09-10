@@ -131,7 +131,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
             if (fieldType.IsEnum)
             {
-                if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0)
+                if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 && JSON.Parse(propertyValue).IsArray)
                 {
                     var combined = string.Empty;
                     var elements = JSON.Parse(propertyValue).AsArray;
