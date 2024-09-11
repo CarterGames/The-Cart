@@ -98,6 +98,17 @@ namespace CarterGames.Cart.Modules.NotionData
                     if (TryParseEnumOrEnumFlags(fieldType, out result)) return result;
                 }
             }
+
+
+            if (fieldType.ToString().Contains("System.Collections.Generic.List"))
+            {
+                if (TryParseAsList(fieldType, out result)) return result;
+                
+                if (fieldType.IsEnum)
+                {
+                    if (TryParseEnumOrEnumFlags(fieldType, out result)) return result;
+                }
+            }
             
             
             if (TryParseAsPrimitive(fieldType, out result)) return result;
