@@ -325,7 +325,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                     for (var i = 0; i < data.Count; i++)
                     {
-                        parsedIntList[i] = int.Parse(data[i].Value);
+                        parsedIntList.Add(int.Parse(data[i].Value));
                     }
 
                     result = parsedIntList;
@@ -336,7 +336,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                     for (var i = 0; i < data.Count; i++)
                     {
-                        parsedBoolList[i] = bool.Parse(data[i].Value);
+                        parsedBoolList.Add(bool.Parse(data[i].Value));
                     }
 
                     result = parsedBoolList;
@@ -347,7 +347,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                     for (var i = 0; i < data.Count; i++)
                     {
-                        parsedFloatList[i] = float.Parse(data[i].Value);
+                        parsedFloatList.Add(float.Parse(data[i].Value));
                     }
 
                     result = parsedFloatList;
@@ -358,7 +358,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                     for (var i = 0; i < data.Count; i++)
                     {
-                        parsedDoubleList[i] = double.Parse(data[i].Value);
+                        parsedDoubleList.Add(double.Parse(data[i].Value));
                     }
 
                     result = parsedDoubleList;
@@ -369,7 +369,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                     for (var i = 0; i < data.Count; i++)
                     {
-                        parsedStringList[i] = data[i].Value;
+                        parsedStringList.Add(data[i].Value);
                     }
 
                     result = parsedStringList;
