@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
+﻿#if CARTERGAMES_CART_MODULE_DATAVALUES && UNITY_EDITOR
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -86,7 +86,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             searchList.Add(new SearchTreeGroupEntry(new GUIContent("Select Data Value Type"), 0));
 
 
-            foreach (var assetType in AssemblyHelper.GetClassesNamesOfType<DataValueAsset>(false).Reverse())
+            foreach (var assetType in AssemblyHelper.GetClassesNamesOfType<DataValueAsset>().Reverse())
             {
                 if (ToExclude.Contains(assetType.Name)) continue;
                 if (DefaultIgnoredClasses.Contains(assetType)) continue;

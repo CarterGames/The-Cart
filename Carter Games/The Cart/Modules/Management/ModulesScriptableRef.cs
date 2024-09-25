@@ -1,4 +1,6 @@
-﻿/*
+﻿#if UNITY_EDITOR
+
+/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -74,33 +76,6 @@ namespace CarterGames.Cart.Core.Management.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-		// File Names
-		/* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-// #if CARTERGAMES_CART_MODULE_GAMETICKER
-// 		private static readonly string FileNameGameTickerSettingsAsset =
-// 			"[Cart] [GameTicker] Settings Data Asset.asset";
-// #endif
-//
-// #if CARTERGAMES_CART_MODULE_LOADINGSCREENS
-// 		private static readonly string FileNameLoadingScreensSettingsAsset =
-// 			"[Cart] [Loading Screens] Settings Data Asset.asset";
-// #endif
-//
-// #if CARTERGAMES_CART_MODULE_NOTIONDATA
-// 		private static readonly string FileNameNotionDataSettingsAsset =
-// 			"[Cart] [Notion Data] Settings Data Asset.asset";
-// #endif
-// 		
-// #if CARTERGAMES_CART_MODULE_RUNTIMECONSOLE
-// 		private static readonly string FileNameRuntimeConsoleAsset =
-// 			"[Cart] [Runtime Console] Runtime Console Data Asset.asset";
-// #endif
-// 		
-// #if CARTERGAMES_CART_EXTENSION_REMOTECONFIG
-// 		private static readonly string FileNameRemoteConfigAsset =
-// 			"[Cart] [Remote Config] Remote Config Data Asset.asset";
-// #endif
 		
 		// Assets Initialized Check
 		/* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -130,17 +105,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 		{
 			return AssetDatabaseHelper.FileIsInProject<DataAsset>(instance.DataAssetPath);
 		}
-
-
-		// public static void TryCreate(ISettingsDataAssetRef<DataAsset> instance)
-		// {
-		// 	if (instance.AssetRef != null) return;
-		// 	
-		// 	FileEditorUtil.CreateSoGetOrAssignAssetCache(
-		// 		ref cacheAsset, 
-		// 		instance.Filter, 
-		// 		instance.Path,
-		// 		FileEditorUtil.AssetName, instance.Path);
-		// }
 	}
 }
+
+#endif

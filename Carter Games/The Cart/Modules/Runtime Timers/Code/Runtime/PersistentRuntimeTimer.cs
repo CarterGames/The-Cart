@@ -38,6 +38,11 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             gameObject.SetActive(false);
         }
 
+        protected override void TimerTick(float adjustment)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Sets a new runtime timer with the entered values.
@@ -78,7 +83,8 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         {
             var obj = new GameObject("PersistentRuntimeTimer-" + Guid.NewGuid()).AddComponent<PersistentRuntimeTimer>();
             DontDestroyOnLoad(obj.gameObject);
-            obj.Initialize(duration, onComplete);
+            obj.Initialize(onComplete);
+            obj.TimerDuration = duration;
             RuntimeTimerManager.Register(obj);
             return obj;
         }

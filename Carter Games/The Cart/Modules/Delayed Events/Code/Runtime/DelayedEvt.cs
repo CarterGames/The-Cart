@@ -44,7 +44,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, RaiseAction, unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, RaiseAction, unscaledTime);
         }
     }
     
@@ -65,7 +65,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T param, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param), unscaledTime);
         }
     }
     
@@ -87,7 +87,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param, param2), unscaledTime);
         }
     }
     
@@ -110,7 +110,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param, param2, param3), unscaledTime);
         }
     }
     
@@ -134,7 +134,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param, param2, param3, param4), unscaledTime);
         }
     }
     
@@ -159,7 +159,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param, param2, param3, param4, param5), unscaledTime);
         }
     }
     
@@ -185,7 +185,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6), unscaledTime);
         }
     }
     
@@ -212,7 +212,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6, param7), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6, param7), unscaledTime);
         }
     }
     
@@ -240,7 +240,7 @@ namespace CarterGames.Cart.Modules.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6, param7, param8), unscaledTime);
+            RuntimeTimerStandard.SetCountdown(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6, param7, param8), unscaledTime);
         }
     }
 }

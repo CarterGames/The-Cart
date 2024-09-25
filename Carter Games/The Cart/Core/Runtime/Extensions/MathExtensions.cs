@@ -240,5 +240,53 @@ namespace CarterGames.Cart.Core
             CartLogger.Log<LogCategoryCore>("Hit max iterations, returning -1", typeof(MathExtensions));
             return -1;
         }
+        
+
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static float Percentage(this float value, float percentage)
+        {
+            return (value / 100) * percentage;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static float Percentage01(this float value, float percentage)
+        {
+            return percentage * value;
+        }
+        
+
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static double Percentage(this double value, double percentage)
+        {
+            return (value / 100) * percentage;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static double Percentage01(this double value, double percentage)
+        {
+            return percentage * value;
+        }
     }
 }

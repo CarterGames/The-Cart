@@ -41,7 +41,7 @@ namespace CarterGames.Cart.Core
 		public static DateTime SetDate(this DateTime dateTime, int? year, int? month, int? day)
 		{
 			return new DateTime(year ?? dateTime.Year, month ?? dateTime.Month, day ?? dateTime.Day, 
-				dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond);
+				dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, dateTime.Kind);
 		}
 
 
@@ -58,10 +58,10 @@ namespace CarterGames.Cart.Core
 		{
 			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,
 				hour ?? dateTime.Hour, minute ?? dateTime.Minute,
-				second ?? dateTime.Second, millisecond ?? dateTime.Millisecond);
+				second ?? dateTime.Second, millisecond ?? dateTime.Millisecond, dateTime.Kind);
 		}
-		
-		
+
+
 		/// <summary>
 		/// Set the time specifically in a datetime.
 		/// </summary>
@@ -71,7 +71,7 @@ namespace CarterGames.Cart.Core
 		public static DateTime SetTime(this DateTime dateTime, TimeSpan timeSpan)
 		{
 			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,
-				timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds);
+				timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds, dateTime.Kind);
 		}
 	}
 }
