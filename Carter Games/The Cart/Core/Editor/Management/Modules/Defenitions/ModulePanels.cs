@@ -21,6 +21,8 @@
  * THE SOFTWARE.
  */
 
+using System;
+
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
@@ -52,7 +54,7 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public IModule[] PreRequisites => new IModule[] { new ModuleEasing() };
         
-        
+        public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
         
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_PANELS";
     }

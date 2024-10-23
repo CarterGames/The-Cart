@@ -168,18 +168,13 @@ namespace CarterGames.Cart.Core.Management.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
-            EditorGUILayout.LabelField("Runtime", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Core", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
-            
-            EditorGUI.BeginChangeCheck();
 
-            RngSettingsDrawer.DrawSettings();
-            LoggingSettingsDrawer.DrawSettings();
-            
-            if (EditorGUI.EndChangeCheck())
+            foreach (var provider in AssemblyHelper.GetClassesOfType<ISettingsProvider>(new Assembly[1]
+                         {Assembly.Load("CarterGames.Cart.Core.Editor")}).OrderBy(t => t.GetType().Name))
             {
-                UtilEditor.SettingsObject.ApplyModifiedProperties();
-                UtilEditor.SettingsObject.Update();
+                provider.OnProjectSettingsGUI();
             }
             
             GUILayout.Space(1.5f);

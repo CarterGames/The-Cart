@@ -51,6 +51,7 @@ namespace CarterGames.Cart.Modules
 		/// </summary>
 		public IModule[] PreRequisites => Array.Empty<IModule>();
         
+		public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
         
         
 		public string ModuleDefine => "CARTERGAMES_CART_MODULE_DATAVALUES";

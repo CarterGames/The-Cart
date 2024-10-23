@@ -22,6 +22,7 @@
  */
 
 using System.Linq;
+using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,6 +41,18 @@ namespace CarterGames.Cart.Modules.Window
 
         private static GUIStyle labelStyle;
         private static GUIStyle helpBoxStyle;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        private Vector2 ScrollPos
+        {
+            get => (Vector2) PerUserSettings.GetOrCreateValue<Vector2>($"{PerUserSettings.UniqueId}_ModuleManagerScroll",
+                SettingType.SessionState, Vector2.zero);
+            set => PerUserSettings.SetValue<Vector2>($"{PerUserSettings.UniqueId}_ModuleManagerScroll",
+                SettingType.SessionState, value);
+        }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Menu Items
@@ -91,7 +104,7 @@ namespace CarterGames.Cart.Modules.Window
         /// </summary>
         private void OnLeftGUI()
         {
-            EditorGUILayout.BeginVertical("HelpBox", GUILayout.Width(175));
+            ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos, "HelpBox", GUILayout.Width(194f));
 
             foreach (var module in ModuleManager.AllModules)
             {
@@ -114,7 +127,7 @@ namespace CarterGames.Cart.Modules.Window
                 GUI.backgroundColor = Color.white;
             }
             
-            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndScrollView();
         }
 
         

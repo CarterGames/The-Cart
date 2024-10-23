@@ -79,7 +79,7 @@ namespace CarterGames.Cart.Core.Logs.Editor
             if (GUILayout.Button("Edit", GUILayout.Width(65)))
             {
                 LibrarySettingsProvider.OpenSettings();
-                LoggingSettingsDrawer.ExpandSection(false, true);
+                SettingsProviderLogging.ExpandSection(false, true);
             }
             
             GUI.backgroundColor = Color.white;

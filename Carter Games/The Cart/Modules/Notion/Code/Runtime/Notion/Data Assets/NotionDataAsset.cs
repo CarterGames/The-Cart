@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Logs;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData
@@ -58,6 +59,12 @@ namespace CarterGames.Cart.Modules.NotionData
         /// The data stored on the asset.
         /// </summary>
         public List<T> Data => data;
+
+
+        /// <summary>
+        /// Defines the parser user to apply the data to the asset from Notion.
+        /// </summary>
+        protected virtual INotionDatabaseParser<T> DatabaseParser => new NotionDatabaseParserStandard<T>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -69,40 +76,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
-            var list = new List<T>();
-
-
-            foreach (var row in result.Rows)
-            {
-                var newEntry = new T();
-                var newEntryFields = newEntry.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-
-                foreach (var field in newEntryFields)
-                {
-                    if (row.DataLookup.ContainsKey(field.Name.Trim().ToLower()))
-                    {
-                        var valueData = row.DataLookup[field.Name.Trim().ToLower()];
-                        var fieldType = field.FieldType;
-                        
-                        if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
-                        {
-                            var instance = valueData.GetValueAs(fieldType);
-                            field.SetValue(newEntry, instance);
-                            
-                            instance.GetType().BaseType.GetMethod("Assign", BindingFlags.NonPublic | BindingFlags.Instance)
-                                ?.Invoke(instance, null);
-                        }
-                        else
-                        {
-                            field.SetValue(newEntry, valueData.GetValueAs(fieldType));
-                        }
-                    }
-                }
-                
-                list.Add(newEntry);
-            }
-            
-            data = list;
+            data = DatabaseParser.Parse(result);
             PostDataDownloaded();
             
 #if UNITY_EDITOR
@@ -111,7 +85,7 @@ namespace CarterGames.Cart.Modules.NotionData
             UnityEditor.AssetDatabase.Refresh();
 #endif
         }
-
+        
 
         /// <summary>
         /// Override to run logic post download such as making edits to some data values or assigning others etc.

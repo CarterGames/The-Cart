@@ -54,9 +54,12 @@ namespace CarterGames.Cart.Core.Management.Editor
             EditorGUILayout.LabelField("Core", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            RngSettingsDrawer.DrawInspector(serializedObject);
-            GUILayout.Space(2f);
-            LoggingSettingsDrawer.DrawInspector(serializedObject);
+            foreach (var providerKvp in AssemblyHelper.GetClassesOfType<ISettingsProvider>(new Assembly[1] { Assembly.Load("CarterGames.Cart.Core.Editor") }).OrderBy(t => t.GetType().Name))
+            {
+                providerKvp.OnInspectorSettingsGUI();
+                GUILayout.Space(2f);
+            }
+            
             GUILayout.Space(12.5f);
             
             if (AssemblyHelper.CountClassesOfType<ISettingsProvider>(new Assembly[1] { Assembly.Load("CarterGames.Cart.Modules") }) <= 0) return;

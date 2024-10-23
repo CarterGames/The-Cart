@@ -41,25 +41,11 @@ namespace CarterGames.Cart.Core.Random
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Gets the current random provider in use.
         /// </summary>
-        public static IRngProvider Provider
-        {
-            get
-            {
-                if (providerCache != null) return providerCache;
-                providerCache = DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngRngProvider switch
-                {
-                    RngProviders.Unity => new UnityRngProvider(),
-                    RngProviders.System => new SystemRngProvider(),
-                    RngProviders.AleaPRNG => new AleaRngProvider(),
-                    _ => null   // Not possible as the setup cannot be a not set value...
-                };
-                return providerCache;
-            }
-        }
+        public static IRngProvider Provider => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngProvider;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Bool

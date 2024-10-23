@@ -288,5 +288,11 @@ namespace CarterGames.Cart.Core
         {
             return percentage * value;
         }
+
+
+        public static double Round(this double value)
+        {
+            return Math.Round(value);
+        }
     }
 }

@@ -22,8 +22,10 @@
  */
 
 using System;
+using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Random;
+using CarterGames.Cart.Core.Save;
 using UnityEngine;
 
 namespace CarterGames.Cart.Core.Management
@@ -40,7 +42,8 @@ namespace CarterGames.Cart.Core.Management
         // Rng
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         [SerializeField] private bool isRngExpanded;
-        [SerializeField] private RngProviders rngRngProvider;
+        [SerializeField] private AssemblyClassDef rngProviderTypeDef = typeof(UnityRngProvider);
+        private IRngProvider cacheRngProvider;
         [SerializeField] private int rngSystemSeed = Guid.NewGuid().GetHashCode();
         [SerializeField] private string rngAleaSeed = Guid.NewGuid().ToString();
         
@@ -49,6 +52,11 @@ namespace CarterGames.Cart.Core.Management
         [SerializeField] private bool isLoggingExpanded;
         [SerializeField] private bool loggingUseCartLogs = true;
         [SerializeField] private bool useLogsInProductionBuilds = false;
+        
+        // Basic Save
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        [SerializeField] private AssemblyClassDef saveMethodTypeDef = typeof(SaveMethodBasic);
+        private ISaveMethod cacheSaveMethod;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -60,7 +68,8 @@ namespace CarterGames.Cart.Core.Management
         /// <summary>
         /// The current RNG provider for the 
         /// </summary>
-        public RngProviders RngRngProvider => rngRngProvider;
+        public IRngProvider RngProvider => CacheRef.GetOrAssign(ref cacheRngProvider, rngProviderTypeDef.GetDefinedType<IRngProvider>);
+        public AssemblyClassDef RngProviderAssemblyClassDef => rngProviderTypeDef;
 
         
         /// <summary>
@@ -95,5 +104,11 @@ namespace CarterGames.Cart.Core.Management
         /// Gets if the logs should appear in production builds, by default they will not.
         /// </summary>
         public bool UseLogsInProductionBuilds => useLogsInProductionBuilds;
+        
+        // Basic Save
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        public ISaveMethod SaveMethodType =>
+            CacheRef.GetOrAssign(ref cacheSaveMethod, saveMethodTypeDef.GetDefinedType<ISaveMethod>);
     }
 }
