@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_RUNTIMETIMERS
+﻿﻿#if CARTERGAMES_CART_MODULE_RUNTIMETIMERS
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -36,11 +36,6 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         public override void Dispose()
         {
             gameObject.SetActive(false);
-        }
-
-        protected override void TimerTick(float adjustment)
-        {
-            throw new NotImplementedException();
         }
 
 
@@ -83,8 +78,7 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         {
             var obj = new GameObject("PersistentRuntimeTimer-" + Guid.NewGuid()).AddComponent<PersistentRuntimeTimer>();
             DontDestroyOnLoad(obj.gameObject);
-            obj.Initialize(onComplete);
-            obj.TimerDuration = duration;
+            obj.Initialize(duration, onComplete);
             RuntimeTimerManager.Register(obj);
             return obj;
         }
