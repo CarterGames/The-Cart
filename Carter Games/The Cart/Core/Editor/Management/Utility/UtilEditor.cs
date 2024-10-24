@@ -56,7 +56,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
-        public static DataAssetCartGlobalRuntimeSettings Settings => ScriptableRef.GetAssetDef<DataAssetCartGlobalRuntimeSettings>().AssetRef;
+        public static DataAssetCoreRuntimeSettings Settings => ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().AssetRef;
 
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Gets/Sets the save manager editor settings asset.
         /// </summary>
-        public static SerializedObject SettingsObject => ScriptableRef.GetAssetDef<DataAssetCartGlobalRuntimeSettings>().ObjectRef;
+        public static SerializedObject SettingsObject => ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().ObjectRef;
         
         
         /// <summary>

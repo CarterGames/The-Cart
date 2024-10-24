@@ -60,14 +60,6 @@ namespace CarterGames.Cart.Core.Management.Editor
             if (ModulesScriptableRef.HasAllAssets()) return;
             ModulesScriptableRef.TryCreateAssets();
         }
-
-
-        [InitializeOnLoadMethod]
-        private static void TryInit()
-        {
-            if (ModulesScriptableRef.HasAllAssets()) return;
-            ModulesScriptableRef.TryCreateAssets();
-        }
     }
 }
 

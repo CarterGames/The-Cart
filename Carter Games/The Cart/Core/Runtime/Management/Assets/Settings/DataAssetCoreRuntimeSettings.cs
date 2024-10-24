@@ -22,7 +22,6 @@
  */
 
 using System;
-using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Random;
 using CarterGames.Cart.Core.Save;
@@ -33,7 +32,7 @@ namespace CarterGames.Cart.Core.Management
     /// <summary>
     /// Handles any runtime specific settings for the package.
     /// </summary>
-    public sealed class DataAssetCartGlobalRuntimeSettings : DataAsset
+    public sealed class DataAssetCoreRuntimeSettings : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields

@@ -25,7 +25,6 @@
 
 using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Modules.NotionData
 {
@@ -34,14 +33,14 @@ namespace CarterGames.Cart.Modules.NotionData
     /// </summary>
     /// <typeparam name="T">The type to wrap as.</typeparam>
     [Serializable]
-    public class NotionDataWrapper<T> where T : Object
+    public abstract class NotionDataWrapper<T>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] private string id;
-        [SerializeField] private T value;
+        [SerializeField] protected string id;
+        [SerializeField] protected T value;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -72,30 +71,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /// <summary>
         /// Assigns the reference when called.
         /// </summary>
-        private void Assign()
-        {
-#if UNITY_EDITOR
-            
-            if (!string.IsNullOrEmpty(id))
-            {
-                var asset = UnityEditor.AssetDatabase.FindAssets(id);
-                
-                if (asset.Length > 0)
-                {
-                    var path = UnityEditor.AssetDatabase.GUIDToAssetPath(asset[0]);
-                    value = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
-                }
-                else
-                {
-                    Debug.LogWarning($"Unable to find a reference with the name {id}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Unable to assign a reference, the id was empty.");
-            }
-#endif
-        }
+        protected abstract void Assign();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Operator
@@ -109,17 +85,6 @@ namespace CarterGames.Cart.Modules.NotionData
         public static implicit operator T(NotionDataWrapper<T> dataWrapper)
         {
             return dataWrapper.Value;
-        }
-
-
-        /// <summary>
-        /// Converts the type to thr wrapper.
-        /// </summary>
-        /// <param name="reference">The value to convert.</param>
-        /// <returns>The wrapper with the value.</returns>
-        public static implicit operator NotionDataWrapper<T>(T reference)
-        {
-            return new NotionDataWrapper<T>(reference.name);
         }
     }
 }

@@ -21,8 +21,6 @@
  * THE SOFTWARE.
  */
 
-using UnityEditor;
-
 namespace CarterGames.Cart.Core.Management.Editor
 {
     /// <summary>
@@ -37,7 +35,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Defines the order that this initializer run at.
         /// </summary>
-        public int InitializeOrder => -1;
+        public int InitializeOrder => 0;
         
 
         /// <summary>
@@ -57,14 +55,6 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// Runs when the asset reload flow is used.
         /// </summary>
         public void OnEditorReloaded()
-        {
-            if (ScriptableRef.HasAllAssets()) return;
-            ScriptableRef.TryCreateAssets();
-        }
-
-
-        [InitializeOnLoadMethod]
-        private static void TryInit()
         {
             if (ScriptableRef.HasAllAssets()) return;
             ScriptableRef.TryCreateAssets();

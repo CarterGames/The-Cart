@@ -187,6 +187,12 @@ namespace CarterGames.Cart.Modules.Localization
 
 			return copy;
 		}
+
+		
+		public static LocalizationData GetRawData(string id)
+		{
+			return GetCopyData(id);
+		}
 	}
 }
 

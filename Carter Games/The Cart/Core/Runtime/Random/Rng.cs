@@ -45,7 +45,7 @@ namespace CarterGames.Cart.Core.Random
         /// <summary>
         /// Gets the current random provider in use.
         /// </summary>
-        public static IRngProvider Provider => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngProvider;
+        public static IRngProvider Provider => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngProvider;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Bool

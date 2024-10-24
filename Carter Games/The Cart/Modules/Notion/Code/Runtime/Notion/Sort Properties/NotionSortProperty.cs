@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.NotionData
 	/// A class to define a sort property.
 	/// </summary>
 	[Serializable]
-	public sealed class NotionSortProperty
+	public class NotionSortProperty
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields

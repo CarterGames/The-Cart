@@ -53,7 +53,8 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             EditorGUILayout.Space(1.5f);
             GeneralUtilEditor.DrawHorizontalGUILine();
-            base.OnInspectorGUI();
+
+            DrawPropertiesExcluding(serializedObject, "sortProperties");
         }
         
 
@@ -68,10 +69,20 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             EditorGUILayout.PropertyField(serializedObject.Fp("linkToDatabase"), NotionMetaData.DatabaseLink);
             EditorGUILayout.PropertyField(serializedObject.Fp("databaseApiKey"), NotionMetaData.ApiKey);
 
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(serializedObject.Fp("sortProperties"));
-            EditorGUI.indentLevel--;
+            EditorGUILayout.BeginHorizontal();
+
+            // Coming... eventually...
+            // if (GUILayout.Button("Filters"))
+            // {
+            //     
+            // }
             
+            if (GUILayout.Button($"Sorting ({serializedObject.Fp("sortProperties").arraySize})"))
+            {
+                SortPropertiesWindow.OpenWindow(serializedObject);
+            }
+            
+            EditorGUILayout.EndHorizontal();
             
             EditorGUI.BeginDisabledGroup(
                 !NotionSecretKeyValidator.IsKeyValid(serializedObject.Fp("databaseApiKey").stringValue) ||

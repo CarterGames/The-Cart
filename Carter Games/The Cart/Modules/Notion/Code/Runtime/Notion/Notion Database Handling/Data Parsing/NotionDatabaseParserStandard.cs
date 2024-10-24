@@ -44,11 +44,10 @@ namespace CarterGames.Cart.Modules.NotionData
                     if (row.DataLookup.ContainsKey(field.Name.Trim().ToLower()))
                     {
                         var valueData = row.DataLookup[field.Name.Trim().ToLower()];
-                        var fieldType = field.FieldType;
                         
-                        if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
+                        if (field.FieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
                         {
-                            var instance = valueData.GetValueAs(fieldType);
+                            var instance = valueData.GetValueAs(field.FieldType);
                             field.SetValue(newEntry, instance);
                             
                             instance.GetType().BaseType.GetMethod("Assign", BindingFlags.NonPublic | BindingFlags.Instance)
@@ -56,7 +55,7 @@ namespace CarterGames.Cart.Modules.NotionData
                         }
                         else
                         {
-                            field.SetValue(newEntry, valueData.GetValueAs(fieldType));
+                            field.SetValue(newEntry, valueData.GetValueAs(field.FieldType));
                         }
                     }
                 }

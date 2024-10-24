@@ -46,7 +46,7 @@ namespace CarterGames.Cart.Modules.NotionData
 #pragma warning disable
         [SerializeField, HideInInspector] private string linkToDatabase;     // Is used in editor space, so ignore the not used warning.
         [SerializeField, HideInInspector] private string databaseApiKey;     // Is used in editor space, so ignore the not used warning.
-        [SerializeField, HideInInspector] private List<NotionSortProperty> sortProperties;
+        [SerializeField] private List<NotionSortProperty> sortProperties;
 #pragma warning restore
         
         [SerializeField] private List<T> data;

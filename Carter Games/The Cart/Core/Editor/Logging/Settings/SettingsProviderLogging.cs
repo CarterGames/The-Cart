@@ -60,10 +60,10 @@ namespace CarterGames.Cart.Core.Logs.Editor
 
 
         private static SerializedObject ObjectRef =>
-            ScriptableRef.GetAssetDef<DataAssetCartGlobalRuntimeSettings>().ObjectRef;
+            ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().ObjectRef;
         
-        private static DataAssetCartGlobalRuntimeSettings AssetRef =>
-            ScriptableRef.GetAssetDef<DataAssetCartGlobalRuntimeSettings>().AssetRef;
+        private static DataAssetCoreRuntimeSettings AssetRef =>
+            ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().AssetRef;
         
         
         

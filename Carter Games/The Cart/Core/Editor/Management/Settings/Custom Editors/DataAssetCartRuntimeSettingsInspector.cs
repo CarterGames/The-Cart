@@ -23,10 +23,6 @@
 
 using System.Linq;
 using System.Reflection;
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Logs.Editor;
-using CarterGames.Cart.Core.Random.Editor;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 using UnityEngine;
 
@@ -35,7 +31,7 @@ namespace CarterGames.Cart.Core.Management.Editor
     /// <summary>
     /// Handles the custom editor for the runtime settings asset.
     /// </summary>
-    [CustomEditor(typeof(DataAssetCartGlobalRuntimeSettings))]
+    [CustomEditor(typeof(DataAssetCoreRuntimeSettings))]
     public sealed class DataAssetCartRuntimeSettingsInspector : UnityEditor.Editor
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -48,7 +44,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         public override void OnInspectorGUI()
         {
             GUILayout.Space(4f);
-            GeneralUtilEditor.DrawSoScriptSection((DataAssetCartGlobalRuntimeSettings)target);
+            GeneralUtilEditor.DrawSoScriptSection((DataAssetCoreRuntimeSettings)target);
             GUILayout.Space(10f);
             
             EditorGUILayout.LabelField("Core", EditorStyles.boldLabel);

@@ -35,6 +35,12 @@ namespace CarterGames.Cart.Modules.NotionData
     public class NotionDataWrapperAudioClip : NotionDataWrapper<AudioClip>
     {
         public NotionDataWrapperAudioClip(string id) : base(id) { }
+        
+        
+        protected override void Assign()
+        {
+	        NotionDataWrapperHelper.AssignAsObject(id, ref value);
+        }
     }
 }
 

@@ -25,43 +25,40 @@
 
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
-	[CustomPropertyDrawer(typeof(NotionSortProperty))]
-	public class PropertyDrawerNotionSortProperty : PropertyDrawer
-	{
-		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-		{
-			EditorGUI.BeginProperty(position, label, property);
+    public sealed class SortPropertiesWindow : EditorWindow
+    {
+        private static SerializedObject Target { get; set; }
+        
+        
+        public static void OpenWindow(SerializedObject target)
+        {
+            Target = target;
             
-			EditorGUI.BeginChangeCheck();
+            if (HasOpenInstances<SortPropertiesWindow>())
+            {
+                FocusWindowIfItsOpen<SortPropertiesWindow>();
+            }
+            else
+            {
+                GetWindow<SortPropertiesWindow>(true, "Edit Sort Properties");
+            }
+        }
 
-			var indent = EditorGUI.indentLevel;
-			EditorGUI.indentLevel = 0;
 
-			var left = new Rect(position.x, position.y, position.width - 120f, EditorGUIUtility.singleLineHeight);
-			var right = new Rect(position.x + position.width - 17.5f, position.y, 120f, EditorGUIUtility.singleLineHeight);
-			
-			EditorGUI.PropertyField(left, property.Fpr("propertyName"), GUIContent.none);
-			EditorGUI.PropertyField(right, property.Fpr("ascending"), GUIContent.none);
+        private void OnGUI()
+        {
+            if (Target == null) return;
 
-			if (EditorGUI.EndChangeCheck())
-			{
-				property.serializedObject.ApplyModifiedProperties();
-			}
+            EditorGUILayout.HelpBox("Edit the sort properties for this Notion data asset below", MessageType.Info);
             
-			EditorGUI.indentLevel = indent;
-			EditorGUI.EndProperty();
-		}
-
-
-		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-		{
-			return EditorGUIUtility.singleLineHeight;
-		}
-	}
+            EditorGUILayout.Space(5f);
+            
+            EditorGUILayout.PropertyField(Target.Fp("sortProperties"));
+        }
+    }
 }
 
 #endif

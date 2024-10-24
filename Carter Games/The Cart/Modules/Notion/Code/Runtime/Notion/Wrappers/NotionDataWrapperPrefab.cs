@@ -35,6 +35,11 @@ namespace CarterGames.Cart.Modules.NotionData
     public class NotionDataWrapperPrefab : NotionDataWrapper<GameObject>
     {
         public NotionDataWrapperPrefab(string id) : base(id) { }
+        
+        protected override void Assign()
+        {
+	        NotionDataWrapperHelper.AssignAsObject(id, ref value);
+        }
     }
 }
 

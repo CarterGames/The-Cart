@@ -21,7 +21,7 @@ namespace CarterGames.Cart.Core.Editor
 
 
 		private static SerializedObject ObjectRef =>
-			ScriptableRef.GetAssetDef<DataAssetCartGlobalRuntimeSettings>().ObjectRef;
+			ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().ObjectRef;
 
 
 		public void OnInspectorSettingsGUI()
@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Core.Editor
 						var typeString = ObjectRef.Fp("saveMethodTypeDef").Fpr("type").stringValue;
 
 						SearchProviderSaveMethod.GetProvider().SelectionMade.Add(HandleSelection);
-						SearchProviderSaveMethod.GetProvider().Open(ScriptableRef.GetAssetDef<DataAssetCartGlobalRuntimeSettings>().AssetRef.SaveMethodType);
+						SearchProviderSaveMethod.GetProvider().Open(ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().AssetRef.SaveMethodType);
 					}
 					else
 					{

@@ -7,8 +7,8 @@ namespace CarterGames.Cart.Core.Save
 	{
 		private static ISaveMethod SaveMethod => CoreSettings.SaveMethodType;
 
-		private static DataAssetCartGlobalRuntimeSettings CoreSettings =>
-			DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>();
+		private static DataAssetCoreRuntimeSettings CoreSettings =>
+			DataAccess.GetAsset<DataAssetCoreRuntimeSettings>();
 		
 		
 		public static T Get<T>(string key)

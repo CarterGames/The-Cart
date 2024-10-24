@@ -29,17 +29,17 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Core.Editor
 {
-	public class ScriptableDefCoreSettings : IScriptableAssetDef<DataAssetCartGlobalRuntimeSettings>
+	public class ScriptableDefCoreSettings : IScriptableAssetDef<DataAssetCoreRuntimeSettings>
 	{
-		private static DataAssetCartGlobalRuntimeSettings cache;
+		private static DataAssetCoreRuntimeSettings cache;
 		private static SerializedObject objCache;
 
-		public Type AssetType => typeof(DataAssetCartGlobalRuntimeSettings);
+		public Type AssetType => typeof(DataAssetCoreRuntimeSettings);
 		public string DataAssetFileName => "[Cart] Core Runtime Settings.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetCartGlobalRuntimeSettings).FullName}";
+		public string DataAssetFilter => $"t:{typeof(DataAssetCoreRuntimeSettings).FullName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathData}{DataAssetFileName}";
 
-		public DataAssetCartGlobalRuntimeSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+		public DataAssetCoreRuntimeSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
 		
 		public void TryCreate()
