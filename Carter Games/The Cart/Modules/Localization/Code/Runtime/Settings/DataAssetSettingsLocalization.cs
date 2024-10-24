@@ -61,6 +61,7 @@ namespace CarterGames.Cart.Modules.Localization
 		{
 			// Sets the default language if one is not defined.
 			if (!string.IsNullOrEmpty(currentLanguage.DisplayName) && !string.IsNullOrEmpty(currentLanguage.Code)) return;
+			if (DataAccess.GetAsset<DataAssetDefinedLanguages>() == null) return;
 			if (DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.Count <= 0) return;
 			currentLanguage = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages[0];
 		}
