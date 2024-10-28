@@ -1,4 +1,4 @@
-﻿﻿#if CARTERGAMES_CART_MODULE_RUNTIMETIMERS
+﻿#if CARTERGAMES_CART_MODULE_RUNTIMETIMERS
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -33,6 +33,7 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
     /// <summary>
     /// A runtime timer that can invoke actions when completed and can be created from anywhere in runtime space.
     /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Runtime Timers/Timer")]
     public class RuntimeTimer : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

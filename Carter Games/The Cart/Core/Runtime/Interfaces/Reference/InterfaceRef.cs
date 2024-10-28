@@ -74,5 +74,14 @@ namespace CarterGames.Cart.Core
         
         void ISerializationCallbackReceiver.OnBeforeSerialize() => OnValidate();
         void ISerializationCallbackReceiver.OnAfterDeserialize() { }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        public void SetValue(T value)
+        {
+            target = value as Object;
+        }
     }
 }

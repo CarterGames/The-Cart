@@ -31,6 +31,7 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A script to access a panel without a direct reference to it. 
     /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Remote Panel Accessor")]
     public class RemotePanelAccessor : MonoBehaviour
     {
         /// <summary>

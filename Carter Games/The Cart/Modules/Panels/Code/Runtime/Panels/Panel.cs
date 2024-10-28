@@ -34,6 +34,7 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A script to manage a UI panel to appear and disappear at will.
     /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Panel")]
     public class Panel : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

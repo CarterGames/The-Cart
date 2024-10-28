@@ -34,14 +34,14 @@ namespace CarterGames.Cart.Modules.Localization
     /// A INotionDatabaseParser for converting Notion Data into LocalizationData.
     /// The standard parser will not work in this workflow.
     /// </summary>
-    public sealed class NotionDatabaseParserLocalization : INotionDatabaseParser<LocalizationData>
+    public sealed class NotionDatabaseParserLocalization : INotionDatabaseProcessor<LocalizationData>
     {
         /// <summary>
         /// Parses the data when called.
         /// </summary>
         /// <param name="result">The result of the download to use.</param>
         /// <returns>The parsed data to set on the asset.</returns>
-        public List<LocalizationData> Parse(NotionDatabaseQueryResult result)
+        public List<LocalizationData> Process(NotionDatabaseQueryResult result)
         {
             var list = new List<LocalizationData>();
 

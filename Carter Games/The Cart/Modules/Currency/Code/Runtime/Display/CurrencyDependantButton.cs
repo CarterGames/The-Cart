@@ -30,6 +30,9 @@ using UnityEngine.UI;
 
 namespace CarterGames.Cart.Modules.Currency
 {
+    /// <summary>
+    /// Implement to make a currency dependant button.
+    /// </summary>
     public abstract class CurrencyDependantButton : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -68,7 +71,12 @@ namespace CarterGames.Cart.Modules.Currency
         /// The action type to apply when processing the amount.
         /// </summary>
         protected CurrencyTransactionType ActionType { get; set; }
-        protected bool CanAfford => IsSetup && CurrencyManager.GetBalance(accountId) >= PriceForPurchase;
+        
+        
+        /// <summary>
+        /// Gets if the user can afford to use the button.
+        /// </summary>
+        protected bool CanAfford => IsSetup && (ActionType == CurrencyTransactionType.Debit && CurrencyManager.GetBalance(accountId) >= PriceForPurchase);
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods

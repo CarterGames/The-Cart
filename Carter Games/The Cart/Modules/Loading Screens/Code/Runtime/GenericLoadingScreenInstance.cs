@@ -34,6 +34,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens
     /// Handles the generic loading screen instance in the scene.
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Loading Screens/Screen Instance Component")]
     public class GenericLoadingScreenInstance : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

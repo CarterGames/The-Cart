@@ -30,10 +30,22 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency
 {
+	/// <summary>
+	/// A data asset for the default accounts the system has.
+	/// </summary>
     [CreateAssetMenu(fileName = "Data Asset Default Accounts", menuName = "Carter Games/The Cart/Modules/Currency/Data Asset Default Accounts")]
     public class DataAssetDefaultAccounts : DataAsset
     {
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Fields
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+	    
         [SerializeField] private List<SerializableKeyValuePair<string, double>> defaultAccounts;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         public List<SerializableKeyValuePair<string, double>> DefaultAccounts => defaultAccounts;
     }
 }

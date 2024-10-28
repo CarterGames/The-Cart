@@ -25,9 +25,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Logs;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData
@@ -64,7 +62,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /// <summary>
         /// Defines the parser user to apply the data to the asset from Notion.
         /// </summary>
-        protected virtual INotionDatabaseParser<T> DatabaseParser => new NotionDatabaseParserStandard<T>();
+        protected virtual INotionDatabaseProcessor<T> DatabaseProcessor => new NotionDatabaseProcessorStandard<T>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -76,7 +74,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
-            data = DatabaseParser.Parse(result);
+            data = DatabaseProcessor.Process(result);
             PostDataDownloaded();
             
 #if UNITY_EDITOR

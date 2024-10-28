@@ -29,16 +29,38 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency
 {
+    /// <summary>
+    /// A display class for a currency.
+    /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Currency/Currency Display Component")]
     public class CurrencyDisplay : MonoBehaviour
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] private string accountId;
         [SerializeField] private TMP_Text label;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Confirms if the display is in-sync or not.
+        /// </summary>
         public bool InSync => CurrencyManager.GetBalance(accountId).DoubleEquals(LastBalanceShown);
+        
+        
+        /// <summary>
+        /// The last balance shown.
+        /// </summary>
         private double LastBalanceShown { get; set; }
         
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Unity Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         private void OnEnable()
         {
             CurrencyManager.AccountBalanceChanged.Add(UpdateDisplay);
@@ -46,15 +68,42 @@ namespace CarterGames.Cart.Modules.Currency
         }
 
 
+        private void OnDestroy()
+        {
+            CurrencyManager.AccountBalanceChanged.Remove(UpdateDisplay);
+        }
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Updates the display when called.
+        /// </summary>
+        /// <param name="account">The account to read.</param>
         private void UpdateDisplay(CurrencyAccount account)
         {
             label.SetText(account.Balance.Format<MoneyFormatterGeneric>());
         }
 
 
+        /// <summary>
+        /// Updates the display to a manual value.
+        /// </summary>
+        /// <param name="valueToDisplay">The value to display.</param>
         public void UpdateDisplayManually(double valueToDisplay)
         {
             label.SetText(valueToDisplay.Format<MoneyFormatterGeneric>());
+        }
+
+
+        /// <summary>
+        /// Forces the display to update if possible.
+        /// </summary>
+        public void ForceUpdateDisplay()
+        {
+            if (CurrencyManager.AccountExists(accountId)) return;
+            label.SetText(CurrencyManager.GetAccount(accountId).Balance.Format<MoneyFormatterGeneric>());
         }
     }
 }

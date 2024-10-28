@@ -28,7 +28,7 @@ namespace CarterGames.Cart.Core.Editor
 		{
 			EditorGUILayout.BeginVertical("HelpBox");
             
-			EditorGUILayout.LabelField("Save", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("Internal Save", EditorStyles.boldLabel);
 			GeneralUtilEditor.DrawHorizontalGUILine();
             
 			EditorGUI.BeginDisabledGroup(true);
@@ -43,7 +43,7 @@ namespace CarterGames.Cart.Core.Editor
 		
 		public void OnProjectSettingsGUI()
 		{
-			IsExpanded = EditorGUILayout.Foldout(IsExpanded, new GUIContent("Save"));
+			IsExpanded = EditorGUILayout.Foldout(IsExpanded, new GUIContent("Internal Save"));
 			
 			if (!IsExpanded) return;
 

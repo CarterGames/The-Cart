@@ -37,7 +37,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// Overrides the standard Notion Database Parser to correctly parse the text into each language entry. 
 		/// </summary>
-		protected override INotionDatabaseParser<LocalizationData> DatabaseParser =>
+		protected override INotionDatabaseProcessor<LocalizationData> DatabaseProcessor =>
 			new NotionDatabaseParserLocalization();
 	}
 }

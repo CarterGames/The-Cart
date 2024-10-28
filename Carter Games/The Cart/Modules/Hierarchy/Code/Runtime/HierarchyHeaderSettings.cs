@@ -31,6 +31,7 @@ namespace CarterGames.Cart.Modules.Hierarchy
     /// <summary>
     /// (EDITOR ONLY) Handles the settings for a hierarchy header object.
     /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Hierarchy/Header Settings Component")]
     public sealed class HierarchyHeaderSettings : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

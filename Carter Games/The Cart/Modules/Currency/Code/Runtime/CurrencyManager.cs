@@ -24,23 +24,41 @@
  */
 
 using System.Collections.Generic;
-using System.Linq;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Save;
 using CarterGames.Cart.ThirdParty;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency
 {
+    /// <summary>
+    /// The main manager class for the currency system.
+    /// </summary>
     public static class CurrencyManager
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         private static readonly Dictionary<string, CurrencyAccount> Accounts = new Dictionary<string, CurrencyAccount>();
         private const string AccountsSaveKey = "CartSave_Modules_Currency_Accounts";
         
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Gets if the accounts have been loaded from the save or not.
+        /// </summary>
         public static bool HasLoadedAccounts { get; private set; }
 
+        
+        /// <summary>
+        /// Gets all the account id's the system has stored.
+        /// </summary>
         public static List<string> AllAccountIds
         {
             get
@@ -71,13 +89,40 @@ namespace CarterGames.Cart.Modules.Currency
             }
         }
         
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Raises when all accounts are loaded into the system.
+        /// </summary>
         public static readonly Evt AccountsLoaded = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when an account is opened.
+        /// </summary>
         public static readonly Evt AccountOpened = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when an accounts balance is altered.
+        /// </summary>
         public static readonly Evt<CurrencyAccount> AccountBalanceChanged = new Evt<CurrencyAccount>();
+        
+        
+        /// <summary>
+        /// Raises when an account is closed.
+        /// </summary>
         public static readonly Evt AccountClosed = new Evt();
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Initialization
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Initializes the system automatically.
+        /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void InitializeAccounts()
         {
@@ -93,7 +138,82 @@ namespace CarterGames.Cart.Modules.Currency
             }
         }
         
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Gets if an account exists.
+        /// </summary>
+        /// <param name="accountId">The id to check for.</param>
+        /// <returns>If the account exists.</returns>
+        public static bool AccountExists(string accountId)
+        {
+            if (!HasLoadedAccounts)
+            {
+                CartLogger.Log<LogCategoryModules>("Accounts not loaded, returning false", typeof(CurrencyManager));
+                return false;
+            }
+            
+            return Accounts.ContainsKey(accountId);
+        }
 
+        
+        /// <summary>
+        /// Tries to get the balance of an account.
+        /// </summary>
+        /// <param name="accountId">The id to add.</param>
+        /// <param name="balance">The balance of the account.</param>
+        /// <returns>If it was successful or not.</returns>
+        public static bool TryGetBalance(string accountId, out double balance)
+        {
+            balance = GetBalance(accountId);
+            return balance > -1;
+        }
+
+        
+        /// <summary>
+        /// Gets the balance of an account.
+        /// </summary>
+        /// <param name="accountId">The id to add.</param>
+        /// <returns>The balance of the account.</returns>
+        public static double GetBalance(string accountId)
+        {
+            if (!Accounts.TryGetValue(accountId, out var account)) return -1;
+            return account.Balance;
+        }
+        
+        
+        /// <summary>
+        /// Tries to get an account of the required id.
+        /// </summary>
+        /// <param name="accountId">The id to add.</param>
+        /// <param name="account">The account found.</param>
+        /// <returns>If it was successful or not.</returns>
+        public static bool TryGetAccount(string accountId, out CurrencyAccount account)
+        {
+            account = GetAccount(accountId);
+            return account != null;
+        }
+        
+        
+        /// <summary>
+        /// Gets an account.
+        /// </summary>
+        /// <param name="accountId">The id to add.</param>
+        /// <returns>The account found.</returns>
+        public static CurrencyAccount GetAccount(string accountId)
+        {
+            if (!Accounts.TryGetValue(accountId, out var account)) return null;
+            return account;
+        }
+
+        
+        /// <summary>
+        /// Adds an account to the system.
+        /// </summary>
+        /// <param name="accountId">The id to add.</param>
+        /// <param name="startingBalance">The starting balance for the account. Def = 0.</param>
         public static void AddAccount(string accountId, double startingBalance = 0d)
         {
             if (Accounts.ContainsKey(accountId)) return;
@@ -109,35 +229,12 @@ namespace CarterGames.Cart.Modules.Currency
                 AccountBalanceChanged.Raise(Accounts[accountId]);
             }
         }
-
-        
-        public static bool TryGetBalance(string accountId, out double balance)
-        {
-            balance = GetBalance(accountId);
-            return balance > -1;
-        }
-
-        public static double GetBalance(string accountId)
-        {
-            if (!Accounts.TryGetValue(accountId, out var account)) return -1;
-            return account.Balance;
-        }
         
         
-        public static bool TryGetAccount(string accountId, out CurrencyAccount account)
-        {
-            account = GetAccount(accountId);
-            return account != null;
-        }
-        
-        
-        public static CurrencyAccount GetAccount(string accountId)
-        {
-            if (!Accounts.TryGetValue(accountId, out var account)) return null;
-            return account;
-        }
-
-        
+        /// <summary>
+        /// Closes an account when called.
+        /// </summary>
+        /// <param name="accountId">The id to close.</param>
         public static void CloseAccount(string accountId)
         {
             if (!Accounts.ContainsKey(accountId)) return;
@@ -145,6 +242,11 @@ namespace CarterGames.Cart.Modules.Currency
             AccountClosed.Raise();
         }
 
+        
+        
+        /// <summary>
+        /// Loads the accounts when called.
+        /// </summary>
         private static void LoadAccounts()
         {
             var data = CartSaveHandler.Get<string>(AccountsSaveKey);
@@ -174,7 +276,10 @@ namespace CarterGames.Cart.Modules.Currency
         }
         
         
-        public static void SaveAccounts()
+        /// <summary>
+        /// Saves the accounts when called.
+        /// </summary>
+        private static void SaveAccounts()
         {
             var list = new JSONArray();
             

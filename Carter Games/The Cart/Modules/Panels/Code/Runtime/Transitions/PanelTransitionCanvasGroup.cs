@@ -28,6 +28,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Panels
 {
+    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Canvas Group")]
     public class PanelTransitionCanvasGroup : PanelTransition
     {
         [SerializeField] private CanvasGroup canvasGroup;
