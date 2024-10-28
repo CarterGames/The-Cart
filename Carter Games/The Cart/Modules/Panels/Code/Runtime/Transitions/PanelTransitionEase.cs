@@ -29,6 +29,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Panels
 {
+    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Ease")]
     public class PanelTransitionEase : PanelTransition
     {
         [SerializeField] private Transform target;

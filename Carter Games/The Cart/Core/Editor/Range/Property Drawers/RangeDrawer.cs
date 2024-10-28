@@ -51,10 +51,11 @@ namespace CarterGames.Cart.Core.Editor
             EditorGUI.LabelField(leftLower, "Max:");
             EditorGUI.PropertyField(right, elementOne, GUIContent.none);
             EditorGUI.PropertyField(rightLower, elementTwo, GUIContent.none);
-   
 
             if (EditorGUI.EndChangeCheck())
-                property.serializedObject.ApplyModifiedProperties();            
+            {
+                property.serializedObject.ApplyModifiedProperties();
+            }         
             
             EditorGUI.indentLevel = indent;
             EditorGUI.EndProperty();

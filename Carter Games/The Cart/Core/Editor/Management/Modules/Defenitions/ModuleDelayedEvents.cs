@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using System;
 
 namespace CarterGames.Cart.Modules
 {
@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public IModule[] PreRequisites => new IModule[1] { new ModuleRuntimeTimers() };
         
-        
+        public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
         
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_DELAYEDEVENTS";
     }

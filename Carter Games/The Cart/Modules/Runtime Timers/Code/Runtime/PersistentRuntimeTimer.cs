@@ -28,6 +28,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.RuntimeTimers
 {
+    [AddComponentMenu("Carter Games/The Cart/Modules/Runtime Timers/Persistent Timer")]
     public class PersistentRuntimeTimer : RuntimeTimer
     {
         /// <summary>

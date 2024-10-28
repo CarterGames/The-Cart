@@ -28,6 +28,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Panels
 {
+    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Animation Curve")]
     public class PanelTransitionCurve : PanelTransition
     {
         [SerializeField] private Transform target;

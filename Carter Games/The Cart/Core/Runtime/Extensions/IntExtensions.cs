@@ -86,5 +86,29 @@ namespace CarterGames.Cart.Core
         {
             return (value - intRange.min) / (intRange.max - intRange.min);
         }
+
+
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static int Percentage(this int value, int percentage)
+        {
+            return (value / 100) * percentage;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static int Percentage01(this int value, int percentage)
+        {
+            return percentage * value;
+        }
     }
 }

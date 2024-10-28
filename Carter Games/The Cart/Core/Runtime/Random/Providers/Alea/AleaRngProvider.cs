@@ -35,8 +35,8 @@ namespace CarterGames.Cart.Core.Random
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
         public static string Seed
         {
-            get => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngAleaRngSeed;
-            private set => DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>().RngAleaRngSeed = value;
+            get => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngAleaRngSeed;
+            private set => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngAleaRngSeed = value;
         }
 
 

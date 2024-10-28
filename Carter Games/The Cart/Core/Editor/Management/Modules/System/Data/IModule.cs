@@ -57,6 +57,12 @@ namespace CarterGames.Cart.Modules
         
         
         /// <summary>
+        /// Any modules that are required for the module to work.
+        /// </summary>
+        IModule[] OptionalPreRequisites { get; }
+        
+        
+        /// <summary>
         /// The scripting define for the module.
         /// </summary>
         string ModuleDefine { get; }

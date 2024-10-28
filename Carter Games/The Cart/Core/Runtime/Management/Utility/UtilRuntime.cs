@@ -36,7 +36,7 @@ namespace CarterGames.Cart.Core.Management
         
         // Caches
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static DataAssetCartGlobalRuntimeSettings settingsCache;
+        private static DataAssetCoreRuntimeSettings settingsCache;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -45,12 +45,12 @@ namespace CarterGames.Cart.Core.Management
         /// <summary>
         /// The runtime settings asset.
         /// </summary>
-        public static DataAssetCartGlobalRuntimeSettings Settings
+        public static DataAssetCoreRuntimeSettings Settings
         {
             get
             {
                 if (settingsCache != null) return settingsCache;
-                settingsCache = DataAccess.GetAsset<DataAssetCartGlobalRuntimeSettings>();
+                settingsCache = DataAccess.GetAsset<DataAssetCoreRuntimeSettings>();
                 return settingsCache;
             }
         }

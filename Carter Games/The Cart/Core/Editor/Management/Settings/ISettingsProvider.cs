@@ -21,8 +21,6 @@
  * THE SOFTWARE.
  */
 
-using UnityEditor;
-
 namespace CarterGames.Cart.Core.Management.Editor
 {
     public interface ISettingsProvider

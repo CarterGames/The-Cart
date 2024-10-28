@@ -24,6 +24,7 @@
 using System;
 using System.Text;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Management;
 using UnityEngine;
 
@@ -77,7 +78,13 @@ namespace CarterGames.Cart.Core.Logs
                 }
             }
         }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        public static readonly Evt<LogType, string> Logged = new Evt<LogType, string>();
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Log Builder Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -111,12 +118,11 @@ namespace CarterGames.Cart.Core.Logs
         /// <summary>
         /// Generates the log message all together to show.
         /// </summary>
-        /// <param name="logType">The severity of the log message.</param>
         /// <param name="msg">The message to show.</param>
         /// <param name="additionalContext">The sub-type for the message if used.</param>
         /// <typeparam name="T">The log category type</typeparam>
         /// <returns>The formatted log message.</returns>
-        private static string CreateLogMessage<T>(LogType logType, string msg, Type additionalContext = null) where T : CartLogCategory
+        private static string CreateLogMessage<T>(string msg, Type additionalContext = null) where T : CartLogCategory
         {
             MessageBuilder.Clear();
             MessageBuilder.Append(GetCategoryPrefix<T>(additionalContext));
@@ -146,8 +152,11 @@ namespace CarterGames.Cart.Core.Logs
             if (!CanShowLogs) return;
             if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
+
+            var formattedLog = CreateLogMessage<T>(message);
             
-            Debug.Log(CreateLogMessage<T>(LogType.Log, message));
+            Debug.Log(formattedLog);
+            Logged.Raise(LogType.Log, formattedLog);
         }
         
         
@@ -164,7 +173,10 @@ namespace CarterGames.Cart.Core.Logs
             if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
-            Debug.Log(CreateLogMessage<T>(LogType.Log, message, additionalContext));
+            var formattedLog = CreateLogMessage<T>(message, additionalContext);
+            
+            Debug.Log(formattedLog);
+            Logged.Raise(LogType.Log, formattedLog);
         }
         
         
@@ -184,7 +196,10 @@ namespace CarterGames.Cart.Core.Logs
             if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
-            Debug.LogWarning(CreateLogMessage<T>(LogType.Warning, message));
+            var formattedLog = CreateLogMessage<T>(message);
+            
+            Debug.LogWarning(formattedLog);
+            Logged.Raise(LogType.Warning, formattedLog);
         }
         
         
@@ -201,7 +216,10 @@ namespace CarterGames.Cart.Core.Logs
             if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
-            Debug.LogWarning(CreateLogMessage<T>(LogType.Warning, message, additionalContext));
+            var formattedLog = CreateLogMessage<T>(message, additionalContext);
+            
+            Debug.LogWarning(formattedLog);
+            Logged.Raise(LogType.Warning, formattedLog);
         }
                 
         
@@ -221,7 +239,10 @@ namespace CarterGames.Cart.Core.Logs
             if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
-            Debug.LogError(CreateLogMessage<T>(LogType.Error, message));
+            var formattedLog = CreateLogMessage<T>(message);
+            
+            Debug.LogError(formattedLog);
+            Logged.Raise(LogType.Error, formattedLog);
         }
         
         
@@ -238,7 +259,10 @@ namespace CarterGames.Cart.Core.Logs
             if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
-            Debug.LogError(CreateLogMessage<T>(LogType.Error, message, additionalContext));
+            var formattedLog = CreateLogMessage<T>(message, additionalContext);
+            
+            Debug.LogError(formattedLog);
+            Logged.Raise(LogType.Error, formattedLog);
         }
     }
 }

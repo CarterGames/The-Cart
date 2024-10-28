@@ -72,6 +72,7 @@ namespace CarterGames.Cart.Core.Data.Editor
             if (GUILayout.Button("Refresh Index"))
             {
                 DataAssetIndexHandler.UpdateIndex();
+                return;
             }
             
             GUILayout.Space(1.5f);

@@ -30,6 +30,7 @@ namespace CarterGames.Cart.Modules.Window
     public static class ModuleDisplay
     {
         private static GUIStyle labelStyle;
+        private static GUIStyle installedBadgeStyle;
 
 
         public static void DrawModule(IModule module)
@@ -66,6 +67,11 @@ namespace CarterGames.Cart.Modules.Window
             labelStyle ??= new GUIStyle(EditorStyles.label);
             labelStyle.wordWrap = true;
             labelStyle.richText = true;
+
+            installedBadgeStyle ??= new GUIStyle("CN CountBadge");
+            installedBadgeStyle.wordWrap = false;
+            installedBadgeStyle.richText = true;
+            installedBadgeStyle.stretchWidth = false;
         }
         
 
@@ -82,13 +88,25 @@ namespace CarterGames.Cart.Modules.Window
             DrawModuleStatusButton(module);
             
             EditorGUILayout.EndHorizontal();
+            
+            GeneralUtilEditor.DrawHorizontalGUILine();
+
+            EditorGUILayout.LabelField(module.ModuleDescription, labelStyle);
+            
+            GeneralUtilEditor.DrawHorizontalGUILine();
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Author:", GUILayout.MaxWidth(45));
+            EditorGUILayout.LabelField(module.ModuleAuthor);
+            EditorGUILayout.EndHorizontal();
+            
 
             // Pre-requirements..
             if (module.PreRequisites.Length > 0)
             {
                 GeneralUtilEditor.DrawHorizontalGUILine();
                 
-                EditorGUILayout.LabelField("Requires", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Required Modules", EditorStyles.boldLabel);
 
                 foreach (var preRequisite in module.PreRequisites)
                 {
@@ -100,15 +118,28 @@ namespace CarterGames.Cart.Modules.Window
                 }
             }
             
-            GeneralUtilEditor.DrawHorizontalGUILine();
+            if (module.OptionalPreRequisites.Length > 0)
+            {
+                GeneralUtilEditor.DrawHorizontalGUILine();
+                
+                EditorGUILayout.LabelField("Optional Modules", EditorStyles.boldLabel);
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Author:", GUILayout.MaxWidth(45));
-            EditorGUILayout.LabelField(module.ModuleAuthor);
-            EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                
+                foreach (var preRequisite in module.OptionalPreRequisites)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    
+                    EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsEnabled(preRequisite) ? "<color=#71ff50>\u2714</color>" : "<color=#ff9494>\u2718</color>"), labelStyle);
+                    
+                    EditorGUILayout.EndHorizontal();
+                }
+                
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.EndHorizontal();
+            }
             
-            GUILayout.Space(10f);
-            EditorGUILayout.LabelField(module.ModuleDescription, labelStyle);
+
 
             GUILayout.Space(2.5f);
             

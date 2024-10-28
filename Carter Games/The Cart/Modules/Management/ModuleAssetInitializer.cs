@@ -1,4 +1,6 @@
-﻿/*
+﻿#if UNITY_EDITOR
+
+/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -58,13 +60,7 @@ namespace CarterGames.Cart.Core.Management.Editor
             if (ModulesScriptableRef.HasAllAssets()) return;
             ModulesScriptableRef.TryCreateAssets();
         }
-
-
-        [InitializeOnLoadMethod]
-        private static void TryInit()
-        {
-            if (ModulesScriptableRef.HasAllAssets()) return;
-            ModulesScriptableRef.TryCreateAssets();
-        }
     }
 }
+
+#endif

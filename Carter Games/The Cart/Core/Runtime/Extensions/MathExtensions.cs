@@ -22,6 +22,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Logs;
 using UnityEngine;
 
 namespace CarterGames.Cart.Core
@@ -147,6 +148,151 @@ namespace CarterGames.Cart.Core
         public static bool DoubleEquals(this double a, double b)
         {
             return Math.Abs(a - b) < double.Epsilon;
+        }
+
+        
+        /// <summary>
+        /// Floors the input to the nearest power.
+        /// </summary>
+        /// <param name="a">The input.</param>
+        /// <param name="p">The power to find.</param>
+        /// <param name="iterations">The max iterations of the power until it gives up..</param>
+        /// <returns>The nearest power, floored</returns>
+        public static int FloorToPower(this int a, int p, int iterations = 1000)
+        {
+            var last = p;
+
+            for (var i = 0; i < iterations; i++)
+            {
+                var nearest = last * p;
+                
+                if (nearest > a)
+                {
+                    return last;
+                }
+                
+                last = nearest;
+            }
+
+            CartLogger.Log<LogCategoryCore>("Hit max iterations, returning -1", typeof(MathExtensions));
+            return -1;
+        }
+        
+        
+        /// <summary>
+        /// Rounds the input to the nearest power.
+        /// </summary>
+        /// <param name="a">The input.</param>
+        /// <param name="p">The power to find.</param>
+        /// <param name="iterations">The max iterations of the power until it gives up..</param>
+        /// <returns>The nearest power, rounded</returns>
+        public static int RoundToPower(this int a, int p, int iterations = 1000)
+        {
+            var last = p;
+
+            for (var i = 0; i < iterations; i++)
+            {
+                var nearest = last * p;
+                
+                if (nearest > a)
+                {
+                    if ((nearest - a) <= (a - last))
+                    {
+                        return nearest;
+                    }
+                    else
+                    {
+                        return last;
+                    }
+                }
+                
+                last = nearest;
+            }
+
+            CartLogger.Log<LogCategoryCore>("Hit max iterations, returning -1", typeof(MathExtensions));
+            return -1;
+        }
+        
+        
+        /// <summary>
+        /// Ceiling the input to the nearest power.
+        /// </summary>
+        /// <param name="a">The input.</param>
+        /// <param name="p">The power to find.</param>
+        /// <param name="iterations">The max iterations of the power until it gives up..</param>
+        /// <returns>The nearest power, ceiling</returns>
+        public static int CeilToPower(this int a, int p, int iterations = 1000)
+        {
+            var last = p;
+
+            for (var i = 0; i < iterations; i++)
+            {
+                var nearest = last * p;
+                
+                if (nearest > a)
+                {
+                    return nearest;
+                }
+                
+                last = nearest;
+            }
+
+            CartLogger.Log<LogCategoryCore>("Hit max iterations, returning -1", typeof(MathExtensions));
+            return -1;
+        }
+        
+
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static float Percentage(this float value, float percentage)
+        {
+            return (value / 100) * percentage;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static float Percentage01(this float value, float percentage)
+        {
+            return percentage * value;
+        }
+        
+
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static double Percentage(this double value, double percentage)
+        {
+            return (value / 100) * percentage;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static double Percentage01(this double value, double percentage)
+        {
+            return percentage * value;
+        }
+
+
+        public static double Round(this double value)
+        {
+            return Math.Round(value);
         }
     }
 }

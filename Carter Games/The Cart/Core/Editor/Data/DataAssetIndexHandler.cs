@@ -37,9 +37,7 @@ namespace CarterGames.Cart.Core.Data.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        internal static readonly string DataAssetIndexPath = $"Assets/Plugins/Carter Games/The Cart/Resources/Data Asset Index.asset"; 
-        private static readonly string DataAssetIndexFilter = $"t:{typeof(DataAssetIndex).FullName}";
+        
         private static readonly string AssetFilter = typeof(DataAsset).FullName;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -105,15 +103,15 @@ namespace CarterGames.Cart.Core.Data.Editor
                 
                 // Doesn't include editor only or the index itself.
                 if (assetObj == null) continue;
-                if (assetObj.Equals(UtilEditor.AssetIndex)) continue;
+                if (assetObj is DataAssetIndex) continue;
                 
                 foundAssets.Add((DataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));
             }
             
             UpdateIndexReferences(foundAssets);
             
-            ScriptableRef.DataAssetIndexObject.ApplyModifiedProperties();
-            ScriptableRef.DataAssetIndexObject.Update();
+            ScriptableRef.GetAssetDef<DataAssetIndex>().ObjectRef.ApplyModifiedProperties();
+            ScriptableRef.GetAssetDef<DataAssetIndex>().ObjectRef.Update();
         }
 
 
@@ -123,13 +121,14 @@ namespace CarterGames.Cart.Core.Data.Editor
         /// <param name="foundAssets">The found assets to update.</param>
         private static void UpdateIndexReferences(IReadOnlyList<DataAsset> foundAssets)
         {
-            ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").ClearArray();
+            var dicRef = ScriptableRef.GetAssetDef<DataAssetIndex>().ObjectRef.Fp("assets").Fpr("list");
+            dicRef.ClearArray();
             
             for (var i = 0; i < foundAssets.Count; i++)
             {
-                for (var j = 0; j < ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize; j++)
+                for (var j = 0; j < dicRef.arraySize; j++)
                 {
-                    var entry = ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(j);
+                    var entry = dicRef.GetIndex(j);
                     
                     if (entry.Fpr("key").stringValue.Equals(foundAssets[i].GetType().ToString()))
                     {
@@ -144,18 +143,16 @@ namespace CarterGames.Cart.Core.Data.Editor
                     }
                 }
                 
-                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").InsertIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize);
-                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1).Fpr("key").stringValue = foundAssets[i].GetType().ToString();
+                dicRef.InsertIndex(dicRef.arraySize);
+                dicRef.GetIndex(dicRef.arraySize - 1).Fpr("key").stringValue = foundAssets[i].GetType().ToString();
                 
-                if (ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1).Fpr("value").arraySize > 0)
+                if (dicRef.GetIndex(dicRef.arraySize - 1).Fpr("value").arraySize > 0)
                 {
-                    ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1)
-                        .Fpr("value").ClearArray();
+                    dicRef.GetIndex(dicRef.arraySize - 1).Fpr("value").ClearArray();
                 }
                 
-                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1).Fpr("value").InsertIndex(0);
-                ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").GetIndex(ScriptableRef.DataAssetIndexObject.Fp("assets").Fpr("list").arraySize - 1)
-                    .Fpr("value").GetIndex(0).objectReferenceValue = foundAssets[i];
+                dicRef.GetIndex(dicRef.arraySize - 1).Fpr("value").InsertIndex(0);
+                dicRef.GetIndex(dicRef.arraySize - 1).Fpr("value").GetIndex(0).objectReferenceValue = foundAssets[i];
 
                 AlreadyExists: ;
             }

@@ -36,7 +36,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         
         // Paths
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        public const string SettingsWindowPath = "Project/Carter Games/The Cart";
+        public const string SettingsWindowPath = "Carter Games/The Cart";
         
         
         // Filters
@@ -56,20 +56,20 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
-        public static DataAssetCartGlobalRuntimeSettings Settings => ScriptableRef.RuntimeSettings;
+        public static DataAssetCoreRuntimeSettings Settings => ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().AssetRef;
 
 
         /// <summary>
         /// Gets/Sets the save manager settings asset.
         /// </summary>
-        public static DataAssetIndex AssetIndex => ScriptableRef.AssetIndex;
+        public static DataAssetIndex AssetIndex => ScriptableRef.GetAssetDef<DataAssetIndex>().AssetRef;
 
 
 
         /// <summary>
         /// Gets/Sets the save manager editor settings asset.
         /// </summary>
-        public static SerializedObject SettingsObject => ScriptableRef.RuntimeSettingsObject;
+        public static SerializedObject SettingsObject => ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().ObjectRef;
         
         
         /// <summary>

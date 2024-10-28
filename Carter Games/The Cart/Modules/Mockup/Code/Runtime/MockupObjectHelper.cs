@@ -31,6 +31,7 @@ namespace CarterGames.Cart.Modules.Mockup
     /// <summary>
     /// Used to assign the mockup object reference without losing it on script reloads.
     /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Mockups/Object Helper Component")]
     public sealed class MockupObjectHelper : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

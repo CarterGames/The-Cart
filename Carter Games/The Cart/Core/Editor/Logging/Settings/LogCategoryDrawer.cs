@@ -32,11 +32,11 @@ namespace CarterGames.Cart.Core.Logs.Editor
     {
         public static void DrawLogCategories()
         {
-            if (ScriptableRef.LogCategoriesObject.Fp("lookup").Fpr("list").arraySize <= 0) return;
+            if (ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").arraySize <= 0) return;
             
-            for (var i = 0; i < ScriptableRef.LogCategoriesObject.Fp("lookup").Fpr("list").arraySize; i++)
+            for (var i = 0; i < ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").arraySize; i++)
             {
-                DrawLogCategory(ScriptableRef.LogCategoriesObject.Fp("lookup").Fpr("list").GetIndex(i));
+                DrawLogCategory(ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").GetIndex(i));
             }
         }
 
@@ -55,7 +55,7 @@ namespace CarterGames.Cart.Core.Logs.Editor
         
         private static void DrawLogCategory(SerializedProperty category)
         {
-            ScriptableRef.LogCategoriesObject.Update();
+            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
             
             EditorGUI.BeginChangeCheck();
             
@@ -63,8 +63,8 @@ namespace CarterGames.Cart.Core.Logs.Editor
             
             if (EditorGUI.EndChangeCheck())
             {
-                ScriptableRef.LogCategoriesObject.ApplyModifiedProperties();
-                ScriptableRef.LogCategoriesObject.Update();
+                ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
+                ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
             }
         }
     }

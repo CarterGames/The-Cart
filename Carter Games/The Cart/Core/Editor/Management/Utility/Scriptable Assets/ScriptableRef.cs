@@ -21,11 +21,13 @@
  * THE SOFTWARE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Logs;
-using CarterGames.Cart.Core.MetaData.Editor;
-using CarterGames.Cart.Modules;
+using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.Management.Editor
 {
@@ -46,59 +48,7 @@ namespace CarterGames.Cart.Core.Management.Editor
 
         public static readonly string FullPathResources = $"{Root}{PathResources}";
         public static readonly string FullPathData = $"{Root}{PathData}";
-        
-        
-        // File Names
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static readonly string FileNameAssetIndex = "[Cart] Data Asset Index.asset";
-        private static readonly string FileNameSettingsAsset = "[Cart] Runtime Settings Data Asset.asset";
-        private static readonly string FileNameLogCategoriesAsset = "[Cart] Log Category Statuses Data Asset.asset";
-        private static readonly string FileNameCscAsset = "[Cart] Csc Data Asset.asset";
-        private static readonly string FileNameMetaDataAsset = "[Cart] Meta Data Asset.asset";
-        
 
-        
-        // Asset Paths
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static readonly string FullPathAssetIndex = $"{FullPathResources}{FileNameAssetIndex}";
-        private static readonly string FullPathSettingsAsset = $"{FullPathData}{FileNameSettingsAsset}";
-        private static readonly string FullPathLogCategoriesAsset = $"{FullPathData}{FileNameLogCategoriesAsset}";
-        private static readonly string FullPathCscAsset = $"{FullPathData}{FileNameCscAsset}";
-        private static readonly string FullPathMetaDataAsset = $"{FullPathData}{FileNameMetaDataAsset}";
-        
-
-        
-        // Asset Filters
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static readonly string FilterAssetIndex = $"t:{typeof(DataAssetIndex).FullName}";
-        private static readonly string FilterRuntimeSettingsAsset = $"t:{typeof(DataAssetCartGlobalRuntimeSettings).FullName}";
-        private static readonly string FilterLogCategoryAsset = $"t:{typeof(DataAssetCartLogCategories).FullName}";
-        private static readonly string FilterCscAsset = $"t:{typeof(DataAssetCsc).FullName}";
-        private static readonly string FilterMetaDataAsset = $"t:{typeof(DataAssetMetaData).FullName}";
-        
-        
-        // Asset Caches
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static DataAssetIndex cacheAssetIndex;
-        private static DataAssetCartGlobalRuntimeSettings cacheSettingsAssetRuntime;
-        private static DataAssetCartLogCategories cacheLogCategoriesAsset;
-        private static DataAssetCsc cacheCscAsset;
-        private static DataAssetMetaData cacheMetaDataAsset;
-        
-        
-        // SerializedObject Caches
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private static SerializedObject objectCacheAssetIndex;
-        private static SerializedObject objectCacheSettingsAssetRuntime;
-        private static SerializedObject objectCacheLogCategoriesAsset;
-        private static SerializedObject objectCacheCscAsset;
-        private static SerializedObject objectCacheMetaDataAsset;
-
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         // Helper Properties
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
@@ -112,85 +62,38 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// Gets the asset name stored in the file util editor class.
         /// </summary>
         private static string AssetName => FileEditorUtil.AssetName;
-
-        
-        // Asset Properties
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// The asset index for the asset.
-        /// </summary>
-        public static DataAssetIndex AssetIndex =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheAssetIndex, FilterAssetIndex, FullPathAssetIndex, AssetName, $"{PathResources}{FileNameAssetIndex}");
-        
-        
-        /// <summary>
-        /// The runtime settings for the asset.
-        /// </summary>
-        public static DataAssetCartGlobalRuntimeSettings RuntimeSettings =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheSettingsAssetRuntime, FilterRuntimeSettingsAsset, FullPathSettingsAsset, AssetName, $"{PathData}{FileNameSettingsAsset}");
-
-        
-        
-        private static DataAssetCartLogCategories LogCategories =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheLogCategoriesAsset, FilterLogCategoryAsset, FullPathLogCategoriesAsset, AssetName, $"{PathData}{FileNameLogCategoriesAsset}");
-        
-        
-        public static DataAssetCsc CscAsset =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheCscAsset, FilterCscAsset, FullPathCscAsset, AssetName, $"{PathData}{FileNameCscAsset}");
-
-        
-        public static DataAssetMetaData MetaDataAsset =>
-            FileEditorUtil.CreateSoGetOrAssignAssetCache(ref cacheMetaDataAsset, FilterMetaDataAsset, FullPathMetaDataAsset, AssetName, $"{PathData}{FilterMetaDataAsset}");
-        
-        
-        // Object Properties
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// The asset index.
-        /// </summary>
-        public static SerializedObject DataAssetIndexObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheAssetIndex, AssetIndex);
-        
-        
-        /// <summary>
-        /// The runtime SerializedObject for the asset.
-        /// </summary>
-        public static SerializedObject RuntimeSettingsObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheSettingsAssetRuntime, RuntimeSettings);
-
-
-        /// <summary>
-        /// The log categories asset.
-        /// </summary>
-        public static SerializedObject LogCategoriesObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheLogCategoriesAsset, LogCategories);
-        
-        
-        /// <summary>
-        /// The csc asset.
-        /// </summary>
-        public static SerializedObject CscObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheCscAsset, CscAsset);
-        
-        
-        public static SerializedObject MetaDataObject =>
-            FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objectCacheMetaDataAsset, MetaDataAsset);
         
         
         // Assets Initialized Check
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        
+        private static Dictionary<Type, IScriptableAssetDef<DataAsset>> cacheLookup;
+
+        private static Dictionary<Type, IScriptableAssetDef<DataAsset>> AssetLookup
+        {
+            get
+            {
+                if (!cacheLookup.IsEmptyOrNull()) return cacheLookup;
+                cacheLookup = new Dictionary<Type, IScriptableAssetDef<DataAsset>>();
+
+                foreach (var elly in AssemblyHelper.GetClassesOfType<IScriptableAssetDef<DataAsset>>())
+                {
+                    cacheLookup.Add(elly.AssetType, elly);
+                }
+                
+                return cacheLookup;
+            }   
+        }
+        
+        
         /// <summary>
         /// Gets if all the assets needed for the asset to function are in the project at the expected paths.
         /// </summary>
-        public static bool HasAllAssets =>
-            AssetDatabaseHelper.FileIsInProject<DataAssetIndex>(FullPathAssetIndex) &&
-            AssetDatabaseHelper.FileIsInProject<DataAssetCartGlobalRuntimeSettings>(FullPathSettingsAsset) &&
-            AssetDatabaseHelper.FileIsInProject<DataAssetCartLogCategories>(FullPathLogCategoriesAsset) &&
-            AssetDatabaseHelper.FileIsInProject<DataAssetCsc>(FullPathCscAsset) &&
-            AssetDatabaseHelper.FileIsInProject<DataAssetMetaData>(FullPathMetaDataAsset);
+        public static bool HasAllAssets()
+        {
+            return AssetLookup.All(t => HasAsset(t.Value));
+        }
         
         
         /// <summary>
@@ -198,54 +101,52 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// </summary>
         public static void TryCreateAssets()
         {
-            if (cacheAssetIndex == null)
+            foreach (var entry in AssetLookup)
             {
-                FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref cacheAssetIndex, 
-                    FilterAssetIndex, 
-                    FullPathAssetIndex,
-                    AssetName, $"{PathResources}{FileNameAssetIndex}");
+                entry.Value.TryCreate();
+            }
+        }
+        
+
+        public static IScriptableAssetDef<T> GetAssetDef<T>() where T : DataAsset
+        {
+            if (AssetLookup.ContainsKey(typeof(T)))
+            {
+                return (IScriptableAssetDef<T>) AssetLookup[typeof(T)];
             }
 
-            
-            if (cacheSettingsAssetRuntime == null)
-            {
-                FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref cacheSettingsAssetRuntime, 
-                    FilterRuntimeSettingsAsset, 
-                    FullPathSettingsAsset, 
-                    AssetName, $"{PathData}{FileNameSettingsAsset}");
-            }
-            
-            
-            if (cacheLogCategoriesAsset == null)
-            {
-                FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref cacheLogCategoriesAsset, 
-                    FilterLogCategoryAsset, 
-                    FullPathLogCategoriesAsset, 
-                    AssetName, $"{PathData}{FileNameLogCategoriesAsset}");
-            }
-            
-            
-            if (cacheCscAsset == null)
-            {
-                FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref cacheCscAsset, 
-                    FilterCscAsset, 
-                    FullPathCscAsset, 
-                    AssetName, $"{PathData}{FileNameCscAsset}");
-            }
-            
-            
-            if (cacheMetaDataAsset == null)
-            {
-                FileEditorUtil.CreateSoGetOrAssignAssetCache(
-                    ref cacheMetaDataAsset, 
-                    FilterMetaDataAsset, 
-                    FullPathMetaDataAsset, 
-                    AssetName, $"{PathData}{FileNameMetaDataAsset}");
-            }
+            return null;
+        }
+        
+
+        
+        public static bool HasAsset<T>(IScriptableAssetDef<T> def) where T : DataAsset
+        {
+            return AssetDatabaseHelper.FileIsInProject<T>(def.DataAssetPath);
+        }
+        
+
+
+        public static void TryCreateAsset<T>(IScriptableAssetDef<T> def, ref T cache) where T : DataAsset
+        {
+            if (cache != null) return;
+            GetOrCreateAsset<T>(def, ref cache);
+        }
+        
+
+        public static T GetOrCreateAsset<T>(IScriptableAssetDef<T> def, ref T cache) where T : DataAsset
+        {
+            return FileEditorUtil.CreateSoGetOrAssignAssetCache(
+                ref cache, 
+                def.DataAssetFilter, 
+                def.DataAssetPath, 
+                AssetName, $"{PathData}{def.DataAssetFileName}");
+        }
+
+        
+        public static SerializedObject GetOrCreateAssetObject<T>(IScriptableAssetDef<T> def, ref SerializedObject objCache) where T : DataAsset
+        {
+            return FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objCache, def.AssetRef);
         }
     }
 }
