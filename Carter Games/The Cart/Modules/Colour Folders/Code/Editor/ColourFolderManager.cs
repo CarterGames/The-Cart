@@ -164,7 +164,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 
 			if (HasOverrideIconSet(folderPath, out var setId))
 			{
-				var setData = ColorFolderIconSetCache.SetsLookup[setId];
+				var setData = ColorFolderCache.SetsLookup[setId];
 				
 				if (setData != null)
 				{
@@ -187,9 +187,16 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <param name="returnOnFound">If it should return the first valid folder found, ignoring other possible valid overrides.</param>
 		/// <param name="folderEntry">The entry found.</param>
 		/// <returns>If it was successful.</returns>
-		private static bool TryGetFolder(string path, bool recursive, bool returnOnFound, out SerializedProperty folderEntry)
+		private static bool TryGetFolder(string path, bool recursive, bool returnOnFound, out string setId)
 		{
+			if (ColorFolderCache.FolderResult.ContainsKey(path))
+			{
+				setId = ColorFolderCache.FolderResult[path]?.Id;
+				return string.IsNullOrEmpty(setId);
+			}
+			
 			var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
+			setId = null;
 			
 			for (var i = 0; i < data.arraySize; i++)
 			{
@@ -198,39 +205,52 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				if (!recursive)
 				{
 					if (entry.Fpr("folderPath").stringValue != path) continue;
-					folderEntry = entry;
+					setId = entry.Fpr("folderSetId").stringValue;
 					
-					if (folderEntry != null)
+					if (setId != null)
 					{
-						if (entry.Fpr("folderPath").stringValue.Length <= folderEntry.Fpr("folderPath").stringValue.Length) continue;
+						if (entry.Fpr("folderPath").stringValue.Length <= setId.Length) continue;
 					}
 					
-					if (returnOnFound) return true;
+					if (returnOnFound && setId != null)
+					{
+						ColorFolderCache.AddFolderResult(path, ColorFolderCache.SetsLookup[setId]);
+						return true;
+					}
 				}
 				else
 				{
-					if (entry.Fpr("folderPath").stringValue != path) continue;
+					if (entry.Fpr("folderPath").stringValue != path)
 					{
 						if (!path.Contains(entry.Fpr("folderPath").stringValue)) continue;
 						if (!entry.Fpr("isRecursive").boolValue) continue;
 						
-						if (folderEntry != null)
+						if (setId != null)
 						{
-							if (entry.Fpr("folderPath").stringValue.Length <= folderEntry.Fpr("folderPath").stringValue.Length) continue;
+							if (entry.Fpr("folderPath").stringValue.Length <= setId.Length) continue;
 						}
 						
-						folderEntry = entry;
+						setId = entry.Fpr("folderSetId").stringValue;
 						
-						if (returnOnFound) return true;
+						if (returnOnFound)
+						{
+							ColorFolderCache.AddFolderResult(path, ColorFolderCache.SetsLookup[setId]);
+							return true;
+						}
 					}
+		
+					setId = entry.Fpr("folderSetId").stringValue;
 					
-					folderEntry = entry;
-					if (returnOnFound) return true;
+					if (returnOnFound)
+					{
+						ColorFolderCache.AddFolderResult(path, ColorFolderCache.SetsLookup[setId]);
+						return true;
+					}
 				}
 			}
 			
-			folderEntry = null;
-			return folderEntry != null;
+			ColorFolderCache.AddFolderResult(path, setId != null ? ColorFolderCache.SetsLookup[setId] : null);
+			return string.IsNullOrEmpty(setId);
 		}
 		
 		
@@ -244,8 +264,8 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		{
 			if (TryGetFolder(folderPath, true, false, out var entry))
 			{
-				setId = entry.Fpr("folderSetId").stringValue;
-				return true;
+				setId = entry;
+				return setId != null;
 			}
 
 			setId = "Yellow";
@@ -272,36 +292,36 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <param name="recursive">Should the reset be recursive?</param>
 		public static void ResetColor(string path, bool recursive = false)
 		{
-			if (!TryGetFolder(path, true, true, out var entry)) return;
-			
-			var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
-			var entryIndex = data.GetIndexOf(entry);
-
-			if (entryIndex == -1) return;
-			
-			data.DeleteIndex(entryIndex);
-			data.serializedObject.ApplyModifiedProperties();
-			data.serializedObject.Update();
-
-			if (!recursive) return;
-			
-			while (TryGetFolder(path, true, true, out entry))
-			{
-				entryIndex = data.GetIndexOf(entry);
-
-				if (entryIndex == -1) return;
-			
-				data.DeleteIndex(entryIndex);
-				data.serializedObject.ApplyModifiedProperties();
-				data.serializedObject.Update();
-			}
+			// if (!TryGetFolder(path, true, true, out var entry)) return;
+			//
+			// var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
+			// var entryIndex = data.GetIndexOf(ColorFolderCache.FolderResult[path].Id);
+			//
+			// if (entryIndex == -1) return;
+			//
+			// data.DeleteIndex(entryIndex);
+			// data.serializedObject.ApplyModifiedProperties();
+			// data.serializedObject.Update();
+			//
+			// if (!recursive) return;
+			//
+			// while (TryGetFolder(path, true, true, out entry))
+			// {
+			// 	entryIndex = data.GetIndexOf(entry);
+			//
+			// 	if (entryIndex == -1) return;
+			//
+			// 	data.DeleteIndex(entryIndex);
+			// 	data.serializedObject.ApplyModifiedProperties();
+			// 	data.serializedObject.Update();
+			// }
 		}
 
 
 		public static DataFolderIconSet CurrentlyAppliedSet(string folderPath)
 		{
 			if (!HasOverrideIconSet(folderPath, out string setId)) return null;
-			return ColorFolderIconSetCache.SetsLookup[setId];
+			return ColorFolderCache.SetsLookup[setId];
 		}
 	}
 }
