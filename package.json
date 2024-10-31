@@ -2,7 +2,7 @@
   "name": "games.carter.thecart",
   "version": "0.10.0",
   "displayName": "The Cart",
-"description": "[DEVELOPMENT BRANCH]: Use the library in this branch at your own risk. Features will likely have buts, but you will be able to use the latest stuff as its written.",
+"description": "[DEVELOPMENT BRANCH]: Use the library in this branch at your own risk. Features will likely have bugs, but you will be able to use the latest stuff as its written.",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "documentationUrl": "https://carter.games/the-cart",
