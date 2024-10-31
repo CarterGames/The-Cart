@@ -22,7 +22,6 @@
  */
 
 using System;
-using CarterGames.Cart.Core.Management.Editor;
 
 namespace CarterGames.Cart.Modules
 {

@@ -22,6 +22,7 @@
  */
 
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.Management.Editor
 {
@@ -61,6 +62,25 @@ namespace CarterGames.Cart.Core.Management.Editor
         public static SerializedProperty GetIndex(this SerializedProperty property, int index)
         {
             return property.GetArrayElementAtIndex(index);
+        }
+        
+        
+        /// <summary>
+        /// Finds the index of an element in an array.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="toFind">The item to find.</param>
+        /// <returns>The index of the entered property if found.</returns>
+        public static int GetIndexOf(this SerializedProperty property, SerializedProperty toFind)
+        {
+            if (!property.isArray) return -1;
+            
+            for (var i = 0; i < property.arraySize; i++)
+            {
+                if (SerializedProperty.EqualContents(property.GetIndex(i), toFind)) return i;
+            }
+            
+            return -1;
         }
         
         

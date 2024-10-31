@@ -21,25 +21,20 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Cart.Core.Management.Editor
+using System;
+
+namespace CarterGames.Cart.Modules
 {
-    /// <summary>
-    /// Contains details for the package.
-    /// </summary>
-    public static class CartVersionData
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.10.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "????/??/??";
-    }
+	public class ModuleColorFolders : IModule
+	{
+		public string ModuleName => "Color Folders";
+
+		public string ModuleDescription =>
+			"An editor improvement to lets you colorize folders, you do sacrifice folder context to apply these colors.";
+
+		public string ModuleAuthor => "Carter Games";
+		public IModule[] PreRequisites => Array.Empty<IModule>();
+		public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
+		public string ModuleDefine => "CARTERGAMES_CART_MODULE_COLORFOLDERS";
+	}
 }
