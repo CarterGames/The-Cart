@@ -164,12 +164,12 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 
 			if (HasOverrideIconSet(folderPath, out var setId))
 			{
-				var setData = ColorFolderIconSetCache.SetsLookup[setId];
-				
-				if (setData != null)
-				{
-					return small ? setData.Small : setData.Large;
-				}
+				// var setData = ColorFolderIconSetCache.SetsLookup[setId];
+				//
+				// if (setData != null)
+				// {
+				// 	return small ? setData.Small : setData.Large;
+				// }
 			}
 
 			return null;
