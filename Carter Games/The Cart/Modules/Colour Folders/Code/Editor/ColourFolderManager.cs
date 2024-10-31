@@ -164,12 +164,12 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 
 			if (HasOverrideIconSet(folderPath, out var setId))
 			{
-				// var setData = ColorFolderIconSetCache.SetsLookup[setId];
-				//
-				// if (setData != null)
-				// {
-				// 	return small ? setData.Small : setData.Large;
-				// }
+				var setData = ColorFolderIconSetCache.SetsLookup[setId];
+				
+				if (setData != null)
+				{
+					return small ? setData.Small : setData.Large;
+				}
 			}
 
 			return null;
@@ -242,14 +242,14 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <returns>If it was successful.</returns>
 		private static bool HasOverrideIconSet(string folderPath, out string setId)
 		{
-			if (TryGetFolder(folderPath, true, false, out var entry))
-			{
-				setId = entry.Fpr("folderSetId").stringValue;
-				return true;
-			}
+			// if (TryGetFolder(folderPath, true, false, out var entry))
+			// {
+			// 	setId = entry.Fpr("folderSetId").stringValue;
+			// 	return true;
+			// }
 
-			setId = null;
-			return false;
+			setId = "Yellow";
+			return true;
 		}
 		
 
