@@ -171,10 +171,8 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 					return small ? setData.Small : setData.Large;
 				}
 			}
-			
-			var data = ColorFolderIconSetCache.SetsLookup["Default"];
-			if (data == null) return null;
-			return small ? data.Small : data.Large;
+
+			return null;
 		}
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

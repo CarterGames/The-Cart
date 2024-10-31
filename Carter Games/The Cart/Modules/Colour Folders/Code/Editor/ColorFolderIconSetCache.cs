@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Management.Editor;
 
 namespace CarterGames.Cart.Modules.ColourFolders.Editor
 {
