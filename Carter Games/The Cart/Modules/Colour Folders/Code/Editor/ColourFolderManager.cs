@@ -50,10 +50,6 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		{
 			EditorApplication.projectWindowItemOnGUI -= ReplaceFolderIcon;
 			EditorApplication.projectWindowItemOnGUI += ReplaceFolderIcon;
-
-			// A repaint to ensure the colors update on changes.
-			EditorApplication.projectChanged -= EditorApplication.RepaintProjectWindow;
-			EditorApplication.projectChanged += EditorApplication.RepaintProjectWindow;
 		}
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
