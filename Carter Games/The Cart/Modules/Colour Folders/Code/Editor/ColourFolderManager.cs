@@ -104,7 +104,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			}
 			
 			
-			GUI.DrawTexture(rect, texture, ScaleMode.ScaleToFit);
+			GUI.DrawTexture(rect, texture, ScaleMode.ScaleAndCrop);
 		}
 
 
@@ -198,7 +198,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				
 				if (!recursive)
 				{
-					if (!entry.Fpr("folderPath").stringValue.Equals(path)) continue;
+					if (!ColorFolderIconSetCache.PropLookup.ContainsKey(path)) continue;
 					folderEntry = entry;
 					
 					if (folderEntry != null)
@@ -210,7 +210,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				}
 				else
 				{
-					if (!entry.Fpr("folderPath").stringValue.Equals(path))
+					if (!ColorFolderIconSetCache.PropLookup.ContainsKey(path))
 					{
 						if (!path.Contains(entry.Fpr("folderPath").stringValue)) continue;
 						if (!entry.Fpr("isRecursive").boolValue) continue;

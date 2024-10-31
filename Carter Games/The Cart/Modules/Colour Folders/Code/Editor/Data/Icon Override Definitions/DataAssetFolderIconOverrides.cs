@@ -48,6 +48,12 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			new DataFolderIconOverride("Assets/_Project/Code", "Red"),
 			new DataFolderIconOverride("Assets/_Project/Prefabs", "Cyan"),
 		};
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		public List<DataFolderIconOverride> FolderOverrides => folderOverrides;
 	}
 }
 

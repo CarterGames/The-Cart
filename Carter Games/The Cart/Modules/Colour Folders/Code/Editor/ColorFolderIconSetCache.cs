@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Management.Editor;
+using UnityEditor;
 
 namespace CarterGames.Cart.Modules.ColourFolders.Editor
 {
@@ -39,6 +40,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
 		private static Dictionary<string, DataFolderIconSet> setsLookupCache;
+		private static Dictionary<string, SerializedProperty> propCache;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
@@ -62,6 +64,25 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				}
 
 				return setsLookupCache;
+			}
+		}
+		
+		
+		public static Dictionary<string, SerializedProperty> PropLookup
+		{
+			get
+			{
+				if (!propCache.IsEmptyOrNull()) return propCache;
+				propCache = new Dictionary<string, SerializedProperty>();
+
+				var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
+
+				for (var i = 0; i < data.arraySize; i++)
+				{
+					propCache.Add(data.GetIndex(i).Fpr("folderPath").stringValue, data);
+				}
+
+				return propCache;
 			}
 		}
 	}
