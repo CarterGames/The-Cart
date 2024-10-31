@@ -192,7 +192,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			if (ColorFolderCache.FolderResult.ContainsKey(path))
 			{
 				setId = ColorFolderCache.FolderResult[path]?.Id;
-				return string.IsNullOrEmpty(setId);
+				return !string.IsNullOrEmpty(setId);
 			}
 			
 			var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
@@ -250,7 +250,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			}
 			
 			ColorFolderCache.AddFolderResult(path, setId != null ? ColorFolderCache.SetsLookup[setId] : null);
-			return string.IsNullOrEmpty(setId);
+			return !string.IsNullOrEmpty(setId);
 		}
 		
 		
