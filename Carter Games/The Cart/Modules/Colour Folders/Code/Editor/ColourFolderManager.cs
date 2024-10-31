@@ -190,7 +190,6 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		private static bool TryGetFolder(string path, bool recursive, bool returnOnFound, out SerializedProperty folderEntry)
 		{
 			var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
-			folderEntry = null;
 			
 			for (var i = 0; i < data.arraySize; i++)
 			{
@@ -198,7 +197,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				
 				if (!recursive)
 				{
-					if (!ColorFolderIconSetCache.PropLookup.ContainsKey(path)) continue;
+					if (entry.Fpr("folderPath").stringValue != path) continue;
 					folderEntry = entry;
 					
 					if (folderEntry != null)
@@ -210,7 +209,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				}
 				else
 				{
-					if (!ColorFolderIconSetCache.PropLookup.ContainsKey(path))
+					if (entry.Fpr("folderPath").stringValue != path) continue;
 					{
 						if (!path.Contains(entry.Fpr("folderPath").stringValue)) continue;
 						if (!entry.Fpr("isRecursive").boolValue) continue;
@@ -230,6 +229,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				}
 			}
 			
+			folderEntry = null;
 			return folderEntry != null;
 		}
 		
@@ -242,14 +242,14 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <returns>If it was successful.</returns>
 		private static bool HasOverrideIconSet(string folderPath, out string setId)
 		{
-			// if (TryGetFolder(folderPath, true, false, out var entry))
-			// {
-			// 	setId = entry.Fpr("folderSetId").stringValue;
-			// 	return true;
-			// }
+			if (TryGetFolder(folderPath, true, false, out var entry))
+			{
+				setId = entry.Fpr("folderSetId").stringValue;
+				return true;
+			}
 
 			setId = "Yellow";
-			return true;
+			return false;
 		}
 		
 
