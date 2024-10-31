@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-using System.Linq;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -165,7 +164,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 
 			if (HasOverrideIconSet(folderPath, out var setId))
 			{
-				var setData = folderIconsAsset.FolderGraphics.FirstOrDefault(t => t.Id.Equals(setId));
+				var setData = ColorFolderIconSetCache.SetsLookup[setId];
 				
 				if (setData != null)
 				{
@@ -173,7 +172,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				}
 			}
 			
-			var data = folderIconsAsset.FolderGraphics.FirstOrDefault(t => t.Id.Equals("Default"));
+			var data = ColorFolderIconSetCache.SetsLookup["Default"];
 			if (data == null) return null;
 			return small ? data.Small : data.Large;
 		}
@@ -304,7 +303,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		public static DataFolderIconSet CurrentlyAppliedSet(string folderPath)
 		{
 			if (!HasOverrideIconSet(folderPath, out string setId)) return null;
-			return folderIconsAsset.FolderGraphics.FirstOrDefault(t => t.Id.Equals(setId));
+			return ColorFolderIconSetCache.SetsLookup[setId];
 		}
 	}
 }
