@@ -150,6 +150,10 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				entry.Fpr("folderSetId").stringValue = iconSet.Id;
 				ObjectRef.ApplyModifiedProperties();
 				ObjectRef.Update();
+				
+				ColorFolderCache.FolderResult.Clear();
+				EditorApplication.RepaintProjectWindow();
+				
 				return;
 			}
 
@@ -162,6 +166,9 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			entry.Fpr("folderSetId").stringValue = iconSet.Id;
 			ObjectRef.ApplyModifiedProperties();
 			ObjectRef.Update();
+			
+			ColorFolderCache.FolderResult.Clear();
+			EditorApplication.RepaintProjectWindow();
 		}
 	}
 }

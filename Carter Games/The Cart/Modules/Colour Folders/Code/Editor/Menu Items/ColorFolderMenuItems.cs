@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 
@@ -62,8 +63,16 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		[MenuItem("Assets/Color Folders/Reset Folder Color", priority = 2)]
 		private static void ResetFolderColor()
 		{
-			if (!TryGetActiveFolderPath(out var path)) return;
-			ColourFolderManager.ResetColor(path);
+			Selection.assetGUIDs.ToList().ForEach(
+				assetGuid =>
+				{
+					var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+					if (AssetDatabase.IsValidFolder(assetPath))
+					{
+						ColourFolderManager.ResetColor(assetPath);
+					}
+				}
+			);
 		}
 		
 		
@@ -80,34 +89,12 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		
 		
 		/// <summary>
-		/// Resets the folder color for the folder and any overrides that apply to it recursively.
-		/// </summary>
-		[MenuItem("Assets/Color Folders/Reset Folder Color Recursive", priority = 3)]
-		private static void ResetFolderRecursiveColor()
-		{
-			if (!TryGetActiveFolderPath(out var path)) return;
-			ColourFolderManager.ResetColor(path, true);
-		}
-		
-		
-		/// <summary>
-		/// Validates the ResetFolderColor() menu item for use.
-		/// </summary>
-		/// <returns>If the option can be used or not.</returns>
-		[MenuItem("Assets/Color Folders/Reset Folder Color Recursive", true)]
-		private static bool ResetFolderRecursiveColorValidation()
-		{
-			if (!TryGetActiveFolderPath(out var path)) return false;
-			return ColourFolderManager.HasFolder(path, true);
-		}
-		
-		
-		/// <summary>
 		/// Forces the folder selected to update when called.
 		/// </summary>
 		[MenuItem("Assets/Color Folders/Force Update", priority = 4)]
 		private static void ForceUpdate()
 		{
+			ColorFolderCache.FolderResult.Clear();
 			EditorApplication.RepaintProjectWindow();
 		}
 		

@@ -66,8 +66,12 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		}
 		
 		
-		public static Dictionary<string, DataFolderIconSet> FolderResult => folderResultCache;
-
+		public static Dictionary<string, DataFolderIconSet> FolderResult
+		{
+			get => folderResultCache;
+			set => folderResultCache = value;
+		}
+		
 
 		public static void AddFolderResult(string path, DataFolderIconSet set)
 		{

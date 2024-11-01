@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -47,6 +49,8 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		
 		static ColourFolderManager()
 		{
+			ColorFolderCache.FolderResult.Clear();
+			
 			EditorApplication.projectWindowItemOnGUI -= ReplaceFolderIcon;
 			EditorApplication.projectWindowItemOnGUI += ReplaceFolderIcon;
 		}
@@ -102,7 +106,6 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				rect.height -= 2f;
 				rect.y += 1f;
 			}
-			
 			
 			GUI.DrawTexture(rect, texture, ScaleMode.ScaleAndCrop);
 		}
@@ -268,7 +271,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				return setId != null;
 			}
 
-			setId = "Yellow";
+			setId = null;
 			return false;
 		}
 		
@@ -289,38 +292,37 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// Resets a folder colour override if it exists.
 		/// </summary>
 		/// <param name="path">The folder path to reset.</param>
-		/// <param name="recursive">Should the reset be recursive?</param>
-		public static void ResetColor(string path, bool recursive = false)
+		public static void ResetColor(string path)
 		{
-			// if (!TryGetFolder(path, true, true, out var entry)) return;
-			//
-			// var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
-			// var entryIndex = data.GetIndexOf(ColorFolderCache.FolderResult[path].Id);
-			//
-			// if (entryIndex == -1) return;
-			//
-			// data.DeleteIndex(entryIndex);
-			// data.serializedObject.ApplyModifiedProperties();
-			// data.serializedObject.Update();
-			//
-			// if (!recursive) return;
-			//
-			// while (TryGetFolder(path, true, true, out entry))
-			// {
-			// 	entryIndex = data.GetIndexOf(entry);
-			//
-			// 	if (entryIndex == -1) return;
-			//
-			// 	data.DeleteIndex(entryIndex);
-			// 	data.serializedObject.ApplyModifiedProperties();
-			// 	data.serializedObject.Update();
-			// }
+			foreach (var assetGuid in Selection.assetGUIDs.ToList())
+			{
+				var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+
+				if (!AssetDatabase.IsValidFolder(assetPath)) continue;
+				
+				Undo.RecordObject(ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef,
+					"Folder color reset.");
+
+				ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides.Remove(
+					ScriptableRef
+						.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides
+						.First(t => t.FolderPath == path));
+				
+				EditorApplication.RepaintProjectWindow();
+			}
+			
+			EditorUtility.SetDirty(ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef);
+			ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Update();
+			
+			ColorFolderCache.FolderResult.Clear();
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
 		}
 
 
 		public static DataFolderIconSet CurrentlyAppliedSet(string folderPath)
 		{
-			if (!HasOverrideIconSet(folderPath, out string setId)) return null;
+			if (!HasOverrideIconSet(folderPath, out var setId)) return null;
 			return ColorFolderCache.SetsLookup[setId];
 		}
 	}

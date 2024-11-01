@@ -22,7 +22,7 @@
  */
 
 using System.Linq;
-using CarterGames.Cart.ThirdParty;
+using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -30,17 +30,14 @@ using UnityEngine.SceneManagement;
 
 namespace CarterGames.Cart.Core.Editor
 {
-	[InitializeOnLoad]
-	public static class SceneLoaderTool
+    [InitializeOnLoad]
+	public class SceneLoaderTool : IToolbarElement
 	{
         private static GenericMenu scenesMenu;
         
 
         static SceneLoaderTool()
         {
-            ToolbarExtender.RightToolbarGUI.Remove(DrawRightGUI);
-            ToolbarExtender.RightToolbarGUI.Add(DrawRightGUI);
-
             EditorSceneManager.sceneOpened -= OnSceneChanged;
             EditorSceneManager.sceneOpened += OnSceneChanged;
 
@@ -59,27 +56,6 @@ namespace CarterGames.Cart.Core.Editor
         }
 
         
-        private static void DrawRightGUI()
-        {
-            GUILayout.FlexibleSpace();
-            
-            EditorGUI.BeginDisabledGroup(EditorApplication.isCompiling || EditorApplication.isPlaying);
-            
-            var label = " " + SceneManager.GetActiveScene().name.Replace("SCNE_", string.Empty);
-            
-            if (EditorGUILayout.DropdownButton(new GUIContent(label, EditorGUIUtility.IconContent("SceneAsset Icon").image), FocusType.Passive, GUILayout.Width(TextWidth(label) + 37.5f)))
-            {
-                OnMouseDown();
-            }
-            
-            EditorGUI.EndDisabledGroup();
-            
-            GUILayout.Space(5f);
-            GUI.backgroundColor = Color.white;
-        }
-
-
-
         private static void UpdateSceneOptions()
         {
             scenesMenu = new GenericMenu();
@@ -162,11 +138,31 @@ namespace CarterGames.Cart.Core.Editor
         {
             EditorSceneManager.OpenScene(scenePath);
         }
+        
 
+        public int LeftOrder { get; }
 
-        private static float TextWidth(string text)
+        public void OnLeftGUI()
+        {}
+
+        public int RightOrder { get; }
+
+        public void OnRightGUI()
         {
-            return GUI.skin.label.CalcSize(new GUIContent(text)).x + 2.5f;
+            EditorGUI.BeginDisabledGroup(EditorApplication.isCompiling || EditorApplication.isPlaying);
+            
+            var label = " " + SceneManager.GetActiveScene().name.Replace("SCNE_", string.Empty);
+            GUILayout.Space(2.5f);
+            
+            if (EditorGUILayout.DropdownButton(new GUIContent(label, EditorGUIUtility.IconContent("SceneAsset Icon").image), FocusType.Passive, GUILayout.Width(label.GUIWidth() + 37.5f)))
+            {
+                OnMouseDown();
+            }
+            
+            EditorGUI.EndDisabledGroup();
+            
+            GUILayout.Space(2.5f);
+            GUI.backgroundColor = Color.white;
         }
-	}
+    }
 }
