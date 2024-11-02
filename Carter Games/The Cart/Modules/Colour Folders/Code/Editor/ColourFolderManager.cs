@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -66,10 +67,18 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <param name="rect">The rect for the folder.</param>
 		private static void ReplaceFolderIcon(string guid, Rect rect)
 		{
+			ColorFolderCache.ValidateCache();
+			
+			if (folderIconsAsset == null)
+			{
+				folderIconsAsset =
+					(AssetFolderIcons) FileEditorUtil.GetAssetInstance<AssetFolderIcons>(
+						"t:AssetFolderIcons");
+			}
+			
 			var path = AssetDatabase.GUIDToAssetPath(guid);
 			
 			if (!AssetDatabase.IsValidFolder(path)) return;
-			if (AssetDatabase.IsOpenForEdit(path)) return;
 
 			var isSmall = IsIconSmall(ref rect);
 			var texture = GetFolderIcon(path, isSmall);
@@ -157,13 +166,6 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <returns>The icon to apply.</returns>
 		private static Texture2D GetFolderIcon(string folderPath, bool small = true)
 		{
-			if (folderIconsAsset == null)
-			{
-				folderIconsAsset =
-					(AssetFolderIcons) FileEditorUtil.GetAssetInstance<AssetFolderIcons>(
-						"t:AssetFolderIcons");
-			}
-
 			if (folderIconsAsset == null) return null;
 
 			if (HasOverrideIconSet(folderPath, out var setId))
@@ -183,78 +185,87 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		|   Folder Override Helper Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+		private static bool TryGetFolderDefinition(string folderPath, out string folderColorId)
+		{
+			// If in cache, use it.
+			if (ColorFolderCache.FolderResult.ContainsKey(folderPath))
+			{
+				folderColorId = ColorFolderCache.FolderResult[folderPath]?.Id;
+				return !string.IsNullOrEmpty(folderColorId);
+			}
+			
+			
+			// If not in cache... try find if parents override it at all...
+			if (TryGetHasParentDefinitions(folderPath))
+			{
+				foreach (var parentFolderPath in GetHasParentDefinitions(folderPath))
+				{
+					if (!parentFolderPath.IsRecursive)
+					{
+						if (parentFolderPath.FolderPath.Equals(folderPath))
+						{
+							folderColorId = parentFolderPath.FolderSetId;
+							ColorFolderCache.TryAddEntry(folderPath, folderColorId);
+							return !string.IsNullOrEmpty(folderColorId);
+						}
+						
+						continue;
+					}
+
+					if (ColorFolderCache.FolderResult.ContainsKey(parentFolderPath.FolderPath))
+					{
+						folderColorId = ColorFolderCache.FolderResult[parentFolderPath.FolderPath]?.Id;
+						return !string.IsNullOrEmpty(folderColorId);
+					}
+
+					folderColorId = parentFolderPath.FolderSetId;
+					ColorFolderCache.TryAddEntry(folderPath, folderColorId);
+					return !string.IsNullOrEmpty(folderColorId);
+				}
+
+				ColorFolderCache.TryAddEntry(folderPath, string.Empty);
+				folderColorId = string.Empty;
+				return false;
+			}
+
+
+			ColorFolderCache.TryAddEntry(folderPath, string.Empty);
+			folderColorId = string.Empty;
+			return false;
+		}
+		
+		
+		
+		private static bool TryGetHasParentDefinitions(string targetPath)
+		{
+			return DataAccess.GetAsset<DataAssetFolderIconOverrides>().FolderOverrides.FirstOrDefault(t => targetPath.Contains(t.FolderPath)) != null;
+		}
+		
+		
+		private static IEnumerable<DataFolderIconOverride> GetHasParentDefinitions(string targetPath)
+		{
+			return DataAccess.GetAsset<DataAssetFolderIconOverrides>().FolderOverrides
+				.Where(t => targetPath.Contains(t.FolderPath))
+				.OrderByDescending(t => t.FolderPath.Length);
+		}
+		
+		
 		/// <summary>
 		/// Tries to get a folder override definition.
 		/// </summary>
 		/// <param name="path">The folder path to check.</param>
-		/// <param name="recursive">If the check should be recursive.</param>
-		/// <param name="returnOnFound">If it should return the first valid folder found, ignoring other possible valid overrides.</param>
-		/// <param name="folderEntry">The entry found.</param>
+		/// <param name="setId">The entry found.</param>
 		/// <returns>If it was successful.</returns>
-		private static bool TryGetFolder(string path, bool recursive, bool returnOnFound, out string setId)
+		private static bool TryGetFolder(string path, out string setId)
 		{
-			if (ColorFolderCache.FolderResult.ContainsKey(path))
+			if (TryGetFolderDefinition(path, out var result))
 			{
-				setId = ColorFolderCache.FolderResult[path]?.Id;
-				return !string.IsNullOrEmpty(setId);
+				setId = result;
+				return true;
 			}
-			
-			var data = ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef.Fp("folderOverrides");
-			setId = null;
-			
-			for (var i = 0; i < data.arraySize; i++)
-			{
-				var entry = data.GetIndex(i);
-				
-				if (!recursive)
-				{
-					if (entry.Fpr("folderPath").stringValue != path) continue;
-					setId = entry.Fpr("folderSetId").stringValue;
-					
-					if (setId != null)
-					{
-						if (entry.Fpr("folderPath").stringValue.Length <= setId.Length) continue;
-					}
-					
-					if (returnOnFound && setId != null)
-					{
-						ColorFolderCache.AddFolderResult(path, ColorFolderCache.SetsLookup[setId]);
-						return true;
-					}
-				}
-				else
-				{
-					if (entry.Fpr("folderPath").stringValue != path)
-					{
-						if (!path.Contains(entry.Fpr("folderPath").stringValue)) continue;
-						if (!entry.Fpr("isRecursive").boolValue) continue;
-						
-						if (setId != null)
-						{
-							if (entry.Fpr("folderPath").stringValue.Length <= setId.Length) continue;
-						}
-						
-						setId = entry.Fpr("folderSetId").stringValue;
-						
-						if (returnOnFound)
-						{
-							ColorFolderCache.AddFolderResult(path, ColorFolderCache.SetsLookup[setId]);
-							return true;
-						}
-					}
-		
-					setId = entry.Fpr("folderSetId").stringValue;
-					
-					if (returnOnFound)
-					{
-						ColorFolderCache.AddFolderResult(path, ColorFolderCache.SetsLookup[setId]);
-						return true;
-					}
-				}
-			}
-			
-			ColorFolderCache.AddFolderResult(path, setId != null ? ColorFolderCache.SetsLookup[setId] : null);
-			return !string.IsNullOrEmpty(setId);
+
+			setId = string.Empty;
+			return false;
 		}
 		
 		
@@ -266,7 +277,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <returns>If it was successful.</returns>
 		private static bool HasOverrideIconSet(string folderPath, out string setId)
 		{
-			if (TryGetFolder(folderPath, true, false, out var entry))
+			if (TryGetFolder(folderPath, out var entry))
 			{
 				setId = entry;
 				return setId != null;
@@ -281,11 +292,10 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// Gets if a folder is defined in the overrides.
 		/// </summary>
 		/// <param name="path">The folder path to check.</param>
-		/// <param name="checkRecursive">Should the check be recursive?</param>
 		/// <returns>If the folder exists in the overrides.</returns>
-		public static bool HasFolder(string path, bool checkRecursive = false)
+		public static bool HasFolder(string path)
 		{
-			return TryGetFolder(path, checkRecursive, true, out _);
+			return TryGetFolder(path, out _);
 		}
 
 
@@ -304,10 +314,14 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 				Undo.RecordObject(ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef,
 					"Folder color reset.");
 
-				ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides.Remove(
-					ScriptableRef
-						.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides
-						.First(t => t.FolderPath == path));
+				if (ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides
+				    .Any(t => t.FolderPath.Equals(path)))
+				{
+					ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides.Remove(
+						ScriptableRef
+							.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides
+							.First(t => t.FolderPath == path));
+				}
 				
 				EditorApplication.RepaintProjectWindow();
 			}

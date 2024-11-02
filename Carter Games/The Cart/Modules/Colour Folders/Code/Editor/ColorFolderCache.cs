@@ -24,7 +24,9 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core;
+using UnityEditor;
 
 namespace CarterGames.Cart.Modules.ColourFolders.Editor
 {
@@ -36,7 +38,8 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
+		private static object Lock = new object();
 		private static Dictionary<string, DataFolderIconSet> setsLookupCache;
 		private static Dictionary<string, DataFolderIconSet> folderResultCache = new Dictionary<string, DataFolderIconSet>();
 
@@ -82,6 +85,40 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			}
 			
 			folderResultCache.Add(path, set);
+		}
+
+		
+		public static void TryAddEntry(string folderPath, string folderColorId)
+		{
+			if (FolderResult.ContainsKey(folderPath))
+			{
+				FolderResult[folderPath] = SetsLookup[folderColorId];
+			}
+			else
+			{
+				if (string.IsNullOrEmpty(folderColorId))
+				{
+					FolderResult.Add(folderPath, null);
+					return;
+				}
+				
+				FolderResult.Add(folderPath, SetsLookup[folderColorId]);
+			}
+		}
+
+
+		public static void ValidateCache()
+		{
+			lock (Lock)
+			{
+				var toCheck = new Dictionary<string, DataFolderIconSet>(FolderResult);
+
+				foreach (var cacheEntry in toCheck)
+				{
+					if (AssetDatabase.IsValidFolder(cacheEntry.Key)) continue;
+					FolderResult.Remove(cacheEntry.Key);
+				}
+			}
 		}
 	}
 }
