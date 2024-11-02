@@ -23,12 +23,10 @@
 
 namespace CarterGames.Cart.Core.Editor
 {
-	public interface IToolbarElement
+	public interface IToolbarElementRight
 	{
-		int LeftOrder { get; }
-		void OnLeftGUI();
-		
 		int RightOrder { get; }
+		void Initialize();
 		void OnRightGUI();
 	}
 }

@@ -30,24 +30,33 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DevEnvironments.Editor
 {
-	[InitializeOnLoad]
-	public class EnvironmentToggleButton : IToolbarElement
+	public class EnvironmentToggleButton : IToolbarElementRight
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		private static readonly GenericMenu optionsMenu;
+		private static GenericMenu optionsMenu;
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   IToolbarElement
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		public int LeftOrder { get; }
-		public void OnLeftGUI() { }
-
-		
 		public int RightOrder => -1;
+		
+		
+		public void Initialize()
+		{
+			optionsMenu = new GenericMenu();
+			
+			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Production.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Production, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Production));
+			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Development.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Development, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Development));
+			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Test.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Test, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Test));
+#if CARTERGAMES_CART_MODULE_PRESS
+			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Press.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Press, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Press));
+#endif
+		}
+
 		public void OnRightGUI()
 		{
 			EditorGUI.BeginDisabledGroup(EditorApplication.isCompiling || EditorApplication.isPlaying);
@@ -78,22 +87,6 @@ namespace CarterGames.Cart.Modules.DevEnvironments.Editor
             
 			EditorGUI.EndDisabledGroup();
 			GUILayout.Space(2.5f);
-		}
-
-		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Constructor
-		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
-		static EnvironmentToggleButton()
-		{
-			optionsMenu = new GenericMenu();
-			
-			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Production.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Production, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Production));
-			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Development.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Development, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Development));
-			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Test.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Test, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Test));
-#if CARTERGAMES_CART_MODULE_PRESS
-			optionsMenu.AddItem(new GUIContent(DevelopmentEnvironments.Press.ToString()), EnvironmentDetection.CurrentEnvironment == DevelopmentEnvironments.Press, () => ProjectEnvironmentHandler.SetEnvironment(DevelopmentEnvironments.Press));
-#endif
 		}
 	}
 }

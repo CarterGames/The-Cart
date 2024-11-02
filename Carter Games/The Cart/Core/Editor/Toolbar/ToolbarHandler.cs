@@ -33,37 +33,29 @@ namespace CarterGames.Cart.Core.Editor
 	[InitializeOnLoad]
 	public static class ToolbarHandler
 	{
-		private static readonly IEnumerable<IToolbarElement> CacheToolBarElements;
+		private static readonly IEnumerable<IToolbarElementRight> CacheToolBarElements;
 
 
 		static ToolbarHandler()
 		{
-			CacheToolBarElements = AssemblyHelper.GetClassesOfType<IToolbarElement>(false);
-			
-			ToolbarExtender.LeftToolbarGUI.Remove(OnLeftGUI);
-			ToolbarExtender.LeftToolbarGUI.Add(OnLeftGUI);
+			CacheToolBarElements = AssemblyHelper.GetClassesOfType<IToolbarElementRight>().OrderBy(t => t.RightOrder);
+
+			foreach (var element in CacheToolBarElements)
+			{
+				element.Initialize();
+			}
 			
 			ToolbarExtender.RightToolbarGUI.Remove(OnRightGUI);
 			ToolbarExtender.RightToolbarGUI.Add(OnRightGUI);
 		}
-
-
-		private static void OnLeftGUI()
-		{
-			foreach (var element in CacheToolBarElements.OrderBy(t => t.LeftOrder))
-			{
-				element.OnLeftGUI();
-			}
-			
-			GUILayout.FlexibleSpace();
-		}
+		
 		
 		
 		private static void OnRightGUI()
 		{
 			GUILayout.FlexibleSpace();
 			
-			foreach (var element in CacheToolBarElements.OrderBy(t => t.RightOrder))
+			foreach (var element in CacheToolBarElements)
 			{
 				element.OnRightGUI();
 			}

@@ -67,8 +67,6 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <param name="rect">The rect for the folder.</param>
 		private static void ReplaceFolderIcon(string guid, Rect rect)
 		{
-			ColorFolderCache.ValidateCache();
-			
 			if (folderIconsAsset == null)
 			{
 				folderIconsAsset =

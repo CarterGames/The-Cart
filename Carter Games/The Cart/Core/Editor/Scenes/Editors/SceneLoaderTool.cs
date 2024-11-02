@@ -30,24 +30,10 @@ using UnityEngine.SceneManagement;
 
 namespace CarterGames.Cart.Core.Editor
 {
-    [InitializeOnLoad]
-	public class SceneLoaderTool : IToolbarElement
+	public class SceneLoaderTool : IToolbarElementRight
 	{
         private static GenericMenu scenesMenu;
         
-
-        static SceneLoaderTool()
-        {
-            EditorSceneManager.sceneOpened -= OnSceneChanged;
-            EditorSceneManager.sceneOpened += OnSceneChanged;
-
-            EditorApplication.projectChanged -= UpdateSceneOptions;
-            EditorApplication.projectChanged += UpdateSceneOptions;
-            
-            EditorApplication.delayCall -= OnEditorDelayCall;
-            EditorApplication.delayCall += OnEditorDelayCall;
-        }
-
 
         private static void OnEditorDelayCall()
         {
@@ -101,9 +87,9 @@ namespace CarterGames.Cart.Core.Editor
 
         private static void OnSceneSelected(object scenePath)
         {
-            if (EditorSceneManager.GetActiveScene().path == (string)scenePath) return;
+            if (SceneManager.GetActiveScene().path == (string)scenePath) return;
             
-            if (EditorSceneManager.GetActiveScene().isDirty)
+            if (SceneManager.GetActiveScene().isDirty)
             {
                 var option = EditorUtility.DisplayDialogComplex("Scene Hop", "You have unsaved changes in the current scene, do you want to save them and hop?, or hop without saving?",
                     "Hop (Save)", "Hop (Don't Save)", "Cancel");
@@ -139,13 +125,17 @@ namespace CarterGames.Cart.Core.Editor
             EditorSceneManager.OpenScene(scenePath);
         }
         
-
-        public int LeftOrder { get; }
-
-        public void OnLeftGUI()
-        {}
-
+        
         public int RightOrder { get; }
+
+        public void Initialize()
+        {
+            EditorSceneManager.sceneOpened -= OnSceneChanged;
+            EditorSceneManager.sceneOpened += OnSceneChanged;
+            
+            EditorApplication.delayCall -= OnEditorDelayCall;
+            EditorApplication.delayCall += OnEditorDelayCall;
+        }
 
         public void OnRightGUI()
         {

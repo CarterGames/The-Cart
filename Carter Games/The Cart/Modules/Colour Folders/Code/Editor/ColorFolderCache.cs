@@ -38,8 +38,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-		private static object Lock = new object();
+		
 		private static Dictionary<string, DataFolderIconSet> setsLookupCache;
 		private static Dictionary<string, DataFolderIconSet> folderResultCache = new Dictionary<string, DataFolderIconSet>();
 
@@ -109,8 +108,6 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 
 		public static void ValidateCache()
 		{
-			lock (Lock)
-			{
 				var toCheck = new Dictionary<string, DataFolderIconSet>(FolderResult);
 
 				foreach (var cacheEntry in toCheck)
@@ -118,7 +115,6 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 					if (AssetDatabase.IsValidFolder(cacheEntry.Key)) continue;
 					FolderResult.Remove(cacheEntry.Key);
 				}
-			}
 		}
 	}
 }
