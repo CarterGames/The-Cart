@@ -69,6 +69,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			var path = AssetDatabase.GUIDToAssetPath(guid);
 			
 			if (!AssetDatabase.IsValidFolder(path)) return;
+			if (AssetDatabase.IsOpenForEdit(path)) return;
 
 			var isSmall = IsIconSmall(ref rect);
 			var texture = GetFolderIcon(path, isSmall);
