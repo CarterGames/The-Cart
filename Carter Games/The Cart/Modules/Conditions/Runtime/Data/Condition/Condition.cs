@@ -61,8 +61,8 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// Gets if the condition is valid or not.
 		/// </summary>
 		public bool IsValid => baseAndGroup
-			                       .All(t => t.IsCriteriaValid)
-		                       && criteriaList.All(t => t.IsValid);
+			                       .All(t => t != null && t.IsCriteriaValid)
+		                       && criteriaList.All(t => t is {IsValid: true});
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Events

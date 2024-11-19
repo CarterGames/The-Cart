@@ -27,15 +27,35 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Core
 {
+	/// <summary>
+	/// A extension class for enum flags specifically.
+	/// </summary>
 	public static class EnumFlagsExtensions
 	{
-		public static int EnumFlagsCount<T>(this T value) where T : struct, IConvertible
+		/// <summary>
+		/// Gets the total number of flags selected
+		/// </summary>
+		/// <param name="value">The value to read.</param>
+		/// <typeparam name="T">The type to read as.</typeparam>
+		/// <returns>The total options in the flags enunm.</returns>
+		public static int EnumFlagsCount<T>(this T value)
 		{
+			if (value.ToString() == "-1")
+			{
+				return Enum.GetValues(typeof(T)).Length;
+			}
+			
 			return value.ToString().Split(',').Length;
 		}
 
 
-		public static T[] EnumFlagsToArray<T>(this T value) where T : struct, IConvertible
+		/// <summary>
+		/// Converts the entered value into its enum flagged type as an array for use.
+		/// </summary>
+		/// <param name="value">The value to read.</param>
+		/// <typeparam name="T">The type to read as.</typeparam>
+		/// <returns>An enum array of the flagged items.</returns>
+		public static T[] EnumFlagsToArray<T>(this T value)
 		{
 			if (value.ToString() == "-1")
 			{
