@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace CarterGames.Cart.Modules.Mockup.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private const string ObjIdKey = "RootObj_InstanceId";
 
         private const string RootObjName = "~[Mockup Tool] - Root Object";
@@ -44,6 +45,8 @@ namespace CarterGames.Cart.Modules.Mockup.Editor
 
         private const string GalleryIconName = "T_Editor_GalleryIcon_Large";
         private const string EditIconName = "T_Editor_EditIcon_Large";
+
+        private const string WindowTitle = "Mockup Tool";
 
         private static string rootObjectId;
         private static GameObject rootObj;
@@ -54,107 +57,24 @@ namespace CarterGames.Cart.Modules.Mockup.Editor
 
         private static Texture2D galleryIconCache;
         private static Texture2D editIconCache;
-
-        private const string WindowTitle = "Mockup Tool";
         private static readonly Vector2 WindowSize = new Vector2(400, 135);
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Gets the gallery icon for the tool.
         /// </summary>
         private static Texture2D GalleryIcon => FileEditorUtil.GetOrAssignCache(ref galleryIconCache, GalleryIconName);
-        
-        
+
+
         /// <summary>
         /// Gets the edit icon for the tool.
         /// </summary>
         private static Texture2D EditIcon => FileEditorUtil.GetOrAssignCache(ref editIconCache, EditIconName);
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [InitializeOnLoadMethod]
-        private static void Initialize()
-        {
-            SceneView.duringSceneGui -= OnSceneGUI;
-            SceneView.duringSceneGui += OnSceneGUI;
-
-            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-            
-            GetReferences();
-        }
 
 
-
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Mockup/Toggle Tool", priority = 100)]
-        private static void ToggleTool()
-        {
-            PerUserSettings.MockupEnabled = !PerUserSettings.MockupEnabled;
-
-            if (!PerUserSettings.MockupEnabled)
-            {
-                DestroyImmediate(rootObj);
-                rootObjectId = string.Empty;
-            }
-            
-            SceneView.RepaintAll();
-        }
-
-
-        private static void OpenOrCreateWindow()
-        {
-            var window = GetWindow<MockupToolWindow>(true);
-            
-            window.titleContent = new GUIContent(WindowTitle);
-            window.minSize = WindowSize;
-            window.maxSize = WindowSize;
-                
-            window.Show();
-        }
-        
-        
-        private static void ShowWindow(bool toggle = true)
-        {
-            var didCreate =  GenerateCanvas();
-            GetReferences();
-
-            if (!toggle)
-            {
-                OpenOrCreateWindow();
-                return;
-            }
-            
-            
-            if (!didCreate)
-            {
-                if (!rootObj.activeInHierarchy)
-                {
-                    rootObj.SetActive(true);
-
-                    OpenOrCreateWindow();
-                }
-                else
-                {
-                    rootObj.SetActive(false);
-
-                    GetWindow<MockupToolWindow>(true).Close();
-                }
-            }
-            else
-            {
-                rootObj.SetActive(true);
-
-                OpenOrCreateWindow();
-            }
-        }
-
-        
-        
         private void OnGUI()
         {
             GetReferences();
@@ -194,7 +114,86 @@ namespace CarterGames.Cart.Modules.Mockup.Editor
             GUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
-        
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        [InitializeOnLoadMethod]
+        private static void Initialize()
+        {
+            SceneView.duringSceneGui -= OnSceneGUI;
+            SceneView.duringSceneGui += OnSceneGUI;
+
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            
+            GetReferences();
+        }
+
+
+        [MenuItem("Tools/Carter Games/The Cart/Modules/Mockup/Toggle Tool", priority = 1400)]
+        private static void ToggleTool()
+        {
+            PerUserSettings.MockupEnabled = !PerUserSettings.MockupEnabled;
+
+            if (!PerUserSettings.MockupEnabled)
+            {
+                DestroyImmediate(rootObj);
+                rootObjectId = string.Empty;
+            }
+            
+            SceneView.RepaintAll();
+        }
+
+
+        private static void OpenOrCreateWindow()
+        {
+            var window = GetWindow<MockupToolWindow>(true);
+            
+            window.titleContent = new GUIContent(WindowTitle);
+            window.minSize = WindowSize;
+            window.maxSize = WindowSize;
+                
+            window.Show();
+        }
+
+
+        private static void ShowWindow(bool toggle = true)
+        {
+            var didCreate =  GenerateCanvas();
+            GetReferences();
+
+            if (!toggle)
+            {
+                OpenOrCreateWindow();
+                return;
+            }
+            
+            
+            if (!didCreate)
+            {
+                if (!rootObj.activeInHierarchy)
+                {
+                    rootObj.SetActive(true);
+
+                    OpenOrCreateWindow();
+                }
+                else
+                {
+                    rootObj.SetActive(false);
+
+                    GetWindow<MockupToolWindow>(true).Close();
+                }
+            }
+            else
+            {
+                rootObj.SetActive(true);
+
+                OpenOrCreateWindow();
+            }
+        }
+
 
         private static void OnSceneGUI(SceneView sceneView)
         {

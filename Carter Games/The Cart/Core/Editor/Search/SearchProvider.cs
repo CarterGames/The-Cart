@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;

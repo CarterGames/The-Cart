@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A log category specially for the panels module.
     /// </summary>
-    public sealed class LogCategoryPanels : CartLogCategory { }
+    public sealed class LogCategoryPanels : CartLogCategory {}
 }
 
 #endif

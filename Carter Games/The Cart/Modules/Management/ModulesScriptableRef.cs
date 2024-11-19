@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Modules.Settings;
 
 namespace CarterGames.Cart.Core.Management.Editor
@@ -47,7 +48,6 @@ namespace CarterGames.Cart.Core.Management.Editor
 			CacheRef.GetOrAssign(ref cacheImplementationLookup, GetLookup);
 
 
-
 		private static Dictionary<string, IScriptableAssetDef<DataAsset>> GetLookup()
 		{
 			var lookup = new Dictionary<string, IScriptableAssetDef<DataAsset>>();
@@ -59,7 +59,6 @@ namespace CarterGames.Cart.Core.Management.Editor
 
 			return lookup;
 		}
-		
 
 
 		public static IScriptableAssetDef<T> GetAssetRef<T>(string nameSpace) where T : DataAsset
@@ -71,12 +70,12 @@ namespace CarterGames.Cart.Core.Management.Editor
 
 			return null;
 		}
-		
-		
+
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		// Assets Initialized Check
 		/* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 

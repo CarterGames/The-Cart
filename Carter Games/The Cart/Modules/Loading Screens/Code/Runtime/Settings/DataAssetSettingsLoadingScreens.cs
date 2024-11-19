@@ -34,26 +34,26 @@ namespace CarterGames.Cart.Modules.LoadingScreens
     [CreateAssetMenu(fileName = "Loading Screens Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Loading Screens/Runtime Settings")]
     public sealed class DataAssetSettingsLoadingScreens : DataAsset
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private GenericLoadingScreenInstance loadingScreenPrefab;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Fields
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    [SerializeField] private GenericLoadingScreenInstance loadingScreenPrefab;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
         /// Gets the prefab for the loading screen.
         /// </summary>
         public GenericLoadingScreenInstance LoadingScreenPrefab => loadingScreenPrefab;
 
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Unity Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private void OnValidate()
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Unity Methods
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    private void OnValidate()
         {
 	        if (loadingScreenPrefab != null) return;
 	        loadingScreenPrefab =

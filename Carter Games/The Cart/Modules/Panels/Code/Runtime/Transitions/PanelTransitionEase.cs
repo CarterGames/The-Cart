@@ -35,8 +35,8 @@ namespace CarterGames.Cart.Modules.Panels
         [SerializeField] private Transform target;
         [SerializeField] private OutEaseData outEase;
         [SerializeField] private InEaseData inEase;
-        
-        
+
+
         protected override IEnumerator Co_Transition(bool fadeIn)
         {
             var elapsedTime = 0d;

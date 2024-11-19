@@ -40,7 +40,7 @@ namespace CarterGames.Cart.Modules.Hierarchy
 
         [SerializeField, ColorUsage(false)] private Color32 backgroundColor;
         [SerializeField] private bool fullWidth;
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */

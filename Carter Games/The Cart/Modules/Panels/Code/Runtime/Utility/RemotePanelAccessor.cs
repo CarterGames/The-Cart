@@ -48,8 +48,8 @@ namespace CarterGames.Cart.Modules.Panels
             CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
             return null;
         }
-        
-        
+
+
         /// <summary>
         /// Opens the panel of the entered Id if it can find it...
         /// </summary>
@@ -64,8 +64,8 @@ namespace CarterGames.Cart.Modules.Panels
 
             CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
         }
-        
-        
+
+
         /// <summary>
         /// Closes the panel of the entered Id if it can find it...
         /// </summary>

@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 {
     public sealed class MetaDataDefLoadingScreens : IMetaDefinition
     {
-        public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Loading Screens/Data/Meta Data";
+	    public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Loading Screens/Data/Meta Data";
     }
 }
 

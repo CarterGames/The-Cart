@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
 {
     public sealed class MetaDataDefGameTicker : IMetaDefinition
     {
-        public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Game Ticks/Data/Meta Data";
+	    public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Game Ticks/Data/Meta Data";
     }
 }
 

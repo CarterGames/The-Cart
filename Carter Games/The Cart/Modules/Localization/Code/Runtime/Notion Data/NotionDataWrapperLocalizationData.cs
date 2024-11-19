@@ -35,7 +35,7 @@ namespace CarterGames.Cart.Modules.Localization
     public class NotionDataWrapperLocalizationData : NotionDataWrapper<LocalizationData>
     {
         public NotionDataWrapperLocalizationData(string id) : base(id) { }
-        
+
         protected override void Assign()
         {
             try

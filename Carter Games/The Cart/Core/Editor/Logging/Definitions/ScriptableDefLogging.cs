@@ -28,22 +28,70 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Core.Logs.Editor
 {
-	public class ScriptableDefLogging : IScriptableAssetDef<DataAssetCartLogCategories>
+	/// <summary>
+	/// Defines the logging data asset in the project.
+	/// </summary>
+	public sealed class ScriptableDefLogging : IScriptableAssetDef<DataAssetCartLogCategories>
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Fields
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
 		private static DataAssetCartLogCategories cache;
 		private static SerializedObject objCache;
 		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   IScriptableAssetDef
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// The type of the asset.
+		/// </summary>
 		public Type AssetType => typeof(DataAssetCartLogCategories);
-		public string DataAssetFileName => "[Cart] Log Category Statuses Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetCartLogCategories).FullName}";
-		public string DataAssetPath => $"{ScriptableRef.FullPathData}{DataAssetFileName}";
+		
+		
+		/// <summary>
+		/// The name for the file.
+		/// </summary>
+		public string DataAssetFileName => "[Cart] Data Asset Index.asset";
+		
+		
+		/// <summary>
+		/// The filter for the type in the project.
+		/// </summary>
+		public string DataAssetFilter => $"t:{typeof(DataAssetCartLogCategories).FullName} name={DataAssetFileName}";
+		
+		
+		/// <summary>
+		/// The path to make the asset at.
+		/// </summary>
+		public string DataAssetPath => $"{ScriptableRef.FullPathData}/{DataAssetFileName}";
 
+		
+		/// <summary>
+		/// The asset reference of the asset.
+		/// </summary>
 		public DataAssetCartLogCategories AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+		
+		
+		/// <summary>
+		/// The object reference of the asset.
+		/// </summary>
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
 		
+		
+		/// <summary>
+		/// Tries to create the asset when called.
+		/// </summary>
 		public void TryCreate()
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }

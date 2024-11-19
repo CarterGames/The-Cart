@@ -35,28 +35,34 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Definitions
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private static DataValueIndex cache;
 		private static SerializedObject objCache;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   IScriptableAssetDef Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		public Type AssetType => typeof(DataValueIndex);
 		public string DataAssetFileName => "[Cart] [Data Values] Data Value Index.asset";
-		public string DataAssetFilter => $"t:{typeof(DataValueIndex).FullName}";
+		public string DataAssetFilter => $"t:{typeof(DataValueIndex).FullName} name={DataAssetFileName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
-		
-		
+
+
 		public DataValueIndex AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
-		
-		
+
+
 		public void TryCreate()
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }
 

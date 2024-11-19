@@ -42,12 +42,28 @@ namespace CarterGames.Cart.Modules.GameTicks
         [SerializeField] private GameTickSyncState syncState;
         [SerializeField] private int ticksPerSecond;
 
-        private bool tickerEnabled = true;
+
+        /// <summary>
+        /// Raises when the a tick is reached.
+        /// </summary>
+        public readonly Evt Ticked = new Evt();
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when the ticker is toggled on or off.
+        /// </summary>
+        public readonly Evt<bool> Toggled = new Evt<bool>();
+
         private bool hasTimescaleOverride;
-        private bool timescaleOverride;
-        
+
+        private bool tickerEnabled = true;
+
         private float tickTimer;
-        
+        private bool timescaleOverride;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -60,8 +76,8 @@ namespace CarterGames.Cart.Modules.GameTicks
             get => tickerEnabled;
             set => tickerEnabled = value;
         }
-        
-        
+
+
         /// <summary>
         /// The amount of time between each tick.
         /// </summary>
@@ -74,24 +90,9 @@ namespace CarterGames.Cart.Modules.GameTicks
         private int TickRate => syncState == GameTickSyncState.ApplicationTargetFrameRate ? Application.targetFrameRate : ticksPerSecond;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Raises when the ticker is toggled on or off.
-        /// </summary>
-        public readonly Evt<bool> Toggled = new Evt<bool>();
-        
-        
-        /// <summary>
-        /// Raises when the a tick is reached.
-        /// </summary>
-        public readonly Evt Ticked = new Evt();
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private void Update()
         {
             if (!Enabled) return;
@@ -128,8 +129,8 @@ namespace CarterGames.Cart.Modules.GameTicks
             Enabled = state;
             Toggled.Raise(state);
         }
-        
-        
+
+
         /// <summary>
         /// Sets the ticks per second to the value provided.
         /// </summary>

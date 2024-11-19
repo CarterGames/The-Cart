@@ -37,32 +37,17 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField] private string languageCode;
 		[SerializeField] private string copy;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Properties
-		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
-		/// <summary>
-		/// The language code for the copy.
-		/// </summary>
-		public string LanguageCode => languageCode;
-		
-		
-		/// <summary>
-		/// The copy for the language.
-		/// </summary>
-		public string Copy => copy;
-
-		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Constructors
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		// Limited to editor and only used if Notion Data module is active.
 #if UNITY_EDITOR && CARTERGAMES_CART_MODULE_NOTIONDATA
-		
+
 		/// <summary>
 		/// Creates a new entry when called with the requested values.
 		/// </summary>
@@ -75,6 +60,21 @@ namespace CarterGames.Cart.Modules.Localization
 			this.copy = copy;
 		}
 #endif
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+		/// <summary>
+		/// The language code for the copy.
+		/// </summary>
+		public string LanguageCode => languageCode;
+
+
+		/// <summary>
+		/// The copy for the language.
+		/// </summary>
+		public string Copy => copy;
 	}
 }
 

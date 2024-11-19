@@ -37,12 +37,12 @@ namespace CarterGames.Cart.Modules.DataValues
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         [SerializeField, TextArea] private string devDescription;
 
         [SerializeField] private string key;
         [SerializeField] private T value;
-        
+
         [SerializeField] private bool canReset;
         [SerializeField] private T defaultValue;
         [SerializeField] private DataValueResetState resetStates;
@@ -50,13 +50,13 @@ namespace CarterGames.Cart.Modules.DataValues
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The key for the value.
         /// </summary>
         public override string Key => key;
-        
-        
+
+
         /// <summary>
         /// The value of the asset.
         /// </summary>
@@ -65,32 +65,32 @@ namespace CarterGames.Cart.Modules.DataValues
             get => value;
             private set => this.value = value;
         }
-        
-        
+
+
         /// <summary>
         /// The default value for the asset.
         /// </summary>
         public T DefaultValue => defaultValue;
 
-        
+
         /// <summary>
         /// The valid reset states for the asset.
         /// </summary>
         public override DataValueResetState ValidStates => resetStates;
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Raises when the value is changed.
         /// </summary>
         public Evt Changed { get; } = new Evt();
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Sets the value to the entered value
         /// </summary>
@@ -101,7 +101,7 @@ namespace CarterGames.Cart.Modules.DataValues
             Changed.Raise();
         }
 
-        
+
         /// <summary>
         /// Sets the value to the entered value without sending the changed event.
         /// </summary>
@@ -120,8 +120,8 @@ namespace CarterGames.Cart.Modules.DataValues
             value = defaultValue;
             Changed.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Resets the asset when called.
         /// Only works if the asset can reset.

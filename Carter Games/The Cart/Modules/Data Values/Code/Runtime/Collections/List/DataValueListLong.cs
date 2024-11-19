@@ -28,7 +28,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value List Long", menuName = "Carter Games/The Cart/Modules/Data Values/Lists/Data Value List Long", order = 6)]
-	public class DataValueListLong : DataValueList<long> { }
+	public class DataValueListLong : DataValueList<long> {}
 }
 
 #endif

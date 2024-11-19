@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -68,7 +68,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			
 			EditorGUILayout.EndVertical();
 		}
-		
+
 
 		private void DrawSetupOptions()
 		{

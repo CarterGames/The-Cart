@@ -34,17 +34,50 @@ namespace CarterGames.Cart.Modules.Currency
     /// </summary>
     public sealed class CurrencyAccount
     {
+        /// <summary>
+        /// Raises when the account is adjusted in any way.
+        /// </summary>
+        public readonly Evt Adjusted = new Evt();
+
+
+        /// <summary>
+        /// Raises when the account is credited to.
+        /// </summary>
+        public readonly Evt Credited = new Evt();
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when the account is debited to.
+        /// </summary>
+        public readonly Evt Debited = new Evt();
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private readonly object padlock = new object();
         private double balance;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Makes a new account with the initial balance entered.
+        /// </summary>
+        /// <param name="initialBalance">The balance to start on.</param>
+        public CurrencyAccount(double initialBalance = 0)
+        {
+            balance = initialBalance;
+            balance.Round();
+        }
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The balance of the account.
         /// </summary>
@@ -59,51 +92,16 @@ namespace CarterGames.Cart.Modules.Currency
             }
         }
 
-        
+
         /// <summary>
         /// The balance of the account formatted with the generic formatter.
         /// </summary>
         public string BalanceFormatted => Balance.Format<MoneyFormatterGeneric>();
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Raises when the account is debited to.
-        /// </summary>
-        public readonly Evt Debited = new Evt();
-        
-        
-        /// <summary>
-        /// Raises when the account is credited to.
-        /// </summary>
-        public readonly Evt Credited = new Evt();
-        
-        
-        /// <summary>
-        /// Raises when the account is adjusted in any way.
-        /// </summary>
-        public readonly Evt Adjusted = new Evt();
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Constructors
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Makes a new account with the initial balance entered.
-        /// </summary>
-        /// <param name="initialBalance">The balance to start on.</param>
-        public CurrencyAccount(double initialBalance = 0)
-        {
-            balance = initialBalance;
-            balance.Round();
-        }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Debit (remove) from the account.
         /// </summary>
@@ -150,8 +148,8 @@ namespace CarterGames.Cart.Modules.Currency
                 Adjusted.Raise();
             }
         }
-        
-        
+
+
         /// <summary>
         /// Processes the change either way.
         /// </summary>

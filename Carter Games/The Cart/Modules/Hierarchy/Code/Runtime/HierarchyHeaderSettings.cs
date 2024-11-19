@@ -34,52 +34,52 @@ namespace CarterGames.Cart.Modules.Hierarchy
     [AddComponentMenu("Carter Games/The Cart/Modules/Hierarchy/Header Settings Component")]
     public sealed class HierarchyHeaderSettings : MonoBehaviour
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private string label;
-        [SerializeField] private HierarchyTitleTextAlign textAlign;
-        [SerializeField, ColorUsage(false)] private Color backgroundColor = Color.gray;
-        [SerializeField, ColorUsage(false)] private Color labelColor = Color.white;
-        [SerializeField] private bool boldLabel = true;
-        [SerializeField] private bool fullWidth;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Fields
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    [SerializeField] private string label;
+	    [SerializeField] private HierarchyTitleTextAlign textAlign;
+	    [SerializeField, ColorUsage(false)] private Color backgroundColor = Color.gray;
+	    [SerializeField, ColorUsage(false)] private Color labelColor = Color.white;
+	    [SerializeField] private bool boldLabel = true;
+	    [SerializeField] private bool fullWidth;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
         /// The label to show in the hierarchy.
         /// </summary>
         public string Label => label;
-           
-        
-        /// <summary>
+
+
+	    /// <summary>
         /// The text alignment for the header.
         /// </summary>
         public HierarchyTitleTextAlign TextAlign => textAlign;
-        
-        
-        /// <summary>
+
+
+	    /// <summary>
         /// The background color of the hierarchy line.
         /// </summary>
         public Color BackgroundColor => backgroundColor.With(a: 255f);
-        
-        
-        /// <summary>
+
+
+	    /// <summary>
         /// The color of the text label in the hierarchy.
         /// </summary>
         public Color LabelColor => labelColor.With(a: 255f);
 
 
-        /// <summary>
+	    /// <summary>
         /// Defines if the label should be bold or not.
         /// </summary>
         public bool BoldLabel => boldLabel;
 
 
-        /// <summary>
+	    /// <summary>
         /// Defines if the label should take up the full hierarchy width.
         /// </summary>
         public bool FullWidth => fullWidth;

@@ -37,9 +37,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 	public class SearchProviderAccounts : SearchProvider<string>
 	{
 		private static SearchProviderAccounts Instance;
-		
-		public override string ProviderTitle => "Select Account";
 
+		public override string ProviderTitle => "Select Account";
 
 
 		private List<string> GetAccountIds()
@@ -68,8 +67,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 
 			return list;
 		}
-		
-		
+
+
 		public override List<SearchGroup<string>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<string>>();
@@ -88,8 +87,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			
 			return list;
 		}
-		
-		
+
+
 		public static SearchProviderAccounts GetProvider()
 		{
 			if (Instance == null)

@@ -35,28 +35,34 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private static DataAssetSettingsLoadingScreens cache;
 		private static SerializedObject objCache;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   IScriptableAssetDef Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		public Type AssetType => typeof(DataAssetSettingsLoadingScreens);
 		public string DataAssetFileName => "[Cart] [Loading Screens] Settings Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetSettingsLoadingScreens).FullName}";
+		public string DataAssetFilter => $"t:{typeof(DataAssetSettingsLoadingScreens).FullName} name={DataAssetFileName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
-		
-		
+
+
 		public DataAssetSettingsLoadingScreens AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
-		
-		
+
+
 		public void TryCreate()
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }
 

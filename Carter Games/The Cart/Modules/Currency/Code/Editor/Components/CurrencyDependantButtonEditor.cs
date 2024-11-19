@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -105,8 +105,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			EditorGUILayout.Space(1f);
 			EditorGUILayout.EndVertical();
 		}
-		
-		
+
+
 		private void DrawDisplayOptions()
 		{
 			EditorGUILayout.BeginVertical("HelpBox");
@@ -138,8 +138,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			EditorGUILayout.Space(1f);
 			EditorGUILayout.EndVertical();
 		}
-		
-		
+
+
 		private void OnSelectionMade(SearchTreeEntry entry)
 		{
 			SearchProviderAccounts.GetProvider().SelectionMade.Remove(OnSelectionMade);

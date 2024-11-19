@@ -39,14 +39,14 @@ namespace CarterGames.Cart.Modules.Currency
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-	    
-        [SerializeField] private List<SerializableKeyValuePair<string, double>> defaultAccounts;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        public List<SerializableKeyValuePair<string, double>> DefaultAccounts => defaultAccounts;
+
+	    [SerializeField] private List<SerializableKeyValuePair<string, double>> defaultAccounts;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    public List<SerializableKeyValuePair<string, double>> DefaultAccounts => defaultAccounts;
     }
 }
 

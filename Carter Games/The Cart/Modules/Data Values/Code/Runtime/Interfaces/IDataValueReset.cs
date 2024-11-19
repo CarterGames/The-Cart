@@ -27,8 +27,8 @@ namespace CarterGames.Cart.Modules.DataValues
 {
     public interface IDataValueReset
     {
-        DataValueResetState ValidStates { get; }
-        void ResetAsset();
+	    DataValueResetState ValidStates { get; }
+	    void ResetAsset();
     }
 }
 

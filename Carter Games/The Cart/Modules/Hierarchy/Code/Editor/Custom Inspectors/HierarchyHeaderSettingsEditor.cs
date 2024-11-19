@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -39,7 +39,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Overrides
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         public override void OnInspectorGUI()
         {
             GUILayout.Space(4f);
@@ -57,7 +57,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Draws the header settings box & its options.
         /// </summary>

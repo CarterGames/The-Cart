@@ -40,17 +40,17 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         static HierarchyEditor()
         {
             EditorApplication.hierarchyWindowItemOnGUI -= DrawEdits;
             EditorApplication.hierarchyWindowItemOnGUI += DrawEdits;
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Menu Items
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Creates a new empty gameObject setup to be a header with no name.
         /// </summary>
@@ -61,7 +61,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             gameObject.tag = "EditorOnly";
             Selection.activeObject = gameObject;
         }
-        
+
 
         /// <summary>
         /// Creates a new empty gameObject setup to be a separator.
@@ -73,8 +73,8 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             gameObject.tag = "EditorOnly";
             Selection.activeObject = gameObject;
         }
-        
-        
+
+
         /// <summary>
         /// Creates a new empty gameObject setup to be a header with no name.
         /// </summary>
@@ -86,8 +86,8 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             gameObject.AddComponent<HierarchyHeaderSettings>();
             Selection.activeObject = gameObject;
         }
-        
-        
+
+
         /// <summary>
         /// Creates a new empty gameObject setup to be a header with no name.
         /// </summary>
@@ -99,11 +99,11 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             gameObject.AddComponent<HierarchySeparatorSettings>();
             Selection.activeObject = gameObject;
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Draws the header/separator based on the gameObject name & tag.
         /// </summary>
@@ -128,8 +128,8 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
                     break;
             }
         }
-        
-        
+
+
         /// <summary>
         /// Draws a header when called.
         /// </summary>
@@ -162,8 +162,8 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             
             EditorGUI.LabelField(rect, itemContent, textStyle);
         }
-        
-       
+
+
         /// <summary>
         /// Draws a separator when called.
         /// </summary>
@@ -193,7 +193,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
 
             EditorGUI.LabelField(rect, itemContent);
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Utility Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -256,8 +256,8 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
                     break;
             }
         }
-        
-        
+
+
         /// <summary>
         /// Creates a colour square to use as a texture without drawing loads of pixels.
         /// </summary>
@@ -293,8 +293,8 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
 
             return content;
         }
-        
-        
+
+
         /// <summary>
         /// Gets if the object is a gameObject.
         /// </summary>

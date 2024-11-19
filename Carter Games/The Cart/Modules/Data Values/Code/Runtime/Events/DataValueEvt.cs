@@ -38,13 +38,13 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private readonly Evt evt = new Evt();
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Adds a listener when called.
 		/// </summary>
@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 			evt.Add(action);
 		}
 
-		
+
 		/// <summary>
 		/// Removes a listener when called.
 		/// </summary>
@@ -64,7 +64,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 			evt.Remove(action);
 		}
 
-		
+
 		/// <summary>
 		/// Raises the event when called.
 		/// </summary>

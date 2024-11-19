@@ -21,7 +21,9 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using System.Collections.Generic;
+using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -53,6 +55,13 @@ namespace CarterGames.Cart.Modules.Window
             }
 
             DrawModuleInfo(module);
+            
+            if (HasDocs(module, out var paths))
+            {
+                GUILayout.Space(3.5f);
+                DrawModuleDocs(module, paths);
+            }
+            
             GUILayout.Space(3.5f);
             DrawModuleOptions(module);
 
@@ -166,6 +175,65 @@ namespace CarterGames.Cart.Modules.Window
         }
 
 
+        private static void DrawModuleDocs(IModule module, Dictionary<string, string> paths)
+        {
+            if (module == null) return;
+
+            EditorGUILayout.BeginVertical("HelpBox");
+
+            EditorGUILayout.LabelField("Documentation:", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
+
+            GUI.backgroundColor = Color.yellow;
+            EditorGUILayout.BeginHorizontal();
+
+            if (paths.TryGetValue("usage", out var path))
+            {
+                if (GUILayout.Button(" Usage"))
+                {
+                    AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<DefaultAsset>(path));
+                }
+            }
+            
+            if (paths.TryGetValue("scripting", out path))
+            {
+                if (GUILayout.Button(" Scripting API"))
+                {
+                    AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<DefaultAsset>(path));
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            GUI.backgroundColor = Color.white;
+
+            EditorGUILayout.EndVertical();
+        }
+
+
+        private static bool HasDocs(IModule module, out Dictionary<string, string> paths)
+        {
+            paths = new Dictionary<string, string>();
+            
+            if (!AssetDatabaseHelper.TryGetScriptPath(module.GetType(), out var path)) return false;
+            
+            var editedPath = path.Replace($"Core/Editor/Management/Modules/Definitions/{module.GetType().Name}.cs", $"Modules/{module.ModuleName}/");
+            var usagePath = $"~Documentation/Docs_Module_{module.ModuleName.TrimSpaces()}_Usage.pdf";
+            var scriptingPath = $"~Documentation/Docs_Module_{module.ModuleName.TrimSpaces()}_Scripting.pdf";
+
+            if (AssetDatabase.LoadAssetAtPath<DefaultAsset>(editedPath + usagePath) != null)
+            {
+                paths.Add("usage", editedPath + usagePath);
+            }
+            
+            if (AssetDatabase.LoadAssetAtPath<DefaultAsset>(editedPath + scriptingPath) != null)
+            {
+                paths.Add("scripting", editedPath + scriptingPath);
+            }
+
+            return paths.Count > 0;
+        }
+        
+        
 
         private static void DrawModuleOptions(IModule module)
         {

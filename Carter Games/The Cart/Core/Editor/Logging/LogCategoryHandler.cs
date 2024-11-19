@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules;

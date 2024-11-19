@@ -40,20 +40,40 @@ namespace CarterGames.Cart.Modules.DataValues
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-	    
+
 	    [SerializeField] private bool useConstant = false;
 	    [SerializeField] private List<TValueType> constantValue;
 	    [SerializeField] private TDataValueType variable;
 
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Constructors
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
+	    /// Makes a new reference.
+	    /// </summary>
+	    public DataListRef() { }
+
+
+	    /// <summary>
+	    /// Makes a new reference with the entered value.
+	    /// </summary>
+	    /// <param name="value">The value to set to.</param>
+	    public DataListRef(List<TValueType> value)
+	    {
+		    useConstant = true;
+		    constantValue = value;
+	    }
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Properties
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-	    
+
 	    /// <summary>
 	    /// The variable assigned to the value.
 	    /// </summary>
 	    public TDataValueType Variable => variable;
-        
+
 
 	    /// <summary>
 	    /// The value the reference is currently set to.
@@ -80,29 +100,9 @@ namespace CarterGames.Cart.Modules.DataValues
 	    }
 
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-	    |   Constructors
-	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-	    
-	    /// <summary>
-	    /// Makes a new reference.
-	    /// </summary>
-	    public DataListRef() { }
-
-        
-	    /// <summary>
-	    /// Makes a new reference with the entered value.
-	    /// </summary>
-	    /// <param name="value">The value to set to.</param>
-	    public DataListRef(List<TValueType> value)
-	    {
-		    useConstant = true;
-		    constantValue = value;
-	    }
-        
-	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Operators
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-	    
+
 	    /// <summary>
 	    /// Converts the variable to the reference type.
 	    /// </summary>

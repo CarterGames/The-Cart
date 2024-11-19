@@ -47,7 +47,7 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private void OnDisable()
         {
             OpenStarted.Remove(PanelOpenStarted);
@@ -55,11 +55,11 @@ namespace CarterGames.Cart.Modules.Panels
             CloseStarted.Remove(PanelCloseStarted);
             CloseCompleted.Remove(PanelCloseComplete);
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Override Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         protected override void Initialise()
         {
             base.Initialise();
@@ -73,13 +73,13 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private void PanelOpenStarted()
         {
             onPanelOpenStart?.Invoke();
         }
 
-        
+
         private void PanelOpenComplete()
         {
             onPanelOpenComplete?.Invoke();

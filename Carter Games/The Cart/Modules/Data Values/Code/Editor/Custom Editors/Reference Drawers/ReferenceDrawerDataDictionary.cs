@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,7 +59,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             SerializedProperty variable = property.Fpr("variable");
 
             // Calculate rect for configuration button
-            Rect buttonRect = new Rect(position);
+            var buttonRect = new Rect(position);
             buttonRect.yMin += popupStyle.margin.top;
             buttonRect.height = EditorGUIUtility.singleLineHeight;
             buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;
@@ -69,7 +69,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             //int indent = EditorGUI.indentLevel;
             //EditorGUI.indentLevel = 0;
 
-            int result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
+            var result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
             
             useConstant.boolValue = result == 0;
             

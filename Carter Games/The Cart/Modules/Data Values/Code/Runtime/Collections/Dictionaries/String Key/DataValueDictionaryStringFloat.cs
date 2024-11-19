@@ -28,7 +28,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value Dictionary String Float", menuName = "Carter Games/The Cart/Modules/Data Values/Dictionaries/Data Value Dictionary String Float", order = 3)]
-	public class DataValueDictionaryStringFloat : DataValueDictionary<string, float> { }
+	public class DataValueDictionaryStringFloat : DataValueDictionary<string, float> {}
 }
 
 #endif

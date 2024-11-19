@@ -12,8 +12,8 @@ namespace CarterGames.Cart.Modules.Editor
 
 		public Type AssetType => typeof(DataAssetCsc);
 		public string DataAssetFileName => "[Cart] Csc Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetCsc).FullName}";
-		public string DataAssetPath => $"{ScriptableRef.FullPathData}{DataAssetFileName}";
+		public string DataAssetFilter => $"t:{typeof(DataAssetCsc).FullName} name={DataAssetFileName}";
+		public string DataAssetPath => $"{ScriptableRef.FullPathData}/{DataAssetFileName}";
 
 		public DataAssetCsc AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
@@ -22,5 +22,10 @@ namespace CarterGames.Cart.Modules.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }

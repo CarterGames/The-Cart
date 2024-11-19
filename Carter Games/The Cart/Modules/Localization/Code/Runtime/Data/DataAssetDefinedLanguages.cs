@@ -38,7 +38,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField] private List<Language> languages = new List<Language>()
 		{
 			new Language("English (GB)", "gb"),
@@ -49,11 +49,11 @@ namespace CarterGames.Cart.Modules.Localization
 			new Language("Chinese (CN)", "cn"),
 			new Language("Japanese (JP)", "jp"),
 		};
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Gets a list of all the languages defined in the asset.
 		/// </summary>

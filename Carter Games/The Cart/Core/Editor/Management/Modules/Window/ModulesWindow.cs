@@ -58,7 +58,7 @@ namespace CarterGames.Cart.Modules.Window
         |   Menu Items
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Module Manager", priority = 0)]
+        [MenuItem("Tools/Carter Games/The Cart/Modules/Module Manager", priority = 1000)]
         private static void ShowWindow()
         {
             var window = GetWindow<ModulesWindow>();
@@ -137,13 +137,6 @@ namespace CarterGames.Cart.Modules.Window
         private void OnRightGUI()
         {
             ModuleDisplay.DrawModule(selectedModule);
-        }
-
-
-
-        public static void RepaintWindow()
-        {
-            GetWindow<ModulesWindow>().Repaint();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace CarterGames.Cart.Modules.DataValues
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         // A cache of all the assets found...
         private static DataValueIndex indexCache;
 
@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Modules.DataValues
             }
         }
 
-        
+
         /// <summary>
         /// Gets all the values in the index.
         /// </summary>
@@ -63,7 +63,7 @@ namespace CarterGames.Cart.Modules.DataValues
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Gets the data value requested.
         /// </summary>

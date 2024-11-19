@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -41,7 +41,7 @@ namespace CarterGames.Cart.Modules.Easing.Editor
             
             EditorGUI.BeginChangeCheck();
 
-            int indent = EditorGUI.indentLevel;
+            var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
             var _left = new Rect(position.x, position.y, (position.width / 3) - 1.5f, EditorGUIUtility.singleLineHeight);

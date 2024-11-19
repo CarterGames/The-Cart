@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-using UnityEditor;
-
 namespace CarterGames.Cart.Core.Management.Editor
 {
     public class ModuleAssetInitializer : IAssetEditorInitialize, IAssetEditorReload
@@ -32,12 +30,12 @@ namespace CarterGames.Cart.Core.Management.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IAssetEditorInitialize
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Defines the order that this initializer run at.
         /// </summary>
         public int InitializeOrder => -1;
-        
+
 
         /// <summary>
         /// Runs when the asset initialize flow is used.
@@ -51,7 +49,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IAssetEditorReload
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Runs when the asset reload flow is used.
         /// </summary>

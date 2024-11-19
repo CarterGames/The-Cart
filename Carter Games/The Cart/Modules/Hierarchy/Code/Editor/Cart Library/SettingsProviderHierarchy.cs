@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
@@ -37,7 +38,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Draws the inspector version of the settings.
         /// </summary>
@@ -57,7 +58,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             
             EditorGUILayout.EndVertical();
         }
-        
+
 
         /// <summary>
         /// Draws the settings provider version of the settings.

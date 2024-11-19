@@ -27,17 +27,16 @@ using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.TheCart.Core.Editor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
 	public sealed class SearchProviderLanguages : SearchProvider<Language>
 	{
 		private static SearchProviderLanguages Instance;
-		
+
 		public override string ProviderTitle => "Select Language";
-		
-		
+
+
 		public override List<SearchGroup<Language>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<Language>>();

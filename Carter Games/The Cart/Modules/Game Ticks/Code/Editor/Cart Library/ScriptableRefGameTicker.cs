@@ -38,25 +38,30 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
 
 		private static DataAssetSettingsGameTicker cache;
 		private static SerializedObject objCache;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   IScriptableAssetDef Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 		public Type AssetType => typeof(DataAssetSettingsGameTicker);
 		public string DataAssetFileName => "[Cart] [GameTicker] Settings Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetSettingsGameTicker).FullName}";
+		public string DataAssetFilter => $"t:{typeof(DataAssetSettingsGameTicker).FullName} name={DataAssetFileName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
-		
-		
+
+
 		public DataAssetSettingsGameTicker AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
-		
-		
+
+
 		public void TryCreate()
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }
 

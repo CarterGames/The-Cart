@@ -37,14 +37,14 @@ namespace CarterGames.Cart.Modules.DataValues
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-	    
-        [SerializeField] private SerializableDictionary<string, DataValueAsset> assets;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
+
+	    [SerializeField] private SerializableDictionary<string, DataValueAsset> assets;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
         /// A lookup of all the assets in the project that can be used at runtime.
         /// </summary>
         public SerializableDictionary<string, DataValueAsset> Lookup => assets;

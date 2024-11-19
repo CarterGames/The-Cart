@@ -57,6 +57,8 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+
+		public void OnCreated() { }
 	}
 }
 

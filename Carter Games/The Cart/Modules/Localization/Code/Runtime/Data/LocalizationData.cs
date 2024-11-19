@@ -39,20 +39,20 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField] private string id;
 		[SerializeField] private LocalizationEntry[] entries;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// The id for the data to use.
 		/// </summary>
 		public string LocId => id;
-		
-		
+
+
 		/// <summary>
 		/// The entries for the data to use.
 		/// </summary>
@@ -64,13 +64,13 @@ namespace CarterGames.Cart.Modules.Localization
 
 		// Limited to editor and only used if Notion Data module is active.
 #if UNITY_EDITOR && CARTERGAMES_CART_MODULE_NOTIONDATA
-		
+
 		/// <summary>
 		/// Blank constructor needed for generic new T() to compile mainly.
 		/// </summary>
 		public LocalizationData() {}
-		
-		
+
+
 		/// <summary>
 		/// Creates a new data with the entered values.
 		/// </summary>

@@ -23,10 +23,9 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Modules.DataValues.Events;
 using UnityEditor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues.Editor
 {

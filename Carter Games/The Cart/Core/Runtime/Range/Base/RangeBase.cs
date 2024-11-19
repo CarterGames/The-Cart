@@ -22,6 +22,7 @@
  */
 
 using System;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core
 {
@@ -39,12 +40,12 @@ namespace CarterGames.Cart.Core
         /// <summary>
         /// The min value the range allows for...
         /// </summary>
-        public T min;
+        [HideInInspector] public T min;
         
         /// <summary>
         /// The max value the range allows for...
         /// </summary>
-        public T max;
+        [HideInInspector] public T max;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors

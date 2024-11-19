@@ -45,13 +45,13 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Gets if the latest version is this version.
         /// </summary>
-        public static bool IsLatestVersion => Versions.Data.Match(VersionInfo.ProjectVersionNumber);
+        public static bool IsLatestVersion => Versions.Data.VersionNumber == new VersionNumber(VersionInfo.ProjectVersionNumber);
         
         
         /// <summary>
         /// Gets if the version here is higher that the latest version.
         /// </summary>
-        public static bool IsNewerVersion => Versions.Data.IsHigherVersion(VersionInfo.ProjectVersionNumber);
+        public static bool IsNewerVersion => Versions.Data.VersionNumber < new VersionNumber(VersionInfo.ProjectVersionNumber);
         
         
         /// <summary>

@@ -36,14 +36,14 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField, TextArea] private string devDescription;
 		[SerializeField] private string key;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// The key for the value.
 		/// </summary>
@@ -52,14 +52,14 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Implement to add a listener.
 		/// </summary>
 		/// <param name="action">The action to change.</param>
 		public abstract void AddListener(Action action);
-		
-		
+
+
 		/// <summary>
 		/// Implement to remove a listener.
 		/// </summary>

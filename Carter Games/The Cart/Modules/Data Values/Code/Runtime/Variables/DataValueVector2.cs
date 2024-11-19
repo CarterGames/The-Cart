@@ -28,7 +28,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value Vector2", menuName = "Carter Games/The Cart/Modules/Data Values/Variables/Data Value Vector2", order = 10)]
-    public class DataValueVector2 : DataVariable<Vector2> { }
+    public class DataValueVector2 : DataVariable<Vector2> {}
 }
 
 #endif

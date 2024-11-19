@@ -33,8 +33,8 @@ namespace CarterGames.Cart.Modules.Panels
     {
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private float fadeSpeed;
-        
-        
+
+
         protected override IEnumerator Co_Transition(bool fadeIn)
         {
             if (fadeIn)

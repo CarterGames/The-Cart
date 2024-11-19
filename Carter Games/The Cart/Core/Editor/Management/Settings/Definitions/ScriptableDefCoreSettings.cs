@@ -36,8 +36,8 @@ namespace CarterGames.Cart.Core.Editor
 
 		public Type AssetType => typeof(DataAssetCoreRuntimeSettings);
 		public string DataAssetFileName => "[Cart] Core Runtime Settings.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetCoreRuntimeSettings).FullName}";
-		public string DataAssetPath => $"{ScriptableRef.FullPathData}{DataAssetFileName}";
+		public string DataAssetFilter => $"t:{typeof(DataAssetCoreRuntimeSettings).FullName} name={DataAssetFileName}";
+		public string DataAssetPath => $"{ScriptableRef.FullPathData}/{DataAssetFileName}";
 
 		public DataAssetCoreRuntimeSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
@@ -46,5 +46,10 @@ namespace CarterGames.Cart.Core.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }

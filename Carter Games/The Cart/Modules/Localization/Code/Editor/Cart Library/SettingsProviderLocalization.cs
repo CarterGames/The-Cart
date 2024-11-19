@@ -25,6 +25,7 @@
 
 using System.Linq;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
@@ -38,13 +39,13 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
 		private static readonly string ExpandedId  = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Module_Localization_IsExpanded";
-        
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
 		/// <summary>
 		/// Should the data notion section be shown?
 		/// </summary>
@@ -53,14 +54,14 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			get => (bool)PerUserSettings.GetOrCreateValue<bool>(ExpandedId, SettingType.EditorPref);
 			set => PerUserSettings.SetValue<bool>(ExpandedId, SettingType.EditorPref, value);
 		}
-        
-        
+
+
 		private IScriptableAssetDef<DataAssetSettingsLocalization> SettingsDef => ScriptableRef.GetAssetDef<DataAssetSettingsLocalization>();
-        
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   ISettingsProvider Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		public void OnInspectorSettingsGUI()
 		{
 			EditorGUILayout.BeginVertical("HelpBox");
@@ -75,7 +76,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			EditorGUILayout.EndVertical();
 		}
 
-		
+
 		public void OnProjectSettingsGUI()
 		{
 			IsExpanded = EditorGUILayout.Foldout(IsExpanded, "Localization");

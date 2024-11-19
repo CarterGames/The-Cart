@@ -37,13 +37,13 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private event Action EventAction;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Adds a listener when called.
 		/// </summary>
@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 			EventAction += action;
 		}
 
-		
+
 		/// <summary>
 		/// Removes a listener when called.
 		/// </summary>
@@ -64,7 +64,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 			EventAction -= action;
 		}
 
-		
+
 		/// <summary>
 		/// Raises the event when called.
 		/// </summary>

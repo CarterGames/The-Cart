@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
 {
     public sealed class MetaDataDefHierarchy : IMetaDefinition
     {
-        public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Hierarchy/Data/Meta Data";
+	    public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Hierarchy/Data/Meta Data";
     }
 }
 

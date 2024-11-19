@@ -32,31 +32,37 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 {
     public class ScriptableRefDefaultAccounts : IScriptableAssetDef<DataAssetDefaultAccounts>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Fields
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private static DataAssetDefaultAccounts cache;
-        private static SerializedObject objCache;
-		
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   IScriptableAssetDef Implementation
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+	    private static DataAssetDefaultAccounts cache;
+	    private static SerializedObject objCache;
 
-        public Type AssetType => typeof(DataAssetDefaultAccounts);
-        public string DataAssetFileName => "[Cart] [Currency] Default Accounts Data Asset.asset";
-        public string DataAssetFilter => $"t:{typeof(DataAssetDefaultAccounts).FullName}";
-        public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
-		
-		
-        public DataAssetDefaultAccounts AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
-        public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
-		
-		
-        public void TryCreate()
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   IScriptableAssetDef Implementation
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    public Type AssetType => typeof(DataAssetDefaultAccounts);
+	    public string DataAssetFileName => "[Cart] [Currency] Default Accounts Data Asset.asset";
+	    public string DataAssetFilter => $"t:{typeof(DataAssetDefaultAccounts).FullName} name={DataAssetFileName}";
+	    public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
+
+
+	    public DataAssetDefaultAccounts AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+	    public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
+
+
+	    public void TryCreate()
         {
             ScriptableRef.GetOrCreateAsset(this, ref cache);
         }
+	    
+	    
+	    /// <summary>
+	    /// Runs when the asset is created.
+	    /// </summary>
+	    public void OnCreated() { }
     }
 }
 

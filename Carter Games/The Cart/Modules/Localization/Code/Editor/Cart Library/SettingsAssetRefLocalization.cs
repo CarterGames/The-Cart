@@ -45,7 +45,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 
 		public Type AssetType => typeof(DataAssetSettingsLocalization);
 		public string DataAssetFileName => "[Cart] [Localization] Settings Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetSettingsLocalization).FullName}";
+		public string DataAssetFilter => $"t:{typeof(DataAssetSettingsLocalization).FullName} name={DataAssetFileName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
 
 
@@ -57,6 +57,12 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }
 

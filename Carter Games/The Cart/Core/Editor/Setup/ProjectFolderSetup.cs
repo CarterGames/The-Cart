@@ -1,17 +1,17 @@
 /*
  * Copyright (c) 2024 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 
 namespace CarterGames.Cart.Core.Setup.Editor
@@ -34,7 +34,7 @@ namespace CarterGames.Cart.Core.Setup.Editor
         /// <summary>
         /// Adds the button to call to run the setup.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Core/Setup Basic Folder Structure", priority = 601)]
+        [MenuItem("Tools/Carter Games/The Cart/Core/Setup Basic Folder Structure", priority = 131)]
         public static void RunSetupProject()
         {
             CreateBasicProjectFolderStructure();
@@ -70,8 +70,8 @@ namespace CarterGames.Cart.Core.Setup.Editor
 
             Dialogue.Display("Folder Structure Generator", "The folder structure has been generated", "Continue");
         }
-        
-        
+
+
         /// <summary>
         /// Tries to create a folder using asset database. If it already exists it'll skip it. 
         /// </summary>

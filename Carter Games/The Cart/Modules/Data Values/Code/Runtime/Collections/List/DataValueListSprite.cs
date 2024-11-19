@@ -28,7 +28,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value List Sprite", menuName = "Carter Games/The Cart/Modules/Data Values/Lists/Data Value List Sprite", order = 8)]
-	public class DataValueListSprite : DataValueList<Sprite> { }
+	public class DataValueListSprite : DataValueList<Sprite> {}
 }
 
 #endif

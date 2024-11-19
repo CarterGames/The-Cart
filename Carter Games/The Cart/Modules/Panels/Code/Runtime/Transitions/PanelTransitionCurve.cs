@@ -37,9 +37,8 @@ namespace CarterGames.Cart.Modules.Panels
 
 
         private float TransitionSpeed => 1f / speed;
-        
-        
-        
+
+
         protected override IEnumerator Co_Transition(bool fadeIn)
         {
             var elapsedTime = 0f;
