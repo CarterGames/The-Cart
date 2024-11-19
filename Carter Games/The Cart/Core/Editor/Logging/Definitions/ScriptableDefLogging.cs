@@ -53,7 +53,7 @@ namespace CarterGames.Cart.Core.Logs.Editor
 		/// <summary>
 		/// The name for the file.
 		/// </summary>
-		public string DataAssetFileName => "[Cart] Data Asset Index.asset";
+		public string DataAssetFileName => "[Cart] Logging Asset.asset";
 		
 		
 		/// <summary>
