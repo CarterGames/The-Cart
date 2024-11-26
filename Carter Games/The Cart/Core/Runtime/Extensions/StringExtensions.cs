@@ -23,11 +23,26 @@
 
 namespace CarterGames.Cart.Core
 {
+    /// <summary>
+    /// An extensions class for strings.
+    /// </summary>
     public static class StringExtensions
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         private const string Space = " ";
         
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Extension Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        /// <summary>
+        /// Replaces any " " with "" instead.
+        /// </summary>
+        /// <param name="entry">The string to modify.</param>
+        /// <returns>The edited string.</returns>
         public static string TrimSpaces(this string entry)
         {
             return entry.Replace(Space, string.Empty);

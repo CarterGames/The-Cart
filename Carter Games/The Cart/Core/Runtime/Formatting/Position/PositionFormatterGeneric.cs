@@ -25,8 +25,20 @@ using System.Linq;
 
 namespace CarterGames.Cart.Core
 {
+    /// <summary>
+    /// A position formatter that formats to a generic 1st, 2nd, 3rd setup.
+    /// </summary>
     public sealed class PositionFormatterGeneric : IPositionFormatter
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   IPositionFormatter Implementation
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Formats the entry.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The formatted string.</returns>
         public string Format(int value)
         {
             var pos = value.ToString("N0");

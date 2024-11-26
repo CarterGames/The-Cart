@@ -25,17 +25,49 @@ using System;
 
 namespace CarterGames.Cart.Modules
 {
-	public class ModuleConditions : IModule
+	/// <summary>
+	/// The definition for the conditions' module.
+	/// </summary>
+	public sealed class ModuleConditions : IModule
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+		/// <summary>
+		/// The name of the module.
+		/// </summary>
 		public string ModuleName => "Conditions";
 
+		
+		/// <summary>
+		/// A description of what the module does.
+		/// </summary>
 		public string ModuleDescription =>
 			"An editor system to define easy to edit and reference checks into the project.";
 
+		
+		/// <summary>
+		/// The author of the module.
+		/// </summary>
 		public string ModuleAuthor => "Carter Games";
+		
+		
+		/// <summary>
+		/// Any modules that are required for the module to work.
+		/// </summary>
 		public IModule[] PreRequisites => Array.Empty<IModule>();
+		
+		
+		/// <summary>
+		/// Any optional modules that the module can use.
+		/// </summary>
 		public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
+		
+		
+		/// <summary>
+		/// The scripting define the module uses.
+		/// </summary>
 		public string ModuleDefine => "CARTERGAMES_CART_MODULE_CONDITIONS";
-		public string ScriptingDocsPath { get; }
 	}
 }

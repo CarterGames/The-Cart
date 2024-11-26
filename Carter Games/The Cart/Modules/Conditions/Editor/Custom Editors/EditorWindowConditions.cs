@@ -51,11 +51,20 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 		private void OnGUI()
 		{
 			GUILayout.Space(5f);
+
+			EditorGUILayout.BeginHorizontal();
+			GUI.backgroundColor = Color.green;
+			if (GUILayout.Button("+ New Condition", GUILayout.Height(22.5f)))
+			{
+				ConditionEditorHelper.AddNewCondition();
+			}
+			GUI.backgroundColor = Color.white;
 			
-			if (GUILayout.Button("Update Id's Constant Class"))
+			if (GUILayout.Button("Update Id's Constant Class", GUILayout.Width(200f), GUILayout.Height(22.5f)))
 			{
 				ConditionsConstantGenerator.Generate(AssetDatabaseHelper.GetAllInstancesInProject<Condition>());
 			}
+			EditorGUILayout.EndHorizontal();
 
 			ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos);
 			
@@ -74,12 +83,6 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			
 			EditorGUILayout.Space(1.5f);
 			EditorGUILayout.EndVertical();
-			
-			if (GUILayout.Button("New Condition"))
-			{
-				ConditionEditorHelper.AddNewCondition();
-			}
-			
 			EditorGUILayout.EndScrollView();
 		}
 	}

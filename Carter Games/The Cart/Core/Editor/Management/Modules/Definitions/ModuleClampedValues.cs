@@ -26,7 +26,7 @@ using System;
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
-    /// A definition for the clamped values module
+    /// The definition for the clamped values' module.
     /// </summary>
     public sealed class ModuleClampedValues : IModule
     {
@@ -46,6 +46,9 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "A wrapper system that lets you have values that are clamped or looping from their bounds.";
 
         
+        /// <summary>
+        /// The author of the module.
+        /// </summary>
         public string ModuleAuthor => "Carter Games";
 
 
@@ -54,9 +57,16 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public IModule[] PreRequisites => Array.Empty<IModule>();
 
+        
+        /// <summary>
+        /// Any optional modules that the module can use.
+        /// </summary>
         public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
 
 
+        /// <summary>
+        /// The scripting define the module uses.
+        /// </summary>
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_CLAMPEDVALUES";
     }
 }

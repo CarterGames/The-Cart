@@ -22,12 +22,11 @@
  */
 
 using System;
-using CarterGames.Cart.Core.Management.Editor;
 
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
-    /// A definition for the runtime timers module
+    /// The definition for the runtime timers module
     /// </summary>
     public sealed class ModuleRuntimeTimers : IModule
     {
@@ -47,6 +46,9 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "A setup to run logic after some time, a useful alternative to Coroutines or async for quick prototyping.";
         
         
+        /// <summary>
+        /// The author of the module.
+        /// </summary>
         public string ModuleAuthor => "Carter Games";
         
         
@@ -54,9 +56,17 @@ namespace CarterGames.Cart.Modules
         /// Any modules that are required for the module to work.
         /// </summary>
         public IModule[] PreRequisites => Array.Empty<IModule>();
+        
+        
+        /// <summary>
+        /// Any optional modules that the module can use.
+        /// </summary>
         public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
         
         
+        /// <summary>
+        /// The scripting define the module uses.
+        /// </summary>
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_RUNTIMETIMERS";
     }
 }

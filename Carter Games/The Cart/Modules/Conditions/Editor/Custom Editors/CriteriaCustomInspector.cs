@@ -27,10 +27,10 @@ using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Conditions
+namespace CarterGames.Cart.Modules.Conditions.Editor
 {
 	[CustomEditor(typeof(Criteria), true)]
-	public class CriteriaEditor : CustomInspector
+	public class CriteriaCustomInspector : CustomInspector
 	{
 		protected override void DrawInspectorGUI()
 		{
@@ -42,7 +42,9 @@ namespace CarterGames.Cart.Modules.Conditions
 			EditorGUILayout.LabelField("Criteria", EditorStyles.boldLabel);
 			GeneralUtilEditor.DrawHorizontalGUILine();
 
+			EditorGUI.BeginDisabledGroup(true);
 			EditorGUILayout.PropertyField(serializedObject.Fp("readInverted"));
+			EditorGUI.EndDisabledGroup();
 			
 			if (EditorApplication.isPlaying)
 			{
@@ -58,25 +60,17 @@ namespace CarterGames.Cart.Modules.Conditions
 				{
 					AssetDatabase.RemoveObjectFromAsset(target);
 					DestroyImmediate(target);
+					
 					AssetDatabase.SaveAssets();
 					AssetDatabase.Refresh();
+					
+					ConditionEditorEvents.CriteriaDeletedFromInspector.Raise();
 					return;
 				}
 			}
 			
 			EditorGUILayout.Space(1.5f);
 			EditorGUILayout.EndVertical();
-			
-			EditorGUILayout.Space(5f);
-			
-			GeneralUtilEditor.DrawHorizontalGUILine();
-			
-			EditorGUILayout.Space(5f);
-
-			DrawPropertiesExcluding(serializedObject, new string[] {"m_Script", "readInverted"});
-
-			serializedObject.ApplyModifiedProperties();
-			serializedObject.Update();
 		}
 	}
 }

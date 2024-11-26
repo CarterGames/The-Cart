@@ -26,7 +26,7 @@ using System;
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
-    /// A definition for the panels module
+    /// The definition for the panels module
     /// </summary>
     public sealed class ModulePanels : IModule
     {
@@ -46,16 +46,27 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "A UI panel setup for showing & hiding popups or screens of info.";
         
         
+        /// <summary>
+        /// The author of the module.
+        /// </summary>
         public string ModuleAuthor => "Carter Games";
         
         
         /// <summary>
         /// Any modules that are required for the module to work.
         /// </summary>
-        public IModule[] PreRequisites => new IModule[] { new ModuleEasing() };
+        public IModule[] PreRequisites => Array.Empty<IModule>();
         
-        public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
         
+        /// <summary>
+        /// Any optional modules that the module can use.
+        /// </summary>
+        public IModule[] OptionalPreRequisites => new IModule[] { new ModuleEasing() };
+        
+        
+        /// <summary>
+        /// The scripting define the module uses.
+        /// </summary>
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_PANELS";
     }
 }

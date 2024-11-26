@@ -22,12 +22,11 @@
  */
 
 using System;
-using CarterGames.Cart.Core.Management.Editor;
 
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
-    /// A definition for the hierarchy module
+    /// The definition for the hierarchy module
     /// </summary>
     public sealed class ModuleHierarchy : IModule
     {
@@ -47,6 +46,9 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "A setup to help organise your hierarchy.";
         
         
+        /// <summary>
+        /// The author of the module.
+        /// </summary>
         public string ModuleAuthor => "Carter Games";
         
         
@@ -55,8 +57,16 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public IModule[] PreRequisites => Array.Empty<IModule>();
         
+        
+        /// <summary>
+        /// Any optional modules that the module can use.
+        /// </summary>
         public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
         
+        
+        /// <summary>
+        /// The scripting define the module uses.
+        /// </summary>
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_HIERARCHY";
     }
 }

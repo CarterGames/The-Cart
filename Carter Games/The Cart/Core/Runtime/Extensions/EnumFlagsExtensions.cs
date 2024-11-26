@@ -22,8 +22,6 @@
  */
 
 using System;
-using System.Linq;
-using UnityEngine;
 
 namespace CarterGames.Cart.Core
 {

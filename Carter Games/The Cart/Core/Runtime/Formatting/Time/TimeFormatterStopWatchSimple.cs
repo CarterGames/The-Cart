@@ -25,8 +25,20 @@ using System;
 
 namespace CarterGames.Cart.Core
 {
+    /// <summary>
+    /// Formats time into a 0.00.00 stopwatch style setup.
+    /// </summary>
     public sealed class TimeFormatterStopWatchSimple : ITimeFormatter
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   ITimeFormatter Implementation
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Formats the entry.
+        /// </summary>
+        /// <param name="timeSpan">The value to convert.</param>
+        /// <returns>The formatted string.</returns>
         public string Format(TimeSpan timeSpan)
         {
             if (timeSpan.Hours > 0)

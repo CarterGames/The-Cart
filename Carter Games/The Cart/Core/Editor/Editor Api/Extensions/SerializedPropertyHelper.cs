@@ -73,7 +73,7 @@ namespace CarterGames.Cart.Core.Editor
         {
             property.DeleteArrayElementAtIndex(index);
 
-            if (!property.HasIndex(index)) return;
+            if (property.arraySize <= 0) return;
             property.DeleteArrayElementAtIndex(index);
         }
         

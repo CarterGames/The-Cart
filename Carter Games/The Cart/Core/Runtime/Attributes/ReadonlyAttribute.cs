@@ -26,6 +26,9 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Core
 {
+    /// <summary>
+    /// An attribute to make an editor section readonly.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public sealed class ReadonlyAttribute : PropertyAttribute
     {

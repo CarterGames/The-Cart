@@ -25,8 +25,16 @@ using System.Globalization;
 
 namespace CarterGames.Cart.Core
 {
-	public class MoneyFormatterJapaneseYen : IMoneyFormatter
+	/// <summary>
+	/// A money formatter that formats to JPY.
+	/// </summary>
+	public sealed class MoneyFormatterJapaneseYen : IMoneyFormatter
 	{
+		/// <summary>
+		/// Formats the entry.
+		/// </summary>
+		/// <param name="value">The value to convert.</param>
+		/// <returns>The formatted string.</returns>
 		public string Format(double value)
 		{
 			return value.ToString("C2", CultureInfo.GetCultureInfo("ja-JP"));

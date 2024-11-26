@@ -26,10 +26,15 @@ using System;
 namespace CarterGames.Cart.Core
 {
     /// <summary>
-    /// Implement to make a time formatter the system will register.
+    /// Implement to define a time formatter.
     /// </summary>
     public interface ITimeFormatter
     {
+        /// <summary>
+        /// Implement the method of formatting for the entry.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The formatted string.</returns>
         string Format(TimeSpan timeSpan);
     }
 }

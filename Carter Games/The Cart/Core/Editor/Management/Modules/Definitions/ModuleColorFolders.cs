@@ -25,17 +25,49 @@ using System;
 
 namespace CarterGames.Cart.Modules
 {
-	public class ModuleColorFolders : IModule
+	/// <summary>
+	/// The definition for the color folders' module.
+	/// </summary>
+	public sealed class ModuleColorFolders : IModule
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+		/// <summary>
+		/// The name of the module.
+		/// </summary>
 		public string ModuleName => "Color Folders";
 
+		
+		/// <summary>
+		/// A description of what the module does.
+		/// </summary>
 		public string ModuleDescription =>
 			"An editor improvement to lets you colorize folders, you do sacrifice folder context to apply these colors.";
 
+		
+		/// <summary>
+		/// The author of the module.
+		/// </summary>
 		public string ModuleAuthor => "Carter Games";
+		
+		
+		/// <summary>
+		/// Any modules that are required for the module to work.
+		/// </summary>
 		public IModule[] PreRequisites => Array.Empty<IModule>();
+		
+		
+		/// <summary>
+		/// Any optional modules that the module can use.
+		/// </summary>
 		public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
+		
+		
+		/// <summary>
+		/// The scripting define the module uses.
+		/// </summary>
 		public string ModuleDefine => "CARTERGAMES_CART_MODULE_COLORFOLDERS";
-		public string ScriptingDocsPath { get; }
 	}
 }

@@ -25,6 +25,9 @@ using System;
 
 namespace CarterGames.Cart.Core
 {
+	/// <summary>
+	/// A flags enum of the different ways to compare a value for.
+	/// </summary>
 	[Flags]
 	public enum ComparisonType
 	{

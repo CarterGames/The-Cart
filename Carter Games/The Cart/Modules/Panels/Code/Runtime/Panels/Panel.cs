@@ -142,7 +142,7 @@ namespace CarterGames.Cart.Modules.Panels
 
             if (!IsValid())
             {
-                CartLogger.LogError<LogCategoryPanels>($"Panel on {gameObject.name} is not setup correctly", typeof(Panel));
+                CartLogger.LogError<LogCategoryModules>($"[Panels]: Panel on {gameObject.name} is not setup correctly", typeof(Panel));
                 return;
             }
             

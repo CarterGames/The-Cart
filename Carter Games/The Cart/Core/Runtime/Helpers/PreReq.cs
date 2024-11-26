@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_PANELS
-
-/*
+﻿/*
  * Copyright (c) 2024 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,14 +21,33 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Logs;
+using System;
 
-namespace CarterGames.Cart.Modules.Panels
+namespace CarterGames.Cart.Core
 {
     /// <summary>
-    /// A log category specially for the panels module.
+    /// A class to handle common checks that can act as blockers if returning false.
     /// </summary>
-    public sealed class LogCategoryPanels : CartLogCategory {}
-}
+    public static class PreReq
+    {
+        /// <summary>
+        /// Stops logic if a reference is null.
+        /// </summary>
+        /// <param name="reference">The reference to check</param>
+        /// <param name="message">The message to show in the error if null.</param>
+        /// <typeparam name="T">The type of the reference.</typeparam>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void DisallowIfNull<T>(T reference, string message = "")
+        {
+            if (reference is UnityEngine.Object obj && ((obj ? obj : null) == null))
+            {
+                throw new ArgumentNullException(message);
+            }
 
-#endif
+            if (reference is null)
+            {
+                throw new ArgumentNullException(message);
+            }
+        }
+    }
+}

@@ -104,7 +104,7 @@ namespace CarterGames.Cart.Modules.Window
         /// </summary>
         private void OnLeftGUI()
         {
-            ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos, "HelpBox", GUILayout.Width(194f));
+            ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos,  "HelpBox", GUILayout.Width(194f));
 
             foreach (var module in ModuleManager.AllModules)
             {

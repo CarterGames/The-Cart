@@ -23,8 +23,16 @@
 
 namespace CarterGames.Cart.Core
 {
+    /// <summary>
+    /// Implement to define a money formatter.
+    /// </summary>
     public interface IMoneyFormatter
     {
+        /// <summary>
+        /// Implement the method of formatting for the entry.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The formatted string.</returns>
         string Format(double value);
     }
 }

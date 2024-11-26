@@ -25,6 +25,9 @@ using System;
 
 namespace CarterGames.Cart.Modules
 {
+    /// <summary>
+    /// The definition for the localization module
+    /// </summary>
     public sealed class ModuleLocalization : IModule
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -43,6 +46,9 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "A system to handle text and audio elements that are for different languages.";
         
         
+        /// <summary>
+        /// The author of the module.
+        /// </summary>
         public string ModuleAuthor => "Carter Games";
         
         
@@ -51,8 +57,16 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public IModule[] PreRequisites => Array.Empty<IModule>();
 
+        
+        /// <summary>
+        /// Any optional modules that the module can use.
+        /// </summary>
         public IModule[] OptionalPreRequisites => new IModule[] { new ModuleNotionData() };
         
+        
+        /// <summary>
+        /// The scripting define the module uses.
+        /// </summary>
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_LOCALIZATION";
     }
 }

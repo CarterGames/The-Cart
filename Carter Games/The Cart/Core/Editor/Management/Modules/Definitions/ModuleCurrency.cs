@@ -25,7 +25,10 @@ using System;
 
 namespace CarterGames.Cart.Modules
 {
-    public class ModuleCurrency : IModule
+    /// <summary>
+    /// The definition for the currency module.
+    /// </summary>
+    public sealed class ModuleCurrency : IModule
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -43,6 +46,9 @@ namespace CarterGames.Cart.Modules
         public string ModuleDescription => "A system for storing currency values for players, such as gold, gems etc.";
 
         
+        /// <summary>
+        /// The author of the module
+        /// </summary>
         public string ModuleAuthor => "Carter Games";
 
 
@@ -51,9 +57,16 @@ namespace CarterGames.Cart.Modules
         /// </summary>
         public IModule[] PreRequisites => Array.Empty<IModule>();
 
+        
+        /// <summary>
+        /// Any optional modules that the module can use.
+        /// </summary>
         public IModule[] OptionalPreRequisites => Array.Empty<IModule>();
 
 
+        /// <summary>
+        /// The scripting define the module uses.
+        /// </summary>
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_CURRENCY";
     }
 }
