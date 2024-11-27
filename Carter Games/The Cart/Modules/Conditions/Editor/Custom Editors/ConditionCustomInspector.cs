@@ -25,13 +25,14 @@
 
 using System.Reflection;
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Conditions.Editor
 {
 	[CustomEditor(typeof(Condition))]
-	public class ConditionCustomInspector : CustomInspector
+	public class ConditionCustomInspector : CustomInspector, IAssetEditorReload
 	{
 		private int TotalCriteria
 		{
@@ -55,14 +56,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			(bool) typeof(Condition)
 				.GetProperty("IsValid", BindingFlags.Public | BindingFlags.Instance)
 				!.GetValue(serializedObject.targetObject);
-
 		
-
-		private void OnEnable()
-		{
-			ConditionEditorEvents.CriteriaDeletedFromInspector.Add(OnCriteriaDeleted);
-		}
-
 
 		protected override void DrawInspectorGUI()
 		{
@@ -108,6 +102,13 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 
 			serializedObject.ApplyModifiedProperties();
 			serializedObject.Update();
+		}
+
+		
+		
+		public void OnEditorReloaded()
+		{
+			ConditionEditorEvents.CriteriaDeletedFromInspector.Add(OnCriteriaDeleted);
 		}
 	}
 }

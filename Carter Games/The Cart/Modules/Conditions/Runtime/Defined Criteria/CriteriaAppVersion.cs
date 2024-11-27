@@ -41,8 +41,8 @@ namespace CarterGames.Cart.Modules.Conditions
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		[SerializeField] private VersionNumber version;
 		[SerializeField] private ComparisonType comparisonType;
+		[SerializeField] private VersionNumber version;
 
 		private VersionNumber cachedAppVersionNumber;
 		private bool isValid;
