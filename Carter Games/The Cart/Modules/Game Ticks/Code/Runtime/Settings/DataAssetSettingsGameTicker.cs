@@ -27,9 +27,8 @@ using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.GameTicks
-{
-    [CreateAssetMenu(fileName = "Game Ticks Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Game Ticks/Runtime Settings")]
-    public class DataAssetSettingsGameTicker : DataAsset
+{ 
+	public sealed class DataAssetSettingsGameTicker : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields

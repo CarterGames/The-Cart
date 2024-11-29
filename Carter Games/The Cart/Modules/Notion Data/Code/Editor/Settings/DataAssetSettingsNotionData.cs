@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -31,7 +31,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
     /// <summary>
     /// Handles the settings asset for the notion data module.
     /// </summary>
-    [CreateAssetMenu(fileName = "Notion Data Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Notion Data/Runtime Settings")]
     public sealed class DataAssetSettingsNotionData : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

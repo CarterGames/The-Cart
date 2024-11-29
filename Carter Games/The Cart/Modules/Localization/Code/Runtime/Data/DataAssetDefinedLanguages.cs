@@ -32,7 +32,6 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// A data asset for storing the languages the game supports.
 	/// </summary>
-	[CreateAssetMenu(fileName = "Data Asset Languages", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Languages")]
 	public sealed class DataAssetDefinedLanguages : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

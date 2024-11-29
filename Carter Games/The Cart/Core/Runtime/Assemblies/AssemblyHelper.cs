@@ -113,7 +113,7 @@ namespace CarterGames.Cart.Core.Management
         public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = true)
         {
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
-
+            
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
                 .Select(type => (T)Activator.CreateInstance(type));

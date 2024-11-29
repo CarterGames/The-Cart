@@ -84,7 +84,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 					}
 				}
 				
-				ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").DeleteAndRemoveIndex(index);
+				ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").DeleteIndex(index);
 				ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.ApplyModifiedProperties();
 				ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Update();
 
@@ -160,8 +160,14 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 
 						var criteria = (Criteria) ScriptableObject.CreateInstance((Type) entry.userData);
 						criteria.name = $"{criteria.GetType().Name}_{Guid.NewGuid()}";
+
+						var criteriaObject = new SerializedObject(criteria);
 				
 						condition.AddToObject(criteria, condition.Fp("baseAndGroup"));
+
+						criteriaObject.Fp("targetCondition").objectReferenceValue = condition.targetObject;
+						criteriaObject.ApplyModifiedProperties();
+						criteriaObject.Update();
 						
 						ConditionsSoCache.ClearCache();
 

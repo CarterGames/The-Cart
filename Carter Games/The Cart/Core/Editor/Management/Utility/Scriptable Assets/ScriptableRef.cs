@@ -42,12 +42,12 @@ namespace CarterGames.Cart.Core.Management.Editor
 
         // Base Asset Paths
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        public static readonly string Root = $"Assets/Plugins/Carter Games/";
+        public static readonly string Root = $"Assets/Plugins/Carter Games";
         public static readonly string PathResources = $"{AssetName}/Resources";
         public static readonly string PathData = $"{AssetName}/Data";
 
-        public static readonly string FullPathResources = $"{Root}{PathResources}";
-        public static readonly string FullPathData = $"{Root}{PathData}";
+        public static readonly string FullPathResources = $"{Root}/{PathResources}";
+        public static readonly string FullPathData = $"{Root}/{PathData}";
 
 
         // Assets Initialized Check

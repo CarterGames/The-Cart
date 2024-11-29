@@ -59,18 +59,43 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 					    "Cancel"))
 				{
 					AssetDatabase.RemoveObjectFromAsset(target);
+					var targetCondition =
+						new SerializedObject(serializedObject.Fp("targetCondition").objectReferenceValue);
 					DestroyImmediate(target);
+					
+					OnCriteriaDeleted(targetCondition);
 					
 					AssetDatabase.SaveAssets();
 					AssetDatabase.Refresh();
-					
-					ConditionEditorEvents.CriteriaDeletedFromInspector.Raise();
 					return;
 				}
 			}
 			
 			EditorGUILayout.Space(1.5f);
 			EditorGUILayout.EndVertical();
+		}
+		
+		
+		private void OnCriteriaDeleted(SerializedObject targetCondition)
+		{
+			for (var i = 0; i < targetCondition.Fp("baseAndGroup").arraySize; i++)
+			{
+				if (targetCondition.Fp("baseAndGroup").GetIndex(i).objectReferenceValue != null) continue;
+				targetCondition.Fp("baseAndGroup").DeleteAndRemoveIndex(i);
+			}
+			
+			for (var i = 0; i < targetCondition.Fp("criteriaList").arraySize; i++)
+			{
+				for (var j = 0; j < targetCondition.Fp("criteriaList").GetIndex(i).Fpr("criteria").arraySize; j++)
+				{
+					if (targetCondition.Fp("criteriaList").GetIndex(i).Fpr("criteria").GetIndex(j).objectReferenceValue !=
+					    null) continue;
+					targetCondition.Fp("criteriaList").GetIndex(i).Fpr("criteria").DeleteAndRemoveIndex(j);
+				}
+			}
+
+			targetCondition.ApplyModifiedProperties();
+			targetCondition.Update();
 		}
 	}
 }

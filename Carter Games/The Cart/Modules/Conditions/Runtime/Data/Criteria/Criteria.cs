@@ -37,7 +37,8 @@ namespace CarterGames.Cart.Modules.Conditions
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
+		[SerializeField, HideInInspector] private Condition targetCondition;
 		[SerializeField] private bool isExpanded;
 		[SerializeField] protected bool readInverted;
 

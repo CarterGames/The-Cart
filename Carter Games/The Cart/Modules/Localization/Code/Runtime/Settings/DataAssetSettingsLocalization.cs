@@ -31,8 +31,7 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// Holds any settings for the localization system needed at runtime.
 	/// </summary>
-	[CreateAssetMenu(fileName = "Settings Asset Localization", menuName = "Carter Games/The Cart/Modules/Localization/Runtime Settings")]
-	public class DataAssetSettingsLocalization : DataAsset
+	public sealed class DataAssetSettingsLocalization : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields

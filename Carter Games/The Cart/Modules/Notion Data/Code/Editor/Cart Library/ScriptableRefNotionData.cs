@@ -24,6 +24,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
@@ -49,12 +50,17 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
-		
-		
+
+
 		/// <summary>
 		/// Runs when the asset is created.
 		/// </summary>
-		public void OnCreated() { }
+		public void OnCreated()
+		{
+			ObjectRef.Fp("excludeFromAssetIndex").boolValue = true;
+			ObjectRef.ApplyModifiedProperties();
+			ObjectRef.Update();
+		}
 }
 	}
 

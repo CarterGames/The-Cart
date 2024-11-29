@@ -31,7 +31,6 @@ namespace CarterGames.Cart.Modules.LoadingScreens
     /// <summary>
     /// The runtime settings for the loading screens system.
     /// </summary>
-    [CreateAssetMenu(fileName = "Loading Screens Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Loading Screens/Runtime Settings")]
     public sealed class DataAssetSettingsLoadingScreens : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

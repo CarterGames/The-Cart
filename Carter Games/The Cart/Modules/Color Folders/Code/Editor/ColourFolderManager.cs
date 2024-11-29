@@ -25,8 +25,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Data.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -236,13 +234,16 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 
 		private static bool TryGetHasParentDefinitions(string targetPath)
 		{
-			return EditorDataAccess.GetAsset<DataAssetFolderIconOverrides>().FolderOverrides.FirstOrDefault(t => targetPath.Contains(t.FolderPath)) != null;
+			return ScriptableRef
+				.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides
+				.FirstOrDefault(t => targetPath.Contains(t.FolderPath)) != null;
 		}
 
 
 		private static IEnumerable<DataFolderIconOverride> GetHasParentDefinitions(string targetPath)
 		{
-			return EditorDataAccess.GetAsset<DataAssetFolderIconOverrides>().FolderOverrides
+			return ScriptableRef
+				.GetAssetDef<DataAssetFolderIconOverrides>().AssetRef.FolderOverrides
 				.Where(t => targetPath.Contains(t.FolderPath))
 				.OrderByDescending(t => t.FolderPath.Length);
 		}

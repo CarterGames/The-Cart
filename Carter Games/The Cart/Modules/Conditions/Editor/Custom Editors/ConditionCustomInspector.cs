@@ -25,14 +25,13 @@
 
 using System.Reflection;
 using CarterGames.Cart.Core.Editor;
-using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Conditions.Editor
 {
 	[CustomEditor(typeof(Condition))]
-	public class ConditionCustomInspector : CustomInspector, IAssetEditorReload
+	public class ConditionCustomInspector : CustomInspector
 	{
 		private int TotalCriteria
 		{
@@ -57,7 +56,8 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				.GetProperty("IsValid", BindingFlags.Public | BindingFlags.Instance)
 				!.GetValue(serializedObject.targetObject);
 		
-
+		
+		
 		protected override void DrawInspectorGUI()
 		{
 			EditorGUILayout.Space(5f);
@@ -79,36 +79,6 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			
 			EditorGUILayout.Space(1.5f);
 			EditorGUILayout.EndVertical();
-		}
-
-
-		private void OnCriteriaDeleted()
-		{
-			for (var i = 0; i < serializedObject.Fp("baseAndGroup").arraySize; i++)
-			{
-				if (serializedObject.Fp("baseAndGroup").GetIndex(i).objectReferenceValue != null) continue;
-				serializedObject.Fp("baseAndGroup").DeleteAndRemoveIndex(i);
-			}
-			
-			for (var i = 0; i < serializedObject.Fp("criteriaList").arraySize; i++)
-			{
-				for (var j = 0; j < serializedObject.Fp("criteriaList").GetIndex(i).Fpr("criteria").arraySize; j++)
-				{
-					if (serializedObject.Fp("criteriaList").GetIndex(i).Fpr("criteria").GetIndex(j).objectReferenceValue !=
-					    null) continue;
-					serializedObject.Fp("criteriaList").GetIndex(i).Fpr("criteria").DeleteAndRemoveIndex(j);
-				}
-			}
-
-			serializedObject.ApplyModifiedProperties();
-			serializedObject.Update();
-		}
-
-		
-		
-		public void OnEditorReloaded()
-		{
-			ConditionEditorEvents.CriteriaDeletedFromInspector.Add(OnCriteriaDeleted);
 		}
 	}
 }
