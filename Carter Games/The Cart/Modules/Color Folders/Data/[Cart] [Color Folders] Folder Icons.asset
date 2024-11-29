@@ -9,37 +9,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 445f4e9574754429a81d5c94432a56aa, type: 3}
+  m_Script: {fileID: 11500000, guid: f17a22ebbb7247448a4f1466ffee9615, type: 3}
   m_Name: '[Cart] [Color Folders] Folder Icons'
   m_EditorClassIdentifier: 
   folderGraphics:
   - id: Default
-    large: {fileID: 2800000, guid: aab6bdd58c57bd241904aab1d8ede8c1, type: 3}
-    small: {fileID: 2800000, guid: 027de5105fe37f94e804da8d8a6c1d78, type: 3}
+    large: {fileID: 2800000, guid: 13cb4107ac35ab745b9ea06303fac505, type: 3}
+    small: {fileID: 2800000, guid: f944881bc92e20448a8e014df070f5cd, type: 3}
   - id: Blue
-    large: {fileID: 2800000, guid: 2f7e3ebdf41ce364aa6850ce5d2a9be9, type: 3}
-    small: {fileID: 2800000, guid: 681bb3405e89f6f45b5aae5a376112e9, type: 3}
+    large: {fileID: 2800000, guid: efb611f8bbec998429b17ba3e223187d, type: 3}
+    small: {fileID: 2800000, guid: 255bfb50f9723304c97963b621ea0d17, type: 3}
   - id: Cyan
-    large: {fileID: 2800000, guid: 79ad8c66ab1c4c546a2e74824758fe7d, type: 3}
-    small: {fileID: 2800000, guid: 7f284443f6d11e346a66e6c4a63abfb4, type: 3}
+    large: {fileID: 2800000, guid: 8cba3fcb847872b45900f2263fba8dd6, type: 3}
+    small: {fileID: 2800000, guid: 46db945ae261acf4a9726826c41868b9, type: 3}
   - id: Green
-    large: {fileID: 2800000, guid: 15efb22cd49a8ed4f83d68e4ac7a19e4, type: 3}
-    small: {fileID: 2800000, guid: c716cbfe4cc6abd46868706b45e6c9d4, type: 3}
+    large: {fileID: 2800000, guid: 79b3c4919d97d3b4d85dbc8aa06bf177, type: 3}
+    small: {fileID: 2800000, guid: 3ccb4cf8297063842a10633dc21ee6eb, type: 3}
   - id: Lime
-    large: {fileID: 2800000, guid: d0ccf66b179b4104fa7100f43e1f1d2b, type: 3}
-    small: {fileID: 2800000, guid: e2eb7cf3ea1a86b409072fd6e31564f8, type: 3}
+    large: {fileID: 2800000, guid: 91de05a8c25a130458b11033f2fd9070, type: 3}
+    small: {fileID: 2800000, guid: 22e6a61804fd5394b93939cb8acdbb01, type: 3}
   - id: Yellow
-    large: {fileID: 2800000, guid: a9a47e269c855b948b236e972f5422d6, type: 3}
-    small: {fileID: 2800000, guid: 03e0e8edeaa664b4ab8d86bb783c07cb, type: 3}
+    large: {fileID: 2800000, guid: 44b5e4d3049093a42b50d292158f4fad, type: 3}
+    small: {fileID: 2800000, guid: 7a5ff9f1c27eef54e9aa242d6840c59b, type: 3}
   - id: Orange
-    large: {fileID: 2800000, guid: 7c5877f3018b0ff46be13d099ec27bb7, type: 3}
-    small: {fileID: 2800000, guid: d8514a18d1cd202458602803ae10b588, type: 3}
+    large: {fileID: 2800000, guid: d2f1eb8ad68f0164381e3dcefc6a05ff, type: 3}
+    small: {fileID: 2800000, guid: ee9d3f17f74bf3d46b779b910d1a4b22, type: 3}
   - id: Red
-    large: {fileID: 2800000, guid: 6f750b0a6153a6642bf77ab78c143c8b, type: 3}
-    small: {fileID: 2800000, guid: 9f811403f43ecbb448fb553fd8b3020d, type: 3}
+    large: {fileID: 2800000, guid: fa7d9272316234f46988ae06dcbd826b, type: 3}
+    small: {fileID: 2800000, guid: 68239b18256a18549a62c7c33d5adc11, type: 3}
   - id: Purple
-    large: {fileID: 2800000, guid: b42480067a265884d8493d1bc633846e, type: 3}
-    small: {fileID: 2800000, guid: 8a53d352c7c2d1f45bcfc49868479706, type: 3}
+    large: {fileID: 2800000, guid: b3d7ce1e87052914bbfa68a4f0f2669a, type: 3}
+    small: {fileID: 2800000, guid: 8d15f2e4eeb851f44bc56511c0e546b0, type: 3}
   - id: Pink
-    large: {fileID: 2800000, guid: 6f3bcb514f55d4843adccdd05f6c7099, type: 3}
-    small: {fileID: 2800000, guid: 9aff848e26c785b4080f42939dbdc339, type: 3}
+    large: {fileID: 2800000, guid: 8a2d0818386e475478f154377f4bb9a9, type: 3}
+    small: {fileID: 2800000, guid: 5fad0fee980cb6c498b3e74e2ff524b6, type: 3}
