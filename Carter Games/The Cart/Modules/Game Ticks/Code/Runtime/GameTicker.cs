@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.GameTicks
     /// <summary>
     /// Handles a tick system with the ticks defined locally.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Game Ticks/Game Ticker Component")]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Game Ticks/Game Ticker")]
     public class GameTicker : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -42,28 +42,11 @@ namespace CarterGames.Cart.Modules.GameTicks
         [SerializeField] private GameTickSyncState syncState;
         [SerializeField] private int ticksPerSecond;
 
-
-        /// <summary>
-        /// Raises when the a tick is reached.
-        /// </summary>
-        public readonly Evt Ticked = new Evt();
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Raises when the ticker is toggled on or off.
-        /// </summary>
-        public readonly Evt<bool> Toggled = new Evt<bool>();
-
         private bool hasTimescaleOverride;
-
         private bool tickerEnabled = true;
-
         private float tickTimer;
         private bool timescaleOverride;
-
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -88,6 +71,22 @@ namespace CarterGames.Cart.Modules.GameTicks
         /// Gets the tick rate of the ticker based on the sync state defined.
         /// </summary>
         private int TickRate => syncState == GameTickSyncState.ApplicationTargetFrameRate ? Application.targetFrameRate : ticksPerSecond;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when a tick is reached.
+        /// </summary>
+        public readonly Evt Ticked = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when the ticker is toggled on or off.
+        /// </summary>
+        public readonly Evt<bool> Toggled = new Evt<bool>();
+
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
