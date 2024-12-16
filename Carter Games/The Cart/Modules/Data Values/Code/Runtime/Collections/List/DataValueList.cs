@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Modules.DataValues.Events;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
@@ -47,6 +48,10 @@ namespace CarterGames.Cart.Modules.DataValues
         [SerializeField] private bool canReset;
         [SerializeField] private List<T> defaultValue;
         [SerializeField] private DataValueResetState resetStates;
+        
+        [SerializeField] private bool useDataValueEvents;
+        [SerializeField] private DataValueEventBase onChanged;
+        [SerializeField] private DataValueEventBase onReset;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -103,6 +108,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (value.Contains(element)) return;
             value.Add(element);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -114,6 +123,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (!value.Contains(element)) return;
             value.Remove(element);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -133,6 +146,9 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = input;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -153,6 +169,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = defaultValue;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
+            onReset.Raise();
         }
 
 

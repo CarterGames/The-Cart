@@ -44,7 +44,7 @@ namespace CarterGames.Cart.Modules
 		/// A description of what the module does.
 		/// </summary>
 		public string ModuleDescription =>
-			"An editor system to define easy to edit and reference checks into the project.";
+			"An editor system to define modular boolean checks into the project entirely scriptable object based.";
 
 		
 		/// <summary>

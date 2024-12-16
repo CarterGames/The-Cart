@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Modules.DataValues.Events;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
@@ -49,6 +50,10 @@ namespace CarterGames.Cart.Modules.DataValues
         [SerializeField] private bool canReset;
         [SerializeField] private SerializableDictionary<TKey, TValue> defaultValue;
         [SerializeField] private DataValueResetState resetStates;
+        
+        [SerializeField] private bool useDataValueEvents;
+        [SerializeField] private DataValueEventBase onChanged;
+        [SerializeField] private DataValueEventBase onReset;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -106,6 +111,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (value.ContainsKey(elementKey)) return;
             value.Add(elementKey, elementValue);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -117,6 +126,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (value.ContainsKey(element.Key)) return;
             value.Add(element.Key, element.Value);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -128,6 +141,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (!value.ContainsKey(elementKey)) return;
             value.Remove(elementKey);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -139,6 +156,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (!value.ContainsKey(element.Key)) return;
             value.Remove(element.Key);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -158,6 +179,9 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = (SerializableDictionary<TKey, TValue>) input;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -169,6 +193,9 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = input;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -199,6 +226,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = defaultValue;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
+            onReset.Raise();
         }
 
 

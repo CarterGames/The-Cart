@@ -36,28 +36,13 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+		
 		private readonly List<KeyValuePair<string, JSONNode>> data;
-
-		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Constructors
-		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-		/// <summary>
-		/// Makes a new response data class instance when called.
-		/// </summary>
-		/// <param name="data">The data to set.</param>
-		/// <param name="silentResponse">Should the response be silenced in the editor?</param>
-		public NotionRequestResult(List<KeyValuePair<string, JSONNode>> data, bool silentResponse)
-		{
-			this.data = data;
-			SilentResponse = silentResponse;
-		}
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+		
 		/// <summary>
 		/// The amount of data received.
 		/// </summary>
@@ -68,12 +53,27 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		/// The json received stored per property name in a list.
 		/// </summary>
 		public List<KeyValuePair<string, JSONNode>> Data => data;
-
-
+		
+		
 		/// <summary>
 		/// Gets if the response was requested to be silenced or not.
 		/// </summary>
 		public bool SilentResponse { get; private set; }
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Constructors
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Makes a new response data class instance when called.
+		/// </summary>
+		/// <param name="data">The data to set.</param>
+		/// <param name="silentResponse">Should the response be silenced in the editor?</param>
+		public NotionRequestResult(List<KeyValuePair<string, JSONNode>> data, bool silentResponse)
+		{
+			this.data = data;
+			SilentResponse = silentResponse;
+		}
 	}
 }
 

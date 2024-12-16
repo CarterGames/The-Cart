@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Data.Editor;
 using CarterGames.Cart.Core.Editor;
@@ -121,7 +122,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             }
             else
             {
-                var window = CreateWindow<DownloadAllHandler>("Download Notion Data");
+                var window = GetWindow<DownloadAllHandler>(true, "Download Notion Data");
                 window.maxSize = new Vector2(400, 400);
             }
         }
@@ -163,7 +164,11 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             NotionApiRequestHandler.ResetRequestData();
             
-            var requestData = new NotionRequestData(asset, databaseId, assetObject.Fp("databaseApiKey").stringValue, assetObject.Fp("sortProperties").ToSortPropertyArray(), true);
+            var filters = (NotionFilterContainer) assetObject.GetType().BaseType!
+                .GetField("filters", BindingFlags.NonPublic | BindingFlags.Instance)
+                !.GetValue(assetObject.targetObject);
+            
+            var requestData = new NotionRequestData(asset, databaseId, assetObject.Fp("databaseApiKey").stringValue, assetObject.Fp("sortProperties").ToSortPropertyArray(), filters, true);
             NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
         }
 

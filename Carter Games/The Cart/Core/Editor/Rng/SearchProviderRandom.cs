@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Management;
-using CarterGames.TheCart.Core.Editor;
+using CarterGames.Cart.Core.Random;
 
-namespace CarterGames.Cart.Core.Random.Editor
+namespace CarterGames.Cart.Core.Editor
 {
 	public class SearchProviderRandom : SearchProvider<IRngProvider>
 	{

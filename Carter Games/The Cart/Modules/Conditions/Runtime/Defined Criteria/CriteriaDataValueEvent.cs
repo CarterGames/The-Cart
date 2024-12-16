@@ -26,6 +26,7 @@
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Modules.DataValues.Events;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CarterGames.Cart.Modules.Conditions
 {
@@ -38,7 +39,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		[SerializeField] private DataValueEventBase dataValue;
+		[FormerlySerializedAs("dataValue")] [SerializeField] private DataValueEventBase customEditorDataValue;
 
 		private bool hasRaised;
 
@@ -55,8 +56,8 @@ namespace CarterGames.Cart.Modules.Conditions
 		public override void OnInitialize(Evt stateChanged)
 		{
 			hasRaised = false;
-			if (dataValue == null) return;
-			dataValue.AddListener(UpdateHasRaised);
+			if (customEditorDataValue == null) return;
+			customEditorDataValue.AddListener(UpdateHasRaised);
 			return;
 			
 			void UpdateHasRaised()

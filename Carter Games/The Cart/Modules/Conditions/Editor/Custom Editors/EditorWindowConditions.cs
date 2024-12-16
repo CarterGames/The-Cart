@@ -76,9 +76,16 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			EditorGUILayout.LabelField("Conditions", EditorStyles.boldLabel);
 			GeneralUtilEditor.DrawHorizontalGUILine();
 
-			foreach (var obj in ConditionsSoCache.SoLookup.ToArray())
+			if (ConditionsSoCache.SoLookup.Count > 0)
 			{
-				ConditionEditor.DrawCondition(obj, this);
+				foreach (var obj in ConditionsSoCache.SoLookup.ToArray())
+				{
+					ConditionEditor.DrawCondition(obj, this);
+				}
+			}
+			else
+			{
+				EditorGUILayout.LabelField("No conditions in the project, make one to see it here.");
 			}
 			
 			EditorGUILayout.Space(1.5f);

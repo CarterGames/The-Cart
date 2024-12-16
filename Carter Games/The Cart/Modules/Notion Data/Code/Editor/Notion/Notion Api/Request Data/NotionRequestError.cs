@@ -39,16 +39,43 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         [SerializeField] private DataAsset asset;
         [SerializeField] private int errorCode;
         [SerializeField] private string code;
         [SerializeField] private string message;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The asset related to the error.
+        /// </summary>
+        public DataAsset Asset => asset;
+        
+        
+        /// <summary>
+        /// The HTTP error code response to the request.
+        /// </summary>
+        public int ErrorCode => errorCode;
+        
+        
+        /// <summary>
+        /// The code for the specific error the user ran into.
+        /// </summary>
+        public string Error => code;
+        
+        
+        /// <summary>
+        /// The message Notion sent back in relation to the error, usually gives decent context to the issue.
+        /// </summary>
+        public string Message => message;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Makes a new error class instance when called.
         /// </summary>
@@ -61,33 +88,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             code = errorJson["code"];
             message = errorJson["message"];
         }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The asset related to the error.
-        /// </summary>
-        public DataAsset Asset => asset;
-
-
-        /// <summary>
-        /// The HTTP error code response to the request.
-        /// </summary>
-        public int ErrorCode => errorCode;
-
-
-        /// <summary>
-        /// The code for the specific error the user ran into.
-        /// </summary>
-        public string Error => code;
-
-
-        /// <summary>
-        /// The message Notion sent back in relation to the error, usually gives decent context to the issue.
-        /// </summary>
-        public string Message => message;
     }
 }
 

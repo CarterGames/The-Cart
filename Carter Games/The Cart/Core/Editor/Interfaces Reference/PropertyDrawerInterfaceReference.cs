@@ -21,10 +21,12 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Linq;
 using CarterGames.Cart.Core.Logs;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Core.Editor
 {
@@ -32,8 +34,11 @@ namespace CarterGames.Cart.Core.Editor
     /// A property drawer for the interface reference field.
     /// </summary>
     [CustomPropertyDrawer(typeof(InterfaceRef<>), true)]
-    public sealed class PropertyDrawerInterfaceReference : PropertyDrawer   
+    public sealed class PropertyDrawerInterfaceReference : PropertyDrawer
     {
+        private static GUIStyle labelStyle;
+        
+        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -62,15 +67,78 @@ namespace CarterGames.Cart.Core.Editor
                                 goto Skip;
                             }
                 
-                            CartLogger.LogError<LogCategoryCore>($"Unable to assign: {property.FindPropertyRelative("target").objectReferenceValue.name} as interface {fieldInfo.FieldType.GenericTypeArguments[0]}.", typeof(PropertyDrawerInterfaceReference));
+                            CartLogger.LogError<LogCategoryCore>($"Unable to assign: {property.FindPropertyRelative("target").objectReferenceValue.name} as interface {fieldInfo.FieldType.GenericTypeArguments[0].Name}.", typeof(PropertyDrawerInterfaceReference));
                             property.FindPropertyRelative("target").objectReferenceValue = null;
                             Skip: ;
                         }
                     }
                 }
             }
+
+            DrawTypeLabel(position, GetValueType());
             
             EditorGUI.EndProperty();
+        }
+
+
+
+        private Type GetValueType()
+        {
+            if (fieldInfo.FieldType.GenericTypeArguments[0].GenericTypeArguments.Length > 0)
+            {
+                return fieldInfo.FieldType.GenericTypeArguments[0].GenericTypeArguments[0];
+            }
+            else
+            {
+                return fieldInfo.FieldType.GenericTypeArguments[0];
+            }
+        }
+
+
+        private static void DrawTypeLabel(Rect position, Type interfaceType)
+        {
+            InitializeStyleIfNeeded();
+
+            var controlID = GUIUtility.GetControlID(FocusType.Passive) - 1;
+            var displayString = $"({interfaceType.Name})";
+            DrawInterfaceNameLabel(position, displayString, controlID);
+        }
+
+
+        private static void DrawInterfaceNameLabel(Rect position, string displayString, int controlID)
+        {
+            if (Event.current.type != EventType.Repaint) return;
+            
+            const int additionalLeftWidth = 3;
+            const int verticalIndent = 1;
+
+            var content = EditorGUIUtility.TrTextContent(displayString);
+            var size = labelStyle.CalcSize(content);
+            var labelPos = position;
+
+            labelPos.width = size.x + additionalLeftWidth;
+            labelPos.x += position.width - labelPos.width - 18;
+            labelPos.height -= verticalIndent * 2;
+            labelPos.y += verticalIndent;
+            labelStyle.Draw(labelPos, EditorGUIUtility.TrTextContent(displayString), controlID,
+                DragAndDrop.activeControlID == controlID, false);
+        }
+
+
+        private static void InitializeStyleIfNeeded()
+        {
+            if (labelStyle != null) return;
+
+            var style = new GUIStyle(EditorStyles.label)
+            {
+                font = EditorStyles.objectField.font,
+                fontSize = EditorStyles.objectField.fontSize,
+                fontStyle = EditorStyles.objectField.fontStyle,
+                alignment = TextAnchor.MiddleRight,
+                padding = new RectOffset(0, 2, 0, 0)
+            };
+            
+            labelStyle = style;
         }
     }
 }

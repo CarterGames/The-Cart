@@ -26,7 +26,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
-using CarterGames.TheCart.Core.Editor;
+using CarterGames.Cart.Core.Editor;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {

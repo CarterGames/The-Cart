@@ -54,9 +54,9 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             EditorGUILayout.Space(1.5f);
             GeneralUtilEditor.DrawHorizontalGUILine();
 
-            DrawPropertiesExcluding(serializedObject, "sortProperties");
+            DrawPropertiesExcluding(serializedObject, "sortProperties", "filters");
         }
-
+        
 
         private void RenderNotionSettings()
         {
@@ -71,11 +71,15 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
             EditorGUILayout.BeginHorizontal();
 
-            // Coming... eventually...
-            // if (GUILayout.Button("Filters"))
-            // {
-            //     
-            // }
+            
+            var filterTotal = ((NotionFilterContainer) target.GetType().BaseType!
+                .GetField("filters", BindingFlags.NonPublic | BindingFlags.Instance)
+                !.GetValue(serializedObject.targetObject)).TotalFilters;
+            
+            if (GUILayout.Button($"Filters ({filterTotal})"))
+            {
+                EditorWindowFilterGUI.OpenWindow(serializedObject);
+            }
             
             if (GUILayout.Button($"Sorting ({serializedObject.Fp("sortProperties").arraySize})"))
             {
@@ -89,11 +93,11 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 string.IsNullOrEmpty(serializedObject.Fp("linkToDatabase").stringValue));
 
 
-            GUILayout.Space(5f);
+            GUILayout.Space(1.5f);
             
             GUI.backgroundColor = Color.green;
             
-            if (GUILayout.Button("Download Data"))
+            if (GUILayout.Button("Download Data", GUILayout.Height(22.5f)))
             {
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
@@ -113,8 +117,13 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 
                 NotionApiRequestHandler.ResetRequestData();
                 
-                var requestData = new NotionRequestData((DataAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, serializedObject.Fp("sortProperties").ToSortPropertyArray());
-
+                var sorts = serializedObject.Fp("sortProperties").ToSortPropertyArray();
+                var filters = (NotionFilterContainer) target.GetType().BaseType!
+                    .GetField("filters", BindingFlags.NonPublic | BindingFlags.Instance)
+                    !.GetValue(serializedObject.targetObject);
+                
+                var requestData = new NotionRequestData((DataAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, sorts, filters);
+                
                 NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
             }
             
@@ -149,15 +158,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
         private void OnErrorReceived(NotionRequestError error)
         {
-            if (error.Message.Contains("Could not find sort property"))
-            {
-                EditorUtility.DisplayDialog("Notion Data Download", $"Download failed ({error.Error}):\n{error.Message}", "Continue");
-            }
-            else
-            {
-                EditorUtility.DisplayDialog("Notion Data Download", "Download failed, please see console for errors and try again", "Continue");
-            }
-
+            EditorUtility.DisplayDialog("Notion Data Download", $"Download failed ({error.Error}):\n{error.Message}", "Continue");
             
             NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
             NotionApiRequestHandler.RequestError.Remove(OnErrorReceived);

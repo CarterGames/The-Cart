@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.ThirdParty;
 using UnityEditor;
 using UnityEngine;
@@ -47,22 +48,22 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Raises when the data has been received from Notion.
         /// </summary>
         public static readonly Evt<NotionRequestResult> DataReceived = new Evt<NotionRequestResult>();
-
-
+        
+        
         /// <summary>
         /// Raises when there was an error when trying to receive data from Notion.
         /// </summary>
         public static readonly Evt<NotionRequestError> RequestError = new Evt<NotionRequestError>();
-
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Runs the web request to get the Notion database requested.
         /// </summary>
@@ -76,14 +77,14 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 if (EditorUtility.DisplayDialog("Standalone Notion Data", "Api key for database download is invalid.",
                     "Continue"))
                 {
-                    Debug.LogError(
+                    CartLogger.LogError<LogCategoryModules>(
                         "Notion API passed in is not valid, please double check it before sending another request.");
                 }
                 
                 return;
             }
             
-            var request = PrepareRequest(requestData.Url, requestData.ApiKey, requestData.Sorts);
+            var request = PrepareRequest(requestData.Url, requestData.ApiKey, requestData.Sorts, requestData.Filter);
             
             AsyncOperation asyncOperation = request.SendWebRequest();
 
@@ -101,8 +102,8 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 OnDownloadReceived(request.downloadHandler.text);
             };
         }
-
-
+        
+        
         /// <summary>
         /// Runs the web request to get the Notion database requested.
         /// </summary>
@@ -110,7 +111,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// <param name="bodyData">The body to send with the API call.</param>
         public static void WebRequestPostWithAuth(NotionRequestData data, JSONObject bodyData)
         {
-            var request = PrepareRequest(data.Url, data.ApiKey, bodyData, data.Sorts);
+            var request = PrepareRequest(data.Url, data.ApiKey, bodyData, data.Sorts, data.Filter);
             
             AsyncOperation asyncOperation = request.SendWebRequest();
 
@@ -139,21 +140,32 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// <param name="url">The url to use.</param>
         /// <param name="apiKey">The api key to use.</param>
         /// <param name="sorts">The sort properties to apply.</param>
+        /// <param name="filters">The filter to apply.</param>
         /// <returns>A prepared UnityWebRequest.</returns>
-        private static UnityWebRequest PrepareRequest(string url, string apiKey, NotionSortProperty[] sorts = null)
+        private static UnityWebRequest PrepareRequest(string url, string apiKey, NotionSortProperty[] sorts = null, NotionFilterContainer filters = null)
         {
             UnityWebRequest request;
 
-            if (sorts == null)
+            if (sorts == null && filters == null)
             {
                 request = UnityWebRequest.Post(url, string.Empty);
             }
             else
             {
-                var body = new JSONObject
+                var body = new JSONObject();
+
+                if (sorts != null)
                 {
-                    ["sorts"] = sorts.ToJsonArray()
-                };
+                    if (sorts.Length > 0)
+                    {
+                        body["sorts"] = sorts.ToJsonArray();
+                    }
+                }
+                
+                if (filters != null)
+                {
+                    body["filter"] = filters.ToFilterJson();
+                }
 
                 request = UnityWebRequest.Put(url, body.ToString());
                 request.method = "POST";
@@ -165,8 +177,8 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
             return request;
         }
-
-
+        
+        
         /// <summary>
         /// Prepares an API call with thr entered data.
         /// </summary>
@@ -174,10 +186,22 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// <param name="apiKey">The api key to use.</param>
         /// <param name="body">The body to use in the API call.</param>
         /// <param name="sorts">The sort properties to apply.</param>
+        /// <param name="filter">The filter to apply.</param>
         /// <returns>A prepared UnityWebRequest.</returns>
-        private static UnityWebRequest PrepareRequest(string url, string apiKey, JSONObject body, NotionSortProperty[] sorts = null)
+        private static UnityWebRequest PrepareRequest(string url, string apiKey, JSONObject body, NotionSortProperty[] sorts = null, NotionFilterContainer filter = null)
         {
-            body["sorts"] = sorts.ToJsonArray();
+            if (sorts != null)
+            {
+                if (sorts.Length > 0)
+                {
+                    body["sorts"] = sorts.ToJsonArray();
+                }
+            }
+                
+            if (filter != null)
+            {
+                body["filter"] = filter.ToFilterJson();
+            }
             
             var request = UnityWebRequest.Put(url, body.ToString());
             
@@ -219,7 +243,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             EditorUtility.ClearProgressBar();
             DataReceived.Raise(requestData.ResultData);
         }
-
+        
 
         /// <summary>
         /// Resets the request data stored locally when called.

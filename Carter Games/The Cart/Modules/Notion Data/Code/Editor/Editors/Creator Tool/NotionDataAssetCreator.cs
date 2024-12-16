@@ -42,7 +42,22 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         private string dataAssetName;
         private string lastSavePath;
         private bool makeDataAssetWhenGenerated;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Menu Items
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// Makes a menu item for the creator to open.
+        /// </summary>
+        [MenuItem("Tools/Carter Games/The Cart/Modules/Notion Data/Asset Creator", priority = 1500)]
+        private static void ShowWindow()
+        {
+            var window = GetWindow<NotionDataAssetCreator>(true);
+            window.titleContent = new GUIContent("Notion Data Asset Creator");
+            window.Show();
+        }
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -97,22 +112,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 }
             }
         }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Menu Items
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Makes a menu item for the creator to open.
-        /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Notion Data/Asset Creator", priority = 1500)]
-        private static void ShowWindow()
-        {
-            var window = GetWindow<NotionDataAssetCreator>();
-            window.titleContent = new GUIContent("Notion Data Asset Creator");
-            window.Show();
-        }
-
+        
 
         /// <summary>
         /// Creates the asset file for the notion data class the user is making.

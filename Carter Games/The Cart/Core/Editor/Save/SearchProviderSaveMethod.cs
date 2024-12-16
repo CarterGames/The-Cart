@@ -3,7 +3,7 @@ using System.Linq;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Save;
 
-namespace CarterGames.TheCart.Core.Editor
+namespace CarterGames.Cart.Core.Editor
 {
 	public class SearchProviderSaveMethod : SearchProvider<ISaveMethod>
 	{

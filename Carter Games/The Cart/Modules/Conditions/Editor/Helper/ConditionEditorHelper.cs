@@ -119,8 +119,6 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			if (data.Fpr("criteria").Contains(toAdd)) return;
 							
 			data.Fpr("criteria").InsertIndex(data.Fpr("criteria").arraySize);
-			target.Fp("criteriaList").GetIndex(data.Fpr("criteria").arraySize - 1).Fpr("groupCheckType").intValue = 1;
-			target.Fp("criteriaList").GetIndex(data.Fpr("criteria").arraySize - 1).Fpr("groupId").stringValue = $"Group {data.Fpr("criteria").arraySize - 1}";
 			data.Fpr("criteria").GetIndex(data.Fpr("criteria").arraySize - 1).objectReferenceValue = toAdd;
 
 			if (lastGroup != null)
