@@ -127,7 +127,6 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         public virtual void Dispose()
         {
             UseUnscaledTime = false;
-            TimerCompleted.Clear();
             gameObject.SetActive(false);
         }
         
