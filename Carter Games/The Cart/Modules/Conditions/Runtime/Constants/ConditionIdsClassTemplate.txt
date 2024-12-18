@@ -1,0 +1,10 @@
+﻿#if CARTERGAMES_CART_MODULE_CONDITIONS
+
+namespace CarterGames.Cart.Modules.Conditions
+{
+    public struct ConditionIds
+    {
+    }
+}
+
+#endif
