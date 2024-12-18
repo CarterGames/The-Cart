@@ -98,6 +98,12 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         
         
         /// <summary>
+        /// Raises when the timer is completed.
+        /// </summary>
+        public readonly Evt TimerTicked = new Evt();
+        
+        
+        /// <summary>
         /// Raises when a second has passed for the timer.
         /// </summary>
         public readonly Evt<int> TimerSecondPassed = new Evt<int>();
@@ -288,6 +294,7 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
                 var change = UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
                 TimeRemaining -= change;
                 t += change;
+                TimerTicked.Raise();
 
                 if (t > 1)
                 {
