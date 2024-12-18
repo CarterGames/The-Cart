@@ -177,7 +177,12 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             var obj = new GameObject("RuntimeTimer-" + Guid.NewGuid()).AddComponent<RuntimeTimer>();
             DontDestroyOnLoad(obj.gameObject);
             obj.Initialize(duration, onComplete);
-            RuntimeTimerManager.Register(obj);
+            
+            if (!RuntimeTimerManager.IsRegistered(obj))
+            {
+                RuntimeTimerManager.Register(obj);
+            }
+            
             return obj;
         }
 
@@ -187,6 +192,11 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         /// </summary>
         public void StartTimer()
         {
+            if (!RuntimeTimerManager.IsRegistered(this))
+            {
+                RuntimeTimerManager.Register(this);
+            }
+            
             if (TimerActive)
             {
                 if (TimerPaused)
@@ -248,6 +258,12 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         {
             PauseTimer();
             TimeRemaining = TimerDuration;
+            
+            if (!RuntimeTimerManager.IsRegistered(this))
+            {
+                RuntimeTimerManager.Register(this);
+            }
+            
             ResumeTimer();
         }
 
