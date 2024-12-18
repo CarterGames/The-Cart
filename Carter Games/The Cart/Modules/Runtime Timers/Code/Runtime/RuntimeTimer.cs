@@ -91,7 +91,15 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        /// <summary>
+        /// Raises when the timer is completed.
+        /// </summary>
         public readonly Evt TimerCompleted = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when a second has passed for the timer.
+        /// </summary>
         public readonly Evt<int> TimerSecondPassed = new Evt<int>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -231,6 +239,17 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             TimeRemaining = 0;
             TimerPaused = false;
             RuntimeTimerManager.UnRegister(this);
+        }
+
+
+        /// <summary>
+        /// Restarts the timer when called.
+        /// </summary>
+        public void RestartTimer()
+        {
+            PauseTimer();
+            TimeRemaining = TimerDuration;
+            ResumeTimer();
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
