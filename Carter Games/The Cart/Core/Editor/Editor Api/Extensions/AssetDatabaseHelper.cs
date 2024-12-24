@@ -100,8 +100,6 @@ namespace CarterGames.Cart.Core.Editor
         public static T[] GetAllInstancesInProject<T>() where T : Object
         {
             var assets = AssetDatabase.FindAssets($"t:{typeof(T)}");
-
-            Debug.Log(assets.Length);
             
             if (assets == null) return Array.Empty<T>();
 

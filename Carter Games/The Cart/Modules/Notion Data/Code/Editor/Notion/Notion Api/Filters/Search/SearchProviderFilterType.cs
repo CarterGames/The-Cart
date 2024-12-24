@@ -33,8 +33,8 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 	public class SearchProviderFilterType : SearchProvider<NotionFilterOption>
 	{
 		private static SearchProviderFilterType Instance;
-		
-		public override string ProviderTitle => "Select Notion Filter Type";
+
+		protected override string ProviderTitle => "Select Notion Filter Type";
 		
 		
 		public override List<SearchGroup<NotionFilterOption>> GetEntriesToDisplay()

@@ -123,5 +123,18 @@ namespace CarterGames.Cart.Modules
             if (!IsEnabled(module)) return CrossIconColourised;
             return TickIconColourised;
         }
+
+
+
+        public static IModule GetModuleFromName(string moduleName)
+        {
+            return AllModules.FirstOrDefault(t => t.ModuleName.Equals(moduleName));
+        }
+        
+        
+        public static IModule GetModuleFromDefine(string moduleDefine)
+        {
+            return AllModules.FirstOrDefault(t => t.ModuleDefine.Equals(moduleDefine));
+        }
     }
 }

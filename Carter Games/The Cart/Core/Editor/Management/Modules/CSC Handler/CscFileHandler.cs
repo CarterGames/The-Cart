@@ -29,6 +29,7 @@ using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
@@ -121,23 +122,22 @@ namespace CarterGames.Cart.Modules
 
         private static bool HasDefine(string define)
         {
-            if (ScriptableRef.GetAssetDef<DataAssetCsc>().ObjectRef.Fp("asset").objectReferenceValue == null)
+            lock (Lock)
             {
-                TryInitialize();
+                if (ScriptableRef.GetAssetDef<DataAssetCsc>().ObjectRef.Fp("asset").objectReferenceValue == null)
+                {
+                    TryInitialize();
+                }
+
+                return LastRead.Contains(define);
             }
-            
-            return LastRead.Contains(define);
         }
         
 
         public static bool HasDefine(IModule module)
         {
-            if (ScriptableRef.GetAssetDef<DataAssetCsc>().ObjectRef.Fp("asset").objectReferenceValue == null)
-            {
-                TryInitialize();
-            }
-            
-            return LastRead.Contains(module.ModuleDefine);
+            if (module == null) return false;
+            return HasDefine(module.ModuleDefine);
         }
         
         
@@ -245,7 +245,7 @@ namespace CarterGames.Cart.Modules
             
             foreach (var module in modules)
             {
-                if (HasDefine(module)) continue;
+                if (!HasDefine(module)) continue;
                 toRemove.Add($"-define:{module.ModuleDefine}");
             }
             
@@ -329,7 +329,7 @@ namespace CarterGames.Cart.Modules
                 if (i.Equals(LastRead.Split('-').Length - 1)) continue;
                 Builder.AppendLine();
             }
-
+            
             write.Write(Builder.ToString());
             write.Close();
             
@@ -347,9 +347,9 @@ namespace CarterGames.Cart.Modules
             {
                 var entry = LastRead.Split('-')[i];
                 var parsedEntry = $"-{entry.Trim()}";
-
-                if (parsedEntry.Length <= 1) continue;
-
+                
+                if (parsedEntry.Equals("-")) continue;
+                
                 foreach (var line in lines)
                 {
                     if (!parsedEntry.Equals(line)) continue;
@@ -362,7 +362,7 @@ namespace CarterGames.Cart.Modules
                 
                 SkipEntryAsRemoving: ;
             }
-
+            
             write.Write(Builder.ToString());
             write.Close();
             
@@ -427,6 +427,7 @@ namespace CarterGames.Cart.Modules
                 write.Write(Builder.ToString());
                 write.Close();
             }
+            
 
             EditorUtility.SetDirty(ScriptableRef.GetAssetDef<DataAssetCsc>().AssetRef);
             AssetDatabase.Refresh();

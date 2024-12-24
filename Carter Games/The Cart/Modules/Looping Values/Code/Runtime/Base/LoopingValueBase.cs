@@ -1,3 +1,5 @@
+﻿#if CARTERGAMES_CART_MODULE_LOOPINGVALUES
+
 /*
  * Copyright (c) 2024 Carter Games
  * 
@@ -21,145 +23,138 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
+using System;
 using CarterGames.Cart.Core.Events;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Cart.Core.Editor
+namespace CarterGames.Cart.Modules.LoopingValues
 {
     /// <summary>
-    /// Implement to make a search provider for something.
-    /// You still have to have a way to open it, but it will show the values entered.
+    /// Implement to make a looping value.
     /// </summary>
-    /// <typeparam name="T">The type to provide from the search selection.</typeparam>
-    public abstract class SearchProvider<T> : ScriptableObject, ISearchWindowProvider
+    /// <typeparam name="T">The type to loop with.</typeparam>
+    [Serializable]
+    public abstract class LoopingValueBase<T>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
+        |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The title to add to the search provider when open.
-        /// </summary>
-        protected abstract string ProviderTitle { get; }
         
+        [SerializeField] protected T minValue;
+        [SerializeField] protected T maxValue;
+        [SerializeField] protected T currentValue;
         
-        /// <summary>
-        /// A list of entries to exclude from the search.
-        /// </summary>
-        protected List<T> ToExclude { get; set; } = new List<T>();
-        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */ 
         
         /// <summary>
-        /// Gets any addition entries to show that can be shown such as group entries.
+        /// The value currently at.
         /// </summary>
-        private List<SearchTreeEntry> AdditionalEntries
-        {
-            get
-            {
-                var list = new List<SearchTreeEntry>();
+        public T Value => currentValue;
 
-                foreach (var entries in GetEntriesToDisplay())
-                {
-                    if (!entries.IsValidGroup)
-                    {
-                        foreach (var value in entries.Values)
-                        {
-                            if (ToExclude.Contains(value.Value)) continue;
-                            list.Add(SearchHelper.CreateEntry(value.Key, 1, value.Value));
-                        }
-                    }
-                    else
-                    {
-                        list.Add(SearchHelper.CreateGroup(entries.Key, 1));
-                        
-                        foreach (var value in entries.Values)
-                        {
-                            if (ToExclude.Contains(value.Value)) continue;
-                            list.Add(SearchHelper.CreateEntry(value.Key, 2, value.Value));
-                        }
-                    }
-                }
+        
+        /// <summary>
+        /// The min value in this value.
+        /// </summary>
+        public T MinValue => minValue;
+        
+        
+        /// <summary>
+        /// The max value in this value.
+        /// </summary>
+        public T MaxValue => maxValue;
 
-                return list;
-            }
-        }
+
+        /// <summary>
+        /// Gets the difference between the min & max values.
+        /// </summary>
+        protected abstract T Difference { get; }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
-        /// Raised when a selection is made.
+        /// Is raised when the value is changed by normal means.
         /// </summary>
-        public readonly Evt<SearchTreeEntry> SelectionMade = new Evt<SearchTreeEntry>();
+        public readonly Evt ValueChanged = new Evt();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Set the value to the entered value, it will adjust if no in range.
+        /// </summary>
+        /// <param name="value">The value to set to.</param>
+        public void SetValue(T value)
+        {
+            currentValue = SetToValue(value);
+        }
+        
+        
+        /// <summary>
+        /// Sets the value without raising the ValueChanged Evt.
+        /// </summary>
+        /// <param name="value">The value to set to.</param>
+        public void SetValueWithoutNotify(T value)
+        {
+            currentValue = SetToValue(value, false);
+        }
+        
+        
+        /// <summary>
+        /// Increments the value by the requested amount.
+        /// </summary>
+        /// <param name="increment">The amount to increment by.</param>
+        public void IncrementValue(T increment)
+        {
+            currentValue = UpdateValue(increment);
+        }
+
 
         /// <summary>
-        /// Opens the search window when called.
+        /// Resets the value to the min defined.
         /// </summary>
-        public void Open()
+        /// <param name="notify">Should the event be raised on the change?</param>
+        public void ResetToMinValue(bool notify = true)
         {
-            ToExclude.Clear();
-            
-            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), this);
+            currentValue = minValue;
+            if (!notify) return;
+            ValueChanged.Raise();
         }
         
         
         /// <summary>
-        /// Opens the search window when called.
+        /// Resets the value to the max defined.
         /// </summary>
-        /// <param name="currentValue">The current value to not show.</param>
-        public void Open(T currentValue)
+        /// <param name="notify">Should the event be raised on the change?</param>
+        public void ResetToMaxValue(bool notify = true)
         {
-            ToExclude.Clear();
-            
-            if (currentValue != null)
-            {
-                ToExclude.Add(currentValue);
-            }
-            
-            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), this);
+            currentValue = maxValue;
+            if (!notify) return;
+            ValueChanged.Raise();
         }
-        
-        
-        /// <summary>
-        /// Creates the search tree when called.
-        /// </summary>
-        /// <param name="context">The context for the window to target on.</param>
-        /// <returns>The entries to show.</returns>
-        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
-        {
-            var searchList = new List<SearchTreeEntry>();
-            
-            searchList.Add(new SearchTreeGroupEntry(new GUIContent(ProviderTitle), 0));
-            searchList.AddRange(AdditionalEntries);
 
-            return searchList;
-        }
+        
+        /// <summary>
+        /// Implement to set the value to the requested, updating its loop placement if invalid.
+        /// </summary>
+        /// <param name="value">The value to set.</param>
+        /// <param name="notify">Should the event be raised on the change?</param>
+        /// <returns>The newly adjusted value</returns>
+        protected abstract T SetToValue(T value, bool notify = true);
         
         
         /// <summary>
-        /// Runs when a selection is made.
+        /// Implement to update the value by the requested increment.
         /// </summary>
-        /// <param name="searchTreeEntry">The tree entry pressed.</param>
-        /// <param name="context">The window context.</param>
-        public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
-        {
-            if (searchTreeEntry == null) return false;
-            SelectionMade.Raise(searchTreeEntry);
-            return true;
-        }
-        
-        
-        /// <summary>
-        /// The entries the search provider can display.
-        /// </summary>
-        /// <returns>A list of entries to show.</returns>
-        public abstract List<SearchGroup<T>> GetEntriesToDisplay();
+        /// <param name="increment">The amount to increment by.</param>
+        /// <param name="notify">Should the event be raised on the change?</param>
+        /// <returns>The newly adjusted value</returns>
+        protected abstract T UpdateValue(T increment, bool notify = true);
     }
 }
+
+#endif

@@ -74,6 +74,21 @@ namespace CarterGames.Cart.Modules.Localization
 			this.code = code;
 		}
 #endif
+
+
+		public static Language None
+		{
+			get
+			{
+				var instance = new Language
+				{
+					name = string.Empty,
+					code = string.Empty
+				};
+				
+				return instance;
+			}
+		}
 	}
 }
 

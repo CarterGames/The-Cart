@@ -36,7 +36,6 @@ namespace CarterGames.Cart.Core
         /// <param name="reference">The reference to check</param>
         /// <param name="message">The message to show in the error if null.</param>
         /// <typeparam name="T">The type of the reference.</typeparam>
-        /// <exception cref="ArgumentNullException"></exception>
         public static void DisallowIfNull<T>(T reference, string message = "")
         {
             if (reference is UnityEngine.Object obj && ((obj ? obj : null) == null))

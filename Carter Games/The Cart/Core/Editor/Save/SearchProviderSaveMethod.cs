@@ -8,8 +8,8 @@ namespace CarterGames.Cart.Core.Editor
 	public class SearchProviderSaveMethod : SearchProvider<ISaveMethod>
 	{
 		private static SearchProviderSaveMethod Instance;
-		
-		public override string ProviderTitle => "Select Save Method";
+
+		protected override string ProviderTitle => "Select Save Method";
 		
 		
 		public override List<SearchGroup<ISaveMethod>> GetEntriesToDisplay()

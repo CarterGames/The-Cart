@@ -43,7 +43,7 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// A description of what the module does.
         /// </summary>
-        public string ModuleDescription => "A system to handle text and audio elements that are for different languages.";
+        public string ModuleDescription => "A system to handle text elements that are for different languages.";
         
         
         /// <summary>

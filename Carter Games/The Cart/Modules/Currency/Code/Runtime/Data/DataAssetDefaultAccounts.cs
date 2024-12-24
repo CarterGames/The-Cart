@@ -33,7 +33,6 @@ namespace CarterGames.Cart.Modules.Currency
 	/// <summary>
 	/// A data asset for the default accounts the system has.
 	/// </summary>
-    [CreateAssetMenu(fileName = "Data Asset Default Accounts", menuName = "Carter Games/The Cart/Modules/Currency/Data Asset Default Accounts")]
     public class DataAssetDefaultAccounts : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

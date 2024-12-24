@@ -36,7 +36,7 @@ namespace CarterGames.Cart.Modules.Conditions
 
 		
 		public static bool IsInGroup { get; set; }
-		public override string ProviderTitle => "Select group";
+		protected override string ProviderTitle => "Select group";
 		private static SerializedObject Target { get; set; }
 
 

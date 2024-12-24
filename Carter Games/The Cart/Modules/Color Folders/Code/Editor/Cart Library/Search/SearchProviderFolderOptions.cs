@@ -44,7 +44,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		|   SearchProvider Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		public override string ProviderTitle => "Folder Style Options";
+		protected override string ProviderTitle => "Folder Style Options";
 
 
 		public override List<SearchGroup<DataFolderIconSet>> GetEntriesToDisplay()

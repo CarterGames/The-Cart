@@ -30,12 +30,26 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Core.Editor
 {
+	/// <summary>
+	/// Handles the toolbar elements used in the editor.
+	/// </summary>
 	[InitializeOnLoad]
 	public static class ToolbarHandler
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Fields
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		// Caches all the toolbar elements.
 		private static readonly IEnumerable<IToolbarElementRight> CacheToolBarElements;
 
-
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Constructor
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Auto-initialized the toolbar handler when called.
+		/// </summary>
 		static ToolbarHandler()
 		{
 			CacheToolBarElements = AssemblyHelper.GetClassesOfType<IToolbarElementRight>().OrderBy(t => t.RightOrder);
@@ -49,8 +63,13 @@ namespace CarterGames.Cart.Core.Editor
 			ToolbarExtender.RightToolbarGUI.Add(OnRightGUI);
 		}
 		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Methods
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		
+		/// <summary>
+		/// Draws buttons on the right GUI of the toolbar.
+		/// </summary>
 		private static void OnRightGUI()
 		{
 			GUILayout.FlexibleSpace();

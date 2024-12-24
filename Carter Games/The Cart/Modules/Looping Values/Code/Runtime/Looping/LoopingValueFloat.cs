@@ -1,19 +1,19 @@
-﻿#if CARTERGAMES_CART_MODULE_CURRENCY
+﻿#if CARTERGAMES_CART_MODULE_LOOPINGVALUES
 
 /*
  * Copyright (c) 2024 Carter Games
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
- *
+ * 
+ *    
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,153 +23,135 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core;
-using CarterGames.Cart.Core.Events;
-using CarterGames.Cart.Core.Logs;
+using System;
 
-namespace CarterGames.Cart.Modules.Currency
+namespace CarterGames.Cart.Modules.LoopingValues
 {
     /// <summary>
-    /// A class defining an account in the currency system.
+    /// A looping float value.
     /// </summary>
-    public sealed class CurrencyAccount
+    [Serializable]
+    public sealed class LoopingLoopingValueFloat : LoopingValueBase<float>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        private readonly object padlock = new object();
-        private double balance;
-
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The balance of the account.
-        /// </summary>
-        public double Balance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    return balance;
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// The balance of the account formatted with the generic formatter.
-        /// </summary>
-        public string BalanceFormatted => Balance.Format<MoneyFormatterGeneric>();
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Raises when the account is adjusted in any way.
-        /// </summary>
-        public readonly Evt Adjusted = new Evt();
-
-
-        /// <summary>
-        /// Raises when the account is credited to.
-        /// </summary>
-        public readonly Evt Credited = new Evt();
         
         /// <summary>
-        /// Raises when the account is debited to.
+        /// Gets the difference between the min & max values.
         /// </summary>
-        public readonly Evt Debited = new Evt();
-        
+        protected override float Difference => MaxValue - MinValue;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
-        /// Makes a new account with the initial balance entered.
+        /// Creates a new looping value.
         /// </summary>
-        /// <param name="initialBalance">The balance to start on.</param>
-        public CurrencyAccount(double initialBalance = 0)
+        /// <param name="minValue">The min/lower value</param>
+        /// <param name="maxValue">The max/upper value</param>
+        public LoopingLoopingValueFloat(float minValue, float maxValue)
         {
-            balance = initialBalance;
-            balance.Round();
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+            currentValue = minValue;
         }
-
+        
+        
+        /// <summary>
+        /// Creates a new looping value.
+        /// </summary>
+        /// <param name="minValue">The min/lower value</param>
+        /// <param name="maxValue">The max/upper value</param>
+        /// <param name="startingValue">The starting value</param>
+        public LoopingLoopingValueFloat(float minValue, float maxValue, float startingValue)
+        {
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+            currentValue = startingValue;
+        }
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
+        |   Operators
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         /// <summary>
-        /// Debit (remove) from the account.
+        /// Converts the value to its read value implicitly for use.
         /// </summary>
-        /// <param name="amount">The amount to remove.</param>
-        public void Debit(double amount)
+        /// <param name="loopingValue">The value to convert</param>
+        /// <returns>Int</returns>
+        public static implicit operator float(LoopingLoopingValueFloat loopingValue)
         {
-            if (amount < 0)
-            {
-                CartLogger.Log<LogCategoryModules>("Cannot debit less than or equal to 0.", typeof(CurrencyAccount));
-                return;
-            }
+            return loopingValue.Value;
+        }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Sets the value to the required value.
+        /// </summary>
+        /// <param name="value">The value to set to.</param>
+        /// <param name="notify">Should it notify the change?</param>
+        /// <returns>The updated value.</returns>
+        protected override float SetToValue(float value, bool notify = true)
+        {
+            currentValue = value;
+            return KeepValueInRange(notify);
+        }
+        
 
-            lock (padlock)
-            {
-                if (balance < amount.Round()) return;
-
-                balance -= amount.Round();
-                balance.Round();
-                
-                Debited.Raise();
-                Adjusted.Raise();
-            }
+        /// <summary>
+        /// Updates the value by the required value.
+        /// </summary>
+        /// <param name="adjustment">The adjustment to make.</param>
+        /// <param name="notify">Should it notify the change?</param>
+        /// <returns>The updated value.</returns>
+        protected override float UpdateValue(float adjustment, bool notify = true)
+        {
+            currentValue += adjustment;
+            return KeepValueInRange(notify);
         }
 
 
         /// <summary>
-        /// Credit (add) to the account.
+        /// Logic to loop the value correctly.
         /// </summary>
-        /// <param name="amount">The amount to add.</param>
-        public void Credit(double amount)
+        /// <param name="notify">Should it notify the change?</param>
+        /// <returns>The looped position if applicable.</returns>
+        private float KeepValueInRange(bool notify)
         {
-            if (amount < 0)
-            {
-                CartLogger.Log<LogCategoryModules>("Cannot credit less than or equal to 0.", typeof(CurrencyAccount));
-                return;
-            }
+            var remainder = 0f;
 
-            lock (padlock)
+            if (currentValue > maxValue)
             {
-                balance += amount.Round();
-                balance.Round();
+                remainder = currentValue - Difference;
                 
-                Credited.Raise();
-                Adjusted.Raise();
+                while (remainder > maxValue)
+                {
+                    currentValue -= currentValue - Difference;
+                    remainder = currentValue - Difference;
+                }
             }
-        }
-
-
-        /// <summary>
-        /// Processes the change either way.
-        /// </summary>
-        /// <param name="amount">The amount to adjust by.</param>
-        /// <param name="transactionType">The method to adjust by.</param>
-        public void Process(double amount, CurrencyTransactionType transactionType)
-        {
-            switch (transactionType)
+            else if (currentValue < minValue)
             {
-                case CurrencyTransactionType.Credit:
-                    Credit(amount);
-                    break;
-                case CurrencyTransactionType.Debit:
-                    Debit(amount);
-                    break;
-                case CurrencyTransactionType.Clear:
-                default:
-                    break;
+                remainder = currentValue + Difference;
+
+                while (remainder < minValue)
+                {
+                    currentValue = maxValue - Difference;
+                    remainder = (currentValue + Difference);
+                }
             }
+            
+            if (notify)
+            {
+                ValueChanged.Raise();
+            }
+            
+            return currentValue;
         }
     }
 }

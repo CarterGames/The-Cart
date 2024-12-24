@@ -43,7 +43,7 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// A description of what the module does.
         /// </summary>
-        public string ModuleDescription => "A flexible system to import Notion databases into a Unity scriptable object for use in Unity game projects.";
+        public string ModuleDescription => "A tool to download Notion databases into a Unity scriptable object for use in Unity projects. Handy for game data such as items, localization, skills and more!";
         
         
         /// <summary>

@@ -29,6 +29,8 @@ using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Core.Save;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
@@ -38,6 +40,7 @@ namespace CarterGames.Cart.Modules.Localization
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+		private const string SaveKeyCurrentLanguage = "CarterGames_Cart_Module_Localization_Language";
 		private static Dictionary<string, LocalizationData> lookupCache;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -64,20 +67,26 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// The current language assigned.
 		/// </summary>
-		public static Language CurrentLanguage =>
-			DataAccess.GetAsset<DataAssetSettingsLocalization>().CurrentLanguage;
+		public static Language CurrentLanguage
+		{
+			get
+			{
+				var data = CartSaveHandler.Get<string>(SaveKeyCurrentLanguage);
+				
+				if (string.IsNullOrEmpty(data))
+				{
+					SetLanguage(Language.None);
+				}
+				
+				return JsonUtility.FromJson<Language>(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
+			}
+		}
 
 
 		/// <summary>
 		/// Gets the languages in the system.
 		/// </summary>
 		public static List<Language> GetLanguages => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages;
-
-
-		/// <summary>
-		/// Gets a list of all the language display names.
-		/// </summary>
-		public static List<string> GetLanguageOptionLabels => GetLanguages.Select(t => t.DisplayName).ToList();
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
@@ -123,7 +132,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <param name="language">The language to assign.</param>
 		public static void SetLanguage(Language language)
 		{
-			DataAccess.GetAsset<DataAssetSettingsLocalization>().CurrentLanguage = language;
+			CartSaveHandler.Set(SaveKeyCurrentLanguage, JsonUtility.ToJson(language));
 			LanguageChanged.Raise();
 		}
 

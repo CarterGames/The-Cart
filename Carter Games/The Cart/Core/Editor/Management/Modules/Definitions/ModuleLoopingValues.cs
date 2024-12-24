@@ -28,7 +28,7 @@ namespace CarterGames.Cart.Modules
     /// <summary>
     /// The definition for the clamped values' module.
     /// </summary>
-    public sealed class ModuleClampedValues : IModule
+    public sealed class ModuleLoopingValues : IModule
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -37,13 +37,13 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// The name of the module.
         /// </summary>
-        public string ModuleName => "Clamped Values";
+        public string ModuleName => "Looping Values";
         
         
         /// <summary>
         /// A description of what the module does.
         /// </summary>
-        public string ModuleDescription => "A wrapper system that lets you have values that are clamped or looping from their bounds.";
+        public string ModuleDescription => "A wrapper system that lets you have values that looping within a range when exceeding it. Useful for menu's etc.";
 
         
         /// <summary>
@@ -67,6 +67,6 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// The scripting define the module uses.
         /// </summary>
-        public string ModuleDefine => "CARTERGAMES_CART_MODULE_CLAMPEDVALUES";
+        public string ModuleDefine => "CARTERGAMES_CART_MODULE_LOOPINGVALUES";
     }
 }

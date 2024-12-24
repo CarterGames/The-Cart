@@ -33,8 +33,8 @@ namespace CarterGames.Cart.Modules.Conditions
 	public class SearchProviderCriteria : SearchProvider<Type>
 	{
 		private static SearchProviderCriteria Instance;
-		
-		public override string ProviderTitle => "Select Criteria";
+
+		protected override string ProviderTitle => "Select Criteria";
 		
 		
 		public override List<SearchGroup<Type>> GetEntriesToDisplay()

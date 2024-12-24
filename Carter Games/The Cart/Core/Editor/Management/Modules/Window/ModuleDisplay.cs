@@ -156,19 +156,37 @@ namespace CarterGames.Cart.Modules.Window
         }
 
 
-        private static void DrawModuleStatusButton(IModule module)
+        public static void DrawModuleStatusButton(IModule module, bool showText = true)
         { 
             if (ModuleManager.IsEnabled(module))
             {
                 GUI.backgroundColor = ModuleManager.InstallCol;
                 
-                GUILayout.Label(ModuleManager.TickIcon + " Enabled", new GUIStyle("minibutton"), GUILayout.MaxWidth(100));
+                if (showText)
+                {
+                    GUILayout.Label(ModuleManager.TickIcon + " Enabled", new GUIStyle("minibutton"),
+                        GUILayout.MaxWidth(100));
+                }
+                else
+                {
+                    GUILayout.Label(ModuleManager.TickIcon, new GUIStyle("minibutton"),
+                        GUILayout.MaxWidth(22.5f));
+                }
             }
             else
             {
                 GUI.backgroundColor = ModuleManager.UninstallCol;
                 
-                GUILayout.Label(ModuleManager.CrossIcon + " Disabled", new GUIStyle("minibutton"), GUILayout.MaxWidth(100));
+                if (showText)
+                {
+                    GUILayout.Label(ModuleManager.CrossIcon + " Disabled", new GUIStyle("minibutton"),
+                        GUILayout.MaxWidth(100));
+                }
+                else
+                {
+                    GUILayout.Label(ModuleManager.CrossIcon, new GUIStyle("minibutton"),
+                        GUILayout.MaxWidth(22.5f));
+                }
             }
             
             GUI.backgroundColor = Color.white;

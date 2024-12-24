@@ -23,10 +23,33 @@
 
 namespace CarterGames.Cart.Core.Editor
 {
+	/// <summary>
+	/// Implement to add to the right toolbar.
+	/// </summary>
 	public interface IToolbarElementRight
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// The order that the element is shown on the right GUI.
+		/// </summary>
 		int RightOrder { get; }
+		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Methods
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Initialize the element when called.
+		/// </summary>
 		void Initialize();
+		
+		
+		/// <summary>
+		/// Implement to add GUI to the right toolbar.
+		/// </summary>
 		void OnRightGUI();
 	}
 }
