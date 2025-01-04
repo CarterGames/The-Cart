@@ -30,7 +30,7 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 {
-	public sealed class SettingsAssetRefLoadingScreens : IScriptableAssetDef<DataAssetSettingsLoadingScreens>
+	public sealed class AssetDefLoadingScreens : IScriptableAssetDef<DataAssetSettingsLoadingScreens>
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields

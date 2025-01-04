@@ -24,6 +24,7 @@
  */
 
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Modules.Currency.Attributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,7 +40,7 @@ namespace CarterGames.Cart.Modules.Currency
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] private string accountId;
+        [SerializeField, SelectAccount] private string accountId;
         [SerializeField] private bool setAmount;
         [SerializeField] private double amount;
         [SerializeField] private CurrencyTransactionType transactionType = CurrencyTransactionType.Debit;

@@ -34,7 +34,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
-	public class SettingsProviderLocalization : ISettingsProvider
+	public sealed class SettingsProviderLocalization : ISettingsProvider
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields

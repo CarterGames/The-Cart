@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_COLORFOLDERS
+﻿#if CARTERGAMES_CART_MODULE_DATAVALUES && UNITY_EDITOR
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -24,36 +24,32 @@
  */
 
 using System;
-using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
-namespace CarterGames.Cart.Modules.ColourFolders.Editor
+namespace CarterGames.Cart.Modules.DataValues.Editor.Definitions
 {
-	/// <summary>
-	/// Handles the creation of the DataAssetFolderIconOverrides asset.
-	/// </summary>
-	public sealed class ScriptableDefFolderOverrides : IScriptableAssetDef<DataAssetFolderIconOverrides>
+	public sealed class AssetDefDataValueIndex : IScriptableAssetDef<DataValueIndex>
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		private static DataAssetFolderIconOverrides cache;
+		private static DataValueIndex cache;
 		private static SerializedObject objCache;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   IScriptableAssetDef Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		public Type AssetType => typeof(DataAssetFolderIconOverrides);
-		public string DataAssetFileName => "[Cart] [Colour Folders] Folder Icon Overrides.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetFolderIconOverrides).FullName} name={DataAssetFileName}";
+		public Type AssetType => typeof(DataValueIndex);
+		public string DataAssetFileName => "[Cart] [Data Values] Data Value Index.asset";
+		public string DataAssetFilter => $"t:{typeof(DataValueIndex).FullName} name={DataAssetFileName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
 
 
-		public DataAssetFolderIconOverrides AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+		public DataValueIndex AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
 
 
@@ -61,17 +57,12 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
-
-
+		
+		
 		/// <summary>
 		/// Runs when the asset is created.
 		/// </summary>
-		public void OnCreated()
-		{
-			ObjectRef.Fp("excludeFromAssetIndex").boolValue = true;
-			ObjectRef.ApplyModifiedProperties();
-			ObjectRef.Update();
-		}
+		public void OnCreated() { }
 	}
 }
 

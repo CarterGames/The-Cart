@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+using System.Linq;
+using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
@@ -30,7 +32,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Conditions.Editor
 {
-	public class EditorWindowConditions : StandardEditorWindow
+	public sealed class EditorWindowConditions : StandardEditorWindow
 	{
 		private static Vector2 ScrollPos
 		{
@@ -57,6 +59,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			if (GUILayout.Button("+ New Condition", GUILayout.Height(22.5f)))
 			{
 				ConditionEditorHelper.AddNewCondition();
+				ConditionsSoCache.ClearCache();
 			}
 			GUI.backgroundColor = Color.white;
 			
@@ -78,9 +81,18 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 
 			if (ConditionsSoCache.SoLookup.Count > 0)
 			{
-				foreach (var obj in ConditionsSoCache.SoLookup.ToArray())
+				var data = ConditionsSoCache.SoLookup.Where(t => !t.targetObject.IsMissingOrNull()).ToArray();
+
+				if (data.Length <= 0)
 				{
-					ConditionEditor.DrawCondition(obj, this);
+					EditorGUILayout.LabelField("No conditions in the project, make one to see it here.");
+				}
+				else
+				{
+					foreach (var obj in data)
+					{
+						ConditionEditor.DrawCondition(obj, this);
+					}
 				}
 			}
 			else

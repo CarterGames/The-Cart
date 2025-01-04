@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using System.Linq;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Management;
@@ -41,7 +39,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		[SerializeField] private ComparisonType comparisonType;
+		[SerializeField] private NumericalComparisonType comparisonType;
 		[SerializeField] private VersionNumber version;
 
 		private VersionNumber cachedAppVersionNumber;
@@ -73,30 +71,17 @@ namespace CarterGames.Cart.Modules.Conditions
 		
 		public override void OnInitialize(Evt stateChanged)
 		{
-			var checks = comparisonType.EnumFlagsToArray();
-			var results = new List<bool>();
-				
-			foreach (var compareType in checks)
+			isValid = comparisonType switch
 			{
-				switch (compareType)
-				{
-					case ComparisonType.LessThan:
-						results.Add(version < AppVersionNumber);
-						continue;
-					case ComparisonType.Equals:
-						results.Add(AppVersionNumber.Equals(version));
-						continue;
-					case ComparisonType.GreaterThan:
-						results.Add(version > AppVersionNumber);
-						continue;
-					default:
-						results.Clear();
-						results.Add(false);
-						break;
-				}
-			}
-			
-			isValid = results.Any(t => t);
+				NumericalComparisonType.LessThan => version < AppVersionNumber,
+				NumericalComparisonType.LessThanOrEqual => version < AppVersionNumber || AppVersionNumber.Equals(version),
+				NumericalComparisonType.Equals => AppVersionNumber.Equals(version),
+				NumericalComparisonType.GreaterThanOrEqual => version > AppVersionNumber || AppVersionNumber.Equals(version),
+				NumericalComparisonType.GreaterThan => version > AppVersionNumber,
+				NumericalComparisonType.Unassigned => false,
+				_ => false
+			};
+
 			stateChanged.Raise();
 		}
 	}

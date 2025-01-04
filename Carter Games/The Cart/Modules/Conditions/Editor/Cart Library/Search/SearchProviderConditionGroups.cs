@@ -25,7 +25,6 @@
 
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Editor;
-using CarterGames.TheCart.Core.Editor;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Conditions
@@ -58,7 +57,10 @@ namespace CarterGames.Cart.Modules.Conditions
 			{
 				for (var i = 0; i < Target.Fp("criteriaList").arraySize; i++)
 				{
-					entries.Add(SearchItem<int>.Set(Target.Fp("criteriaList").GetIndex(i).Fpr("groupId").stringValue, i));
+					var label = Target.Fp("criteriaList").GetIndex(i).Fpr("groupId").stringValue;
+					var uuid = Target.Fp("criteriaList").GetIndex(i).Fpr("groupUuid").intValue.ToString();
+					
+					entries.Add(SearchItem<int>.Set($"{label} ({uuid})", i));
 				}
 			}
 

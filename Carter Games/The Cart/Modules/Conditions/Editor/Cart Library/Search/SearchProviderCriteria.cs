@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management;
 
@@ -45,7 +46,7 @@ namespace CarterGames.Cart.Modules.Conditions
 			
 			foreach (var entry in instances)
 			{
-				entries.Add(SearchItem<Type>.Set(entry.Name.Replace("Criteria", string.Empty), entry));
+				entries.Add(SearchItem<Type>.Set(entry.Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace(), entry));
 			}
 			
 			group.Add(new SearchGroup<Type>(entries));

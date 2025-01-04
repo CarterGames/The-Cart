@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Core.Logs.Editor
 	/// <summary>
 	/// Defines the logging data asset in the project.
 	/// </summary>
-	public sealed class ScriptableDefLogging : IScriptableAssetDef<DataAssetCartLogCategories>
+	public sealed class AssetDefLogging : IScriptableAssetDef<DataAssetCartLogCategories>
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields

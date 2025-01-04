@@ -119,7 +119,17 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				
 				if (GUILayout.Button("Edit", GUILayout.Width(60)))
 				{
-					UtilityEditorWindowChangeConditionId.OpenAndAssignInfo(condition.Fp("id"));
+					UtilityEditorWindowGenericText.ValueChangedCtx.Clear();
+					UtilityEditorWindowGenericText.ValueChangedCtx.Add(AssignValueToProp);
+					UtilityEditorWindowGenericText.OpenAndAssignInfo("Change Condition Name", "Assign a name for the condition to reference it by.", condition.Fp("id").stringValue);
+					return;
+
+					void AssignValueToProp(string value)
+					{
+						condition.Fp("id").stringValue = value;
+						condition.ApplyModifiedProperties();
+						condition.Update();
+					}
 				}
 				
 				EditorGUILayout.EndHorizontal();
@@ -143,6 +153,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 					
 					for (var i = 0; i < data.Length; i++)
 					{
+						if (!ConditionsSoCache.GroupCriteriaLookup.ContainsKey(data[i])) continue;
 						DrawGroupedCriteria(i, ConditionsSoCache.GroupCriteriaLookup[data[i]], condition, window);
 					}
 				}
@@ -221,7 +232,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				/* ────────────────────────────────────────────────────────────────────────────────────────────────── */
 				EditorGUILayout.BeginHorizontal();
 				criteriaEntry.Fp("isExpanded").boolValue =
-					EditorGUILayout.Foldout(criteriaEntry.Fp("isExpanded").boolValue, new GUIContent(criteriaEntry.targetObject.GetType().Name.Replace("Criteria", string.Empty)));
+					EditorGUILayout.Foldout(criteriaEntry.Fp("isExpanded").boolValue, new GUIContent(criteriaEntry.targetObject.GetType().Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace()));
 				
 				
 				if (EditorApplication.isPlaying)
@@ -335,8 +346,26 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			// Header
 			/* ────────────────────────────────────────────────────────────────────────────────────────────────────── */
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField(conditionObject.Fp("criteriaList").GetIndex(groupIndex).Fpr("groupId").stringValue, EditorStyles.boldLabel);
+
+			var label = conditionObject.Fp("criteriaList").GetIndex(groupIndex).Fpr("groupId").stringValue;
 			
+			EditorGUILayout.LabelField(label, EditorStyles.boldLabel, GUILayout.Width(label.GUIWidth()));
+			EditorGUILayout.LabelField(conditionObject.Fp("criteriaList").GetIndex(groupIndex).Fpr("groupUuid").intValue.ToString(), EditorStyles.miniLabel);
+
+			if (GUILayout.Button("Edit Group Label", GUILayout.Width(110)))
+			{
+				UtilityEditorWindowGenericText.ValueChangedCtx.Clear();
+				UtilityEditorWindowGenericText.ValueChangedCtx.Add(AssignValueToProp);
+				UtilityEditorWindowGenericText.OpenAndAssignInfo("Change Criteria Group Label", "Assign a label for the criteria, this is not used in code in anyway, purely cosmetic.", conditionObject.Fp("criteriaList").GetIndex(groupIndex).Fpr("groupId").stringValue);
+				return;
+
+				void AssignValueToProp(string value)
+				{
+					conditionObject.Fp("criteriaList").GetIndex(groupIndex).Fpr("groupId").stringValue = value;
+					conditionObject.ApplyModifiedProperties();
+					conditionObject.Update();
+				}
+			}
 			
 			if (EditorApplication.isPlaying)
 			{
@@ -386,7 +415,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				
 				
 				criteriaEntry.Fp("isExpanded").boolValue =
-					EditorGUILayout.Foldout(criteriaEntry.Fp("isExpanded").boolValue, new GUIContent(criteriaEntry.targetObject.GetType().Name.Replace("Criteria", string.Empty)));
+					EditorGUILayout.Foldout(criteriaEntry.Fp("isExpanded").boolValue, new GUIContent(criteriaEntry.targetObject.GetType().Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace()));
 				
 				
 				if (EditorApplication.isPlaying)

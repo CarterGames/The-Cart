@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_GAMETICKER && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_CONDITIONS
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -16,7 +16,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -28,28 +28,28 @@ using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
-namespace CarterGames.Cart.Modules.GameTicks.Editor
+namespace CarterGames.Cart.Modules.Conditions.Editor
 {
-	public sealed class ScriptableRefGameTicker : IScriptableAssetDef<DataAssetSettingsGameTicker>
+	public sealed class AssetDefConditionsIndex : IScriptableAssetDef<ConditionsIndex>
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		private static DataAssetSettingsGameTicker cache;
+		private static ConditionsIndex cache;
 		private static SerializedObject objCache;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   IScriptableAssetDef Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		public Type AssetType => typeof(DataAssetSettingsGameTicker);
-		public string DataAssetFileName => "[Cart] [GameTicker] Settings Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetSettingsGameTicker).FullName} name={DataAssetFileName}";
+		public Type AssetType => typeof(ConditionsIndex);
+		public string DataAssetFileName => "[Cart] [Conditions] Conditions Index.asset";
+		public string DataAssetFilter => $"t:{typeof(ConditionsIndex).FullName} name={DataAssetFileName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
 
 
-		public DataAssetSettingsGameTicker AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+		public ConditionsIndex AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
 		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
 
 
@@ -57,6 +57,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
+		
 		
 		/// <summary>
 		/// Runs when the asset is created.

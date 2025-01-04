@@ -24,6 +24,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
@@ -40,6 +41,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 		[SerializeField] private string languageCode;
 		[SerializeField] private string copy;
+		[SerializeField] private AudioClip clip;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Constructors
@@ -59,6 +61,20 @@ namespace CarterGames.Cart.Modules.Localization
 			this.languageCode = languageCode;
 			this.copy = copy;
 		}
+		
+		
+		/// <summary>
+		/// Creates a new entry when called with the requested values.
+		/// </summary>
+		/// <remarks>Used in Notion Data module.</remarks>
+		/// <param name="languageCode">The language code to set.</param>
+		/// <param name="copy">The copy to set.</param>
+		public LocalizationEntry(string languageCode, string copy, AudioClip clip)
+		{
+			this.languageCode = languageCode;
+			this.copy = copy;
+			this.clip = clip;
+		}
 #endif
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -75,6 +91,18 @@ namespace CarterGames.Cart.Modules.Localization
 		/// The copy for the language.
 		/// </summary>
 		public string Copy => copy;
+
+
+		/// <summary>
+		/// Gets if there is audio for the clip.
+		/// </summary>
+		public bool HasAudio => clip.IsMissingOrNull();
+
+
+		/// <summary>
+		/// Gets the audio for the clip is assigned.
+		/// </summary>
+		public AudioClip AudioClip => clip;
 	}
 }
 

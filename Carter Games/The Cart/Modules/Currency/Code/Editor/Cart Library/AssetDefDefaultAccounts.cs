@@ -30,7 +30,7 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Currency.Editor
 {
-    public class ScriptableRefDefaultAccounts : IScriptableAssetDef<DataAssetDefaultAccounts>
+    public class AssetDefDefaultAccounts : IScriptableAssetDef<DataAssetDefaultAccounts>
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields

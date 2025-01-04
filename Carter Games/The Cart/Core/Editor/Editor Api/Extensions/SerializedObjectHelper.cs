@@ -21,10 +21,9 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Core.Editor
 {
@@ -53,7 +52,7 @@ namespace CarterGames.Cart.Core.Editor
         }
 
         
-        public static void AddToObject(this SerializedObject target, UnityEngine.Object toAdd, SerializedProperty listProperty)
+        public static void AddToObject(this SerializedObject target, Object toAdd, SerializedProperty listProperty)
         {
             AssetDatabase.AddObjectToAsset(toAdd, target.targetObject);
 			
@@ -67,10 +66,23 @@ namespace CarterGames.Cart.Core.Editor
         }
 
 
-        public static void RemoveFromObject(UnityEngine.Object toRemove, SerializedProperty listProperty)
+        public static void RemoveFromObject(Object toRemove, SerializedProperty listProperty)
         {
-            var index = listProperty.GetIndexOf(toRemove);
-            listProperty.DeleteAndRemoveIndex(index);
+            var listClone = new List<Object>();
+            
+            for (var i = 0; i < listProperty.arraySize; i++)
+            {
+                if (listProperty.GetIndex(i).objectReferenceValue == toRemove) continue;
+                listClone.Add(listProperty.GetIndex(i).objectReferenceValue);
+            }
+            
+            listProperty.ClearArray();
+
+            for (var i = 0; i < listClone.Count; i++)
+            {
+                listProperty.InsertIndex(listProperty.arraySize);
+                listProperty.GetIndex(listProperty.arraySize - 1).objectReferenceValue = listClone[i];
+            }
 			
             listProperty.serializedObject.ApplyModifiedProperties();
             listProperty.serializedObject.Update();

@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
@@ -41,11 +40,18 @@ namespace CarterGames.Cart.Modules.Conditions
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
+#if UNITY_EDITOR
 		[SerializeField, HideInInspector] private bool isExpanded;
+#pragma warning disable
+		// ignore def value warning on editor only bit.
+		[SerializeField, HideInInspector] private int groupsMade = 1;
+#pragma warning restore
+#endif
 		
-		[SerializeField] private string id = Guid.NewGuid().ToString();
+		[SerializeField] private string id;
 		[SerializeField] private List<Criteria> baseAndGroup;
 		[SerializeField] private List<CriteriaGroup> criteriaList;
+		
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
@@ -72,11 +78,11 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// Raises when the condition is changed.
 		/// </summary>
 		public readonly Evt StateChanged = new Evt();
-
+		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Initializes the condition when called.
 		/// </summary>

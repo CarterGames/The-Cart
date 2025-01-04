@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Linq;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
@@ -41,7 +40,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			list.InsertIndex(list.arraySize);
 			
 			var condition = ScriptableObject.CreateInstance<Condition>();
-			condition.name = $"{condition.GetType().Name}_{Guid.NewGuid()}";
+			condition.name = $"{condition.GetType().Name}_{condition.VariantId}";
 			
 			var path = ScriptableRef.GetAssetDef<ConditionsIndex>().DataAssetPath.Replace(ScriptableRef.GetAssetDef<ConditionsIndex>().DataAssetPath.Split('/').Last(), string.Empty) + "Conditions/";
 
@@ -54,9 +53,15 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			
 			list.GetIndex(list.arraySize - 1).Fpr("key").stringValue = condition.VariantId;
 			list.GetIndex(list.arraySize - 1).Fpr("value").objectReferenceValue = condition;
+
+			var conditionObj = new SerializedObject(condition);
+			
+			conditionObj.Fp("id").stringValue = condition.VariantId;
+			conditionObj.ApplyModifiedProperties();
+			conditionObj.Update();
+			
 			list.serializedObject.ApplyModifiedProperties();
 			list.serializedObject.Update();
-			//
 			
 			AssetDatabase.SaveAssets();
 		}
@@ -71,12 +76,14 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			target.Fp("criteriaList").InsertIndex(target.Fp("criteriaList").arraySize);
 			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("criteria").InsertIndex(0);
 			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("groupCheckType").intValue = 1;
-			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("groupId").stringValue = $"Group {target.Fp("criteriaList").arraySize}";
+			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("groupId").stringValue = $"Group {target.Fp("groupsMade").intValue}";
+			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("groupUuid").intValue = target.Fp("groupsMade").intValue;
+			target.Fp("groupsMade").intValue++;
 			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("criteria").ClearArray();
 			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("criteria").InsertIndex(0);
 			target.Fp("criteriaList").GetIndex(target.Fp("criteriaList").arraySize - 1).Fpr("criteria").GetIndex(0).objectReferenceValue = toAdd;
 			
-							
+			
 			if (lastGroup != null)
 			{
 				lastGroup.DeleteAndRemoveIndex(lastGroup.GetIndexOf(toAdd));
@@ -91,17 +98,18 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 		{
 			// Add to existing group.
 			var lastGroup = GetCurrentGroupProperty(target, toAdd);
+			var lastGroupBase = GetCurrentGroupProperty(target, toAdd, false);
 							
 			target.Fp("baseAndGroup").InsertIndex(target.Fp("baseAndGroup").arraySize);
 			target.Fp("baseAndGroup").GetIndex(target.Fp("baseAndGroup").arraySize - 1).objectReferenceValue = toAdd;
 			
 			if (lastGroup != null)
-			{
-				lastGroup.Fpr("criteria").DeleteAndRemoveIndex(lastGroup.Fpr("criteria").GetIndexOf(toAdd));
+			{ 
+				lastGroup.DeleteAndRemoveIndex(lastGroup.GetIndexOf(toAdd));
 				
-				if (lastGroup.Fpr("criteria").arraySize <= 0)
+				if (lastGroup.arraySize <= 0)
 				{
-					target.Fp("criteriaList").DeleteAndRemoveIndex(GetGroupIndex(target, lastGroup));
+					target.Fp("criteriaList").DeleteAndRemoveIndex(GetGroupIndex(target, lastGroupBase));
 				}
 			}
 							
@@ -131,7 +139,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 		}
 		
 
-		private static SerializedProperty GetCurrentGroupProperty(SerializedObject target, Object toFind)
+		private static SerializedProperty GetCurrentGroupProperty(SerializedObject target, Object toFind, bool getGroupCriteriaProp = true)
 		{
 			if (target.Fp("baseAndGroup").Contains(toFind))
 			{
@@ -142,7 +150,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			{
 				var group = target.Fp("criteriaList").GetIndex(i);
 
-				if (group.Fpr("criteria").Contains(toFind)) return group;
+				if (group.Fpr("criteria").Contains(toFind)) return getGroupCriteriaProp ? group.Fpr("criteria") : group; 
 			}
 
 			return null;

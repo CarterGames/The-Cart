@@ -24,6 +24,7 @@
  */
 
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Modules.Currency.Attributes;
 using TMPro;
 using UnityEngine;
 
@@ -39,7 +40,7 @@ namespace CarterGames.Cart.Modules.Currency
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] private string accountId;
+        [SerializeField, SelectAccount] private string accountId;
         [SerializeField] private TMP_Text label;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

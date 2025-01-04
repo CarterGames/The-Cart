@@ -42,6 +42,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		
 		[SerializeField] private CriteriaGroupCheckType groupCheckType = CriteriaGroupCheckType.And;
 		[SerializeField] private string groupId;
+		[SerializeField] private int groupUuid;
 		[SerializeField] private List<Criteria> criteria;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -29,20 +29,32 @@ using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
-using UnityEditor.Compilation;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Conditions
 {
+	/// <summary>
+	/// Handles generating the constants class for conditions.
+	/// </summary>
 	public static class ConditionsConstantGenerator
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Fields
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
 		private static TextWriter fileWriter;
 
 		private const string ConstantClassPath =
 			"Assets/Plugins/Carter Games/The Cart/Data/Modules/Conditions/Contants/";
 
-
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Methods
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Generates the constants class when called.
+		/// </summary>
+		/// <param name="conditions">The conditions to pass in as constants.</param>
 		public static void Generate(IEnumerable<Condition> conditions)
 		{
 			var classInstance = AssetDatabase.FindAssets($"t:Script ConditionIds");
@@ -110,7 +122,10 @@ namespace CarterGames.Cart.Modules.Conditions
 			AssetDatabase.Refresh();
 		}
 
-
+		
+		/// <summary>
+		/// Re-calls to generate the class if after the editor delay call is passed should it be needed.
+		/// </summary>
 		private static void InternalGenerateConstantClassRecall()
 		{
 			EditorApplication.delayCall -= InternalGenerateConstantClassRecall;

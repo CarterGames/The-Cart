@@ -21,6 +21,9 @@
  * THE SOFTWARE.
  */
 
+using System.Linq;
+using System.Text.RegularExpressions;
+
 namespace CarterGames.Cart.Core
 {
     /// <summary>
@@ -46,6 +49,18 @@ namespace CarterGames.Cart.Core
         public static string TrimSpaces(this string entry)
         {
             return entry.Replace(Space, string.Empty);
+        }
+
+
+        public static string SplitCapitalsWithSpace(this string value)
+        {
+            return SplitCamelCase(value);
+        }
+
+        
+        private static string SplitCamelCase(this string input, string delimeter = Space)
+        {
+            return input.Any(char.IsUpper) ? string.Join(delimeter, Regex.Split(input, "(?<!^)(?=[A-Z])")) : input;
         }
     }
 }

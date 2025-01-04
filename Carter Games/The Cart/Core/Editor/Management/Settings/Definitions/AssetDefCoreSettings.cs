@@ -22,17 +22,34 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Management;
+using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Modules.Settings;
+using UnityEditor;
 
-namespace CarterGames.Cart.Core
+namespace CarterGames.Cart.Core.Editor
 {
-	/// <summary>
-	/// A flags enum of the different ways to compare a value for.
-	/// </summary>
-	[Flags]
-	public enum ComparisonType
+	public class AssetDefCoreSettings : IScriptableAssetDef<DataAssetCoreRuntimeSettings>
 	{
-		LessThan = 2,
-		Equals = 4,
-		GreaterThan = 8,
+		private static DataAssetCoreRuntimeSettings cache;
+		private static SerializedObject objCache;
+
+		public Type AssetType => typeof(DataAssetCoreRuntimeSettings);
+		public string DataAssetFileName => "[Cart] Core Runtime Settings.asset";
+		public string DataAssetFilter => $"t:{typeof(DataAssetCoreRuntimeSettings).FullName} name={DataAssetFileName}";
+		public string DataAssetPath => $"{ScriptableRef.FullPathData}/{DataAssetFileName}";
+
+		public DataAssetCoreRuntimeSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
+		
+		public void TryCreate()
+		{
+			ScriptableRef.GetOrCreateAsset(this, ref cache);
+		}
+		
+		/// <summary>
+		/// Runs when the asset is created.
+		/// </summary>
+		public void OnCreated() { }
 	}
 }

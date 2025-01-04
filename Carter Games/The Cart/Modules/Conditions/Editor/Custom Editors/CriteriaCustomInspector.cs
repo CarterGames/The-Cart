@@ -30,7 +30,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.Conditions.Editor
 {
 	[CustomEditor(typeof(Criteria), true)]
-	public class CriteriaCustomInspector : CustomInspector
+	public sealed class CriteriaCustomInspector : CustomInspector
 	{
 		protected override void DrawInspectorGUI()
 		{

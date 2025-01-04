@@ -21,8 +21,12 @@
  * THE SOFTWARE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Core.Editor
 {
@@ -71,10 +75,25 @@ namespace CarterGames.Cart.Core.Editor
         /// <param name="index">The index.</param>
         public static void DeleteAndRemoveIndex(this SerializedProperty property, int index)
         {
+            if (property == null) return;
+            
+            var arraySize = property.arraySize.ToString();  // Done so the value is a copy, not a reference.
             property.DeleteArrayElementAtIndex(index);
 
-            if (property.arraySize <= 0) return;
-            property.DeleteArrayElementAtIndex(index);
+            // Hacky solution as 1 remove will remove a reference, but not an index if in an array etc.
+            try
+            {
+                if (int.Parse(arraySize) == property.arraySize)
+                {
+                    property.DeleteArrayElementAtIndex(index);
+                }
+            }
+#pragma warning disable
+            catch (Exception e)
+#pragma warning restore
+            {
+                // Do nothing... Should all be good xD
+            }
         }
         
         

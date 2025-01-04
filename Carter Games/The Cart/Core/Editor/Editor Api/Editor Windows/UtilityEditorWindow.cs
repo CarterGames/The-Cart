@@ -45,7 +45,18 @@ namespace CarterGames.Cart.Core.Editor
 		/// Gets if the window is currently open.
 		/// </summary>
 		public static bool IsOpen => window != null;
-		
+
+
+
+		public static bool IsFocusedOn
+		{
+			get
+			{
+				if (window == null) return false;
+				return window.hasFocus;
+			}
+		}
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
