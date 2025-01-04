@@ -1,5 +1,6 @@
-﻿using CarterGames.Cart.Core.Editor;
-using CarterGames.Cart.Modules.Currency.Attributes;
+﻿#if CARTERGAMES_CART_MODULE_CURRENCY
+
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Currency.Editor
@@ -28,3 +29,5 @@ namespace CarterGames.Cart.Modules.Currency.Editor
         }
     }
 }
+
+#endif

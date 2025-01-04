@@ -1,7 +1,9 @@
-﻿using System;
+﻿#if CARTERGAMES_CART_MODULE_CURRENCY
+
+using System;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Currency.Attributes
+namespace CarterGames.Cart.Modules.Currency
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class SelectAccountAttribute : PropertyAttribute
@@ -9,3 +11,5 @@ namespace CarterGames.Cart.Modules.Currency.Attributes
         public SelectAccountAttribute() {}
     }
 }
+
+#endif

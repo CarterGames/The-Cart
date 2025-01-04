@@ -24,7 +24,6 @@
  */
 
 using CarterGames.Cart.Core;
-using CarterGames.Cart.Modules.Currency.Attributes;
 using TMPro;
 using UnityEngine;
 
