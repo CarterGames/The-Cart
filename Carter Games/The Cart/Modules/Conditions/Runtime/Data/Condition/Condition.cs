@@ -23,10 +23,13 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Core.Reflection;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Conditions

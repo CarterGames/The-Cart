@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Modules.DataValues.Events;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace CarterGames.Cart.Modules.Conditions
 
 		[FormerlySerializedAs("dataValue")] [SerializeField] private DataValueEventBase customEditorDataValue;
 
-		private bool hasRaised;
+		[NonSerialized] private bool hasRaised;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties

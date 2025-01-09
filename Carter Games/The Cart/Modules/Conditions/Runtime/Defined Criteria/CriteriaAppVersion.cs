@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Management;
@@ -42,8 +43,8 @@ namespace CarterGames.Cart.Modules.Conditions
 		[SerializeField] private NumericalComparisonType comparisonType;
 		[SerializeField] private VersionNumber version;
 
-		private VersionNumber cachedAppVersionNumber;
-		private bool isValid;
+		[NonSerialized] private VersionNumber cachedAppVersionNumber;
+		[NonSerialized] private bool isValid;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties

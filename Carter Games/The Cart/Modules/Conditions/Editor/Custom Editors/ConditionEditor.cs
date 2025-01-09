@@ -416,18 +416,18 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				
 				criteriaEntry.Fp("isExpanded").boolValue =
 					EditorGUILayout.Foldout(criteriaEntry.Fp("isExpanded").boolValue, new GUIContent(criteriaEntry.targetObject.GetType().Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace()));
-				
-				
+
+
 				if (EditorApplication.isPlaying)
 				{
 					var isValid = typeof(Criteria)
-						.GetProperty("Valid", BindingFlags.Public | BindingFlags.Instance)
+						.GetProperty("Valid", BindingFlags.NonPublic | BindingFlags.Instance)
 						!.GetValue(criteriaEntry.targetObject);
-					
+
 					EditorGUILayout.Toggle((bool) isValid, GUILayout.Width(15));
 				}
-				
-				
+
+
 				GUI.backgroundColor = Color.cyan;
 				if (GUILayout.Button("Change Group", GUILayout.Width(100)))
 				{

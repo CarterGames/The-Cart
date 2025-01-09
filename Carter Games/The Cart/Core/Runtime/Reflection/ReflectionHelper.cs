@@ -22,7 +22,10 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.Reflection
 {
@@ -46,6 +49,36 @@ namespace CarterGames.Cart.Core.Reflection
                 (isStatic != null && isStatic.Value ? BindingFlags.Static : BindingFlags.Instance);
 
             return type.GetField(fieldName, flags);
+        }
+
+
+        public static FieldInfo[] GetFieldsWithAttribute<T>(Type type, BindingFlags bindingFlags) where T : Attribute
+        {
+            var fields = type.GetFields(bindingFlags);
+            var filedInfos = new List<FieldInfo>();
+
+            foreach (var f in fields)
+            {
+                if (f.GetCustomAttribute(attributeType: typeof(T)) == null) continue;
+                filedInfos.Add(f);
+            }
+
+            return filedInfos.ToArray();
+        }
+        
+        
+        public static FieldInfo[] GetFieldsWithoutAttribute<T>(Type type, BindingFlags bindingFlags) where T : Attribute
+        {
+            var fields = type.GetFields(bindingFlags);
+            var filedInfos = new List<FieldInfo>();
+
+            foreach (var f in fields)
+            {
+                if (f.GetCustomAttribute(attributeType: typeof(T)) != null) continue;
+                filedInfos.Add(f);
+            }
+
+            return filedInfos.ToArray();
         }
         
         

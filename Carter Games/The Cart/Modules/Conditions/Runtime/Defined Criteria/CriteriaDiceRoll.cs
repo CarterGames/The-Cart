@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		[SerializeField] private int numberOfSides;
 		[SerializeField] private IntRange validBounds;
 
-		private bool rolledSuccess;
+		[NonSerialized] private bool rolledSuccess;
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
@@ -55,9 +56,13 @@ namespace CarterGames.Cart.Modules.Conditions
 		
 		public override void OnInitialize(Evt stateChanged)
 		{
+			Debug.Log(rolledSuccess);
+			
 			var roll = Dice.Dice.Custom(numberOfSides);
 			rolledSuccess = roll >= validBounds.min && roll <= validBounds.max;
 			stateChanged.Raise();
+			
+			Debug.Log($"RESULT: {rolledSuccess}");
 		}
 	}
 }

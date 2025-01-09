@@ -54,6 +54,26 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 		{
 			GUILayout.Space(5f);
 
+			if (!CriteriaValidation.AllCriteriaValid())
+			{
+				var typesString = "";
+
+				for (var i = 0; i < CriteriaValidation.InvalidTypes.Count; i++)
+				{
+					typesString += "- ";
+					typesString += CriteriaValidation.InvalidTypes[i].ToString();
+
+					if (i == CriteriaValidation.InvalidTypes.Count - 1) continue;
+					typesString += "\n";
+				}
+				
+				EditorGUILayout.HelpBox(
+					"A criteria class has non-serialized fields that are not attributed with [NonSerialized].\nConditions are disabled until this is corrected:\n" + typesString,
+					MessageType.Error);
+			}
+			
+			EditorGUI.BeginDisabledGroup(!CriteriaValidation.AllCriteriaValid());
+			
 			EditorGUILayout.BeginHorizontal();
 			GUI.backgroundColor = Color.green;
 			if (GUILayout.Button("+ New Condition", GUILayout.Height(22.5f)))
@@ -103,6 +123,8 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			EditorGUILayout.Space(1.5f);
 			EditorGUILayout.EndVertical();
 			EditorGUILayout.EndScrollView();
+			
+			EditorGUI.EndDisabledGroup();
 		}
 	}
 }
