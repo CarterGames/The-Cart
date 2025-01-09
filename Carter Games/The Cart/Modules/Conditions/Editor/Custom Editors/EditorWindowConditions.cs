@@ -85,7 +85,10 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			
 			if (GUILayout.Button("Update Id's Constant Class", GUILayout.Width(200f), GUILayout.Height(22.5f)))
 			{
-				ConditionsConstantGenerator.Generate(AssetDatabaseHelper.GetAllInstancesInProject<Condition>());
+				if (Dialogue.Display("Condition Id Generation", "Are you sure you want to update the ConditionsIds class.", "Generate", "Cancel"))
+				{
+					ConditionsConstantGenerator.Generate(AssetDatabaseHelper.GetAllInstancesInProject<Condition>());
+				}
 			}
 			EditorGUILayout.EndHorizontal();
 

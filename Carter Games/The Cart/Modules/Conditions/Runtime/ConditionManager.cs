@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Core.Logs;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Conditions
@@ -50,6 +51,18 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// Gets if the system is initialized or not.
 		/// </summary>
 		public static bool IsInitialized { get; private set; }
+
+
+		/// <summary>
+		/// Gets if conditions can be used or not. Is disabled if a criteria class is not setup property.
+		/// </summary>
+		private static bool CanEnableSystem
+		{
+			get
+			{
+				return CriteriaValidation.AllCriteriaValid();
+			}
+		}
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Events
@@ -76,6 +89,12 @@ namespace CarterGames.Cart.Modules.Conditions
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		private static void Initialize()
 		{
+			if (!CanEnableSystem)
+			{
+				CartLogger.LogWarning<LogCategoryModules>("Cannot initialize conditions as the system is not setup correctly in the editor.", typeof(ConditionManager));
+				return;
+			}
+			
 			if (IsInitialized) return;
 
 			conditions = DataAccess.GetAsset<ConditionsIndex>().Lookup;
@@ -101,6 +120,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <param name="action">The action to run on the condition being valid.</param>
 		public static void RegisterListener(string conditionId, Action action)
 		{
+			if (!IsInitialized) return;
 			conditions[conditionId].StateChanged.Add(action);
 		}
 		
@@ -112,6 +132,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <param name="action">The action to run on the condition being valid.</param>
 		public static void UnregisterListener(string conditionId, Action action)
 		{
+			if (!IsInitialized) return;
 			conditions[conditionId].StateChanged.Remove(action);
 		}
 
@@ -123,6 +144,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <returns>If the entered condition id is valid or not.</returns>
 		public static bool IsValid(string conditionId)
 		{
+			if (!IsInitialized) return false;
 			return conditions[conditionId].IsValid;
 		}
 
@@ -133,6 +155,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <param name="conditionId">The condition id to clear.</param>
 		public static void ClearAllListeners(string conditionId)
 		{
+			if (!IsInitialized) return;
 			conditions[conditionId].StateChanged.Clear();
 		}
 	}

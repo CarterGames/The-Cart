@@ -56,13 +56,9 @@ namespace CarterGames.Cart.Modules.Conditions
 		
 		public override void OnInitialize(Evt stateChanged)
 		{
-			Debug.Log(rolledSuccess);
-			
 			var roll = Dice.Dice.Custom(numberOfSides);
 			rolledSuccess = roll >= validBounds.min && roll <= validBounds.max;
 			stateChanged.Raise();
-			
-			Debug.Log($"RESULT: {rolledSuccess}");
 		}
 	}
 }

@@ -31,7 +31,7 @@ using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Reflection;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Conditions.Editor
+namespace CarterGames.Cart.Modules.Conditions
 {
     public static class CriteriaValidation
     {

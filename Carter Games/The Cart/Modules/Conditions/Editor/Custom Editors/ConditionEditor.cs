@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			
 			EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying);
 			
-			if (EditorApplication.isPlaying)
+			if (EditorApplication.isPlaying && ConditionManager.IsInitialized)
 			{
 				var isValid = typeof(Condition)
 					.GetProperty("IsValid", BindingFlags.Public | BindingFlags.Instance)
@@ -235,7 +235,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 					EditorGUILayout.Foldout(criteriaEntry.Fp("isExpanded").boolValue, new GUIContent(criteriaEntry.targetObject.GetType().Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace()));
 				
 				
-				if (EditorApplication.isPlaying)
+				if (EditorApplication.isPlaying && ConditionManager.IsInitialized)
 				{
 					var isValid = typeof(Criteria)
 						.GetProperty("IsCriteriaValid", BindingFlags.Public | BindingFlags.Instance)
@@ -367,7 +367,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				}
 			}
 			
-			if (EditorApplication.isPlaying)
+			if (EditorApplication.isPlaying && ConditionManager.IsInitialized)
 			{
 				var value = (List<CriteriaGroup>) (typeof(Condition)
 					.GetField("criteriaList", BindingFlags.NonPublic | BindingFlags.Instance)
@@ -418,7 +418,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 					EditorGUILayout.Foldout(criteriaEntry.Fp("isExpanded").boolValue, new GUIContent(criteriaEntry.targetObject.GetType().Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace()));
 
 
-				if (EditorApplication.isPlaying)
+				if (EditorApplication.isPlaying && ConditionManager.IsInitialized)
 				{
 					var isValid = typeof(Criteria)
 						.GetProperty("Valid", BindingFlags.NonPublic | BindingFlags.Instance)
