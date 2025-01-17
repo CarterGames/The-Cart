@@ -37,9 +37,9 @@ namespace CarterGames.Cart.Modules.Localization.Editor
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        protected override bool HasValue => !string.IsNullOrEmpty(TargetProperty.Fpr("name").stringValue);
         protected override Language CurrentValue => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
             t.DisplayName.Equals(TargetProperty.Fpr("name").stringValue));
-
         protected override SearchProviderLanguages Provider => SearchProviderLanguages.GetProvider();
         protected override SerializedProperty EditDisplayProperty => TargetProperty.Fpr("name");
         protected override string InitialSelectButtonLabel => "Select Language";
@@ -60,6 +60,16 @@ namespace CarterGames.Cart.Modules.Localization.Editor
             TargetProperty.Fpr("name").stringValue = selectedEntry.DisplayName;
             TargetProperty.Fpr("code").stringValue = selectedEntry.Code;
 
+            TargetProperty.serializedObject.ApplyModifiedProperties();
+            TargetProperty.serializedObject.Update();
+        }
+        
+        
+        protected override void ClearValue()
+        {
+            TargetProperty.Fpr("name").stringValue = string.Empty;
+            TargetProperty.Fpr("code").stringValue = string.Empty;
+            
             TargetProperty.serializedObject.ApplyModifiedProperties();
             TargetProperty.serializedObject.Update();
         }

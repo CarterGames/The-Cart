@@ -40,13 +40,14 @@ namespace CarterGames.Cart.Modules.Localization
 
 		[SerializeField] private List<Language> languages = new List<Language>()
 		{
-			new Language("English (GB)", "gb"),
-			new Language("French (FR)", "fr"),
-			new Language("German (DE)", "de"),
-			new Language("Spanish (ES)", "es"),
-			new Language("Italian (IT)", "it"),
-			new Language("Chinese (CN)", "cn"),
-			new Language("Japanese (JP)", "jp"),
+			new Language("English (en-GB)", "en-GB"),
+			new Language("English (en-US)", "en-US"),
+			new Language("French (fr-FR)", "fr-FR"),
+			new Language("German (de-DE)", "de-DE"),
+			new Language("Spanish (es-ES)", "es-ES"),
+			new Language("Italian (it-IT)", "it-IT"),
+			new Language("Chinese Simplified (zh-CN)", "zh-CN"),
+			new Language("Japanese (ja-JP)", "ja-JP"),
 		};
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

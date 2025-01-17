@@ -29,7 +29,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.Localization
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public sealed class LanguageSelectableAttribute : PropertyAttribute { }
+    public sealed class LocalizationIdAttribute : PropertyAttribute { }
 }
 
 #endif

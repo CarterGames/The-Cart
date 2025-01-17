@@ -43,10 +43,7 @@ namespace CarterGames.Cart.Modules.Conditions
         
         public static bool AllCriteriaValid()
         {
-            if (HasResult)
-            {
-                return Result;
-            }
+            if (HasResult) return Result;
             
             if (InvalidTypes == null)
             {

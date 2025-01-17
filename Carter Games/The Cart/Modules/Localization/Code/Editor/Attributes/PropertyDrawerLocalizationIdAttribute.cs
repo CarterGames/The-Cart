@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_CURRENCY
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -16,7 +16,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -26,25 +26,25 @@
 using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 
-namespace CarterGames.Cart.Modules.Currency.Editor
+namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    [CustomPropertyDrawer(typeof(SelectAccountAttribute))]
-    public class PropertyDrawerSelectAccountAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderAccounts, string>
+    [CustomPropertyDrawer(typeof(LocalizationIdAttribute))]
+    public class PropertyDrawerLocalizationIdAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderLocalizationIds, string>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         protected override bool HasValue => !string.IsNullOrEmpty(CurrentValue);
         protected override string CurrentValue => TargetProperty.stringValue;
-        protected override SearchProviderAccounts Provider => SearchProviderAccounts.GetProvider();
+        protected override SearchProviderLocalizationIds Provider => SearchProviderLocalizationIds.GetProvider();
         protected override SerializedProperty EditDisplayProperty => TargetProperty;
-        protected override string InitialSelectButtonLabel => "Select Account";
+        protected override string InitialSelectButtonLabel => "Select Localization Id";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         protected override bool IsValid(SerializedProperty property)
         {
             return !string.IsNullOrEmpty(property.stringValue);
@@ -54,11 +54,11 @@ namespace CarterGames.Cart.Modules.Currency.Editor
         protected override void OnSelectionMade(string selectedEntry)
         {
             TargetProperty.stringValue = selectedEntry;
-
+            
             TargetProperty.serializedObject.ApplyModifiedProperties();
             TargetProperty.serializedObject.Update();
         }
-        
+
         
         protected override void ClearValue()
         {

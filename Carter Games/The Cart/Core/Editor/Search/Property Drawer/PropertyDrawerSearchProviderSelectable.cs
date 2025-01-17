@@ -38,6 +38,7 @@ namespace CarterGames.Cart.Core.Editor
         |   Abstract Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        protected abstract bool HasValue { get; }
         protected abstract TSearchType CurrentValue { get; }
         protected abstract TProviderType Provider { get; }
         protected abstract SerializedProperty EditDisplayProperty { get; }
@@ -49,6 +50,7 @@ namespace CarterGames.Cart.Core.Editor
         
         protected abstract bool IsValid(SerializedProperty property);
         protected abstract void OnSelectionMade(TSearchType selectedEntry);
+        protected abstract void ClearValue();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -116,22 +118,51 @@ namespace CarterGames.Cart.Core.Editor
             EditorGUI.BeginDisabledGroup(true);
                 
             var pos = new Rect(position);
-            pos.width = (pos.width / 8) * 7;
+            pos.width = (pos.width / 20) * 17;
                 
             EditorGUI.PropertyField(pos, EditDisplayProperty, label);
             EditorGUI.EndDisabledGroup();
-
-            var buttonPos = new Rect(position);
-            buttonPos.width = (position.width / 8) - 2.5f;
-            buttonPos.x += ((position.width / 8) * 7) + 2.5f;
-				
-            GUI.backgroundColor = Color.yellow;
-            if (GUI.Button(buttonPos, "Edit"))
+            
+            if (HasValue)
             {
-                Provider.SelectionMade.Add(OnSearchSelectionMade);
-                Provider.Open(CurrentValue);
+                var buttonPos = new Rect(position);
+                buttonPos.width = (position.width / 20 * 2) - 2.5f;
+                buttonPos.x += ((position.width / 20) * 17) + 2.5f;
+                
+                GUI.backgroundColor = Color.yellow;
+                if (GUI.Button(buttonPos, "Edit"))
+                {
+                    Provider.SelectionMade.Add(OnSearchSelectionMade);
+                    Provider.Open(CurrentValue);
+                }
+                GUI.backgroundColor = Color.white;
+           
+            
+                var clearPos = new Rect(position);
+                clearPos.width = (position.width / 20) - 2.5f;
+                clearPos.x = buttonPos.x + buttonPos.width + 2.5f;
+            
+                GUI.backgroundColor = Color.red;
+                if (GUI.Button(clearPos, "X"))
+                {
+                    ClearValue();
+                }
+                GUI.backgroundColor = Color.white;
             }
-            GUI.backgroundColor = Color.white;
+            else
+            {
+                var buttonPos = new Rect(position);
+                buttonPos.width = (position.width / 20 * 2) - 2.5f;
+                buttonPos.x += ((position.width / 20) * 18) + 2.5f;
+                
+                GUI.backgroundColor = Color.yellow;
+                if (GUI.Button(buttonPos, "Edit"))
+                {
+                    Provider.SelectionMade.Add(OnSearchSelectionMade);
+                    Provider.Open(CurrentValue);
+                }
+                GUI.backgroundColor = Color.white;
+            }
         }
 
         
