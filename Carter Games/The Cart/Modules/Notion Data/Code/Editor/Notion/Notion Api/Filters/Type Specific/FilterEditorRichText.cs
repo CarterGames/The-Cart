@@ -60,11 +60,23 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 				GUILayout.Space(1f);
 				
 				EditorGUILayout.BeginHorizontal();
-				property.Fpr("option").Fpr("comparisonEnumIndex").intValue =
-					(int) (NotionFilterRichTextComparison) EditorGUILayout.EnumPopup(
-						(NotionFilterRichTextComparison) property.Fpr("option").Fpr("comparisonEnumIndex").intValue, GUILayout.Width(147.5f));
-				GUILayout.Space(1f);
-				EditorGUILayout.PropertyField(property.Fpr("option").Fpr("value"), GUIContent.none);
+
+				if (property.Fpr("option").Fpr("comparisonEnumIndex").intValue == 5 ||
+				    property.Fpr("option").Fpr("comparisonEnumIndex").intValue == 6)
+				{
+					property.Fpr("option").Fpr("comparisonEnumIndex").intValue =
+						(int) (NotionFilterRichTextComparison) EditorGUILayout.EnumPopup(
+							(NotionFilterRichTextComparison) property.Fpr("option").Fpr("comparisonEnumIndex").intValue);
+				}
+				else
+				{
+					property.Fpr("option").Fpr("comparisonEnumIndex").intValue =
+						(int) (NotionFilterRichTextComparison) EditorGUILayout.EnumPopup(
+							(NotionFilterRichTextComparison) property.Fpr("option").Fpr("comparisonEnumIndex").intValue, GUILayout.Width(147.5f));
+					GUILayout.Space(1f);
+					EditorGUILayout.PropertyField(property.Fpr("option").Fpr("value"), GUIContent.none);
+				}
+				
 				EditorGUILayout.EndHorizontal();
 			}
 			

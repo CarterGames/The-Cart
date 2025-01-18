@@ -40,7 +40,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		public override List<SearchGroup<NotionFilterOption>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<NotionFilterOption>>();
-			var options = AssemblyHelper.GetClassesOfType<NotionFilterOption>(false).Where(t => !ToExclude.Contains(t));
+			var options = AssemblyHelper.GetClassesOfType<NotionFilterOption>(false).Where(t => !ToExclude.Contains(t) && t.EditorTypeName != "Group");
 			var items = new List<SearchItem<NotionFilterOption>>();
 			
 			foreach (var entry in options)

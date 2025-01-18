@@ -48,13 +48,17 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             RenderNotionSettings();
             
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-            
             EditorGUILayout.Space(1.5f);
             GeneralUtilEditor.DrawHorizontalGUILine();
 
-            DrawPropertiesExcluding(serializedObject, "sortProperties", "filters");
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.PropertyField(serializedObject.Fp("m_Script"));
+            EditorGUI.EndDisabledGroup();
+
+            DrawPropertiesExcluding(serializedObject, "sortProperties", "filters", "m_Script");
+            
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
         }
         
 

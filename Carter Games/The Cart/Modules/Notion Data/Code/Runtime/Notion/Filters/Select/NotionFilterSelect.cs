@@ -65,7 +65,7 @@ namespace CarterGames.Cart.Modules.NotionData
 				data["property"] = propertyName;
 			}
 
-			if (Comparison != NotionFilerSelectComparison.IsEmpty ||
+			if (Comparison != NotionFilerSelectComparison.IsEmpty &&
 			    Comparison != NotionFilerSelectComparison.IsNotEmpty)
 			{
 				data["select"][FilterStringLookup[Comparison]] = value.ToString();
