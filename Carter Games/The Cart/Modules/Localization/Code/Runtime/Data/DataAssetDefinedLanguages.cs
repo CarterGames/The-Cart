@@ -39,6 +39,7 @@ namespace CarterGames.Cart.Modules.Localization
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 		[SerializeField] private List<Language> languages = new List<Language>()
+#if UNITY_EDITOR
 		{
 			new Language("English (en-GB)", "en-GB"),
 			new Language("English (en-US)", "en-US"),
@@ -49,6 +50,10 @@ namespace CarterGames.Cart.Modules.Localization
 			new Language("Chinese Simplified (zh-CN)", "zh-CN"),
 			new Language("Japanese (ja-JP)", "ja-JP"),
 		};
+#else
+;
+#endif
+
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
