@@ -34,11 +34,13 @@ namespace CarterGames.Cart.Modules.Localization
 	[CreateAssetMenu(fileName = "Notion Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Notion Data Asset Localized Text")]
 	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData>
 	{
+#if UNITY_EDITOR
 		/// <summary>
 		/// Overrides the standard Notion Database Parser to correctly parse the text into each language entry. 
 		/// </summary>
 		protected override INotionDatabaseProcessor<LocalizationData> DatabaseProcessor =>
 			new NotionDatabaseParserLocalization();
+#endif
 	}
 }
 
