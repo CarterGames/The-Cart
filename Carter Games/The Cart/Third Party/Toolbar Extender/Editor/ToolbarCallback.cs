@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 /*
  * Copyright (c) 2024 Carter Games
  *
@@ -159,3 +161,5 @@ namespace CarterGames.Cart.ThirdParty
 		}
 	}
 }
+
+#endif
