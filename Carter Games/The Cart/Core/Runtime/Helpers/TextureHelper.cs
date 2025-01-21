@@ -21,33 +21,36 @@
  * THE SOFTWARE.
  */
 
+using UnityEngine;
+
 namespace CarterGames.Cart.Core
 {
-    /// <summary>
-    /// Some extensions for object/UnityEngine.Object's 
-    /// </summary>
-    public static class ObjectExtensions
-    {
-        /// <summary>
-        /// Gets if the object reference is missing or null.
-        /// </summary>
-        /// <param name="obj">The reference to check.</param>
-        /// <returns>Bool</returns>
-        public static bool IsMissingOrNull(this UnityEngine.Object obj)
-        {
-            if (obj == null) return true;
-            return IsMissingOrNull((object) obj);
-        }
-        
-        
-        /// <summary>
-        /// Gets if the object reference is missing or null.
-        /// </summary>
-        /// <param name="obj">The reference to check.</param>
-        /// <returns>Bool</returns>
-        public static bool IsMissingOrNull(this object obj)
-        {
-            return obj.ToString() == "null";
-        }
-    }
+	/// <summary>
+	/// Some helpers for textures.
+	/// </summary>
+	public static class TextureHelper
+	{
+		/// <summary>
+		/// Creates a single color texture of the requested size & color.
+		/// </summary>
+		/// <param name="width">The width of the texture.</param>
+		/// <param name="height">The height of the texture.</param>
+		/// <param name="col">The color to set the texture to.</param>
+		/// <returns>The generated texture.</returns>
+		public static Texture2D SolidColorTexture2D(int width, int height, Color col)
+		{
+			var pix = new Color[width * height];
+
+			for (var i = 0; i < pix.Length; i++)
+			{
+				pix[i] = col;
+			}
+
+			var result = new Texture2D(width, height);
+			result.SetPixels(pix);
+			result.Apply();
+
+			return result;
+		}
+	}
 }

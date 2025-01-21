@@ -21,13 +21,15 @@
  * THE SOFTWARE.
  */
 
+using UnityEngine;
+
 namespace CarterGames.Cart.Core
 {
     /// <summary>
     /// Your standard singleton base class, with initialization on awake.
     /// </summary>
     /// <typeparam name="T">The type to implement as.</typeparam>
-    public abstract class SingletonCartBase<T> : CartBase
+    public abstract class SingletonCartBase<T> : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields

@@ -52,6 +52,13 @@ namespace CarterGames.Cart.Core.Reflection
         }
 
 
+        /// <summary>
+        /// Gets fields with particular attribute on a class type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="bindingFlags">Any specific binding flags to check.</param>
+        /// <typeparam name="T">The attribute type to find.</typeparam>
+        /// <returns>Any FieldInfo's that match the request.</returns>
         public static FieldInfo[] GetFieldsWithAttribute<T>(Type type, BindingFlags bindingFlags) where T : Attribute
         {
             var fields = type.GetFields(bindingFlags);
@@ -67,6 +74,13 @@ namespace CarterGames.Cart.Core.Reflection
         }
         
         
+        /// <summary>
+        /// Gets fields without particular attribute on a class type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="bindingFlags">Any specific binding flags to check.</param>
+        /// <typeparam name="T">The attribute type to find not on the fields.</typeparam>
+        /// <returns>Any FieldInfo's that match the request.</returns>
         public static FieldInfo[] GetFieldsWithoutAttribute<T>(Type type, BindingFlags bindingFlags) where T : Attribute
         {
             var fields = type.GetFields(bindingFlags);

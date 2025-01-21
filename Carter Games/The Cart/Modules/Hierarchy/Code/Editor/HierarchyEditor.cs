@@ -165,7 +165,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             var style = new GUIStyle();
             
             var hasSettings = gameObject.TryGetComponent<HierarchyHeaderSettings>(out var settings);
-            style.normal.background = TextureExtensions.SolidColorTexture2D(1,1, hasSettings ? settings.BackgroundColor : EditorSettingsHierarchy.HeaderBackgroundColor);
+            style.normal.background = TextureHelper.SolidColorTexture2D(1,1, hasSettings ? settings.BackgroundColor : EditorSettingsHierarchy.HeaderBackgroundColor);
 
             var textStyle = hasSettings ? settings.BoldLabel ? new GUIStyle(EditorStyles.boldLabel) : new GUIStyle() : new GUIStyle(EditorStyles.boldLabel);
 
@@ -198,7 +198,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             var style = new GUIStyle();
             var hasSettings = gameObject.TryGetComponent<HierarchySeparatorSettings>(out var settings);
             
-            style.normal.background = TextureExtensions.SolidColorTexture2D(1,1,hasSettings 
+            style.normal.background = TextureHelper.SolidColorTexture2D(1,1,hasSettings 
                 ? settings.BackgroundColor 
                 : EditorGUIUtility.isProSkin
                     ? new Color32(46, 46, 46, 255)

@@ -22,8 +22,9 @@
  */
 
 using System.Linq;
+using CarterGames.Cart.Core.Management;
 
-namespace CarterGames.Cart.Core.Management
+namespace CarterGames.Cart.Core
 {
     /// <summary>
     /// A helper class for interfaces.

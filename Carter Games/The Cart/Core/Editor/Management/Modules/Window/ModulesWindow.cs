@@ -102,7 +102,7 @@ namespace CarterGames.Cart.Modules.Window
             {
                 normal =
                 {
-                    background = TextureExtensions.SolidColorTexture2D(1, 1, new Color32(73, 73, 73, 255))
+                    background = TextureHelper.SolidColorTexture2D(1, 1, new Color32(73, 73, 73, 255))
                 }
             };
         }
