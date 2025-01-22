@@ -42,7 +42,7 @@ namespace CarterGames.Cart.Modules.NotionData
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 #if UNITY_EDITOR
-#pragma warning disable
+#pragma warning disable 0168
 	    [SerializeField, HideInInspector] private string linkToDatabase;
 	    [SerializeField, HideInInspector] private string databaseApiKey;
 	    [SerializeField] private NotionFilterContainer filters;

@@ -42,7 +42,7 @@ namespace CarterGames.Cart.Modules.Localization
             {
                 value = LocalizationManager.GetRawData(id);
             }
-#pragma warning disable
+#pragma warning disable 0168
             catch (Exception e)
             {
                 CartLogger.LogWarning<LogCategoryModules>($"Unable to wrap {id} as Localized text, make sure the id exists.");

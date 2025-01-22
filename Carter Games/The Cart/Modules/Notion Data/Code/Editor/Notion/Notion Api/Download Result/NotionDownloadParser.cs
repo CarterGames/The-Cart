@@ -137,7 +137,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             {
                 return DatabasePropertyParserLookup[type].GetJsonValue(element);
             }
-#pragma warning disable
+#pragma warning disable 0168
             catch (Exception e)
 #pragma warning restore
             {

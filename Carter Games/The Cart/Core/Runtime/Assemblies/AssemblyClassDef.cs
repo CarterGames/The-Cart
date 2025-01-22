@@ -114,7 +114,7 @@ namespace CarterGames.Cart.Core.Management
 				return AssemblyHelper.GetClassesOfType<T>(false).FirstOrDefault(t =>
 					t.GetType().Assembly.FullName == Assembly && t.GetType().FullName == Type);
 			}
-#pragma warning disable
+#pragma warning disable 0168
 			catch (Exception e)
 			{
 				CartLogger.LogError<LogCategoryCore>(

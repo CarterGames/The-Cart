@@ -45,7 +45,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		
 #if UNITY_EDITOR
 		[SerializeField, HideInInspector] private bool isExpanded;
-#pragma warning disable
+#pragma warning disable 0414
 		// ignore def value warning on editor only bit.
 		[SerializeField, HideInInspector] private int groupsMade = 1;
 #pragma warning restore

@@ -88,7 +88,7 @@ namespace CarterGames.Cart.Core.Editor
                     property.DeleteArrayElementAtIndex(index);
                 }
             }
-#pragma warning disable
+#pragma warning disable 0168
             catch (Exception e)
 #pragma warning restore
             {

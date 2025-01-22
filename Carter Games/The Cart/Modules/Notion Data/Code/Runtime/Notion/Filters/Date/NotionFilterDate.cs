@@ -79,9 +79,7 @@ namespace CarterGames.Cart.Modules.NotionData
 			}
 
 			// No reason for default as its impossible to hit.
-#pragma warning disable
 			switch (Comparison)
-#pragma warning restore
 			{
 				case NotionFilterDateComparison.IsEmpty:
 				case NotionFilterDateComparison.IsNotEmpty:
@@ -103,7 +101,8 @@ namespace CarterGames.Cart.Modules.NotionData
 				case NotionFilterDateComparison.After:
 				case NotionFilterDateComparison.Before:
 				case NotionFilterDateComparison.Equals:
-
+				default:
+					
 					data["date"][FilterStringLookup[Comparison]] = JsonUtility.FromJson<DateTime>(value).ToString("o", CultureInfo.InvariantCulture);
 					break;
 			}

@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core.Events;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -49,6 +50,12 @@ namespace CarterGames.Cart.Core.Editor
         /// A list of entries to exclude from the search.
         /// </summary>
         protected List<T> ToExclude { get; set; } = new List<T>();
+
+
+        /// <summary>
+        /// The width of the search provider window.
+        /// </summary>
+        private float WindowWidth { get; set; } = -1;
         
         
         /// <summary>
@@ -106,7 +113,14 @@ namespace CarterGames.Cart.Core.Editor
         {
             ToExclude.Clear();
             
-            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), this);
+            if (WindowWidth.Equals(-1))
+            {
+                WindowWidth = Mathf.Min(AdditionalEntries
+                    .Select(t => t.content.text.GUIWidth())
+                    .Max() + 35, 1000f);
+            }
+            
+            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), WindowWidth), this);
         }
         
         
@@ -123,7 +137,14 @@ namespace CarterGames.Cart.Core.Editor
                 ToExclude.Add(currentValue);
             }
             
-            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), this);
+            if (WindowWidth.Equals(-1))
+            {
+                WindowWidth = Mathf.Min(AdditionalEntries
+                    .Select(t => t.content.text.GUIWidth())
+                    .Max() + 35, 1000f);
+            }
+            
+            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), WindowWidth), this);
         }
         
         

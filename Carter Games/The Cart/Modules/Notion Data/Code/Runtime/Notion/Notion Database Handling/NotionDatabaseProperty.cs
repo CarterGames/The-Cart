@@ -192,7 +192,7 @@ namespace CarterGames.Cart.Modules.NotionData
                     // Tries to parse as an array normally.
                     return JSON.Parse(propertyValue).AsArray;
                 }
-#pragma warning disable
+#pragma warning disable 0168
                 catch (Exception e)
 #pragma warning restore
                 {
@@ -412,7 +412,7 @@ namespace CarterGames.Cart.Modules.NotionData
                     result = Enum.Parse(fieldType, propertyValue.Replace(" ", ""));
                     return result != null;
                 }
-#pragma warning disable
+#pragma warning disable 0168
                 catch (Exception e)
 #pragma warning restore
                 {

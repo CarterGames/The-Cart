@@ -27,7 +27,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Core.Management
 {
     // Warning disable for overriding Equals() but not the hashcode method.
-#pragma warning disable
+#pragma warning disable 0659
     /// <summary>
     /// A data class to hold a x.x.x version number for comparisons.
     /// </summary>
