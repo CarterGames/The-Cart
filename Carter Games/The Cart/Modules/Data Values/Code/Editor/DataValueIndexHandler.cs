@@ -24,6 +24,7 @@
  */
 
 using System.Collections.Generic;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
@@ -40,19 +41,19 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static readonly string AssetFilter = typeof(DataValueAsset).FullName;
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IPreprocessBuildWithReport Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The order this script is processed in, in this case its the default.
         /// </summary>
         public int callbackOrder => 0;
-        
-        
+
+
         /// <summary>
         /// Runs before a build is executed.
         /// </summary>
@@ -61,11 +62,11 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         {
             UpdateIndex();
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Initializes the event subscription needed for this to work in editor.
         /// </summary>
@@ -86,12 +87,12 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             if (!EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isPlaying) return;
             UpdateIndex();
         }
-        
+
 
         /// <summary>
-        /// Updates the index with all the save manager asset scriptable objects in the project.
+        /// Updates the index with all the data asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Update Index", priority = 301)]
+        [MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Update Index", priority = 1302)]
         public static void UpdateIndex()
         {
             var foundAssets = new List<DataValueAsset>();
@@ -151,7 +152,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
                 AlreadyExists: ;
             }
         }
-	}
+    }
 }
 
 #endif

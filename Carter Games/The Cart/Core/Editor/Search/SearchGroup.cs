@@ -24,7 +24,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CarterGames.TheCart.Core.Editor
+namespace CarterGames.Cart.Core.Editor
 {
     [Serializable]
     public class SearchGroup<T>

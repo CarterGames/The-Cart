@@ -25,12 +25,12 @@ using System.Linq;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
-using CarterGames.Cart.Core.Reflection;
+using CarterGames.Cart.Core.Random;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Cart.Core.Random.Editor
+namespace CarterGames.Cart.Core.Editor
 {
     /// <summary>
     /// Handles the settings drawing for the random system.

@@ -25,9 +25,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
@@ -36,6 +38,8 @@ namespace CarterGames.Cart.Modules
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        private static object Lock = new object();
         
         private const string FileName = "csc.rsp";
         private static readonly string FilePath = $"Assets/{FileName}";
@@ -114,51 +118,124 @@ namespace CarterGames.Cart.Modules
         {
             File.Create(FilePath).Dispose();
         }
+
+
+        private static bool HasDefine(string define)
+        {
+            lock (Lock)
+            {
+                if (ScriptableRef.GetAssetDef<DataAssetCsc>().ObjectRef.Fp("asset").objectReferenceValue == null)
+                {
+                    TryInitialize();
+                }
+
+                return LastRead.Contains(define);
+            }
+        }
         
 
         public static bool HasDefine(IModule module)
         {
-            if (ScriptableRef.GetAssetDef<DataAssetCsc>().ObjectRef.Fp("asset").objectReferenceValue == null)
+            if (module == null) return false;
+            return HasDefine(module.ModuleDefine);
+        }
+        
+        
+        public static void AddDefine(string define)
+        {
+            lock (Lock)
             {
-                TryInitialize();
+                if (HasDefine(define)) return;
+                Append($"-define:{define}");
             }
-            
-            return LastRead.Contains(module.ModuleDefine);
         }
 
 
         public static void AddDefine(IModule module)
         {
-            if (HasDefine(module)) return;
-            Append($"-define:{module.ModuleDefine}");
-            CartLogger.Log<LogCategoryModules>($"Enabled: {module.ModuleName}");
+            lock (Lock)
+            {
+                if (HasDefine(module)) return;
+                Append($"-define:{module.ModuleDefine}");
+                CartLogger.Log<LogCategoryModules>($"Enabled: {module.ModuleName}");
+            }
+        }
+        
+        
+        public static void AddDefine(List<string> defines)
+        {
+            lock (Lock)
+            {
+                var toAdd = new List<string>();
+
+                foreach (var define in defines)
+                {
+                    if (HasDefine(define)) continue;
+                    toAdd.Add($"-define:{define}");
+                }
+
+                Append(toAdd);
+            }
         }
         
         
         public static void AddDefine(List<IModule> modules)
         {
-            var toAdd = new List<string>();
-            
-            foreach (var module in modules)
+            lock (Lock)
             {
-                if (HasDefine(module)) continue;
-                toAdd.Add($"-define:{module.ModuleDefine}");
-            }
-            
-            Append(toAdd);
+                var toAdd = new List<string>();
 
-            foreach (var module in modules)
-            {
-                CartLogger.Log<LogCategoryModules>($"Enabled: {module.ModuleName}");
+                foreach (var module in modules)
+                {
+                    if (HasDefine(module)) continue;
+                    toAdd.Add($"-define:{module.ModuleDefine}");
+                }
+
+                Append(toAdd);
+
+                foreach (var module in modules)
+                {
+                    CartLogger.Log<LogCategoryModules>($"Enabled: {module.ModuleName}");
+                }
             }
         }
 
+        
+        public static void RemoveDefine(string define)
+        {
+            lock (Lock)
+            {
+                if (!HasDefine(define)) return;
+                Remove($"-define:{define}");
+            }
+        }
+        
 
         public static void RemoveDefine(IModule module)
         {
-            if (!HasDefine(module)) return;
-            Remove($"-define:{module.ModuleDefine}");
-            CartLogger.Log<LogCategoryModules>($"Disabled: {module.ModuleName}");
+            lock (Lock)
+            {
+                if (!HasDefine(module)) return;
+                Remove($"-define:{module.ModuleDefine}");
+                CartLogger.Log<LogCategoryModules>($"Disabled: {module.ModuleName}");
+            }
+        }
+        
+        
+        public static void RemoveDefine(List<string> defines)
+        {
+            lock (Lock)
+            {
+                var toRemove = new List<string>();
+            
+                foreach (var define in defines)
+                {
+                    if (HasDefine(define)) continue;
+                    toRemove.Add($"-define:{define}");
+                }
+            
+                Remove(toRemove);
+            }
         }
         
         
@@ -168,7 +245,7 @@ namespace CarterGames.Cart.Modules
             
             foreach (var module in modules)
             {
-                if (HasDefine(module)) continue;
+                if (!HasDefine(module)) continue;
                 toRemove.Add($"-define:{module.ModuleDefine}");
             }
             
@@ -252,7 +329,7 @@ namespace CarterGames.Cart.Modules
                 if (i.Equals(LastRead.Split('-').Length - 1)) continue;
                 Builder.AppendLine();
             }
-
+            
             write.Write(Builder.ToString());
             write.Close();
             
@@ -270,9 +347,9 @@ namespace CarterGames.Cart.Modules
             {
                 var entry = LastRead.Split('-')[i];
                 var parsedEntry = $"-{entry.Trim()}";
-
-                if (parsedEntry.Length <= 1) continue;
-
+                
+                if (parsedEntry.Equals("-")) continue;
+                
                 foreach (var line in lines)
                 {
                     if (!parsedEntry.Equals(line)) continue;
@@ -285,10 +362,73 @@ namespace CarterGames.Cart.Modules
                 
                 SkipEntryAsRemoving: ;
             }
-
+            
             write.Write(Builder.ToString());
             write.Close();
             
+            EditorUtility.SetDirty(ScriptableRef.GetAssetDef<DataAssetCsc>().AssetRef);
+            AssetDatabase.Refresh();
+        }
+
+
+        public static void EditDefines(List<string> toAdd, List<string> toRemove)
+        {
+            lock (Lock)
+            {
+                if (lastDataCache == null)
+                {
+                    lastDataCache = GetFileContents();
+                }
+
+                var totalRemoved = 0;
+                var write = new StreamWriter(FilePath);
+                Builder.Clear();
+
+                for (var i = 0; i < LastRead.Split('-').Length; i++)
+                {
+                    var entry = LastRead.Split('-')[i];
+                    var parsedEntry = $"-{entry.Trim()}";
+
+                    if (parsedEntry.Length <= 1) continue;
+
+                    if (toRemove.Count > 0)
+                    {
+                        foreach (var line in toRemove)
+                        {
+                            if (!parsedEntry.Equals($"-define:{line}")) continue;
+                            totalRemoved++;
+                            goto SkipEntryAsRemoving;
+                        }
+                    }
+
+                    Builder.Append(parsedEntry);
+                    if (i.Equals(LastRead.Split('-').Length - 1)) continue;
+                    Builder.AppendLine();
+
+                    SkipEntryAsRemoving: ;
+                }
+
+                if (toAdd.Count > 0)
+                {
+                    foreach (var entry in toAdd)
+                    {
+                        if (toRemove.Count == 0 || totalRemoved == 0)
+                        {
+                            Builder.AppendLine();
+                        }
+
+                        Builder.Append($"-define:{entry}");
+
+                        if (entry.Equals(toAdd.Last())) continue;
+                        Builder.AppendLine();
+                    }
+                }
+
+                write.Write(Builder.ToString());
+                write.Close();
+            }
+            
+
             EditorUtility.SetDirty(ScriptableRef.GetAssetDef<DataAssetCsc>().AssetRef);
             AssetDatabase.Refresh();
         }
@@ -299,7 +439,7 @@ namespace CarterGames.Cart.Modules
             var reader = new StreamReader(FilePath);
             var text = reader.ReadToEnd();
             reader.Close();
-            
+
             return text;
         }
     }

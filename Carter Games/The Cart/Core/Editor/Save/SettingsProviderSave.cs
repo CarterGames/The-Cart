@@ -1,7 +1,6 @@
 ﻿using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.Save;
-using CarterGames.TheCart.Core.Editor;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;

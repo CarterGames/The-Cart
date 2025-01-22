@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.Management
 {
@@ -64,14 +65,12 @@ namespace CarterGames.Cart.Core.Management
                 Assembly.Load("CarterGames.Cart.Modules"),
                 Assembly.Load("CarterGames.Cart.Core.Editor"),
                 Assembly.Load("CarterGames.Cart.Core.Runtime"),
-                // Assembly.Load("CarterGames.Cart.Extensions")
             };
 #else
             return new Assembly[2]
             {
                 Assembly.Load("CarterGames.Cart.Modules"),
                 Assembly.Load("CarterGames.Cart.Core.Runtime"),
-                // Assembly.Load("CarterGames.Cart.Extensions")
             };
 #endif
         }
@@ -114,7 +113,7 @@ namespace CarterGames.Cart.Core.Management
         public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = true)
         {
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
-
+            
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
                 .Select(type => (T)Activator.CreateInstance(type));

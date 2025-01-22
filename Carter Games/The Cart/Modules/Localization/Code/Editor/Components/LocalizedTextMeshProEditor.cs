@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -53,7 +53,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			GUI.backgroundColor = Color.yellow;
 			if (GUILayout.Button("Try Get References", GUILayout.Width(140)))
 			{
-				serializedObject.Fp("label").objectReferenceValue ??=
+				serializedObject.Fp("displayLabel").objectReferenceValue ??=
 					((LocalizedTextMeshPro)target).GetComponentInChildren<TMP_Text>();
 
 				serializedObject.ApplyModifiedProperties();
@@ -64,11 +64,11 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			
 			GeneralUtilEditor.DrawHorizontalGUILine();
 			
-			EditorGUILayout.PropertyField(serializedObject.Fp("label"));
+			EditorGUILayout.PropertyField(serializedObject.Fp("displayLabel"));
 			
 			EditorGUILayout.EndVertical();
 		}
-		
+
 
 		private void DrawSetupOptions()
 		{

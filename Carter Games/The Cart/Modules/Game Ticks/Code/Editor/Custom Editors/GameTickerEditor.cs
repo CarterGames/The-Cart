@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
 
@@ -35,7 +35,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Custom editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         public override void OnInspectorGUI()
         {
             GeneralUtilEditor.DrawMonoScriptSection(target as GameTicker);

@@ -1,17 +1,17 @@
 ﻿/*
  * Copyright (c) 2024 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -40,8 +40,8 @@ namespace CarterGames.Cart.Modules.Easing
         {
             return ReadValue(data.easeType, current);
         }
-        
-        
+
+
         /// <summary>
         /// Reads the current value.
         /// </summary>
@@ -121,7 +121,7 @@ namespace CarterGames.Cart.Modules.Easing
             }
         }
 
-        
+
         /// <summary>
         /// Reads the current value.
         /// </summary>
@@ -143,9 +143,9 @@ namespace CarterGames.Cart.Modules.Easing
         public static double ReadValue(OutEaseData type, double current)
         {
             return ReadValue(type.easeType, false, current);
-        } 
-        
-        
+        }
+
+
         /// <summary>
         /// Reads the current value.
         /// </summary>
@@ -184,7 +184,7 @@ namespace CarterGames.Cart.Modules.Easing
                     return current;
             }
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Ease Calculation Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -198,7 +198,7 @@ namespace CarterGames.Cart.Modules.Easing
         {
             return 1 - Math.Cos((x * Math.PI) / 2);
         }
-        
+
         private static double EaseInCubic(double x)
         {
             return x * x * x;
@@ -208,12 +208,12 @@ namespace CarterGames.Cart.Modules.Easing
         {
             return x * x * x * x * x;
         }
-        
+
         private static double EaseInCirc(double x)
         {
             return 1 - Math.Sqrt(1 - Math.Pow(x, 2));
         }
-        
+
         private static double EaseInElastic(double x)
         {
             const double c4 = (2 * Math.PI) / 3;
@@ -224,22 +224,22 @@ namespace CarterGames.Cart.Modules.Easing
                     ? 1 
                     : -Math.Pow(2, 10 * x - 10) * Math.Sin((float)(x * 10 - 10.75) * c4);
         }
-        
+
         private static double EaseInQuad(double x)
         {
             return x * x;
         }
-        
+
         private static double EaseInQuart(double x)
         {
             return x * x * x * x;
         }
-        
+
         private static double EaseInExpo(double x)
         {
             return x == 0 ? 0 : Math.Pow(2, 10 * x - 10);
         }
-        
+
         private static double EaseInBack(double x)
         {
             const double c1 = 1.70158;
@@ -247,17 +247,17 @@ namespace CarterGames.Cart.Modules.Easing
 
             return c3 * x * x * x - c1 * x * x;
         }
-        
+
         private static double EaseInBounce(double x)
         {
             return 1 - EaseOutBounce(1 - x);
         }
-        
+
         private static double EaseOutSine(double x)
         {
             return Math.Sin((x * Math.PI) / 2);
         }
-        
+
         private static double EaseOutCubic(double x)
         {
             return 1 - Math.Pow(1 - x, 3);
@@ -267,12 +267,12 @@ namespace CarterGames.Cart.Modules.Easing
         {
             return 1 - Math.Pow(1 - x, 5);
         }
-        
+
         private static double EaseOutCirc(double x)
         {
             return 1 - Math.Sqrt(1 - Math.Pow(x - 1, 2));
         }
-        
+
         private static double EaseOutElastic(double x)
         {
             const double c4 = (2 * Math.PI) / 3;
@@ -283,22 +283,22 @@ namespace CarterGames.Cart.Modules.Easing
                     ? 1 
                     : Math.Pow(2, -10 * x) * Math.Sin((float)(x * 10 - .75) * c4) + 1;
         }
-        
+
         private static double EaseOutQuad(double x)
         {
             return 1 - (1 - x) * (1 - x);
         }
-        
+
         private static double EaseOutQuart(double x)
         {
             return 1 - Math.Pow(1 - x, 4);
         }
-        
+
         private static double EaseOutExpo(double x)
         {
             return Math.Abs(x - 1) < .0001 ? 1 : 1 - Math.Pow(2, -10 * x);
         }
-        
+
         private static double EaseOutBack(double x)
         {
             const double c1 = 1.70158;
@@ -306,7 +306,7 @@ namespace CarterGames.Cart.Modules.Easing
 
             return 1 + c3 * Math.Pow(x - 1, 3) + c1 * Math.Pow(x - 1, 2);
         }
-        
+
         private static double EaseOutBounce(double x)
         {
             const double n1 = 7.5625;
@@ -321,12 +321,12 @@ namespace CarterGames.Cart.Modules.Easing
 
             return n1 * (x -= 2.625 / d1) * x + .984375;
         }
-        
+
         private static double EaseInOutSine(double x)
         {
             return -(Math.Cos(Math.PI * x) - 1) / 2;
         }
-        
+
         private static double EaseInOutCubic(double x)
         {
             return x < .5 ? 4 * x * x * x : 1 - Math.Pow(-2 * x + 2, 3) / 2;
@@ -336,14 +336,14 @@ namespace CarterGames.Cart.Modules.Easing
         {
             return x < .5 ? 16 * x * x * x * x * x : 1 - Math.Pow(-2 * x + 2, 5) / 2;
         }
-        
+
         private static double EaseInOutCirc(double x)
         {
             return x < .5
                 ? (1 - Math.Sqrt(1 - Math.Pow(2 * x, 2))) / 2
                 : (Math.Sqrt(1 - Math.Pow(-2 * x + 2, 2)) + 1) / 2;
         }
-        
+
         private static double EaseInOutElastic(double x)
         {
             const double c5 = (2 * Math.PI) / 4.5;
@@ -356,17 +356,17 @@ namespace CarterGames.Cart.Modules.Easing
                         ? -(Math.Pow(2, 20 * x - 10) * Math.Sin((20 * x - 11.125) * c5)) / 2
                         : (Math.Pow(2, -20 * x + 10) * Math.Sin((20 * x - 11.125) * c5)) / 2 + 1;
         }
-        
+
         private static double EaseInOutQuad(double x)
         {
             return x < .5 ? 2 * x * x : 1 - Math.Pow(-2 * x + 2, 2) / 2;
         }
-        
+
         private static double EaseInOutQuart(double x)
         {
             return x < .5 ? 8 * x * x * x * x : 1 - Math.Pow(-2 * x + 2, 4) / 2;
         }
-        
+
         private static double EaseInOutExpo(double x)
         {
             return x == 0 
@@ -378,7 +378,7 @@ namespace CarterGames.Cart.Modules.Easing
                         : (2 - Math.Pow(2, -20 * x + 10)) / 2;
 
         }
-        
+
         private static double EaseInOutBack(double x)
         {
             const double c1 = 1.70158;
@@ -388,7 +388,7 @@ namespace CarterGames.Cart.Modules.Easing
                 ? (Math.Pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
                 : (Math.Pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
         }
-        
+
         private static double EaseInOutBounce(double x)
         {
             return x < .5

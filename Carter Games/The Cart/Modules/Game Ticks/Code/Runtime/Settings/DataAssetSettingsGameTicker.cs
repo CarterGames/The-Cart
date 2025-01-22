@@ -27,42 +27,41 @@ using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.GameTicks
-{
-    [CreateAssetMenu(fileName = "Game Ticks Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Game Ticks/Runtime Settings")]
-    public class DataAssetSettingsGameTicker : DataAsset
+{ 
+	public sealed class DataAssetSettingsGameTicker : DataAsset
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private int gameTickTicksPerSecond = 5;
-        [SerializeField] private bool gameTickUseUnscaledTime;
-        [SerializeField] private bool gameTickUseGlobalTicker = true;
-        [SerializeField] private GameTickSyncState globalSyncState = GameTickSyncState.Custom;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Fields
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    [SerializeField] private int gameTickTicksPerSecond = 5;
+	    [SerializeField] private bool gameTickUseUnscaledTime;
+	    [SerializeField] private bool gameTickUseGlobalTicker = true;
+	    [SerializeField] private GameTickSyncState globalSyncState = GameTickSyncState.Custom;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
         /// The number of ticks per second.
         /// </summary>
         public int GameTickTicksPerSecond => gameTickTicksPerSecond;
-        
-        
-        /// <summary>
+
+
+	    /// <summary>
         /// Should the tick system be in unscaled time?
         /// </summary>
         public bool GameTickUseUnscaledTime => gameTickUseUnscaledTime;
-        
-        
-        /// <summary>
+
+
+	    /// <summary>
         /// Should the global ticker be initialized & used at runtime?
         /// </summary>
         public bool GameTickUseGlobalTicker => gameTickUseGlobalTicker;
-        
-        
-        /// <summary>
+
+
+	    /// <summary>
         /// The sync state for the global game ticker.
         /// </summary>
         public GameTickSyncState GameTickGlobalSyncState => globalSyncState;

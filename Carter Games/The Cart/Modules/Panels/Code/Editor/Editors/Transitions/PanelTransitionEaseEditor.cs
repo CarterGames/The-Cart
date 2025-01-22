@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_PANELS && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_PANELS && CARTERGAMES_CART_MODULE_EASING && UNITY_EDITOR
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 

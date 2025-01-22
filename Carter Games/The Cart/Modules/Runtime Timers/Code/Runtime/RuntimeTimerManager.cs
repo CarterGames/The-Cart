@@ -166,6 +166,22 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             timer.transform.SetParent(ActiveTimersParent);
             return timer;
         }
+
+        
+        /// <summary>
+        /// Gets if a timer is already registered or not.
+        /// </summary>
+        /// <param name="runtimeTimer">The timer to check.</param>
+        /// <returns>If that timer is registered or not.</returns>
+        public static bool IsRegistered(RuntimeTimer runtimeTimer)
+        {
+            if (runtimeTimer.GetType() == typeof(PersistentRuntimeTimer))
+            {
+                return PersistentTimers.Contains(runtimeTimer);
+            }
+            
+            return ActiveTimers.Contains(runtimeTimer);
+        }
     }
 }
 

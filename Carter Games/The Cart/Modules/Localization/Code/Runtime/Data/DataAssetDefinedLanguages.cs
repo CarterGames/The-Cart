@@ -32,28 +32,33 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// A data asset for storing the languages the game supports.
 	/// </summary>
-	[CreateAssetMenu(fileName = "Data Asset Languages", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Languages")]
 	public sealed class DataAssetDefinedLanguages : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField] private List<Language> languages = new List<Language>()
+#if UNITY_EDITOR
 		{
-			new Language("English (GB)", "gb"),
-			new Language("French (FR)", "fr"),
-			new Language("German (DE)", "de"),
-			new Language("Spanish (ES)", "es"),
-			new Language("Italian (IT)", "it"),
-			new Language("Chinese (CN)", "cn"),
-			new Language("Japanese (JP)", "jp"),
+			new Language("English (en-GB)", "en-GB"),
+			new Language("English (en-US)", "en-US"),
+			new Language("French (fr-FR)", "fr-FR"),
+			new Language("German (de-DE)", "de-DE"),
+			new Language("Spanish (es-ES)", "es-ES"),
+			new Language("Italian (it-IT)", "it-IT"),
+			new Language("Chinese Simplified (zh-CN)", "zh-CN"),
+			new Language("Japanese (ja-JP)", "ja-JP"),
 		};
-		
+#else
+;
+#endif
+
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Gets a list of all the languages defined in the asset.
 		/// </summary>

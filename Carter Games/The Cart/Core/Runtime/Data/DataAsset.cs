@@ -40,6 +40,12 @@ namespace CarterGames.Cart.Core.Data
         /// </summary>
         [SerializeField] private string variantId = Guid.NewGuid().ToString();
 
+
+        /// <summary>
+        /// Defines if the asset is not added to the asset index.
+        /// </summary>
+        [SerializeField] protected bool excludeFromAssetIndex;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -48,5 +54,11 @@ namespace CarterGames.Cart.Core.Data
         /// Override to define a custom variant id for the data asset.
         /// </summary>
         public virtual string VariantId => variantId;
+
+
+        /// <summary>
+        /// Gets if the asset is ignored from being added to the asset index system.
+        /// </summary>
+        public bool ExcludeFromAssetIndex => excludeFromAssetIndex;
     }
 }

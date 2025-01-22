@@ -29,7 +29,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value List AudioClip", menuName = "Carter Games/The Cart/Modules/Data Values/Lists/Data Value List AudioClip", order = 0)]
-	public sealed class DataValueListAudioClip : DataValueList<AudioClip> { }
+	public sealed class DataValueListAudioClip : DataValueList<AudioClip> {}
 }
 
 #endif

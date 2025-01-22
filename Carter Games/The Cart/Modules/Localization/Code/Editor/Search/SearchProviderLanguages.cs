@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -26,18 +26,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
-using CarterGames.TheCart.Core.Editor;
-using UnityEngine;
+using CarterGames.Cart.Core.Editor;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
 	public sealed class SearchProviderLanguages : SearchProvider<Language>
 	{
 		private static SearchProviderLanguages Instance;
-		
-		public override string ProviderTitle => "Select Language";
-		
-		
+
+		protected override string ProviderTitle => "Select Language";
+
+
 		public override List<SearchGroup<Language>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<Language>>();

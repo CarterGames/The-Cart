@@ -43,13 +43,15 @@ namespace CarterGames.Cart.Modules.LoadingScreens
 
         [Header("General")]
         [SerializeField] private CanvasGroup canvasGroup;
+
         [SerializeField] private Animator loadingAnim;
-        
+
         [Header("UI Elements")]
         [SerializeField] private Image backgroundGraphic;
+
         [SerializeField] private TMP_Text loadingTitleLabel;
         [SerializeField] private TMP_Text loadingSubTextLabel;
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -58,7 +60,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens
         /// Gets if the screen is currently shown or not.
         /// </summary>
         private bool IsShown => canvasGroup.alpha.Equals(1);
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -77,8 +79,8 @@ namespace CarterGames.Cart.Modules.LoadingScreens
             loadingSubTextLabel.SetText(subTitle);
             backgroundGraphic.color = backgroundGraphic.color.SetAlpha(backgroundAlpha);
         }
-        
-        
+
+
         /// <summary>
         /// Sets the screen to display the info provided
         /// </summary>
@@ -112,8 +114,8 @@ namespace CarterGames.Cart.Modules.LoadingScreens
         {
             loadingTitleLabel.SetText(text);
         }
-        
-        
+
+
         /// <summary>
         /// Sets the subtitle to the entered value.
         /// </summary>

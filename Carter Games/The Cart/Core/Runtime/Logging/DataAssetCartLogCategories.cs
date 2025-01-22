@@ -29,7 +29,6 @@ namespace CarterGames.Cart.Core.Logs
     /// <summary>
     /// A data asset to store the states of all the log categories.
     /// </summary>
-    [CreateAssetMenu(menuName = "Carter Games/The Cart/Log Categories (Data Asset)")]
     public sealed class DataAssetCartLogCategories : DataAsset
     {
         [SerializeField] private SerializableDictionary<string, bool> lookup;

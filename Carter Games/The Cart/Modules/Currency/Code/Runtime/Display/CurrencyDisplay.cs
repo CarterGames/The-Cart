@@ -38,29 +38,29 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private string accountId;
+
+        [SerializeField, SelectAccount] private string accountId;
         [SerializeField] private TMP_Text label;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Confirms if the display is in-sync or not.
         /// </summary>
         public bool InSync => CurrencyManager.GetBalance(accountId).DoubleEquals(LastBalanceShown);
-        
-        
+
+
         /// <summary>
         /// The last balance shown.
         /// </summary>
         private double LastBalanceShown { get; set; }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private void OnEnable()
         {
             CurrencyManager.AccountBalanceChanged.Add(UpdateDisplay);
@@ -76,7 +76,7 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Updates the display when called.
         /// </summary>

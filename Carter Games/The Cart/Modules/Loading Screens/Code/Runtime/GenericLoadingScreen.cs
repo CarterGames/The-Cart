@@ -37,18 +37,27 @@ namespace CarterGames.Cart.Modules.LoadingScreens
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static GenericLoadingScreenInstance instance;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when the loading screen is toggled.
+        /// </summary>
+        public static readonly Evt<bool> Toggled = new Evt<bool>();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Gets if the loading screen is active or not.
         /// </summary>
         private static bool IsShown { get; set; }
-        
+
 
         /// <summary>
         /// Gets the current instance of the loading screen if it is referenced.
@@ -64,20 +73,11 @@ namespace CarterGames.Cart.Modules.LoadingScreens
                 return instance;
             }
         }
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        /// <summary>
-        /// Raises when the loading screen is toggled.
-        /// </summary>
-        public static readonly Evt<bool> Toggled = new Evt<bool>();
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Shows the loading screen when called.
         /// </summary>
@@ -92,8 +92,8 @@ namespace CarterGames.Cart.Modules.LoadingScreens
             IsShown = true;
             Toggled.Raise(true);
         }
-        
-        
+
+
         /// <summary>
         /// Shows the loading screen when called.
         /// </summary>

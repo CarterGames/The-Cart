@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using CarterGames.Cart.Modules.Settings;
@@ -38,13 +39,13 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static readonly string ExpandedId  = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Module_LoadingScreen_IsExpanded";
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Should the data notion section be shown?
         /// </summary>
@@ -53,14 +54,14 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
             get => (bool)PerUserSettings.GetOrCreateValue<bool>(ExpandedId, SettingType.EditorPref);
             set => PerUserSettings.SetValue<bool>(ExpandedId, SettingType.EditorPref, value);
         }
-        
-        
+
+
         private IScriptableAssetDef<DataAssetSettingsLoadingScreens> SettingsDef => ScriptableRef.GetAssetDef<DataAssetSettingsLoadingScreens>();
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Draws the inspector version of the settings.
         /// </summary>
@@ -83,7 +84,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 
             EditorGUILayout.EndVertical();
         }
-        
+
 
         /// <summary>
         /// Draws the settings provider version of the settings.

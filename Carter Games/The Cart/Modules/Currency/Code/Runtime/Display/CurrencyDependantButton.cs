@@ -38,41 +38,41 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private string accountId;
+
+        [SerializeField, SelectAccount] private string accountId;
         [SerializeField] private bool setAmount;
         [SerializeField] private double amount;
         [SerializeField] private CurrencyTransactionType transactionType = CurrencyTransactionType.Debit;
-        
+
         [SerializeField] protected Button button;
         [SerializeField] protected Image buttonGraphic;
         [SerializeField] protected TMP_Text buttonLabel;
-        
+
         [SerializeField] private Color affordableLabelColor = Color.white;
         [SerializeField] private Color unaffordableLabelColor = Color.grey;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Defines if the component has been setup.
         /// </summary>
         protected bool IsSetup { get; set; }
-        
-        
+
+
         /// <summary>
         /// The amount to adjust by.
         /// </summary>
         protected double PriceForPurchase { get; set; }
-        
-        
+
+
         /// <summary>
         /// The action type to apply when processing the amount.
         /// </summary>
         protected CurrencyTransactionType ActionType { get; set; }
-        
-        
+
+
         /// <summary>
         /// Gets if the user can afford to use the button.
         /// </summary>
@@ -81,7 +81,7 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private void OnEnable()
         {
             button.onClick.RemoveListener(InternalOnButtonPressed);
@@ -109,7 +109,7 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Sets up the button for use.
         /// </summary>
@@ -125,8 +125,8 @@ namespace CarterGames.Cart.Modules.Currency
             if (IsSetup) return;
             IsSetup = true;
         }
-        
-        
+
+
         /// <summary>
         /// Updates the display when called.
         /// </summary>
@@ -145,8 +145,8 @@ namespace CarterGames.Cart.Modules.Currency
             if (!CurrencyManager.TryGetAccount(accountId, out var account)) return;
             account.Process(PriceForPurchase, ActionType);
         }
-        
-        
+
+
         /// <summary>
         /// Implement to run logic on the button pressed.
         /// </summary>

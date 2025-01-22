@@ -35,14 +35,14 @@ namespace CarterGames.Cart.Modules.Localization
     public class NotionDataWrapperLocalizationData : NotionDataWrapper<LocalizationData>
     {
         public NotionDataWrapperLocalizationData(string id) : base(id) { }
-        
+
         protected override void Assign()
         {
             try
             {
                 value = LocalizationManager.GetRawData(id);
             }
-#pragma warning disable
+#pragma warning disable 0168
             catch (Exception e)
             {
                 CartLogger.LogWarning<LogCategoryModules>($"Unable to wrap {id} as Localized text, make sure the id exists.");

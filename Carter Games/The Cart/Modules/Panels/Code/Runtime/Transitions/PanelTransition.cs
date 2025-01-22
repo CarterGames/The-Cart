@@ -25,17 +25,20 @@
 
 using System.Collections;
 using CarterGames.Cart.Core.Events;
-// using CarterGames.Cart.Modules.TimeScales;
 using UnityEngine;
+// using CarterGames.Cart.Modules.TimeScales;
 
 namespace CarterGames.Cart.Modules.Panels
 {
     public abstract class PanelTransition : MonoBehaviour
     {
         [SerializeField] private bool useUnscaledTime;
+
+
+        public readonly Evt Completed = new Evt();
         // [SerializeField] private bool useCustomInstance;
         // private CustomTimeInstance timeInstance;
-        
+
         protected Coroutine TransitionRoutine;
         protected bool IsRunning => TransitionRoutine != null;
 
@@ -47,9 +50,6 @@ namespace CarterGames.Cart.Modules.Panels
         protected float TransitionDeltaTime => useUnscaledTime ? UnscaledDeltaTime : DeltaTime;
 
 
-        public readonly Evt Completed = new Evt();
-        
-        
         public void TransitionIn()
         {
             if (IsRunning)
@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Modules.Panels
             TransitionRoutine = StartCoroutine(Co_Transition(true));
         }
 
-        
+
         public void TransitionOut()
         {
             if (IsRunning)
@@ -70,8 +70,8 @@ namespace CarterGames.Cart.Modules.Panels
             
             TransitionRoutine = StartCoroutine(Co_Transition(false));
         }
-        
-        
+
+
         protected abstract IEnumerator Co_Transition(bool fadeIn);
     }
 }

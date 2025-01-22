@@ -26,9 +26,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Save;
 using CarterGames.Cart.ThirdParty;
-using CarterGames.TheCart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,9 +37,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 	public class SearchProviderAccounts : SearchProvider<string>
 	{
 		private static SearchProviderAccounts Instance;
-		
-		public override string ProviderTitle => "Select Account";
 
+		protected override string ProviderTitle => "Select Account";
 
 
 		private List<string> GetAccountIds()
@@ -68,8 +67,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 
 			return list;
 		}
-		
-		
+
+
 		public override List<SearchGroup<string>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<string>>();
@@ -88,8 +87,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			
 			return list;
 		}
-		
-		
+
+
 		public static SearchProviderAccounts GetProvider()
 		{
 			if (Instance == null)

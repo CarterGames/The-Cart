@@ -53,21 +53,21 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             EditorGUI.BeginChangeCheck();
 
             // Get properties
-            SerializedProperty useConstant = property.FindPropertyRelative("useConstant");
-            SerializedProperty constantValue = property.FindPropertyRelative("constantValue");
-            SerializedProperty variable = property.FindPropertyRelative("variable");
+            var useConstant = property.FindPropertyRelative("useConstant");
+            var constantValue = property.FindPropertyRelative("constantValue");
+            var variable = property.FindPropertyRelative("variable");
 
             // Calculate rect for configuration button
-            Rect buttonRect = new Rect(position);
+            var buttonRect = new Rect(position);
             buttonRect.yMin += popupStyle.margin.top;
             buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;
             position.xMin = buttonRect.xMax;
 
             // Store old indent level and set it to 0, the PrefixLabel takes care of it
-            int indent = EditorGUI.indentLevel;
+            var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            int result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
+            var result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
 
             useConstant.boolValue = result == 0;
 

@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -35,8 +35,8 @@ namespace CarterGames.Cart.Modules.Panels.Editor
     public class PanelEditor : UnityEditor.Editor
     {
         protected virtual bool HasExtra { get; }
-        
-        
+
+
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space(2.5f);
@@ -80,8 +80,8 @@ namespace CarterGames.Cart.Modules.Panels.Editor
             EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
-        
-        
+
+
         private void DrawUtilityButtons()
         {
             EditorGUILayout.BeginVertical("HelpBox");
@@ -115,8 +115,8 @@ namespace CarterGames.Cart.Modules.Panels.Editor
             EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
-        
-        
+
+
         private void DrawReferences()
         {
             EditorGUILayout.BeginVertical("HelpBox");
@@ -222,7 +222,6 @@ namespace CarterGames.Cart.Modules.Panels.Editor
         {
             
         }
-
 
 
         private void TogglePanelState(bool? state = null)

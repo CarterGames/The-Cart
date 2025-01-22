@@ -29,6 +29,8 @@ using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Core.Save;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
@@ -37,52 +39,59 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
+		private const string SaveKeyCurrentLanguage = "CarterGames_Cart_Module_Localization_Language";
 		private static Dictionary<string, LocalizationData> lookupCache;
-		
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Events
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+		/// <summary>
+		/// Raises when the language is changed by the API.
+		/// </summary>
+		public static readonly Evt LanguageChanged = new Evt();
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private static List<DataAssetLocalizedText> NormalAssets => DataAccess.GetAssets<DataAssetLocalizedText>();
-		
+
 #if CARTERGAMES_CART_MODULE_NOTIONDATA
 		private static List<NotionDataAssetLocalizedText> NotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedText>();
 #endif
-		
+
 		private static Dictionary<string, LocalizationData> Lookup => CacheRef.GetOrAssign(ref lookupCache, GetAssetsLookup);
-		
+
 		/// <summary>
 		/// The current language assigned.
 		/// </summary>
-		public static Language CurrentLanguage =>
-			DataAccess.GetAsset<DataAssetSettingsLocalization>().CurrentLanguage;
-		
-		
+		public static Language CurrentLanguage
+		{
+			get
+			{
+				var data = CartSaveHandler.Get<string>(SaveKeyCurrentLanguage);
+				
+				if (string.IsNullOrEmpty(data))
+				{
+					SetLanguage(Language.None);
+				}
+				
+				return JsonUtility.FromJson<Language>(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
+			}
+		}
+
+
 		/// <summary>
 		/// Gets the languages in the system.
 		/// </summary>
 		public static List<Language> GetLanguages => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages;
 
-
-		/// <summary>
-		/// Gets a list of all the language display names.
-		/// </summary>
-		public static List<string> GetLanguageOptionLabels => GetLanguages.Select(t => t.DisplayName).ToList();
-		
-		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Events
-		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
-		/// <summary>
-		/// Raises when the language is changed by the API.
-		/// </summary>
-		public static readonly Evt LanguageChanged = new Evt();
-		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private static Dictionary<string, LocalizationData> GetAssetsLookup()
 		{
 			var dic = new Dictionary<string, LocalizationData>();
@@ -115,7 +124,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 			return dic;
 		}
-		
+
 
 		/// <summary>
 		/// Sets the language to the entered language when called.
@@ -123,7 +132,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <param name="language">The language to assign.</param>
 		public static void SetLanguage(Language language)
 		{
-			DataAccess.GetAsset<DataAssetSettingsLocalization>().CurrentLanguage = language;
+			CartSaveHandler.Set(SaveKeyCurrentLanguage, JsonUtility.ToJson(language));
 			LanguageChanged.Raise();
 		}
 
@@ -165,7 +174,7 @@ namespace CarterGames.Cart.Modules.Localization
 			return true;
 
 		}
-		
+
 
 		/// <summary>
 		/// Gets the copy for a particular id in the currently set language.
@@ -188,7 +197,7 @@ namespace CarterGames.Cart.Modules.Localization
 			return copy;
 		}
 
-		
+
 		public static LocalizationData GetRawData(string id)
 		{
 			return GetCopyData(id);

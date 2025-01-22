@@ -24,6 +24,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
@@ -37,32 +38,18 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField] private string languageCode;
 		[SerializeField] private string copy;
-
-		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Properties
-		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
-		/// <summary>
-		/// The language code for the copy.
-		/// </summary>
-		public string LanguageCode => languageCode;
-		
-		
-		/// <summary>
-		/// The copy for the language.
-		/// </summary>
-		public string Copy => copy;
+		[SerializeField] private AudioClip clip;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Constructors
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		// Limited to editor and only used if Notion Data module is active.
 #if UNITY_EDITOR && CARTERGAMES_CART_MODULE_NOTIONDATA
-		
+
 		/// <summary>
 		/// Creates a new entry when called with the requested values.
 		/// </summary>
@@ -74,7 +61,48 @@ namespace CarterGames.Cart.Modules.Localization
 			this.languageCode = languageCode;
 			this.copy = copy;
 		}
+		
+		
+		/// <summary>
+		/// Creates a new entry when called with the requested values.
+		/// </summary>
+		/// <remarks>Used in Notion Data module.</remarks>
+		/// <param name="languageCode">The language code to set.</param>
+		/// <param name="copy">The copy to set.</param>
+		public LocalizationEntry(string languageCode, string copy, AudioClip clip)
+		{
+			this.languageCode = languageCode;
+			this.copy = copy;
+			this.clip = clip;
+		}
 #endif
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+		/// <summary>
+		/// The language code for the copy.
+		/// </summary>
+		public string LanguageCode => languageCode;
+
+
+		/// <summary>
+		/// The copy for the language.
+		/// </summary>
+		public string Copy => copy;
+
+
+		/// <summary>
+		/// Gets if there is audio for the clip.
+		/// </summary>
+		public bool HasAudio => clip.IsMissingOrNull();
+
+
+		/// <summary>
+		/// Gets the audio for the clip is assigned.
+		/// </summary>
+		public AudioClip AudioClip => clip;
 	}
 }
 

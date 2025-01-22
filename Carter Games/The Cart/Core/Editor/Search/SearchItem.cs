@@ -23,7 +23,7 @@
 
 using System;
 
-namespace CarterGames.TheCart.Core.Editor
+namespace CarterGames.Cart.Core.Editor
 {
     [Serializable]
     public class SearchItem<T>

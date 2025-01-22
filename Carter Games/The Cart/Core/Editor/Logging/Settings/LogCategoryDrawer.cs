@@ -22,6 +22,7 @@
  */
 
 using System.Linq;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -60,12 +61,10 @@ namespace CarterGames.Cart.Core.Logs.Editor
             EditorGUI.BeginChangeCheck();
             
             category.Fpr("value").boolValue = EditorGUILayout.Toggle(new GUIContent(TrimCategoryNameToLabel(category.Fpr("key").stringValue), GetTooltip(category.Fpr("key").stringValue)), category.Fpr("value").boolValue);
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
-                ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
-            }
+
+            if (!EditorGUI.EndChangeCheck()) return;
+            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
+            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
         }
     }
 }

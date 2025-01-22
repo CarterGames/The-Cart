@@ -38,14 +38,14 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField] private string locId;
 		[SerializeField] private TMP_Text displayLabel;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// A reference to the component, assumed on same object or child if auto-finding.
 		/// </summary>
@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Unity Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private void OnEnable()
 		{
 			LocalizationManager.LanguageChanged.Add(UpdateDisplay);
@@ -70,7 +70,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Updates the text when called with the latest copy.
 		/// </summary>

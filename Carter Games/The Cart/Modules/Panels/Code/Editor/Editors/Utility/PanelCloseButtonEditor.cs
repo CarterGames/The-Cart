@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,8 +45,8 @@ namespace CarterGames.Cart.Modules.Panels.Editor
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
         }
-        
-        
+
+
         private void DrawSettings()
         {
             EditorGUILayout.BeginVertical("HelpBox");

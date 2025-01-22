@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Modules.DataValues.Events;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
@@ -38,9 +39,9 @@ namespace CarterGames.Cart.Modules.DataValues
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         [SerializeField, TextArea] private string devDescription;
-        
+
         [SerializeField] private string key;
         [SerializeField] private List<T> value = new List<T>();
 
@@ -48,53 +49,57 @@ namespace CarterGames.Cart.Modules.DataValues
         [SerializeField] private List<T> defaultValue;
         [SerializeField] private DataValueResetState resetStates;
         
+        [SerializeField] private bool useDataValueEvents;
+        [SerializeField] private DataValueEventBase onChanged;
+        [SerializeField] private DataValueEventBase onReset;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The key for the value.
         /// </summary>
         public override string Key => key;
-        
-        
+
+
         /// <summary>
         /// The value for the list.
         /// </summary>
         public List<T> Value => value;
-        
-        
+
+
         /// <summary>
         /// The default value for the asset.
         /// </summary>
         public List<T> DefaultValue => defaultValue;
-        
-        
+
+
         /// <summary>
         /// The valid reset states for the asset.
         /// </summary>
         public override DataValueResetState ValidStates => resetStates;
-        
-        
+
+
         /// <summary>
         /// Gets the count for the list.
         /// </summary>
         /// <returns>The count.</returns>
         public int Count => value.Count;
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Raises when the value is changed.
         /// </summary>
         public Evt Changed { get; } = new Evt();
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Adds an entry to the list.
         /// </summary>
@@ -103,8 +108,12 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (value.Contains(element)) return;
             value.Add(element);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
-        
+
 
         /// <summary>
         /// Removes an entry to the list.
@@ -114,6 +123,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (!value.Contains(element)) return;
             value.Remove(element);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -123,8 +136,8 @@ namespace CarterGames.Cart.Modules.DataValues
         /// <param name="element">The element to find.</param>
         /// <returns>If the element is in the list.</returns>
         public bool Contains(T element) => value.Contains(element);
-        
-        
+
+
         /// <summary>
         /// Sets the value to the entered value
         /// </summary>
@@ -133,9 +146,12 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = input;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Sets the value to the entered value
         /// </summary>
@@ -145,7 +161,7 @@ namespace CarterGames.Cart.Modules.DataValues
             value = input;
         }
 
-        
+
         /// <summary>
         /// Forces the asset to reset to default value.
         /// </summary>
@@ -153,9 +169,13 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = defaultValue;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
+            onReset.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Resets the asset when called.
         /// Only works if the asset can reset.

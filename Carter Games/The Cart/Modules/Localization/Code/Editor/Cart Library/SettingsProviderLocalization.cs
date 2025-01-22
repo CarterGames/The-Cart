@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
  * Copyright (c) 2024 Carter Games
@@ -25,6 +25,7 @@
 
 using System.Linq;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
@@ -33,18 +34,18 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
-	public class SettingsProviderLocalization : ISettingsProvider
+	public sealed class SettingsProviderLocalization : ISettingsProvider
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
 		private static readonly string ExpandedId  = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Module_Localization_IsExpanded";
-        
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
 		/// <summary>
 		/// Should the data notion section be shown?
 		/// </summary>
@@ -53,14 +54,11 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			get => (bool)PerUserSettings.GetOrCreateValue<bool>(ExpandedId, SettingType.EditorPref);
 			set => PerUserSettings.SetValue<bool>(ExpandedId, SettingType.EditorPref, value);
 		}
-        
-        
-		private IScriptableAssetDef<DataAssetSettingsLocalization> SettingsDef => ScriptableRef.GetAssetDef<DataAssetSettingsLocalization>();
-        
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   ISettingsProvider Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		public void OnInspectorSettingsGUI()
 		{
 			EditorGUILayout.BeginVertical("HelpBox");
@@ -69,13 +67,13 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			GeneralUtilEditor.DrawHorizontalGUILine();
             
 			EditorGUI.BeginDisabledGroup(true);
-			EditorGUILayout.TextField(new GUIContent("Language"), SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("name").stringValue);
+			EditorGUILayout.TextField(new GUIContent("Language"), LocalizationManager.CurrentLanguage.DisplayName);
 			EditorGUI.EndDisabledGroup();
 
 			EditorGUILayout.EndVertical();
 		}
 
-		
+
 		public void OnProjectSettingsGUI()
 		{
 			IsExpanded = EditorGUILayout.Foldout(IsExpanded, "Localization");
@@ -91,6 +89,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			EditorGUILayout.BeginHorizontal();
 			
 			GUILayout.Space(15f);
+			
 			if (GUILayout.Button("Manage Languages"))
 			{
 				LanguageEditorPopup.ShowLanguagesEditorWindow();
@@ -100,61 +99,46 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			
 			EditorGUILayout.BeginHorizontal();
 			EditorGUI.BeginChangeCheck();
-
-			if (SettingsDef.ObjectRef.Fp("currentLanguage") != null)
+			
+			if (string.IsNullOrEmpty(LocalizationManager.CurrentLanguage.DisplayName))
 			{
-				if (string.IsNullOrEmpty(SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("name").stringValue))
-				{
-					if (GUILayout.Button("Select Language"))
-					{
-						var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
-							t.DisplayName.Equals(SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("name").stringValue));
-
-						SearchProviderLanguages.GetProvider().SelectionMade.Add(OnSelectionMade);
-						SearchProviderLanguages.GetProvider().Open(current);
-					}
-				}
-				else
-				{
-					EditorGUILayout.BeginHorizontal();
+				GUILayout.Space(15f);
 				
-					EditorGUI.BeginDisabledGroup(true);
-					EditorGUILayout.TextField(new GUIContent("Language"), SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("name").stringValue);
-					EditorGUI.EndDisabledGroup();
-				
-					if (GUILayout.Button("Edit", GUILayout.Width(100)))
-					{
-						var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
-							t.DisplayName.Equals(SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("name").stringValue));
-
-						SearchProviderLanguages.GetProvider().SelectionMade.Add(OnSelectionMade);
-						SearchProviderLanguages.GetProvider().Open(current);
-					}
-				
-					EditorGUILayout.EndHorizontal();
-				}
-			}
-			else
-			{
+				GUI.backgroundColor = Color.green;
 				if (GUILayout.Button("Select Language"))
 				{
 					var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
-						t.DisplayName.Equals(SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("name").stringValue));
+						t.DisplayName.Equals(LocalizationManager.CurrentLanguage.DisplayName));
 
 					SearchProviderLanguages.GetProvider().SelectionMade.Add(OnSelectionMade);
 					SearchProviderLanguages.GetProvider().Open(current);
 				}
+				GUI.backgroundColor = Color.white;
 			}
+			else
+			{
+				EditorGUILayout.BeginHorizontal();
+				
+				EditorGUI.BeginDisabledGroup(true);
+				EditorGUILayout.TextField(new GUIContent("Language"), LocalizationManager.CurrentLanguage.DisplayName);
+				EditorGUI.EndDisabledGroup();
+				
+				GUI.backgroundColor = Color.yellow;
+				if (GUILayout.Button("Edit", GUILayout.Width(55f)))
+				{
+					var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
+						t.DisplayName.Equals(LocalizationManager.CurrentLanguage.DisplayName));
 
+					SearchProviderLanguages.GetProvider().SelectionMade.Add(OnSelectionMade);
+					SearchProviderLanguages.GetProvider().Open(current);
+				}
+				GUI.backgroundColor = Color.white;
+				
+				EditorGUILayout.EndHorizontal();
+			}
+			
 			EditorGUILayout.EndHorizontal();
 			
-			if (EditorGUI.EndChangeCheck())
-			{
-				SettingsDef.ObjectRef.ApplyModifiedProperties();
-				SettingsDef.ObjectRef.Update();
-			}
-
-
 			EditorGUI.indentLevel--;
 			EditorGUILayout.Space(1.5f);
 			EditorGUILayout.EndVertical();
@@ -163,11 +147,8 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 
 		private void OnSelectionMade(SearchTreeEntry entry)
 		{
-			SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("name").stringValue = ((Language) entry.userData).DisplayName;
-			SettingsDef.ObjectRef.Fp("currentLanguage").Fpr("code").stringValue = ((Language) entry.userData).Code;
-			
-			SettingsDef.ObjectRef.ApplyModifiedProperties();
-			SettingsDef.ObjectRef.Update();
+			SearchProviderLanguages.GetProvider().SelectionMade.Remove(OnSelectionMade);
+			LocalizationManager.SetLanguage(((Language) entry.userData));
 		}
 	}
 }

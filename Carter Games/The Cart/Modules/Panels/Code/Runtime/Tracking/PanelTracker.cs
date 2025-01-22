@@ -36,32 +36,44 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static readonly Dictionary<string, Panel> PanelsTracked = new Dictionary<string, Panel>();
         private static readonly Dictionary<string, Panel> ActivePanels = new Dictionary<string, Panel>();
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when a panel is tracked.
+        /// </summary>
+        public static readonly Evt<Panel> PanelTracked = new Evt<Panel>();
+        
+        
+        /// <summary>
+        /// Raises when a panel is no longer tracked.
+        /// </summary>
+        public static readonly Evt<Panel> PanelUnTracked = new Evt<Panel>();
+        
         
         /// <summary>
         /// Raises when a panel is opened.
         /// </summary>
         public static readonly Evt<Panel> PanelOpened = new Evt<Panel>();
-        
-        
+
+
         /// <summary>
         /// Raises when any panel is opened.
         /// </summary>
         public static readonly Evt AnyPanelOpened = new Evt();
-        
-        
+
+
         /// <summary>
         /// Raises when a panel is closed.
         /// </summary>
         public static readonly Evt<Panel> PanelClosed = new Evt<Panel>();
-        
-        
+
+
         /// <summary>
         /// Raises when any panel is closed.
         /// </summary>
@@ -70,7 +82,7 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Utility Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Checks to see if a panel is being tracked.
         /// </summary>
@@ -80,8 +92,8 @@ namespace CarterGames.Cart.Modules.Panels
         {
             return PanelsTracked.ContainsKey(id);
         }
-        
-        
+
+
         /// <summary>
         /// Checks to see if a panel is open.
         /// </summary>
@@ -91,8 +103,8 @@ namespace CarterGames.Cart.Modules.Panels
         {
             return ActivePanels.ContainsKey(id);
         }
-        
-        
+
+
         /// <summary>
         /// Checks to see if any panel is opened.
         /// </summary>
@@ -101,11 +113,11 @@ namespace CarterGames.Cart.Modules.Panels
         {
             return ActivePanels.Count > 0;
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Tracks the panel entered.
         /// </summary>
@@ -114,9 +126,10 @@ namespace CarterGames.Cart.Modules.Panels
         {
             if (PanelsTracked.ContainsKey(panel.PanelId)) return;
             PanelsTracked.Add(panel.PanelId, panel);
+            PanelTracked.Raise(panel);
         }
 
-        
+
         /// <summary>
         /// Removes a panel from being tracked.
         /// </summary>
@@ -125,8 +138,9 @@ namespace CarterGames.Cart.Modules.Panels
         {
             if (!PanelsTracked.ContainsKey(panel.PanelId)) return;
             PanelsTracked.Remove(panel.PanelId);
+            PanelUnTracked.Raise(panel);
         }
-        
+
 
         /// <summary>
         /// Tries to get the panel of the entered id.
@@ -151,8 +165,8 @@ namespace CarterGames.Cart.Modules.Panels
             if (!PanelsTracked.ContainsKey(id)) return null;
             return PanelsTracked[id];
         }
-        
-        
+
+
         /// <summary>
         /// Tracks the panel entered.
         /// </summary>
@@ -164,8 +178,8 @@ namespace CarterGames.Cart.Modules.Panels
             PanelOpened.Raise(panel);
             AnyPanelOpened.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Tracks the panel entered.
         /// </summary>

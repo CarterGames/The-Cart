@@ -29,7 +29,6 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
-    [CreateAssetMenu(fileName = "Data Asset CSC", menuName = "Carter Games/The Cart/Core/CSC Ref Asset (Data Asset)")]
     public sealed class DataAssetCsc : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

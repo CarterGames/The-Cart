@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Modules.Settings;
@@ -31,40 +32,31 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency.Editor
 {
-    public class CurrencyAccountEditorWindow : EditorWindow
+    public class CurrencyAccountEditorWindow : UtilityEditorWindow
     {
-        private string accountName;
-        private double accountBalance;
-        
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static readonly string ScrollPosKey = $"CarterGames_TheCart_Modules_Currency_ScrollPos";
-        
+        private double accountBalance;
+
+        private string accountName;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static Vector2 ScrollPos
         {
             get => (Vector2)PerUserSettings.GetOrCreateValue<Vector2>(ScrollPosKey, SettingType.SessionState, Vector2.zero);
             set => PerUserSettings.SetValue<Vector2>(ScrollPosKey, SettingType.SessionState, value);
         }
-        
-        
+
+
         private IScriptableAssetDef<DataAssetDefaultAccounts> SettingsDef => ScriptableRef.GetAssetDef<DataAssetDefaultAccounts>();
 
         private SerializedProperty DefAccountsProp => SettingsDef.ObjectRef.Fp("defaultAccounts");
-        
-        
-        public static void OpenCurrencyEditorWindow()
-        {
-            // ScrollPos = Vector2.zero;
-            if (HasOpenInstances<CurrencyAccountEditorWindow>()) return;
-            GetWindow<CurrencyAccountEditorWindow>(true, "Manage Accounts").Show();
-        }
 
         private void OnGUI()
         {
@@ -94,6 +86,14 @@ namespace CarterGames.Cart.Modules.Currency.Editor
             
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
+        }
+
+
+        public static void OpenCurrencyEditorWindow()
+        {
+            // ScrollPos = Vector2.zero;
+            if (HasOpenInstances<CurrencyAccountEditorWindow>()) return;
+            Open<CurrencyAccountEditorWindow>("Manage Accounts");
         }
 
 
