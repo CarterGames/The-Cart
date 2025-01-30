@@ -47,17 +47,6 @@ namespace CarterGames.Cart.Modules.LoadingScreens
         /// Gets the prefab for the loading screen.
         /// </summary>
         public GenericLoadingScreenInstance LoadingScreenPrefab => loadingScreenPrefab;
-
-	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-	    |   Unity Methods
-	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-	    private void OnValidate()
-        {
-	        if (loadingScreenPrefab != null) return;
-	        loadingScreenPrefab =
-		        Resources.Load<GenericLoadingScreenInstance>("Prefabs/Loading Screen/++Canvas (Overlay) - (Cart) - Loading Screen");
-        }
     }
 }
 

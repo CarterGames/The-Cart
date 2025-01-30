@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,23 +33,16 @@ namespace CarterGames.Cart.Core.Editor
             label = EditorGUI.BeginProperty(position, label, property);
             position = EditorGUI.PrefixLabel(position, label);
             
-            var elementOne = property.Fpr("min");
-            var elementTwo = property.Fpr("max");
-            
             EditorGUI.BeginChangeCheck();
 
             var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
+            
+            var left = new Rect(position.x, position.y, (position.width / 2) - 1.5f, EditorGUIUtility.singleLineHeight);
+            var right = new Rect(position.x + (position.width / 2) + 1.5f, position.y, (position.width / 2) - 1.5f, EditorGUIUtility.singleLineHeight);
 
-            var left = new Rect(position.x, position.y, (position.width / 6) - 1.5f, EditorGUIUtility.singleLineHeight);
-            var leftLower = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight + 1.5f, (position.width / 6) - 1.5f, EditorGUIUtility.singleLineHeight);
-            var right = new Rect(position.x + (position.width / 6) + 1.5f, position.y, (position.width / 6) * 5 - 1.5f, EditorGUIUtility.singleLineHeight);
-            var rightLower = new Rect(position.x + (position.width / 6) + 1.5f, position.y + EditorGUIUtility.singleLineHeight + 1.5f, (position.width / 6) * 5 - 1.5f, EditorGUIUtility.singleLineHeight);
-
-            EditorGUI.LabelField(left, "Min:");
-            EditorGUI.LabelField(leftLower, "Max:");
-            EditorGUI.PropertyField(right, elementOne, GUIContent.none);
-            EditorGUI.PropertyField(rightLower, elementTwo, GUIContent.none);
+            EditorGUI.PropertyField(left, property.Fpr("min"), GUIContent.none);
+            EditorGUI.PropertyField(right, property.Fpr("max"), GUIContent.none);
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -73,7 +65,7 @@ namespace CarterGames.Cart.Core.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return base.GetPropertyHeight(property, label) * 2 + 1.5f;
+            return base.GetPropertyHeight(property, label) + 1.5f;
         }
     }
     
@@ -87,7 +79,7 @@ namespace CarterGames.Cart.Core.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return base.GetPropertyHeight(property, label) * 2 + 1.5f;
+            return base.GetPropertyHeight(property, label) + 1.5f;
         }
     }
     
@@ -102,7 +94,7 @@ namespace CarterGames.Cart.Core.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return base.GetPropertyHeight(property, label) * 2 + 1.5f;
+            return base.GetPropertyHeight(property, label) + 1.5f;
         }
     }
 }

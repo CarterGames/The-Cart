@@ -106,10 +106,13 @@ namespace CarterGames.Cart.Modules.Currency
                     }
                 }
                 
-                foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
+                if (DataAccess.GetAsset<DataAssetDefaultAccounts>())
                 {
-                    if (keys.Contains(defAccount.Key)) continue;
-                    keys.Add(defAccount.Key);
+                    foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
+                    {
+                        if (keys.Contains(defAccount.Key)) continue;
+                        keys.Add(defAccount.Key);
+                    }
                 }
 
                 return keys;

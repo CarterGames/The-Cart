@@ -24,7 +24,9 @@
  */
 
 using System;
+using System.Collections.Generic;
 using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Reflection;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
@@ -58,7 +60,22 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
 
-		public void OnCreated() { }
+		public void OnCreated()
+		{
+			var defaultLanguages = new List<Language>()
+			{
+				new Language("English (en-GB)", "en-GB"),
+				new Language("English (en-US)", "en-US"),
+				new Language("French (fr-FR)", "fr-FR"),
+				new Language("German (de-DE)", "de-DE"),
+				new Language("Spanish (es-ES)", "es-ES"),
+				new Language("Italian (it-IT)", "it-IT"),
+				new Language("Chinese Simplified (zh-CN)", "zh-CN"),
+				new Language("Japanese (ja-JP)", "ja-JP"),
+			};
+			
+			ReflectionHelper.SetField("languages", AssetRef, defaultLanguages, false);
+		}
 	}
 }
 
