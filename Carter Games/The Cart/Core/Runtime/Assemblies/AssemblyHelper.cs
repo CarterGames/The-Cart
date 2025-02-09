@@ -152,14 +152,12 @@ namespace CarterGames.Cart.Core.Management
         /// <summary>
         /// Gets all the class names of the entered type in the project that use the base type.
         /// </summary>
-        /// <param name="baseType"></param>
-        /// <param name="internalCheckOnly"></param>
+        /// <param name="baseType">The base tye to get from.</param>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <returns></returns>
         public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType, bool internalCheckOnly = true)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            Debug.Log(baseType.FullName);
             
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && x.BaseType is {IsConstructedGenericType: true} && x.FullName != baseType.FullName)
