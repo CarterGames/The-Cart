@@ -108,27 +108,34 @@ namespace CarterGames.Cart.Modules.NotionData
         private static bool TryParseAsPrimitive(NotionProperty property, Type fieldType, out object result)
         {
             result = null;
-
-            switch (fieldType.Name)
+            
+            try
             {
-                case { } x when x.Contains("Int"):
-                    result = (int) property.Number().Value;
-                    break;
-                case { } x when x.Contains("Boolean"):
-                    result = bool.Parse(property.JsonValue);
-                    break;
-                case { } x when x.Contains("Single"):
-                    result = (float) property.Number().Value;
-                    break;
-                case { } x when x.Contains("Double"):
-                    result = property.Number().Value;
-                    break;
-                case { } x when x.Contains("String"):
-                    result = property.RichText().Value;
-                    break;
-            }
+                switch (fieldType.Name)
+                {
+                    case { } x when x.Contains("Int"):
+                        result = (int) property.Number().Value;
+                        break;
+                    case { } x when x.Contains("Boolean"):
+                        result = bool.Parse(property.JsonValue);
+                        break;
+                    case { } x when x.Contains("Single"):
+                        result = (float) property.Number().Value;
+                        break;
+                    case { } x when x.Contains("Double"):
+                        result = property.Number().Value;
+                        break;
+                    case { } x when x.Contains("String"):
+                        result = property.RichText().Value;
+                        break;
+                }
 
-            return result != null;
+                return result != null;
+            }
+            catch (Exception e)
+            {
+                return result != null;
+            }
         }
         
         
@@ -136,59 +143,91 @@ namespace CarterGames.Cart.Modules.NotionData
         {
             result = null;
 
-            if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
+            try
             {
-                var allWrapperTypes = AssemblyHelper.GetClassesNamesOfBaseType(typeof(NotionDataWrapper<>));
-
-                foreach (var wrapperType in allWrapperTypes)
+                if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
                 {
-                    if (wrapperType != fieldType) continue;
+                    var allWrapperTypes = AssemblyHelper.GetClassesNamesOfBaseType(typeof(NotionDataWrapper<>));
 
-                    var constructor = wrapperType.GetConstructor(new[] {typeof(string)});
-                    result = constructor.Invoke(new object[] {property.RichText().Value});
+                    foreach (var wrapperType in allWrapperTypes)
+                    {
+                        if (wrapperType != fieldType) continue;
+
+                        var constructor = wrapperType.GetConstructor(new[] {typeof(string)});
+                        result = constructor.Invoke(new object[] {property.RichText().Value});
+                    }
                 }
-            }
 
-            return result != null;
+                return result != null;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
 
         private static JSONArray GetPropertyValueAsCollection(NotionProperty property)
         {
-            var value = property.MultiSelect().Value;
-            
-            // If the value is an collection of more than 1 element.
-            if (value.Length > 1)
+            try
             {
-                try
-                {
-                    // Tries to parse as an array normally.
-                    return JSON.Parse(property.JsonValue).AsArray;
-                }
-#pragma warning disable
-                catch (Exception e)
-#pragma warning restore
-                {
-                    // Bracket the data in the [] so it can be parsed correctly.
-                    var builder = new StringBuilder();
-                    builder.Append("[");
+                var value = property.MultiSelect().Value;
 
-                    // Parse each entry correctly into the collection.
-                    for (var i = 0; i < property.JsonValue.Split(',').Length; i++)
+                // If the value is an collection of more than 1 element.
+                if (value.Length > 1)
+                {
+                    try
                     {
-                        builder.Append($"\"{property.JsonValue.Split(',')[i].Trim()}\"");
-
-                        if (i == property.JsonValue.Split(',').Length - 1) continue;
-                        builder.Append(",");
+                        // Tries to parse as an array normally.
+                        return JSON.Parse(property.JsonValue).AsArray;
                     }
+#pragma warning disable
+                    catch (Exception e)
+#pragma warning restore
+                    {
+                        // Bracket the data in the [] so it can be parsed correctly.
+                        var builder = new StringBuilder();
+                        builder.Append("[");
 
-                    builder.Append("]");
+                        // Parse each entry correctly into the collection.
+                        for (var i = 0; i < property.JsonValue.Split(',').Length; i++)
+                        {
+                            builder.Append($"\"{property.JsonValue.Split(',')[i].Trim()}\"");
 
-                    return JSON.Parse(builder.ToString()).AsArray;
+                            if (i == property.JsonValue.Split(',').Length - 1) continue;
+                            builder.Append(",");
+                        }
+
+                        builder.Append("]");
+
+                        return JSON.Parse(builder.ToString()).AsArray;
+                    }
+                }
+                // Only a single element collection.
+                else
+                {
+                    // If the value is already bracketed when downloading, just use that.
+                    //
+                    if (property.JsonValue.Contains("[") && property.JsonValue.Contains("]"))
+                    {
+                        return JSON.Parse(property.JsonValue).AsArray;
+                    }
+                    //
+                    // Bracket the data in the [] so it can be parsed correctly.
+                    //
+                    else
+                    {
+                        var builder = new StringBuilder();
+
+                        builder.Append("[");
+                        builder.Append($"\"{property.JsonValue.Split(',')[0].Trim()}\"");
+                        builder.Append("]");
+
+                        return JSON.Parse(builder.ToString()).AsArray;
+                    }
                 }
             }
-            // Only a single element collection.
-            else
+            catch (Exception e)
             {
                 // If the value is already bracketed when downloading, just use that.
                 //
@@ -196,13 +235,14 @@ namespace CarterGames.Cart.Modules.NotionData
                 {
                     return JSON.Parse(property.JsonValue).AsArray;
                 }
+                
                 //
                 // Bracket the data in the [] so it can be parsed correctly.
                 //
                 else
                 {
                     var builder = new StringBuilder();
-                    
+
                     builder.Append("[");
                     builder.Append($"\"{property.JsonValue.Split(',')[0].Trim()}\"");
                     builder.Append("]");
@@ -211,187 +251,216 @@ namespace CarterGames.Cart.Modules.NotionData
                 }
             }
         }
-        
+
 
         private static bool TryParseAsArray(NotionProperty property, Type fieldType, out object result)
         {
-            var data = GetPropertyValueAsCollection(property);
             result = null;
-            
-            switch (fieldType.Name)
+
+            try
             {
-                case { } x when x.Contains("Int"):
-                    
-                    var parsedIntArray = new int[data.Count];
+                var data = GetPropertyValueAsCollection(property);
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedIntArray[i] = int.Parse(data[i].Value);
-                    }
 
-                    result = parsedIntArray;
-                    break;
-                case { } x when x.Contains("Boolean"):
-                    
-                    var parsedBoolArray = new bool[data.Count];
+                switch (fieldType.Name)
+                {
+                    case { } x when x.Contains("Int"):
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedBoolArray[i] = bool.Parse(data[i].Value);
-                    }
+                        var parsedIntArray = new int[data.Count];
 
-                    result = parsedBoolArray;
-                    break;
-                case { } x when x.Contains("Single"):
-                    
-                    var parsedFloatArray = new float[data.Count];
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedIntArray[i] = int.Parse(data[i].Value);
+                        }
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedFloatArray[i] = float.Parse(data[i].Value);
-                    }
+                        result = parsedIntArray;
+                        break;
+                    case { } x when x.Contains("Boolean"):
 
-                    result = parsedFloatArray;
-                    break;
-                case { } x when x.Contains("Double"):
-                    
-                    var parsedDoubleArray = new double[data.Count];
+                        var parsedBoolArray = new bool[data.Count];
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedDoubleArray[i] = double.Parse(data[i].Value);
-                    }
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedBoolArray[i] = bool.Parse(data[i].Value);
+                        }
 
-                    result = parsedDoubleArray;
-                    break;
-                case { } x when x.Contains("String"):
-                    
-                    var parsedStringArray = new string[data.Count];
+                        result = parsedBoolArray;
+                        break;
+                    case { } x when x.Contains("Single"):
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedStringArray[i] = data[i].Value;
-                    }
+                        var parsedFloatArray = new float[data.Count];
 
-                    result = parsedStringArray;
-                    break;
-                default:
-                    break;
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedFloatArray[i] = float.Parse(data[i].Value);
+                        }
+
+                        result = parsedFloatArray;
+                        break;
+                    case { } x when x.Contains("Double"):
+
+                        var parsedDoubleArray = new double[data.Count];
+
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedDoubleArray[i] = double.Parse(data[i].Value);
+                        }
+
+                        result = parsedDoubleArray;
+                        break;
+                    case { } x when x.Contains("String"):
+
+                        var parsedStringArray = new string[data.Count];
+
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedStringArray[i] = data[i].Value;
+                        }
+
+                        result = parsedStringArray;
+                        break;
+                    default:
+                        break;
+                }
+
+                return result != null;
             }
-            
-            return result != null;
+            catch (Exception e)
+            {
+                return false;
+            }
         }
-        
-        
+
+
         private static bool TryParseAsList(NotionProperty property, Type fieldType, out object result)
         {
-            var data = GetPropertyValueAsCollection(property);
-            var typeName = fieldType.GenericTypeArguments.Length > 0 ? fieldType.GenericTypeArguments[0] : fieldType;
             result = null;
-            
-            switch (typeName.Name)
+
+            try
             {
-                case { } x when x.Contains("Int"):
-                    
-                    var parsedIntList = new List<int>();
+                var data = GetPropertyValueAsCollection(property);
+                var typeName = fieldType.GenericTypeArguments.Length > 0
+                    ? fieldType.GenericTypeArguments[0]
+                    : fieldType;
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedIntList.Add(int.Parse(data[i].Value));
-                    }
 
-                    result = parsedIntList;
-                    break;
-                case { } x when x.Contains("Boolean"):
-                    
-                    var parsedBoolList = new List<bool>();
+                switch (typeName.Name)
+                {
+                    case { } x when x.Contains("Int"):
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedBoolList.Add(bool.Parse(data[i].Value));
-                    }
+                        var parsedIntList = new List<int>();
 
-                    result = parsedBoolList;
-                    break;
-                case { } x when x.Contains("Single"):
-                    
-                    var parsedFloatList = new List<float>();
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedIntList.Add(int.Parse(data[i].Value));
+                        }
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedFloatList.Add(float.Parse(data[i].Value));
-                    }
+                        result = parsedIntList;
+                        break;
+                    case { } x when x.Contains("Boolean"):
 
-                    result = parsedFloatList;
-                    break;
-                case { } x when x.Contains("Double"):
-                    
-                    var parsedDoubleList = new List<double>();
+                        var parsedBoolList = new List<bool>();
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedDoubleList.Add(double.Parse(data[i].Value));
-                    }
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedBoolList.Add(bool.Parse(data[i].Value));
+                        }
 
-                    result = parsedDoubleList;
-                    break;
-                case { } x when x.Contains("String"):
+                        result = parsedBoolList;
+                        break;
+                    case { } x when x.Contains("Single"):
 
-                    var parsedStringList = new List<string>();
+                        var parsedFloatList = new List<float>();
 
-                    for (var i = 0; i < data.Count; i++)
-                    {
-                        parsedStringList.Add(data[i].Value);
-                    }
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedFloatList.Add(float.Parse(data[i].Value));
+                        }
 
-                    result = parsedStringList;
-                    break;
-                default:
-                    break;
+                        result = parsedFloatList;
+                        break;
+                    case { } x when x.Contains("Double"):
+
+                        var parsedDoubleList = new List<double>();
+
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedDoubleList.Add(double.Parse(data[i].Value));
+                        }
+
+                        result = parsedDoubleList;
+                        break;
+                    case { } x when x.Contains("String"):
+
+                        var parsedStringList = new List<string>();
+
+                        for (var i = 0; i < data.Count; i++)
+                        {
+                            parsedStringList.Add(data[i].Value);
+                        }
+
+                        result = parsedStringList;
+                        break;
+                    default:
+                        break;
+                }
+
+                return result != null;
             }
-            
-            return result != null;
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
 
         private static bool TryParseEnumOrEnumFlags(NotionProperty property, Type fieldType, out object result)
         {
-            if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 && JSON.Parse(property.JsonValue).IsArray)
-            {
-                var combined = string.Empty;
-                var elements = JSON.Parse(property.JsonValue).AsArray;
+            result = null;
 
-                if (elements.Count <= 1)
-                {
-                    result = Enum.Parse(fieldType, elements[0].Value.Replace(" ", ""));
-                    return result != null;
-                }
-                    
-                for (var index = 0; index < elements.Count; index++)
-                {
-                    combined += elements[index].Value;
-                        
-                    if (index == elements.Count - 1) continue;
-                    combined += ",";
-                }
-                    
-                result = Enum.Parse(fieldType, combined);
-                return result != null;
-            }
-            else
+            try
             {
-                try
+                if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 && JSON.Parse(property.JsonValue).IsArray)
                 {
-                    result = Enum.Parse(fieldType, property.JsonValue.Replace(" ", ""));
+                    var combined = string.Empty;
+                    var elements = JSON.Parse(property.JsonValue).AsArray;
+
+                    if (elements.Count <= 1)
+                    {
+                        result = Enum.Parse(fieldType, elements[0].Value.Replace(" ", ""));
+                        return result != null;
+                    }
+                    
+                    for (var index = 0; index < elements.Count; index++)
+                    {
+                        combined += elements[index].Value;
+                        
+                        if (index == elements.Count - 1) continue;
+                        combined += ",";
+                    }
+                    
+                    result = Enum.Parse(fieldType, combined);
                     return result != null;
                 }
+                else
+                {
+                    try
+                    {
+                        result = Enum.Parse(fieldType, property.JsonValue.Replace(" ", ""));
+                        return result != null;
+                    }
 #pragma warning disable
-                catch (Exception e)
+                    catch (Exception e)
 #pragma warning restore
-                {
-                    result = fieldType.IsValueType ? Activator.CreateInstance(fieldType) : null;
-                    return result != null;
+                    {
+                        result = fieldType.IsValueType ? Activator.CreateInstance(fieldType) : null;
+                        return result != null;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
     }
