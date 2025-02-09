@@ -101,7 +101,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 // Debug.Log(element.AsObject[i].ToString());
                 
                 var valueForType = GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i]);
-                var valueJson = element.AsObject[i].ToString();
+                var valueJson = valueForType;
                 
                 switch (element.AsObject[i]["type"].Value)
                 {
@@ -128,7 +128,9 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                         break;
                     case "rollup":
 
-                        valueJson = element.AsObject[i]["rollup"]["array"][0];
+                        valueForType = GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value,
+                            element.AsObject[i]["rollup"]["array"][0]);
+                        valueJson = valueForType;
                         
                         switch (element.AsObject[i]["rollup"]["array"][0]["type"].Value)
                         {
