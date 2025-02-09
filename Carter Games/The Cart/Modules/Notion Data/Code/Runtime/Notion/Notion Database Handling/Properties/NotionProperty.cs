@@ -42,6 +42,30 @@ namespace CarterGames.Cart.Modules.NotionData
         public NotionPropertyTitle Title() => NotionPropertyFactory.Title(InternalValue, JsonValue);
 
 
+        public bool TryConvertValueToType<T>(out T value)
+        {
+            value = default;
+            
+            if (typeof(T).BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
+            {
+                if (NotionPropertyValueHandler.TryGetValueAsWrapper(this, typeof(T), out var valueObj))
+                {
+                    value = (T) valueObj;
+                    return true;
+                }
+            }
+            else
+            {
+                if (NotionPropertyValueHandler.TryGetValueAs(this, typeof(T), out var valueObj))
+                {
+                    value = (T) valueObj;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         public bool TryConvertValueToFieldType(FieldInfo field, object target)
         {
