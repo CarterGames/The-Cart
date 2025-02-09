@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,13 +39,22 @@ namespace CarterGames.Cart.Modules.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         [SerializeField] private List<NotionDatabaseRow> dataDownloaded;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The rows downloaded from notion for use.
+        /// </summary>
+        public List<NotionDatabaseRow> Rows => dataDownloaded;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Makes a new instance of the class with the data downloaded.
         /// </summary>
@@ -55,15 +64,6 @@ namespace CarterGames.Cart.Modules.NotionData
             // Reverses the list as it is back to front when downloaded.
             dataDownloaded = data.AsEnumerable().ToList();
         }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The rows downloaded from notion for use.
-        /// </summary>
-        public List<NotionDatabaseRow> Rows => dataDownloaded;
     }
 }
 

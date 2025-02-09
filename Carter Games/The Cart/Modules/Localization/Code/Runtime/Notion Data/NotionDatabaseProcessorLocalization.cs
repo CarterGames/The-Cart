@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Modules.NotionData;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
@@ -34,16 +35,16 @@ namespace CarterGames.Cart.Modules.Localization
     /// A INotionDatabaseParser for converting Notion Data into LocalizationData.
     /// The standard parser will not work in this workflow.
     /// </summary>
-    public sealed class NotionDatabaseParserLocalization : INotionDatabaseProcessor<LocalizationData>
+    public sealed class NotionDatabaseProcessorLocalization : NotionDatabaseProcessor
     {
         /// <summary>
         /// Parses the data when called.
         /// </summary>
         /// <param name="result">The result of the download to use.</param>
         /// <returns>The parsed data to set on the asset.</returns>
-        public List<LocalizationData> Process(NotionDatabaseQueryResult result)
+        public override List<object> Process<T>(NotionDatabaseQueryResult result)
         {
-            var list = new List<LocalizationData>();
+            var list = new List<object>();
 
             foreach (var row in result.Rows)
             {
@@ -52,11 +53,10 @@ namespace CarterGames.Cart.Modules.Localization
                 foreach (var k in row.DataLookup.Keys.Where(t => t != "id"))
                 {
                     var valueData = row.DataLookup[k];
-                    entries.Add(new LocalizationEntry(k, (string) valueData.GetValueAs(Type.GetType("System.String"))));
+                    entries.Add(new LocalizationEntry(k, valueData.RichText().Value));
                 }
-				
-				
-                list.Add(new LocalizationData((string) row.DataLookup["id"].GetValueAs(Type.GetType("System.String")), entries));
+                
+                list.Add(new LocalizationData(row.DataLookup["id"].RichText().Value, entries));
             }
 
             return list;

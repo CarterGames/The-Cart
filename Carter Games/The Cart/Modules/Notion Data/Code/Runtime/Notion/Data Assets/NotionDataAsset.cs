@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
@@ -37,47 +38,48 @@ namespace CarterGames.Cart.Modules.NotionData
     [Serializable]
     public abstract class NotionDataAsset<T> : DataAsset where T : new()
     {
-	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-	    |   Fields
-	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 #if UNITY_EDITOR
-#pragma warning disable 0168
-	    [SerializeField, HideInInspector] private string linkToDatabase;
-	    [SerializeField, HideInInspector] private string databaseApiKey;
-	    [SerializeField] private NotionFilterContainer filters;
-	    [SerializeField] private List<NotionSortProperty> sortProperties;
+#pragma warning disable
+        [SerializeField, HideInInspector] private string linkToDatabase;
+        [SerializeField, HideInInspector] private string databaseApiKey;
+        [SerializeField] private NotionFilterContainer filters;
+        [SerializeField] private List<NotionSortProperty> sortProperties;
+        [SerializeField] private NotionDatabaseProcessor processor;
 #pragma warning restore
 #endif
-	    
-	    [SerializeField] private List<T> data;
+        
+        [SerializeField] private List<T> data;
 
-	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-	    |   Properties
-	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-	    /// <summary>
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
         /// The data stored on the asset.
         /// </summary>
         public List<T> Data => data;
 
 
-	    /// <summary>
-        /// Defines the parser user to apply the data to the asset from Notion.
+        /// <summary>
+        /// Defines the parser used to apply the data to the asset from Notion.
         /// </summary>
-        protected virtual INotionDatabaseProcessor<T> DatabaseProcessor => new NotionDatabaseProcessorStandard<T>();
+        protected virtual NotionDatabaseProcessor DatabaseProcessor => processor;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-	    |   Methods
-	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-	    /// <summary>
+        /// <summary>
         /// Applies the data found to the asset.
         /// </summary>
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
-            data = DatabaseProcessor.Process(result);
+            data = DatabaseProcessor.Process<T>(result).Cast<T>().ToList();
             PostDataDownloaded();
             
 #if UNITY_EDITOR
@@ -88,7 +90,7 @@ namespace CarterGames.Cart.Modules.NotionData
         }
 
 
-	    /// <summary>
+        /// <summary>
         /// Override to run logic post download such as making edits to some data values or assigning others etc.
         /// </summary>
         protected virtual void PostDataDownloaded()

@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,16 +32,7 @@ namespace CarterGames.Cart.Modules.Localization
 	/// A Notion Data Asset for localized text.
 	/// </summary>
 	[CreateAssetMenu(fileName = "Notion Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Notion Data Asset Localized Text")]
-	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData>
-	{
-#if UNITY_EDITOR
-		/// <summary>
-		/// Overrides the standard Notion Database Parser to correctly parse the text into each language entry. 
-		/// </summary>
-		protected override INotionDatabaseProcessor<LocalizationData> DatabaseProcessor =>
-			new NotionDatabaseParserLocalization();
-#endif
-	}
+	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData> { }
 }
 
 #endif

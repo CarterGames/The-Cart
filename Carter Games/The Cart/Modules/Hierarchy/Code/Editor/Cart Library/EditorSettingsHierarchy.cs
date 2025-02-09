@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_HIERARCHY && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         private static readonly string UniqueId = PerUserSettings.UniqueId;
 
         private static readonly string IsSeparatorExpandedId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_SectionExpanded";
+        private static readonly string LastSelectedId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_LastSelected";
 
         private static readonly string HeaderPrefixId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_HierarchyHeaderPrefix";
         private static readonly string SeparatorPrefixId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_SeparatorHeaderPrefix";
@@ -56,6 +57,13 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         {
             get => (bool) PerUserSettings.GetOrCreateValue<bool>(IsSeparatorExpandedId, SettingType.EditorPref, false);
             set => PerUserSettings.SetValue<bool>(IsSeparatorExpandedId, SettingType.EditorPref, value);
+        }
+        
+        
+        public static int EditorSettingsLastSelected
+        {
+            get => (int) PerUserSettings.GetOrCreateValue<int>(LastSelectedId, SettingType.EditorPref, 0);
+            set => PerUserSettings.SetValue<int>(LastSelectedId, SettingType.EditorPref, value);
         }
 
 

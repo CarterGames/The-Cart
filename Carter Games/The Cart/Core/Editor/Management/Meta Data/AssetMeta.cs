@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
 
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Core.Management.Editor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.MetaData.Editor
 {
@@ -48,7 +50,7 @@ namespace CarterGames.Cart.Core.MetaData.Editor
         /// <returns>The found data.</returns>
         public static MetaData GetData(string key)
         {
-            if (!DataAccess.GetAsset<DataAssetMetaData>().TryGetData(key, out var metaData))
+            if (!ScriptableRef.GetAssetDef<DataAssetMetaData>().AssetRef.TryGetData(key, out var metaData))
             {
                 CartLogger.LogError<LogCategoryCore>($"Unable to find JSON for {key}", typeof(AssetMeta));
                 return null;

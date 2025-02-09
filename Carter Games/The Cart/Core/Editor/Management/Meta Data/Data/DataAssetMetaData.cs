@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -68,7 +68,7 @@ namespace CarterGames.Cart.Core.MetaData.Editor
         public bool TryGetData(string id, out MetaData asset)
         {
             asset = GetData(id);
-            return asset != null;
+            return !asset.IsMissingOrNull();
         }
 
 

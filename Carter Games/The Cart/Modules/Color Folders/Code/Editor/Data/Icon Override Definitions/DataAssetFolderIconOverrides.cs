@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_COLORFOLDERS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,16 +38,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		[SerializeField] private List<DataFolderIconOverride> folderOverrides = new List<DataFolderIconOverride>()
-		{
-			// Defaults from project structure used from library.
-			new DataFolderIconOverride("Assets/_Project/Art", "Yellow"),
-			new DataFolderIconOverride("Assets/_Project/Audio", "Orange"),
-			new DataFolderIconOverride("Assets/_Project/Data", "Green"),
-			new DataFolderIconOverride("Assets/_Project/Scenes", "Blue"),
-			new DataFolderIconOverride("Assets/_Project/Code", "Red"),
-			new DataFolderIconOverride("Assets/_Project/Prefabs", "Cyan"),
-		};
+		[SerializeField] private List<DataFolderIconOverride> folderOverrides = new List<DataFolderIconOverride>();
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties

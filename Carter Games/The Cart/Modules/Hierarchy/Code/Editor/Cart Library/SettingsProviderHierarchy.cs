@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_HIERARCHY && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,12 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Hierarchy.Editor
 {
@@ -35,6 +37,11 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
     /// </summary>
     public sealed class SettingsProviderHierarchy : ISettingsProvider
     {
+        private static readonly string[] OptionLabels = new string[3]
+        {
+            "Headers & Separators", "Alternate Colors", "Notes"
+        };
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -69,20 +76,45 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             
             if (!EditorSettingsHierarchy.EditorSettingsSectionExpanded) return;
 
-
             EditorGUILayout.BeginVertical("Box");
             EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical(GUILayout.Width(125));
+
+            for (var i = 0; i < OptionLabels.Length; i++)
+            {
+                GUI.backgroundColor =
+                    EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.gray : Color.white;
+                
+                if (GUILayout.Button(OptionLabels[i]))
+                {
+                    EditorSettingsHierarchy.EditorSettingsLastSelected = i;
+                }
+                
+                GUI.backgroundColor = Color.white;
+            }
             
+            EditorGUILayout.EndVertical();
             
-            // Draw the provider enum field on the GUI...
-            EditorSettingsHierarchy.HeaderPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("headerPrefix"), EditorSettingsHierarchy.HeaderPrefix);
-            EditorSettingsHierarchy.SeparatorPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("separatorPrefix"), EditorSettingsHierarchy.SeparatorPrefix);
-            EditorSettingsHierarchy.TextAlign = (HierarchyTitleTextAlign) EditorGUILayout.EnumPopup(AssetMeta.GetData("Hierarchy").Content("textAlignment"), EditorSettingsHierarchy.TextAlign);
-            EditorSettingsHierarchy.FullWidth = EditorGUILayout.Toggle(AssetMeta.GetData("Hierarchy").Content("useFullWidth"), EditorSettingsHierarchy.FullWidth);
-            EditorSettingsHierarchy.HeaderBackgroundColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerBackgroundColor"), EditorSettingsHierarchy.HeaderBackgroundColor);
-            EditorSettingsHierarchy.TextColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerTextColor"), EditorSettingsHierarchy.TextColor);
+            EditorGUILayout.BeginVertical();
             
+            switch (EditorSettingsHierarchy.EditorSettingsLastSelected)
+            {
+                case 0:
+                    ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.HeaderSeparatorConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("headerSeparatorConfig"));
+                    break;
+                case 1:
+                    ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.AlternateLinesConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("alternateLinesConfig"));
+                    break;
+                case 2:
+                    ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.NotesConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("notesConfig"));
+                    break;
+            }
+            
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
             
             EditorGUI.indentLevel--;
             EditorGUILayout.Space(1.5f);

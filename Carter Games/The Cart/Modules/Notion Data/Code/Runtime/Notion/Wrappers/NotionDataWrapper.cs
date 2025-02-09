@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,8 @@ namespace CarterGames.Cart.Modules.NotionData
     /// <summary>
     /// A wrapper base class for converting a notion database property into something else.
     /// </summary>
-    /// <typeparam name="T">The type to wrap as.</typeparam>
     [Serializable]
-    public abstract class NotionDataWrapper<T>
+    public class NotionDataWrapper<T>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -41,7 +40,16 @@ namespace CarterGames.Cart.Modules.NotionData
 
         [SerializeField] protected string id;
         [SerializeField] protected T value;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// The value stored in the wrapper.
+        /// </summary>
+        public T Value => value;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -53,38 +61,19 @@ namespace CarterGames.Cart.Modules.NotionData
         public NotionDataWrapper(string id)
         {
             this.id = id;
+            Assign();
         }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The value stored in the wrapper.
-        /// </summary>
-        public T Value => value;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Assigns the reference when called.
         /// </summary>
-        protected abstract void Assign();
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Operator
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Converts the wrapper to its implementation type.
-        /// </summary>
-        /// <param name="dataWrapper">The wrapper to convert.</param>
-        /// <returns>The value of the wrapper.</returns>
-        public static implicit operator T(NotionDataWrapper<T> dataWrapper)
+        protected virtual void Assign()
         {
-            return dataWrapper.Value;
+            return;
         }
     }
 }

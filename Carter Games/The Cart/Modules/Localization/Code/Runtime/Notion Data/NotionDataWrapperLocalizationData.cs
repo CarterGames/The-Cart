@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 using System;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Modules.NotionData;
+using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Modules.Localization
 {
@@ -34,7 +35,15 @@ namespace CarterGames.Cart.Modules.Localization
     /// </summary>
     public class NotionDataWrapperLocalizationData : NotionDataWrapper<LocalizationData>
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
         public NotionDataWrapperLocalizationData(string id) : base(id) { }
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         protected override void Assign()
         {
