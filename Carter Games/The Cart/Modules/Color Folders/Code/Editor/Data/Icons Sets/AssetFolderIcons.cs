@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 	/// <summary>
 	/// A non-data asset scriptable object for asset folder sets as they are pre-defined.
 	/// </summary>
+	[Serializable]
 	public sealed class AssetFolderIcons : ScriptableObject
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
