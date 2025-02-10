@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -67,12 +68,19 @@ namespace CarterGames.Cart.Core.Data
         /// <returns>The asset if it exists.</returns>
         public static T GetAsset<T>() where T : DataAsset
         {
-            if (Index.Lookup.ContainsKey(typeof(T).ToString()))
+            try
             {
-                return (T)Index.Lookup[typeof(T).ToString()][0];
+                if (Index.Lookup.ContainsKey(typeof(T).ToString()))
+                {
+                    return (T)Index.Lookup[typeof(T).ToString()][0];
+                }
+                
+                return null;
             }
-
-            return null;
+            catch (Exception e)
+            {
+                return null;
+            }
         }
         
         
