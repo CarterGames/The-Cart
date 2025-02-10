@@ -21,13 +21,14 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Management;
 using UnityEditor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Core.MetaData.Editor
 {
+    [Serializable]
     public class DataAssetMetaData : DataAsset
     {
         [SerializeField] private SerializableDictionary<string, TextAsset> data;

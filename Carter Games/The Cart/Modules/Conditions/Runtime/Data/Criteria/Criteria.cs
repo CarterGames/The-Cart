@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// The base class for a criteria to add to conditions.
 	/// </summary>
+	[Serializable]
 	public abstract class Criteria : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

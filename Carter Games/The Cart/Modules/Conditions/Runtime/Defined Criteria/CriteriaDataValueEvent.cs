@@ -34,6 +34,7 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// A criteria for checking is a Data value evt has been raised.
 	/// </summary>
+	[Serializable]
 	public sealed class CriteriaDataValueEvent : Criteria
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace CarterGames.Cart.Core.Logs
     /// <summary>
     /// A data asset to store the states of all the log categories.
     /// </summary>
+    [Serializable]
     public sealed class DataAssetCartLogCategories : DataAsset
     {
         [SerializeField] private SerializableDictionary<string, bool> lookup;

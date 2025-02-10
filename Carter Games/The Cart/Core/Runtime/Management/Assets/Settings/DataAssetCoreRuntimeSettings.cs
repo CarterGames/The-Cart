@@ -32,6 +32,7 @@ namespace CarterGames.Cart.Core.Management
     /// <summary>
     /// Handles any runtime specific settings for the package.
     /// </summary>
+    [Serializable]
     public sealed class DataAssetCoreRuntimeSettings : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -21,14 +21,17 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Data.Editor;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Core.Management.Editor
 {
@@ -300,14 +303,22 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <returns>The newly created asset.</returns>
         private static T CreateScriptableObject<T>(string path) where T : ScriptableObject
         {
-            var instance = ScriptableObject.CreateInstance(typeof(T));
+            try
+            {
+                var instance = ScriptableObject.CreateInstance(typeof(T));
 
-            CreateToDirectory(path);
+                CreateToDirectory(path);
 
-            AssetDatabase.CreateAsset(instance, path);
-            AssetDatabase.Refresh();
+                AssetDatabase.CreateAsset(instance, path);
+                AssetDatabase.Refresh();
 
-            return (T)instance;
+                return (T)instance;
+            }
+            catch (Exception e)
+            {
+                CartLogger.LogWarning<LogCategoryCore>($"Failed to create asset of type {typeof(T)}. Error message: {e.Message}");
+                return null;
+            }
         }
         
         

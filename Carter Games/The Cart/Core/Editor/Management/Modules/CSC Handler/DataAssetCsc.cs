@@ -23,12 +23,14 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEditor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules
 {
+    [Serializable]
     public sealed class DataAssetCsc : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

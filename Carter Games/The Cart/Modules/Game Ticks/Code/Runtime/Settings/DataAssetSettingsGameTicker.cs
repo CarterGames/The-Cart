@@ -23,11 +23,13 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.GameTicks
 { 
+	[Serializable]
 	public sealed class DataAssetSettingsGameTicker : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

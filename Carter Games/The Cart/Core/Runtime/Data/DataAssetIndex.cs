@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace CarterGames.Cart.Core.Data
     /// <summary>
     /// The index for all data assets in the project.
     /// </summary>
+    [Serializable]
     public sealed class DataAssetIndex : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

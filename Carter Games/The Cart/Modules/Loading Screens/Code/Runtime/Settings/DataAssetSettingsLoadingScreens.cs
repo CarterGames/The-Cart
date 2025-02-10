@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens
     /// <summary>
     /// The runtime settings for the loading screens system.
     /// </summary>
+    [Serializable]
     public sealed class DataAssetSettingsLoadingScreens : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

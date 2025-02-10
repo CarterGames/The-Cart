@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// A data index for conditions specifically.
 	/// </summary>
+	[Serializable]
 	public sealed class ConditionsIndex : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

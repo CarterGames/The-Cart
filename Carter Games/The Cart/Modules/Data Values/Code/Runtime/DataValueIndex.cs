@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.DataValues
 	/// <summary>
 	/// An index of all the data values in the project.
 	/// </summary>
+	[Serializable]
     public sealed class DataValueIndex : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

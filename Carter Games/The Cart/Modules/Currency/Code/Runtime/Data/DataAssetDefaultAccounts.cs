@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
@@ -33,6 +34,7 @@ namespace CarterGames.Cart.Modules.Currency
 	/// <summary>
 	/// A data asset for the default accounts the system has.
 	/// </summary>
+	[Serializable]
     public class DataAssetDefaultAccounts : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

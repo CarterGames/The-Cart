@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 	/// <summary>
 	/// Stores the overrides the user has applied to the project.
 	/// </summary>
+	[Serializable]
 	public class DataAssetFolderIconOverrides : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

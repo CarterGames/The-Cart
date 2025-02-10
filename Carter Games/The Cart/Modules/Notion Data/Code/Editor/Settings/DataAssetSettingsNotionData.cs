@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
     /// <summary>
     /// Handles the settings asset for the notion data module.
     /// </summary>
+    [Serializable]
     public sealed class DataAssetSettingsNotionData : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

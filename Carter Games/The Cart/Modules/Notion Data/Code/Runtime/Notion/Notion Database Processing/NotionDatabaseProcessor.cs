@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
 
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.NotionData
 	/// Implement to alter the method at which data is parser to an asset from the data downloaded from Notion.
 	/// </summary>
 	/// <typeparam name="T">The type to parse to, normally the NotionDataAsset genetic passed argument type.</typeparam>
+	[Serializable]
 	public abstract class NotionDatabaseProcessor : DataAsset
 	{
 		public abstract List<object> Process<T>(NotionDatabaseQueryResult result) where T : new();

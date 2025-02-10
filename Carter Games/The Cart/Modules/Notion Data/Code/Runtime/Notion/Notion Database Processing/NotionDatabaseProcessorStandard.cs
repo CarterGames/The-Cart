@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.NotionData
     /// The standard data parser from Notion to a NotionDataAsset. Matches the property name for parses the data to each entry.
     /// </summary>
     /// <typeparam name="T">The type to parse to.</typeparam>
+    [Serializable]
     public sealed class NotionDatabaseProcessorStandard : NotionDatabaseProcessor
     {
         public override List<object> Process<T>(NotionDatabaseQueryResult result)

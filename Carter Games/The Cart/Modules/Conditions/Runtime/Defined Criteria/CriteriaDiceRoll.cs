@@ -33,6 +33,7 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// A criteria that rolls a custom dice.
 	/// </summary>
+	[Serializable]
 	public sealed class CriteriaDiceRoll : Criteria
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

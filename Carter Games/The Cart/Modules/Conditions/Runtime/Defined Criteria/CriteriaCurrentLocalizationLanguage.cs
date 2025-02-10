@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Modules.Localization;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.Conditions
     /// <summary>
     /// A criteria for checking the current language selected for the user.
     /// </summary>
+    [Serializable]
     public sealed class CriteriaCurrentLocalizationLanguage : Criteria
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// A data asset for storing the languages the game supports.
 	/// </summary>
+	[Serializable]
 	public sealed class DataAssetDefinedLanguages : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

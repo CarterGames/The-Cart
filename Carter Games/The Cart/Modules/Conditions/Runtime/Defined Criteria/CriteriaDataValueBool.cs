@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Modules.DataValues;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// A pre-defined criteria for checking a data value bool value.
 	/// </summary>
+	[Serializable]
 	public sealed class CriteriaDataValueBool : Criteria
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

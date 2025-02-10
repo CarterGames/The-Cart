@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.Localization
 	/// A data asset used to store localized text for your game.
 	/// </summary>
 	[CreateAssetMenu(fileName = "Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Localized Text")]
+	[Serializable]
 	public sealed class DataAssetLocalizedText : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

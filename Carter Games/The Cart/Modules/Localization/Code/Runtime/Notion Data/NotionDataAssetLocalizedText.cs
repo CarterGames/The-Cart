@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Modules.NotionData;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ namespace CarterGames.Cart.Modules.Localization
 	/// A Notion Data Asset for localized text.
 	/// </summary>
 	[CreateAssetMenu(fileName = "Notion Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Notion Data Asset Localized Text")]
+	[Serializable]
 	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData> { }
 }
 

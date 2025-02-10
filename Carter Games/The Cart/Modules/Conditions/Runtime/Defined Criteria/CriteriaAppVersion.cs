@@ -34,6 +34,7 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// A pre-defined criteria for the app version number.
 	/// </summary>
+	[Serializable]
 	public sealed class CriteriaAppVersion : Criteria
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

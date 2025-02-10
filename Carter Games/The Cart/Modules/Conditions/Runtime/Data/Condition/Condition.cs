@@ -37,6 +37,7 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// A container for a condition asset.
 	/// </summary>
+	[Serializable]
 	public sealed class Condition : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
