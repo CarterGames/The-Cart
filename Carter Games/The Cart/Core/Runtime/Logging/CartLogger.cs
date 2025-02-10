@@ -58,7 +58,14 @@ namespace CarterGames.Cart.Core.Logs
         /// <summary>
         /// Gets if the system should show logs (in a production build) based on the current settings.
         /// </summary>
-        private static bool ShowLogsOnProductionBuild => IsProductionBuild && UtilRuntime.Settings.UseLogsInProductionBuilds;
+        private static bool ShowLogsOnProductionBuild
+        {
+            get
+            {
+                if (Application.isEditor) return true;
+                return IsProductionBuild && UtilRuntime.Settings.UseLogsInProductionBuilds;
+            }
+        }
 
 
         /// <summary>
@@ -68,6 +75,8 @@ namespace CarterGames.Cart.Core.Logs
         {
             get
             {
+                if (Application.isEditor) return true;
+                
                 if (IsProductionBuild)
                 {
                     return ShowLogsOnProductionBuild && UtilRuntime.Settings.LoggingUseCartLogs;
