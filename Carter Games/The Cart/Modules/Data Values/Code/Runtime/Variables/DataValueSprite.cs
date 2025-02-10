@@ -23,10 +23,12 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
+    [Serializable]
     [CreateAssetMenu(fileName = "Data Value Sprite", menuName = "Carter Games/The Cart/Modules/Data Values/Variables/Data Value Sprite", order = 8)]
     public class DataValueSprite : DataVariable<Sprite> {}
 }

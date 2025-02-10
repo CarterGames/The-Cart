@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
@@ -30,6 +31,7 @@ namespace CarterGames.Cart.Modules.DataValues
 	/// <summary>
 	/// A base class for all data values to inherit from.
 	/// </summary>
+	[Serializable]
     public abstract class DataValueAsset : ScriptableObject, IDataValueReset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

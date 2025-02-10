@@ -23,11 +23,13 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value List Color", menuName = "Carter Games/The Cart/Modules/Data Values/Lists/Data Value List Color", order = 1)]
+	[Serializable]
 	public class DataValueListColor : DataValueList<Color> {}
 }
 

@@ -32,6 +32,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 	/// An event data value for normal system action.
 	/// </summary>
 	[CreateAssetMenu(fileName = "Data Value Action", menuName = "Carter Games/The Cart/Modules/Data Values/Events/Data Value Action", order = 1)]
+	[Serializable]
 	public class DataValueAction : DataValueEventBase
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

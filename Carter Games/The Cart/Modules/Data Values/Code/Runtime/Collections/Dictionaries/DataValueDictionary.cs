@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
@@ -36,6 +37,7 @@ namespace CarterGames.Cart.Modules.DataValues
     /// </summary>
     /// <typeparam name="TKey">The key type.</typeparam>
     /// <typeparam name="TValue">The value type.</typeparam>
+    [Serializable]
     public class DataValueDictionary<TKey, TValue> : DataValueAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

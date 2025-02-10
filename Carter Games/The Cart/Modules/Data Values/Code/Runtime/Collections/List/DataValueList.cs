@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Modules.DataValues.Events;
@@ -34,6 +35,7 @@ namespace CarterGames.Cart.Modules.DataValues
     /// The base class for a list data value.
     /// </summary>
     /// <typeparam name="T">The value type for the list.</typeparam>
+    [Serializable]
     public abstract class DataValueList<T> : DataValueAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

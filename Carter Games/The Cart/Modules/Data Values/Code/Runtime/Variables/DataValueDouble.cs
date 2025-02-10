@@ -23,10 +23,12 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
+    [Serializable]
     [CreateAssetMenu(fileName = "Data Value Double", menuName = "Carter Games/The Cart/Modules/Data Values/Variables/Data Value Double", order = 2)]
     public class DataValueDouble : DataVariable<double>
     {

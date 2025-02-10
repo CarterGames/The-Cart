@@ -23,10 +23,12 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
+    [Serializable]
     [CreateAssetMenu(fileName = "Data Value Int", menuName = "Carter Games/The Cart/Modules/Data Values/Variables/Data Value Int", order = 5)]
     public class DataValueInt : DataVariable<int>
     {

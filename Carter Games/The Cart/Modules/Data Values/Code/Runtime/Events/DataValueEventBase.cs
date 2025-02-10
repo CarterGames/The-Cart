@@ -31,6 +31,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 	/// <summary>
 	/// A base class for event data values.
 	/// </summary>
+	[Serializable]
 	public abstract class DataValueEventBase : DataValueAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

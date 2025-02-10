@@ -23,11 +23,13 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value Dictionary String Float", menuName = "Carter Games/The Cart/Modules/Data Values/Dictionaries/Data Value Dictionary String Float", order = 3)]
+	[Serializable]
 	public class DataValueDictionaryStringFloat : DataValueDictionary<string, float> {}
 }
 

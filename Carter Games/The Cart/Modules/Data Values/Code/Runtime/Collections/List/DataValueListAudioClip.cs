@@ -24,11 +24,13 @@
  */
 
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value List AudioClip", menuName = "Carter Games/The Cart/Modules/Data Values/Lists/Data Value List AudioClip", order = 0)]
+	[Serializable]
 	public sealed class DataValueListAudioClip : DataValueList<AudioClip> {}
 }
 
