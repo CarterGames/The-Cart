@@ -73,7 +73,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_backgroundCol")); 
+            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor")); 
 
             if (GUILayout.Button("R", GUILayout.Width("  R  ".GUIWidth())))
             {
@@ -82,7 +82,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_fullWidth"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"));
             
             if (EditorGUI.EndChangeCheck())
             {
@@ -101,17 +101,17 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(2f);
-            EditorGUILayout.LabelField(AssetMeta.GetData("Hierarchy").Labels["customHierarchy_LabelTitle"], EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Label", EditorStyles.boldLabel);
             GUILayout.Space(1f);
             GeneralUtilEditor.DrawHorizontalGUILine();
             GUILayout.Space(1f);
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(serializedObject.Fp("label"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_label"));
-            EditorGUILayout.PropertyField(serializedObject.Fp("labelColor"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_labelColor"));
-            EditorGUILayout.PropertyField(serializedObject.Fp("boldLabel"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_labelBold"));
-            EditorGUILayout.PropertyField(serializedObject.Fp("textAlign"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_labelAlignment"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("label"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("labelColor"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("boldLabel"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("textAlign"));
           
             if (EditorGUI.EndChangeCheck())
             {

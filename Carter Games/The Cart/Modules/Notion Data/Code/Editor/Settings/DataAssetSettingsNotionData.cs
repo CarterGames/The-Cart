@@ -41,6 +41,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
 	    [SerializeField] private NotionApiVersion apiVersion;
 	    [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
+	    [SerializeField] [Range(2, 25)] private int downloadTimeout = 10;
 
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Properties
@@ -56,6 +57,12 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// The Notion API version to use.
         /// </summary>
         public NotionApiVersion NotionApiVersion => apiVersion;
+	    
+	    
+	    /// <summary>
+	    /// The time required to wait until a download attempt will fail automatically.
+	    /// </summary>
+	    public int DownloadTimeout => downloadTimeout;
     }
 }
 

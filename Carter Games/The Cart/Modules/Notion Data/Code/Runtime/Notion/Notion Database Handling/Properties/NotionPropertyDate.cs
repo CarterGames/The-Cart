@@ -27,17 +27,47 @@ using CarterGames.Cart.Core;
 
 namespace CarterGames.Cart.Modules.NotionData
 {
+    /// <summary>
+    /// A date type Notion property container.
+    /// </summary>
     public sealed class NotionPropertyDate : NotionProperty
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The typed-value, stored in an object so it can be generic without a type required.
+        /// </summary>
         protected override object InternalValue { get; set; }
-        public SerializableDateTime Value => (SerializableDateTime) InternalValue;
+        
+        
+        /// <summary>
+        /// The JSON value of the value this property holds.
+        /// </summary>
         public override string JsonValue { get; protected set; }
         
         
-        public NotionPropertyDate(SerializableDateTime value, string jsonValue)
+        /// <summary>
+        /// The raw download Json in-case it is needed.
+        /// </summary>
+        public override string DownloadText { get; protected set; }
+
+
+        /// <summary>
+        /// The value cast to the type the property is in C#
+        /// </summary>
+        public SerializableDateTime Value => (SerializableDateTime) InternalValue;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        public NotionPropertyDate(SerializableDateTime value, string jsonValue, string downloadedText)
         {
             InternalValue = value;
             JsonValue = jsonValue;
+            DownloadText = downloadedText;
         }
     }
 }

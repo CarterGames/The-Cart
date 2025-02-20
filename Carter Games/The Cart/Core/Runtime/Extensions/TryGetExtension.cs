@@ -34,6 +34,66 @@ namespace CarterGames.Cart.Core
     public static class TryGetExtension
     {
         /// <summary>
+        /// Tries to get the component requested on the GameObject entered...
+        /// </summary>
+        /// <param name="target">The GameObject to target</param>
+        /// <param name="component">The component found</param>
+        /// <typeparam name="T">The type to get</typeparam>
+        /// <returns>Bool with the component</returns>
+        public static bool TryGetComponents<T>(this Component target, out T[] component)
+        {
+            var check = target.GetComponents<T>();
+            component = check;
+            return check is { } && check.Length > 0;
+        }
+        
+        
+        /// <summary>
+        /// Tries to get the component requested on the GameObject entered...
+        /// </summary>
+        /// <param name="target">The GameObject to target</param>
+        /// <param name="type">The type to get</param>
+        /// <param name="component">The components found</param>
+        /// <returns>Bool with the components list</returns>
+        public static bool TryGetComponents(this Component target, Type type, out Component[] component)
+        {
+            var check = target.GetComponents(type);
+            component = check;
+            return check is { } && check.Length > 0;
+        } 
+        
+        
+        /// <summary>
+        /// Tries to get the component requested on the GameObject entered...
+        /// </summary>
+        /// <param name="target">The GameObject to target</param>
+        /// <param name="component">The components found</param>
+        /// <typeparam name="T">The type to get</typeparam>
+        /// <returns>Bool with the components list</returns>
+        public static bool TryGetComponents<T>(this GameObject target, out T[] component)
+        {
+            var check = target.GetComponents<T>();
+            component = check;
+            return check is { } && check.Length > 0;
+        }
+
+
+        /// <summary>
+        /// Tries to get the component requested on the GameObject entered...
+        /// </summary>
+        /// <param name="target">The GameObject to target</param>
+        /// <param name="type">The type to get</param>
+        /// <param name="component">The components found</param>
+        /// <returns>Bool with the components list</returns>
+        public static bool TryGetComponents(this GameObject target, Type type, out Component[] component)
+        {
+            var check = target.GetComponents(type);
+            component = check;
+            return check is { } && check.Length > 0;
+        }
+        
+        
+        /// <summary>
         /// Tries to get the component requested in the parent(s) of the GameObject entered...
         /// </summary>
         /// <param name="target">The GameObject to target</param>
@@ -100,11 +160,11 @@ namespace CarterGames.Cart.Core
         /// <param name="component">The components found</param>
         /// <typeparam name="T">The type to get</typeparam>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInParent<T>(this Component target, out List<T> component)
+        public static bool TryGetComponentsInParent<T>(this Component target, out T[] component)
         {
-            var check = target.GetComponentsInParent<T>().ToList();
+            var check = target.GetComponentsInParent<T>();
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         } 
         
         
@@ -115,11 +175,11 @@ namespace CarterGames.Cart.Core
         /// <param name="type">The type to get</param>
         /// <param name="component">The components found</param>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInParent(this Component target, Type type, out List<Component> component)
+        public static bool TryGetComponentsInParent(this Component target, Type type, out Component[] component)
         {
-            var check = target.GetComponentsInParent(type).ToList();
+            var check = target.GetComponentsInParent(type);
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         } 
         
         
@@ -130,11 +190,11 @@ namespace CarterGames.Cart.Core
         /// <param name="component">The components found</param>
         /// <typeparam name="T">The type to get</typeparam>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInParent<T>(this GameObject target, out List<T> component)
+        public static bool TryGetComponentsInParent<T>(this GameObject target, out T[] component)
         {
-            var check = target.GetComponentsInParent<T>().ToList();
+            var check = target.GetComponentsInParent<T>();
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         }
 
 
@@ -145,11 +205,11 @@ namespace CarterGames.Cart.Core
         /// <param name="type">The type to get</param>
         /// <param name="component">The components found</param>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInParent(this GameObject target, Type type, out List<Component> component)
+        public static bool TryGetComponentsInParent(this GameObject target, Type type, out Component[] component)
         {
-            var check = target.GetComponentsInParent(type).ToList();
+            var check = target.GetComponentsInParent(type);
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         }
 
 
@@ -166,6 +226,7 @@ namespace CarterGames.Cart.Core
             component = check;
             return check != null;
         }
+        
         
         /// <summary>
         /// Tries to get the component requested in the children(s) of the GameObject entered...
@@ -219,11 +280,11 @@ namespace CarterGames.Cart.Core
         /// <param name="component">The components found</param>
         /// <typeparam name="T">The type to get</typeparam>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInChildren<T>(this Component target, out List<T> component)
+        public static bool TryGetComponentsInChildren<T>(this Component target, out T[] component)
         {
-            var check = target.GetComponentsInChildren<T>().ToList();
+            var check = target.GetComponentsInChildren<T>();
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         }
 
         
@@ -234,11 +295,11 @@ namespace CarterGames.Cart.Core
         /// <param name="type">The type to get</param>
         /// <param name="component">The components found</param>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInChildren(this Component target, Type type, out List<Component> component)
+        public static bool TryGetComponentsInChildren(this Component target, Type type, out Component[] component)
         {
-            var check = target.GetComponentsInChildren(type).ToList();
+            var check = target.GetComponentsInChildren(type);
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         }
         
         
@@ -249,11 +310,11 @@ namespace CarterGames.Cart.Core
         /// <param name="component">The components found</param>
         /// <typeparam name="T">The type to get</typeparam>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInChildren<T>(this GameObject target, out List<T> component)
+        public static bool TryGetComponentsInChildren<T>(this GameObject target, out T[] component)
         {
-            var check = target.GetComponentsInChildren<T>().ToList();
+            var check = target.GetComponentsInChildren<T>();
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         }
 
         /// <summary>
@@ -263,11 +324,11 @@ namespace CarterGames.Cart.Core
         /// <param name="type">The type to get</param>
         /// <param name="component">The components found</param>
         /// <returns>Bool with the components list</returns>
-        public static bool TryGetComponentsInChildren(this GameObject target, Type type, out List<Component> component)
+        public static bool TryGetComponentsInChildren(this GameObject target, Type type, out Component[] component)
         {
-            var check = target.GetComponentsInChildren(type).ToList();
+            var check = target.GetComponentsInChildren(type);
             component = check;
-            return check.Count > 0;
+            return check is { } && check.Length > 0;
         }
     }
 }

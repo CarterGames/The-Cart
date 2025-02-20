@@ -1,5 +1,31 @@
-﻿
+﻿#if CARTERGAMES_CART_MODULE_HIERARCHY && UNITY_EDITOR
+
+/*
+ * Copyright (c) 2025 Carter Games
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,8 +38,12 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 
+        public bool IsEnabled => ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef
+            .Fp("headerSeparatorConfig").Fpr("isEnabled").boolValue;
         public int Order => 0;
-        
+
+        private static HierarchyHeaderSeparatorConfig Config =>
+            ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.HeaderSeparatorConfig;
         
         public void OnHierarchyDraw(int instanceId, Rect rect)
         {
@@ -24,10 +54,10 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
 
             switch (gameObject.name)
             {
-                case var x when x.Contains(EditorSettingsHierarchy.HeaderPrefix):
-                    DrawHeaderItemLabel(rect, gameObject, gameObject.name.Replace(EditorSettingsHierarchy.HeaderPrefix, string.Empty));
+                case var x when x.Contains(Config.HeaderPrefix):
+                    DrawHeaderItemLabel(rect, gameObject, gameObject.name.Replace(Config.HeaderPrefix, string.Empty));
                     break;
-                case var x when x.Contains(EditorSettingsHierarchy.SeparatorPrefix):
+                case var x when x.Contains(Config.SeparatorPrefix):
                     DrawSeparatorItemLabel(rect, gameObject);
                     break;
                 default:
@@ -47,7 +77,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         [MenuItem("GameObject/Hierarchy/Create Header", false, 1)] 
         private static void CreateHeader()
         {
-            var gameObject = new GameObject(EditorSettingsHierarchy.HeaderPrefix);
+            var gameObject = new GameObject(Config.HeaderPrefix);
             gameObject.tag = "EditorOnly";
             
             if (Selection.activeTransform != null)
@@ -65,7 +95,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         [MenuItem("GameObject/Hierarchy/Create Separator", false, 2)] 
         private static void CreateSeparator()
         {
-            var gameObject = new GameObject(EditorSettingsHierarchy.SeparatorPrefix);
+            var gameObject = new GameObject(Config.SeparatorPrefix);
             gameObject.tag = "EditorOnly";
             
             if (Selection.activeTransform != null)
@@ -83,7 +113,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         [MenuItem("GameObject/Hierarchy/Create Customizable Header", false, 3)] 
         private static void CreateCustomizableHeader()
         {
-            var gameObject = new GameObject(EditorSettingsHierarchy.HeaderPrefix);
+            var gameObject = new GameObject(Config.HeaderPrefix);
             gameObject.tag = "EditorOnly";
             gameObject.AddComponent<HierarchyHeaderSettings>();
 
@@ -102,7 +132,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         [MenuItem("GameObject/Hierarchy/Create Customizable Separator", false, 4)] 
         private static void CreateCustomizableSeparator()
         {
-            var gameObject = new GameObject(EditorSettingsHierarchy.SeparatorPrefix);
+            var gameObject = new GameObject(Config.SeparatorPrefix);
             gameObject.tag = "EditorOnly";
             gameObject.AddComponent<HierarchySeparatorSettings>();
             
@@ -131,16 +161,16 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             var style = new GUIStyle();
             
             var hasSettings = gameObject.TryGetComponent<HierarchyHeaderSettings>(out var settings);
-            style.normal.background = TextureHelper.SolidColorTexture2D(1,1, hasSettings ? settings.BackgroundColor : EditorSettingsHierarchy.HeaderBackgroundColor);
+            style.normal.background = TextureHelper.SolidColorTexture2D(1,1, hasSettings ? settings.BackgroundColor : Config.HeaderBackgroundColor);
 
             var textStyle = hasSettings ? settings.BoldLabel ? new GUIStyle(EditorStyles.boldLabel) : new GUIStyle() : new GUIStyle(EditorStyles.boldLabel);
 
-            AlignText(textStyle, hasSettings ? settings.TextAlign : EditorSettingsHierarchy.TextAlign);
+            AlignText(textStyle, hasSettings ? settings.TextAlign : Config.HeaderTextAlign);
                 
-            textStyle.normal.textColor = hasSettings ? settings.LabelColor : EditorSettingsHierarchy.TextColor;
+            textStyle.normal.textColor = hasSettings ? settings.LabelColor : Config.HeaderTextColor;
 
             // Adjusts the rect to fill the hierarchy blank space between the normal label field space.
-            rect = AdjustRect(rect, gameObject, hasSettings ? settings.FullWidth : EditorSettingsHierarchy.FullWidth);
+            rect = AdjustRect(rect, gameObject, hasSettings ? settings.FullWidth : Config.HeaderFullWidth);
 
             if (Event.current.type == EventType.Repaint)
             {
@@ -171,7 +201,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
                     : new Color32(184, 184, 184, 255));
 
             // Adjusts the rect to fill the hierarchy blank space between the normal label field space.
-            rect = AdjustRect(rect, gameObject, hasSettings ? settings.FullWidth : EditorSettingsHierarchy.FullWidth);
+            rect = AdjustRect(rect, gameObject, hasSettings ? settings.FullWidth : Config.HeaderFullWidth);
             
             if (Event.current.type == EventType.Repaint)
             {
@@ -204,13 +234,13 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             {
                 if (fullWidth)
                 {
-                    rect.x -= 29 + (13.5f * gameObject.transform.GetParentCount());
-                    rect.width += 46 + (13.5f * gameObject.transform.GetParentCount());
+                    rect.x -= 29 + (14f * gameObject.transform.GetParentCount());
+                    rect.width += 46 + (14f * gameObject.transform.GetParentCount());
                 }
                 else
                 {
-                    rect.x -= 29 - (13 * gameObject.transform.GetParentCount());
-                    rect.width += 46 - (13 * gameObject.transform.GetParentCount()); 
+                    rect.x -= 29 - (14 * gameObject.transform.GetParentCount());
+                    rect.width += 46 - (14 * gameObject.transform.GetParentCount()); 
                 }
             }
 
@@ -248,3 +278,5 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         }
     }
 }
+
+#endif

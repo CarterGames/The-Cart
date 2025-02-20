@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_HIERARCHY
+﻿#if CARTERGAMES_CART_MODULE_HIERARCHY && UNITY_EDITOR
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -24,29 +24,51 @@
  */
 
 using System;
-using CarterGames.Cart.Core.Data;
-using UnityEngine;
+using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Modules.Settings;
+using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Hierarchy.Editor
 {
-    [Serializable]
-    public sealed class DataAssetHierarchySettings : DataAsset
+    public class AssetDefHierarchySettings : IScriptableAssetDef<DataAssetHierarchySettings>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private HierarchyHeaderSeparatorConfig headerSeparatorConfig = new HierarchyHeaderSeparatorConfig();
-        [SerializeField] private HierarchyAlternateLinesConfig alternateLinesConfig = new HierarchyAlternateLinesConfig();
-        [SerializeField] private HierarchyNotesConfig notesConfig = new HierarchyNotesConfig();
-        
+
+        private static DataAssetHierarchySettings cache;
+        private static SerializedObject objCache;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
+        |   IScriptableAssetDef Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        public HierarchyHeaderSeparatorConfig HeaderSeparatorConfig => headerSeparatorConfig;
-        public HierarchyAlternateLinesConfig AlternateLinesConfig => alternateLinesConfig;
-        public HierarchyNotesConfig NotesConfig => notesConfig;
+
+        public Type AssetType => typeof(DataAssetHierarchySettings);
+        public string DataAssetFileName => "[Cart] [Hierarchy] Settings Data Asset.asset";
+        public string DataAssetFilter => $"t:{typeof(DataAssetHierarchySettings).FullName} name={DataAssetFileName}";
+        public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
+
+
+        public DataAssetHierarchySettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+        public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
+
+
+        public void TryCreate()
+        {
+            ScriptableRef.GetOrCreateAsset(this, ref cache);
+        }
+
+
+        /// <summary>
+        /// Runs when the asset is created.
+        /// </summary>
+        public void OnCreated()
+        {
+            ObjectRef.Fp("excludeFromAssetIndex").boolValue = true;
+            ObjectRef.ApplyModifiedProperties();
+            ObjectRef.Update();
+        }
     }
 }
 

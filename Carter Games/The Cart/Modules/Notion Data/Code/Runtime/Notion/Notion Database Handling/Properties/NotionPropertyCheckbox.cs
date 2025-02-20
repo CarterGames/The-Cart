@@ -25,17 +25,47 @@
 
 namespace CarterGames.Cart.Modules.NotionData
 {
+    /// <summary>
+    /// A checkbox type Notion property container.
+    /// </summary>
     public sealed class NotionPropertyCheckbox : NotionProperty
     {
-        protected override object InternalValue { get; set; }
-        public bool Value => (bool) InternalValue;
-        public override string JsonValue { get; protected set; }
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public NotionPropertyCheckbox(bool value, string jsonValue)
+        /// <summary>
+        /// The typed-value, stored in an object so it can be generic without a type required.
+        /// </summary>
+        protected override object InternalValue { get; set; }
+        
+        
+        /// <summary>
+        /// The JSON value of the value this property holds.
+        /// </summary>
+        public override string JsonValue { get; protected set; }
+        
+        
+        /// <summary>
+        /// The raw download Json in-case it is needed.
+        /// </summary>
+        public override string DownloadText { get; protected set; }
+        
+        
+        /// <summary>
+        /// The value cast to the type the property is in C#
+        /// </summary>
+        public bool Value => (bool) InternalValue;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        public NotionPropertyCheckbox(bool value, string jsonValue, string downloadedText)
         {
             InternalValue = value;
             JsonValue = jsonValue;
+            DownloadText = downloadedText;
         }
     }
 }

@@ -75,7 +75,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             if (!NotionSecretKeyValidator.IsKeyValid(requestData.ApiKey))
             {
-                if (EditorUtility.DisplayDialog("Standalone Notion Data", "Api key for database download is invalid.",
+                if (EditorUtility.DisplayDialog("Notion Data", "Api key for database download is invalid.",
                     "Continue"))
                 {
                     CartLogger.LogError<LogCategoryModules>(
@@ -89,7 +89,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             AsyncOperation asyncOperation = request.SendWebRequest();
 
-            EditorUtility.DisplayProgressBar("Standalone Notion Data", "Downloading Data", 0f);
+            EditorUtility.DisplayProgressBar("Notion Data", "Downloading Data", 0f);
             
             asyncOperation.completed += (a) =>
             {
@@ -118,7 +118,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
             if (data.ShowResponseDialogue)
             {
-                EditorUtility.DisplayProgressBar("Standalone Notion Data", "Downloading Data", .5f);
+                EditorUtility.DisplayProgressBar("Notion Data", "Downloading Data", .5f);
             }
             
             asyncOperation.completed += (a) =>
@@ -178,7 +178,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = 5;
+            request.timeout = ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.DownloadTimeout;
             
             return request;
         }
@@ -214,7 +214,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = 5;
+            request.timeout = ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.DownloadTimeout;
             
             return request;
         }

@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_HIERARCHY && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -23,14 +23,18 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.MetaData.Editor;
+using CarterGames.Cart.ThirdParty;
 
-namespace CarterGames.Cart.Modules.Hierarchy.Editor
+namespace CarterGames.Cart.Modules.NotionData.Editor
 {
-    public sealed class MetaDataDefHierarchy : IMetaDefinition
+    public class NotionDatabasePropertyParserStatus : INotionDatabasePropertyParser
     {
-	    public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Hierarchy/Data/Meta Data";
+        public string PropertyIdentifier => "status";
+        
+        public string GetJsonValue(JSONNode json)
+        {
+            return json["status"]["name"] == null ? null : json["status"]["name"].Value;
+        }
     }
 }
 

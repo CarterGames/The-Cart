@@ -29,10 +29,12 @@ using System.Text;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.ThirdParty;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Modules.NotionData
 {
+    /// <summary>
+    /// Handles converting Json to a usable type.
+    /// </summary>
     public static class NotionPropertyValueHandler
     {
         /// <summary>
@@ -132,7 +134,9 @@ namespace CarterGames.Cart.Modules.NotionData
 
                 return result != null;
             }
+#pragma warning disable 0168
             catch (Exception e)
+#pragma warning restore
             {
                 return result != null;
             }
@@ -160,7 +164,9 @@ namespace CarterGames.Cart.Modules.NotionData
 
                 return result != null;
             }
+#pragma warning disable 0168
             catch (Exception e)
+#pragma warning restore
             {
                 return false;
             }
@@ -181,7 +187,7 @@ namespace CarterGames.Cart.Modules.NotionData
                         // Tries to parse as an array normally.
                         return JSON.Parse(property.JsonValue).AsArray;
                     }
-#pragma warning disable
+#pragma warning disable 0168
                     catch (Exception e)
 #pragma warning restore
                     {
@@ -227,7 +233,9 @@ namespace CarterGames.Cart.Modules.NotionData
                     }
                 }
             }
+#pragma warning disable 0168
             catch (Exception e)
+#pragma warning restore
             {
                 // If the value is already bracketed when downloading, just use that.
                 //
@@ -325,7 +333,9 @@ namespace CarterGames.Cart.Modules.NotionData
 
                 return result != null;
             }
+#pragma warning disable 0168
             catch (Exception e)
+#pragma warning restore
             {
                 return false;
             }
@@ -407,7 +417,9 @@ namespace CarterGames.Cart.Modules.NotionData
 
                 return result != null;
             }
+#pragma warning disable 0168
             catch (Exception e)
+#pragma warning restore
             {
                 return false;
             }
@@ -449,7 +461,7 @@ namespace CarterGames.Cart.Modules.NotionData
                         result = Enum.Parse(fieldType, property.JsonValue.Replace(" ", ""));
                         return result != null;
                     }
-#pragma warning disable
+#pragma warning disable 0168
                     catch (Exception e)
 #pragma warning restore
                     {
@@ -458,7 +470,9 @@ namespace CarterGames.Cart.Modules.NotionData
                     }
                 }
             }
+#pragma warning disable 0168
             catch (Exception e)
+#pragma warning restore
             {
                 return false;
             }

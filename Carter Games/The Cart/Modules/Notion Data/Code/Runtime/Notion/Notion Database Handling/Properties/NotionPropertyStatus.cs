@@ -1,3 +1,5 @@
+﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+
 /*
  * Copyright (c) 2025 Carter Games
  * 
@@ -21,45 +23,51 @@
  * THE SOFTWARE.
  */
 
-using System;
-using UnityEngine;
-
-namespace CarterGames.Cart.Core.Data
+namespace CarterGames.Cart.Modules.NotionData
 {
     /// <summary>
-    /// Inherit from to define a data asset that the data system will detect and allow access at runtime.
+    /// A status type Notion property container.
     /// </summary>
-    [Serializable]
-    public abstract class DataAsset : ScriptableObject
+    public sealed class NotionPropertyStatus : NotionProperty
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
-        /// Defines a id for this data asset.
+        /// The typed-value, stored in an object so it can be generic without a type required.
         /// </summary>
-        [SerializeField] private string variantId = Guid.NewGuid().ToString();
+        protected override object InternalValue { get; set; }
 
 
         /// <summary>
-        /// Defines if the asset is not added to the asset index.
+        /// The JSON value of the value this property holds.
         /// </summary>
-        [SerializeField] protected bool excludeFromAssetIndex;
+        public override string JsonValue { get; protected set; }
+
+
+        /// <summary>
+        /// The raw download Json in-case it is needed.
+        /// </summary>
+        public override string DownloadText { get; protected set; }
+
+
+        /// <summary>
+        /// The value cast to the type the property is in C#
+        /// </summary>
+        public string Value => (string) InternalValue;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
+        |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Override to define a custom variant id for the data asset.
-        /// </summary>
-        public virtual string VariantId => variantId;
 
-
-        /// <summary>
-        /// Gets if the asset is ignored from being added to the asset index system.
-        /// </summary>
-        public bool ExcludeFromAssetIndex => excludeFromAssetIndex;
+        public NotionPropertyStatus(string value, string jsonValue, string downloadedText)
+        {
+            InternalValue = value;
+            JsonValue = jsonValue;
+            DownloadText = downloadedText;
+        }
     }
 }
+
+#endif

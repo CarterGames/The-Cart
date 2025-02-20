@@ -25,17 +25,47 @@
 
 namespace CarterGames.Cart.Modules.NotionData
 {
+    /// <summary>
+    /// A number type Notion property container.
+    /// </summary>
     public sealed class NotionPropertyNumber : NotionProperty
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The typed-value, stored in an object so it can be generic without a type required.
+        /// </summary>
         protected override object InternalValue { get; set; }
-        public double Value => (double) InternalValue;
+        
+        
+        /// <summary>
+        /// The JSON value of the value this property holds.
+        /// </summary>
         public override string JsonValue { get; protected set; }
         
         
-        public NotionPropertyNumber(double value, string jsonValue)
+        /// <summary>
+        /// The raw download Json in-case it is needed.
+        /// </summary>
+        public override string DownloadText { get; protected set; }
+
+
+        /// <summary>
+        /// The value cast to the type the property is in C#
+        /// </summary>
+        public double Value => (double) InternalValue;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        public NotionPropertyNumber(double value, string jsonValue, string downloadedText)
         {
             InternalValue = value;
             JsonValue = jsonValue;
+            DownloadText = downloadedText;
         }
     }
 }

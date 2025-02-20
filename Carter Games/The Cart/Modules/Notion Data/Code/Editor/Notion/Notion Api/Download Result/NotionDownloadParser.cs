@@ -48,6 +48,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 {"date", new NotionDatabasePropertyParserDate()},
                 {"checkbox", new NotionDatabasePropertyParserCheckbox()},
                 {"select", new NotionDatabasePropertyParserSelect()},
+                {"status", new NotionDatabasePropertyParserStatus()},
                 {"multi_select", new NotionDatabasePropertyParserMultiSelect()},
                 {"number", new NotionDatabasePropertyParserNumber()}
             };
@@ -93,67 +94,69 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
             for (var i = 0; i < keys.Count; i++)
             {
-                var propName = keys[i];
-                var propType = element.AsObject[i]["type"].Value;
                 var adjustedKey = keys[i].Trim().ToLower().Replace(" ", string.Empty);
 
-
-                // Debug.Log(element.AsObject[i].ToString());
-                
                 var valueForType = GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i]);
                 var valueJson = valueForType;
+                var downloadText = element.AsObject[i].ToString();
                 
                 switch (element.AsObject[i]["type"].Value)
                 {
                     case "title":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Title(valueForType, valueJson));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Title(valueForType, valueJson, downloadText));
                         break;
                     case "rich_text":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.RichText(valueForType, valueJson));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.RichText(valueForType, valueJson, downloadText));
                         break;
                     case "number":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Number(valueForType, valueJson));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Number(valueForType, valueJson, downloadText));
                         break;
                     case "checkbox":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(valueForType, valueJson));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(valueForType, valueJson, downloadText));
                         break;
                     case "select":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Select(valueForType, valueJson));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Select(valueForType, valueJson, downloadText));
+                        break;
+                    case "status":
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Status(valueForType, valueJson, downloadText));
                         break;
                     case "date":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Date(valueForType, valueJson));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Date(valueForType, valueJson, downloadText));
                         break;
                     case "multi_select":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(valueForType, valueJson));                        
+                        lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(valueForType, valueJson, downloadText));                        
                         break;
                     case "rollup":
 
-                        valueForType = GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value,
-                            element.AsObject[i]["rollup"]["array"][0]);
-                        valueJson = valueForType;
+                        downloadText = element.AsObject[i]["rollup"]["array"][0];
+                        valueJson = GetValueForType(element.AsObject[i]["type"].Value, downloadText);
+                        valueForType = valueJson;
                         
                         switch (element.AsObject[i]["rollup"]["array"][0]["type"].Value)
                         {
                             case "title":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Title(valueForType, valueJson));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Title(valueForType, valueJson, downloadText));
                                 break;
                             case "rich_text":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.RichText(valueForType, valueJson));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.RichText(valueForType, valueJson, downloadText));
                                 break;
                             case "number":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Number(valueForType, valueJson));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Number(valueForType, valueJson, downloadText));
                                 break;
                             case "checkbox":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(valueForType, valueJson));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(valueForType, valueJson, downloadText));
                                 break;
                             case "select":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Select(valueForType, valueJson));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Select(valueForType, valueJson, downloadText));
+                                break;
+                            case "status":
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Status(valueForType, valueJson, downloadText));
                                 break;
                             case "date":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Date(valueForType, valueJson));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Date(valueForType, valueJson, downloadText));
                                 break;
                             case "multi_select":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(valueForType, valueJson));                        
+                                lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(valueForType, valueJson, downloadText));                        
                                 break;
                         }
                         

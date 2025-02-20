@@ -82,6 +82,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         {
             foreach (var edit in Edits)
             {
+                if (!edit.IsEnabled) continue;
                 edit.OnHierarchyDraw(instanceId, rect);
             }
         }

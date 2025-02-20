@@ -25,17 +25,47 @@
 
 namespace CarterGames.Cart.Modules.NotionData
 {
+    /// <summary>
+    /// A multi-select type Notion property container.
+    /// </summary>
     public sealed class NotionPropertyMultiSelect : NotionProperty
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The typed-value, stored in an object so it can be generic without a type required.
+        /// </summary>
         protected override object InternalValue { get; set; }
-        public string[] Value => (string[]) InternalValue;
+        
+        
+        /// <summary>
+        /// The JSON value of the value this property holds.
+        /// </summary>
         public override string JsonValue { get; protected set; }
         
         
-        public NotionPropertyMultiSelect(string[] value, string jsonValue)
+        /// <summary>
+        /// The raw download Json in-case it is needed.
+        /// </summary>
+        public override string DownloadText { get; protected set; }
+
+
+        /// <summary>
+        /// The value cast to the type the property is in C#
+        /// </summary>
+        public string[] Value => (string[]) InternalValue;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        public NotionPropertyMultiSelect(string[] value, string jsonValue, string downloadedText)
         {
             InternalValue = value;
             JsonValue = jsonValue;
+            DownloadText = downloadedText;
         }
     }
 }

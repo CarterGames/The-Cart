@@ -72,7 +72,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customSeparator_backgroundCol")); 
+            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor")); 
 
             if (GUILayout.Button("R", GUILayout.Width(25)))
             {
@@ -81,7 +81,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customSeparator_fullWidth"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"));
             
             if (EditorGUI.EndChangeCheck())
             {

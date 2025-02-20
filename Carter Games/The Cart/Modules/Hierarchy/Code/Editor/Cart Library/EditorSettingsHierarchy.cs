@@ -24,7 +24,6 @@
  */
 
 using CarterGames.Cart.Core.Management.Editor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Hierarchy.Editor
 {
@@ -42,13 +41,6 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         private static readonly string IsSeparatorExpandedId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_SectionExpanded";
         private static readonly string LastSelectedId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_LastSelected";
 
-        private static readonly string HeaderPrefixId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_HierarchyHeaderPrefix";
-        private static readonly string SeparatorPrefixId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_SeparatorHeaderPrefix";
-        private static readonly string TextAlignId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_TextAlign";
-        private static readonly string FullWidthId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_FullWidth";
-        private static readonly string HeaderBackgroundColorId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_HeaderBackgroundColor";
-        private static readonly string HeaderTextId = $"{UniqueId}_CarterGames_TheCart_HierarchySettings_HeaderText";
-
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -64,48 +56,6 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         {
             get => (int) PerUserSettings.GetOrCreateValue<int>(LastSelectedId, SettingType.EditorPref, 0);
             set => PerUserSettings.SetValue<int>(LastSelectedId, SettingType.EditorPref, value);
-        }
-
-
-        public static string HeaderPrefix
-        {
-            get => (string) PerUserSettings.GetOrCreateValue<string>(HeaderPrefixId, SettingType.EditorPref, "<---");
-            set => PerUserSettings.SetValue<string>(HeaderPrefixId, SettingType.EditorPref, value);
-        }
-
-
-        public static string SeparatorPrefix
-        {
-            get => (string) PerUserSettings.GetOrCreateValue<string>(SeparatorPrefixId, SettingType.EditorPref, "--->");
-            set => PerUserSettings.SetValue<string>(SeparatorPrefixId, SettingType.EditorPref, value);
-        }
-
-
-        public static HierarchyTitleTextAlign TextAlign
-        {
-            get => (HierarchyTitleTextAlign) PerUserSettings.GetOrCreateValue<int>(TextAlignId, SettingType.EditorPref, HierarchyTitleTextAlign.Center);
-            set => PerUserSettings.SetValue<int>(TextAlignId, SettingType.EditorPref, value);
-        }
-
-
-        public static bool FullWidth
-        {
-            get => (bool) PerUserSettings.GetOrCreateValue<bool>(FullWidthId, SettingType.EditorPref, false);
-            set => PerUserSettings.SetValue<bool>(FullWidthId, SettingType.EditorPref, value);
-        }
-
-
-        public static Color HeaderBackgroundColor
-        {
-            get => (Color) PerUserSettings.GetOrCreateValue<Color>(HeaderBackgroundColorId, SettingType.EditorPref, Color.gray);
-            set => PerUserSettings.SetValue<Color>(HeaderBackgroundColorId, SettingType.EditorPref, value);
-        }
-
-
-        public static Color TextColor
-        {
-            get => (Color) PerUserSettings.GetOrCreateValue<Color>(HeaderTextId, SettingType.EditorPref, Color.white);
-            set => PerUserSettings.SetValue<Color>(HeaderTextId, SettingType.EditorPref, value);
         }
     }
 }

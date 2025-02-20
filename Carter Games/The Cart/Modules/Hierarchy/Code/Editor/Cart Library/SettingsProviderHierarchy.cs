@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
@@ -37,10 +36,13 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
     /// </summary>
     public sealed class SettingsProviderHierarchy : ISettingsProvider
     {
-        private static readonly string[] OptionLabels = new string[3]
+        private static readonly string[] OptionLabels = new string[2]
         {
-            "Headers & Separators", "Alternate Colors", "Notes"
+            "Headers & Separators", "Alternate Colors"
         };
+        
+        private static SerializedObject Config =>
+            ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
@@ -53,15 +55,25 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             
-            EditorGUILayout.LabelField("Hierarchy", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Hierarchy (Header/Separator)", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            EditorSettingsHierarchy.HeaderPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("headerPrefix"), EditorSettingsHierarchy.HeaderPrefix);
-            EditorSettingsHierarchy.SeparatorPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("separatorPrefix"), EditorSettingsHierarchy.SeparatorPrefix);
-            EditorSettingsHierarchy.TextAlign = (HierarchyTitleTextAlign) EditorGUILayout.EnumPopup(AssetMeta.GetData("Hierarchy").Content("textAlignment"), EditorSettingsHierarchy.TextAlign);
-            EditorSettingsHierarchy.FullWidth = EditorGUILayout.Toggle(AssetMeta.GetData("Hierarchy").Content("useFullWidth"), EditorSettingsHierarchy.FullWidth);
-            EditorSettingsHierarchy.HeaderBackgroundColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerBackgroundColor"), EditorSettingsHierarchy.HeaderBackgroundColor);
-            EditorSettingsHierarchy.TextColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerTextColor"), EditorSettingsHierarchy.TextColor);
+            EditorGUI.BeginChangeCheck();
+            
+            ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.HeaderSeparatorConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("headerSeparatorConfig"));
+
+            EditorGUILayout.Space(2.5f);
+            
+            EditorGUILayout.LabelField("Hierarchy (Alternate Colors)", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
+            
+            ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.AlternateLinesConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("alternateLinesConfig"));
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                Config.ApplyModifiedProperties();
+                Config.Update();
+            }
             
             EditorGUILayout.EndVertical();
         }
@@ -72,21 +84,17 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         /// </summary>
         public void OnProjectSettingsGUI()
         {
-            EditorSettingsHierarchy.EditorSettingsSectionExpanded = EditorGUILayout.Foldout(EditorSettingsHierarchy.EditorSettingsSectionExpanded, AssetMeta.GetData("Hierarchy").Content(AssetMeta.SectionTitle));
+            EditorSettingsHierarchy.EditorSettingsSectionExpanded = EditorGUILayout.Foldout(EditorSettingsHierarchy.EditorSettingsSectionExpanded, "Hierarchy");
             
             if (!EditorSettingsHierarchy.EditorSettingsSectionExpanded) return;
 
             EditorGUILayout.BeginVertical("Box");
             EditorGUILayout.Space(1.5f);
-            EditorGUI.indentLevel++;
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.BeginVertical(GUILayout.Width(125));
-
             for (var i = 0; i < OptionLabels.Length; i++)
             {
-                GUI.backgroundColor =
-                    EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.gray : Color.white;
+                GUI.backgroundColor = EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.gray : Color.white;
                 
                 if (GUILayout.Button(OptionLabels[i]))
                 {
@@ -95,10 +103,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
                 
                 GUI.backgroundColor = Color.white;
             }
-            
-            EditorGUILayout.EndVertical();
-            
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.EndHorizontal();
             
             switch (EditorSettingsHierarchy.EditorSettingsLastSelected)
             {
@@ -108,15 +113,8 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
                 case 1:
                     ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.AlternateLinesConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("alternateLinesConfig"));
                     break;
-                case 2:
-                    ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.NotesConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("notesConfig"));
-                    break;
             }
             
-            EditorGUILayout.EndVertical();
-            EditorGUILayout.EndHorizontal();
-            
-            EditorGUI.indentLevel--;
             EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }
