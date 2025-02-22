@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.Reflection;
 using CarterGames.Cart.Modules.Settings;
@@ -74,6 +75,8 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			};
 			
 			ReflectionHelper.SetField("languages", AssetRef, defaultLanguages, false);
+			EditorUtility.SetDirty(AssetRef);
+			AssetDatabase.SaveAssets();
 		}
 	}
 }

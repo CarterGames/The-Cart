@@ -106,6 +106,7 @@ namespace CarterGames.Cart.Core.Editor
             GUI.backgroundColor = Color.green;
             if (GUI.Button(position, InitialSelectButtonLabel))
             {
+                Provider.SelectionMade.Clear();
                 Provider.SelectionMade.Add(OnSearchSelectionMade);
                 Provider.Open(CurrentValue);
             }
@@ -132,6 +133,7 @@ namespace CarterGames.Cart.Core.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, "Edit"))
                 {
+                    Provider.SelectionMade.Clear();
                     Provider.SelectionMade.Add(OnSearchSelectionMade);
                     Provider.Open(CurrentValue);
                 }
@@ -158,6 +160,7 @@ namespace CarterGames.Cart.Core.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, "Edit"))
                 {
+                    Provider.SelectionMade.Clear();
                     Provider.SelectionMade.Add(OnSearchSelectionMade);
                     Provider.Open(CurrentValue);
                 }
