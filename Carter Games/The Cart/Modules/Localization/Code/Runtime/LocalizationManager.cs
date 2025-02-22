@@ -69,9 +69,9 @@ namespace CarterGames.Cart.Modules.Localization
 		private static List<NotionDataAssetLocalizedAudio> AudioNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedAudio>();
 #endif
 
-		private static Dictionary<string, LocalizationData<string>> TextLookup => CacheRef.GetOrAssign(ref textLookupCache, GetTextAssetsLookup);
-		private static Dictionary<string, LocalizationData<Sprite>> SpriteLookup => CacheRef.GetOrAssign(ref spriteLookupCache, GetSpriteAssetsLookup);
-		private static Dictionary<string, LocalizationData<AudioClip>> AudioLookup => CacheRef.GetOrAssign(ref audioLookupCache, GetAudioAssetsLookup);
+		public static Dictionary<string, LocalizationData<string>> TextLookup => CacheRef.GetOrAssign(ref textLookupCache, GetTextAssetsLookup);
+		public static Dictionary<string, LocalizationData<Sprite>> SpriteLookup => CacheRef.GetOrAssign(ref spriteLookupCache, GetSpriteAssetsLookup);
+		public static Dictionary<string, LocalizationData<AudioClip>> AudioLookup => CacheRef.GetOrAssign(ref audioLookupCache, GetAudioAssetsLookup);
 
 		/// <summary>
 		/// The current language assigned.
