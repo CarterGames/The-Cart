@@ -169,7 +169,11 @@ namespace CarterGames.Cart.Core.Editor
         private void OnSearchSelectionMade(SearchTreeEntry entry)
         {
             Provider.SelectionMade.Remove(OnSearchSelectionMade);
-            OnSelectionMade((TSearchType) entry.userData);
+            
+            if (TargetProperty != null)
+            {
+                OnSelectionMade((TSearchType) entry.userData);
+            }
         }
     }
 }

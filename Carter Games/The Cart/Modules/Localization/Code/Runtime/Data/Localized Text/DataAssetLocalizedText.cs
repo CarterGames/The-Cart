@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -24,57 +24,32 @@
  */
 
 using System;
-using System.Collections.Generic;
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.Reflection;
-using CarterGames.Cart.Modules.Settings;
-using UnityEditor;
+using CarterGames.Cart.Core.Data;
+using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Localization.Editor
+namespace CarterGames.Cart.Modules.Localization
 {
-	public sealed class AssetDefDefinedLanguages : IScriptableAssetDef<DataAssetDefinedLanguages>
+	/// <summary>
+	/// A data asset used to store localized text for your game.
+	/// </summary>
+	[CreateAssetMenu(fileName = "Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Localized Text")]
+	[Serializable]
+	public sealed class DataAssetLocalizedText : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		private static DataAssetDefinedLanguages cache;
-		private static SerializedObject objCache;
+		[SerializeField] private LocalizationData<string>[] data;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   IScriptableAssetDef Implementation
+		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		public Type AssetType => typeof(DataAssetDefinedLanguages);
-		public string DataAssetFileName => "[Cart] [Localization] Defined Languages Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetDefinedLanguages).FullName}";
-		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
-
-
-		public DataAssetDefinedLanguages AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
-		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
-
-
-		public void TryCreate()
-		{
-			ScriptableRef.GetOrCreateAsset(this, ref cache);
-		}
-
-		public void OnCreated()
-		{
-			var defaultLanguages = new List<Language>()
-			{
-				new Language("English (en-US)", "en-US"),
-				new Language("French (fr-FR)", "fr-FR"),
-				new Language("German (de-DE)", "de-DE"),
-				new Language("Spanish (es-ES)", "es-ES"),
-				new Language("Italian (it-IT)", "it-IT"),
-				new Language("Chinese Simplified (zh-CN)", "zh-CN"),
-				new Language("Japanese (ja-JP)", "ja-JP"),
-			};
-			
-			ReflectionHelper.SetField("languages", AssetRef, defaultLanguages, false);
-		}
+		/// <summary>
+		/// Gets the data assigned to the asset.
+		/// </summary>
+		public LocalizationData<string>[] Data => data;
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
+﻿#if UNITY_EDITOR && CARTERGAMES_CART_MODULE_NOTIONDATA && CARTERGAMES_CART_MODULE_LOCALIZATION
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -16,69 +16,54 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-using System.Linq;
-using CarterGames.Cart.Core.Data;
+using System;
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    [CustomPropertyDrawer(typeof(LanguageSelectableAttribute))]
-    public sealed class PropertyDrawerLanguageSelectableAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderLanguages, Language>
+    public class AssetDefLocNotionDataProcessorText : IScriptableAssetDef<NotionDatabaseProcessorTextLocalization>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
+        |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected override bool HasValue => !string.IsNullOrEmpty(TargetProperty.Fpr("name").stringValue);
-        protected override Language CurrentValue
-        {
-            get
-            {
-                return DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
-                    t.DisplayName.Equals(TargetProperty.Fpr("name").stringValue));
-            }
-        }
 
-        protected override SearchProviderLanguages Provider => SearchProviderLanguages.GetProvider();
-        protected override SerializedProperty EditDisplayProperty => TargetProperty.Fpr("name");
-        protected override string InitialSelectButtonLabel => "Select Language";
-        
+        private static NotionDatabaseProcessorTextLocalization cache;
+        private static SerializedObject objCache;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
+        |   IScriptableAssetDef Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected override bool IsValid(SerializedProperty property)
+
+        public Type AssetType => typeof(NotionDatabaseProcessorTextLocalization);
+        public string DataAssetFileName => "[Cart] [Localization] Text Notion Data Processor.asset";
+        public string DataAssetFilter => $"t:{typeof(NotionDatabaseProcessorTextLocalization).FullName}";
+        public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
+
+
+        public NotionDatabaseProcessorTextLocalization AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+        public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
+
+
+        public void TryCreate()
         {
-            return !string.IsNullOrEmpty(property.Fpr("name").stringValue) &&
-                   !string.IsNullOrEmpty(property.Fpr("code").stringValue);
+            ScriptableRef.GetOrCreateAsset(this, ref cache);
         }
 
-
-        protected override void OnSelectionMade(Language selectedEntry)
+        public void OnCreated()
         {
-            TargetProperty.Fpr("name").stringValue = selectedEntry.DisplayName;
-            TargetProperty.Fpr("code").stringValue = selectedEntry.Code;
-
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
-        }
-        
-        
-        protected override void ClearValue()
-        {
-            TargetProperty.Fpr("name").stringValue = string.Empty;
-            TargetProperty.Fpr("code").stringValue = string.Empty;
-            
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
+            ObjectRef.Fp("excludeFromAssetIndex").boolValue = true;
+            ObjectRef.ApplyModifiedProperties();
+            ObjectRef.Update();
         }
     }
 }

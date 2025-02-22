@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -16,70 +16,61 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-using System.Linq;
-using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.Core.Editor;
-using UnityEditor;
+using System;
+using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Localization.Editor
+namespace CarterGames.Cart.Modules.Localization
 {
-    [CustomPropertyDrawer(typeof(LanguageSelectableAttribute))]
-    public sealed class PropertyDrawerLanguageSelectableAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderLanguages, Language>
+    [Serializable]
+    public class LocalizationEntry<T>
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        [SerializeField] private string languageCode;
+        [SerializeField] private T copy;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        // Limited to editor and only used if Notion Data module is active.
+#if UNITY_EDITOR && CARTERGAMES_CART_MODULE_NOTIONDATA
+        /// <summary>
+        /// Creates a new entry when called with the requested values.
+        /// </summary>
+        /// <remarks>Used in Notion Data module.</remarks>
+        /// <param name="languageCode">The language code to set.</param>
+        /// <param name="copy">The data to set.</param>
+        public LocalizationEntry(string languageCode, T copy)
+        {
+            this.languageCode = languageCode;
+            this.copy = copy;
+        }
+#endif
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected override bool HasValue => !string.IsNullOrEmpty(TargetProperty.Fpr("name").stringValue);
-        protected override Language CurrentValue
-        {
-            get
-            {
-                return DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
-                    t.DisplayName.Equals(TargetProperty.Fpr("name").stringValue));
-            }
-        }
 
-        protected override SearchProviderLanguages Provider => SearchProviderLanguages.GetProvider();
-        protected override SerializedProperty EditDisplayProperty => TargetProperty.Fpr("name");
-        protected override string InitialSelectButtonLabel => "Select Language";
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected override bool IsValid(SerializedProperty property)
-        {
-            return !string.IsNullOrEmpty(property.Fpr("name").stringValue) &&
-                   !string.IsNullOrEmpty(property.Fpr("code").stringValue);
-        }
+        /// <summary>
+        /// The language code for the copy.
+        /// </summary>
+        public string LanguageCode => languageCode;
 
 
-        protected override void OnSelectionMade(Language selectedEntry)
-        {
-            TargetProperty.Fpr("name").stringValue = selectedEntry.DisplayName;
-            TargetProperty.Fpr("code").stringValue = selectedEntry.Code;
-
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
-        }
-        
-        
-        protected override void ClearValue()
-        {
-            TargetProperty.Fpr("name").stringValue = string.Empty;
-            TargetProperty.Fpr("code").stringValue = string.Empty;
-            
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
-        }
+        /// <summary>
+        /// The sprite for the language.
+        /// </summary>
+        public T Copy => copy;
     }
 }
 

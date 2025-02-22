@@ -139,8 +139,8 @@ namespace CarterGames.Cart.Core.Editor
             
             if (WindowWidth.Equals(-1))
             {
-                WindowWidth = Mathf.Min(AdditionalEntries
-                    .Select(t => t.content.text.GUIWidth())
+                WindowWidth = Mathf.Min(GetEntriesToDisplay()
+                    .Select(t => t.Key.GUIWidth())
                     .Max() + 35, 1000f);
             }
             

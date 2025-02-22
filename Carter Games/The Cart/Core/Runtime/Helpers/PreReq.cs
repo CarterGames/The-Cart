@@ -48,5 +48,17 @@ namespace CarterGames.Cart.Core
                 throw new ArgumentNullException(message);
             }
         }
+        
+
+        /// <summary>
+        /// Stops logic if the value is false.
+        /// </summary>
+        /// <param name="check">The bool to check</param>
+        /// <param name="message">The message to show in the error if null.</param>
+        public static void DisallowIfFalse(bool check, string message = "")
+        {
+            if (check) return; 
+            throw new ArgumentNullException(message);
+        }
     }
 }

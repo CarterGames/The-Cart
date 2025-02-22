@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -24,56 +24,65 @@
  */
 
 using System;
-using System.Collections.Generic;
-using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Core.Reflection;
-using CarterGames.Cart.Modules.Settings;
-using UnityEditor;
+using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Localization.Editor
+namespace CarterGames.Cart.Modules.Localization
 {
-	public sealed class AssetDefDefinedLanguages : IScriptableAssetDef<DataAssetDefinedLanguages>
+	/// <summary>
+	/// Defines a language the system can use.
+	/// </summary>
+	[Serializable]
+	public struct Language
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-		private static DataAssetDefinedLanguages cache;
-		private static SerializedObject objCache;
+		
+		[SerializeField] private string name;
+		[SerializeField] private string code;
+		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// The display name of the language on GUI etc.
+		/// </summary>
+		public string DisplayName => name;
+		
+		
+		/// <summary>
+		/// The code for the language which is used in the backend.
+		/// </summary>
+		public string Code => code;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   IScriptableAssetDef Implementation
+		|   Constructors
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-		public Type AssetType => typeof(DataAssetDefinedLanguages);
-		public string DataAssetFileName => "[Cart] [Localization] Defined Languages Data Asset.asset";
-		public string DataAssetFilter => $"t:{typeof(DataAssetDefinedLanguages).FullName}";
-		public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
-
-
-		public DataAssetDefinedLanguages AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
-		public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
-
-
-		public void TryCreate()
+		
+		// Only for editor tooling use.
+		
+#if UNITY_EDITOR
+		/// <summary>
+		/// Creates a new language when called.
+		/// </summary>
+		/// <param name="name">The display name for the language</param>
+		/// <param name="code">The code for the language.</param>
+		public Language(string name, string code)
 		{
-			ScriptableRef.GetOrCreateAsset(this, ref cache);
+			this.name = name;
+			this.code = code;
 		}
+#endif
 
-		public void OnCreated()
+
+		public static Language None
 		{
-			var defaultLanguages = new List<Language>()
+			get
 			{
-				new Language("English (en-US)", "en-US"),
-				new Language("French (fr-FR)", "fr-FR"),
-				new Language("German (de-DE)", "de-DE"),
-				new Language("Spanish (es-ES)", "es-ES"),
-				new Language("Italian (it-IT)", "it-IT"),
-				new Language("Chinese Simplified (zh-CN)", "zh-CN"),
-				new Language("Japanese (ja-JP)", "ja-JP"),
-			};
-			
-			ReflectionHelper.SetField("languages", AssetRef, defaultLanguages, false);
+				var instance = new Language(string.Empty, string.Empty);
+				return instance;
+			}
 		}
 	}
 }
