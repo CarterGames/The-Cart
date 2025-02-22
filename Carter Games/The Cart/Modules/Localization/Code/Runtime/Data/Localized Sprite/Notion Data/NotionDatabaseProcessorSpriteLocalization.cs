@@ -67,7 +67,6 @@ namespace CarterGames.Cart.Modules.Localization
                 list.Add(new LocalizationData<Sprite>(row.DataLookup["id"].RichText().Value, entries));
             }
 #endif
-
             return list;
         }
     }

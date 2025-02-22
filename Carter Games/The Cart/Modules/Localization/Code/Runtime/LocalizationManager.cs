@@ -68,7 +68,7 @@ namespace CarterGames.Cart.Modules.Localization
 		private static List<NotionDataAssetLocalizedSprite> SpriteNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedSprite>();
 		private static List<NotionDataAssetLocalizedAudio> AudioNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedAudio>();
 #endif
-
+		
 		public static Dictionary<string, LocalizationData<string>> TextLookup => CacheRef.GetOrAssign(ref textLookupCache, GetTextAssetsLookup);
 		public static Dictionary<string, LocalizationData<Sprite>> SpriteLookup => CacheRef.GetOrAssign(ref spriteLookupCache, GetSpriteAssetsLookup);
 		public static Dictionary<string, LocalizationData<AudioClip>> AudioLookup => CacheRef.GetOrAssign(ref audioLookupCache, GetAudioAssetsLookup);
