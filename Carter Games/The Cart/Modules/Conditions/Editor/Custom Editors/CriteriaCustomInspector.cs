@@ -32,6 +32,8 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 	[CustomEditor(typeof(Criteria), true)]
 	public sealed class CriteriaCustomInspector : CustomInspector
 	{
+		protected override string[] HideProperties { get; }
+
 		protected override void DrawInspectorGUI()
 		{
 			EditorGUILayout.Space(5f);

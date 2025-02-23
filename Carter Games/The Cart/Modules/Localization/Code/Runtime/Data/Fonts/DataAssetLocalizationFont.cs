@@ -38,21 +38,13 @@ namespace CarterGames.Cart.Modules.Localization
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        [SerializeField] private string fontId;
+        
         [SerializeField] private LocalizationFont[] fontLookup;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The variant id for the font.
-        /// </summary>
-        /// <remarks>Uses the "fontStyleName" field value from the inspector.</remarks>
-        public override string VariantId => fontId;
-
-
+        
         /// <summary>
         /// Gets the current font asset to use from the style.
         /// </summary>

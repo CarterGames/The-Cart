@@ -32,13 +32,27 @@ namespace CarterGames.Cart.Core.Editor
 	public abstract class CustomInspector : UnityEditor.Editor
 	{
 		/// <summary>
+		/// Gets the properties to not draw in the inspector.
+		/// </summary>
+		protected abstract string[] HideProperties { get; }
+		
+		
+		/// <summary>
 		/// Override to change the inspector GUI entirely.
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
+			EditorGUI.BeginChangeCheck();
+			
 			GUILayout.Space(7.5f);
 			DrawScriptField();
 			DrawInspectorGUI();
+
+			if (EditorGUI.EndChangeCheck())
+			{
+				serializedObject.ApplyModifiedProperties();
+				serializedObject.Update();
+			}
 		}
 
 
@@ -71,7 +85,7 @@ namespace CarterGames.Cart.Core.Editor
 		/// </summary>
 		protected void DrawBaseInspectorGUI()
 		{
-			base.OnInspectorGUI();
+			DrawPropertiesExcluding(serializedObject, HideProperties);
 		}
 	}
 }

@@ -26,6 +26,7 @@
 using System.Linq;
 using System.Reflection;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Data.Editor;
 using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -33,8 +34,14 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
     [CustomEditor(typeof(NotionDataAsset<>), true)]
-    public sealed class NotionDataAssetEditor : UnityEditor.Editor
+    public sealed class NotionDataAssetEditor : InspectorDataAsset
     {
+        protected override string[] HideProperties => new string[]
+        {
+            "m_Script", "variantId", "excludeFromAssetIndex",
+            "filters", "sortProperties", "processor"
+        };
+
         private void OnEnable()
         {
             NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
@@ -42,23 +49,16 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         }
 
 
-        public override void OnInspectorGUI()
+        protected override void DrawInspectorGUI()
         {
-            EditorGUILayout.Space(5f);
+            EditorGUILayout.Space(2.5f);
 
             RenderNotionSettings();
 
             EditorGUILayout.Space(1.5f);
             GeneralUtilEditor.DrawHorizontalGUILine();
-
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.PropertyField(serializedObject.Fp("m_Script"));
-            EditorGUI.EndDisabledGroup();
-
-            DrawPropertiesExcluding(serializedObject, "sortProperties", "filters", "m_Script", "processor");
-
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
+            
+            base.DrawInspectorGUI();
         }
 
 

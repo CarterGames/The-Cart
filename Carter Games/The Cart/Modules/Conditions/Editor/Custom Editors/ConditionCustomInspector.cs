@@ -55,9 +55,10 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			(bool) typeof(Condition)
 				.GetProperty("IsValid", BindingFlags.Public | BindingFlags.Instance)
 				!.GetValue(serializedObject.targetObject);
-		
-		
-		
+
+
+		protected override string[] HideProperties { get; }
+
 		protected override void DrawInspectorGUI()
 		{
 			EditorGUILayout.Space(5f);

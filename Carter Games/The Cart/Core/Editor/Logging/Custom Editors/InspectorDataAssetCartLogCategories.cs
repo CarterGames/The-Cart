@@ -34,6 +34,9 @@ namespace CarterGames.Cart.Core.Logs.Editor
     [CustomEditor(typeof(DataAssetCartLogCategories))]
     public sealed class InspectorDataAssetCartLogCategories : CustomInspector
     {
+        protected override string[] HideProperties { get; }
+
+        
         protected override void DrawInspectorGUI()
         {
             EditorGUILayout.Space(2.5f);

@@ -56,6 +56,8 @@ namespace CarterGames.Cart.Core.Data.Editor
         }
 
 
+        protected override string[] HideProperties { get; }
+
         protected override void DrawInspectorGUI()
         {
             GUILayout.Space(7.5f);
