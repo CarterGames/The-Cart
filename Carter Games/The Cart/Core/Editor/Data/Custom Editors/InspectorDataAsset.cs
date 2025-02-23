@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Core.Data.Editor
     [CustomEditor(typeof(DataAsset), true)]
     public class InspectorDataAsset : CustomInspector
     {
-        protected override string[] HideProperties => new string[3]
+        protected override string[] HideProperties => new string[]
         {
             "m_Script", "variantId", "excludeFromAssetIndex"
         };
@@ -48,7 +48,7 @@ namespace CarterGames.Cart.Core.Data.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("Store in index");
             
-            if (!serializedObject.Fp("excludeFromAssetIndex").boolValue)
+            if (serializedObject.Fp("excludeFromAssetIndex").boolValue)
             {
                 GUI.backgroundColor = Color.red;
 
@@ -58,7 +58,7 @@ namespace CarterGames.Cart.Core.Data.Editor
                 
                 if (GUILayout.Button("Toggle"))
                 {
-                    serializedObject.Fp("excludeFromAssetIndex").boolValue = true;
+                    serializedObject.Fp("excludeFromAssetIndex").boolValue = false;
                 }
             }
             else
@@ -71,7 +71,7 @@ namespace CarterGames.Cart.Core.Data.Editor
                 
                 if (GUILayout.Button("Toggle"))
                 {
-                    serializedObject.Fp("excludeFromAssetIndex").boolValue = false;
+                    serializedObject.Fp("excludeFromAssetIndex").boolValue = true;
                 }
             }
 
