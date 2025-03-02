@@ -23,6 +23,7 @@
 
 using System.Linq;
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEngine;
@@ -39,15 +40,6 @@ namespace CarterGames.Cart.Modules
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         private static readonly string IsProcessingKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_IsProcessing";
         private static readonly string HasPromptedKey = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleManager_HasPrompted";
-        
-        
-        // Icons
-        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        private const string CrossIconColourised = "<color=#ff9494>\u2718</color>";
-        public const string CrossIcon = "\u2718";
-
-        private const string TickIconColourised = "<color=#71ff50>\u2714</color>";
-        public const string TickIcon = "\u2714";
         
         
         // Colours
@@ -120,8 +112,8 @@ namespace CarterGames.Cart.Modules
         /// <returns>The rich text string for the icon.</returns>
         public static string GetModuleStatusIcon(IModule module)
         {
-            if (!IsEnabled(module)) return CrossIconColourised;
-            return TickIconColourised;
+            if (!IsEnabled(module)) return GeneralUtilEditor.CrossIconColourised;
+            return GeneralUtilEditor.TickIconColourised;
         }
 
 

@@ -59,7 +59,7 @@ namespace CarterGames.Cart.Modules.Panels.Editor
             var isValid = IsValidSetup();
 
             GUI.backgroundColor = isValid ? Color.green : Color.red;
-            GUILayout.Label(isValid ? ModuleManager.TickIcon : ModuleManager.CrossIcon, new GUIStyle("minibutton"), GUILayout.Width(25));
+            GUILayout.Label(isValid ? GeneralUtilEditor.TickIcon : GeneralUtilEditor.CrossIcon, new GUIStyle("minibutton"), GUILayout.Width(25));
             GUI.backgroundColor = Color.white;
             
             EditorGUILayout.EndHorizontal();

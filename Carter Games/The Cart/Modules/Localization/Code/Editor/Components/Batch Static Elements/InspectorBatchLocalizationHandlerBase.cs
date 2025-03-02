@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -16,19 +16,37 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-using System;
+using CarterGames.Cart.Core.Editor;
+using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Localization
+namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    public sealed class LanguageSelectableAttribute : PropertyAttribute { }
+    public abstract class InspectorBatchLocalizationHandlerBase : CustomInspector
+    {
+        protected override void DrawInspectorGUI()
+        {
+            // Entries
+            EditorGUILayout.Space(1.5f);
+            
+            EditorGUILayout.BeginVertical("HelpBox");
+            EditorGUILayout.Space(1.5f);
+            
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.Fp("entries"), GUILayout.Width(ScreenWidthPadded));
+            EditorGUI.indentLevel--;
+            
+            EditorGUILayout.Space(1.5f);
+            EditorGUILayout.EndVertical();
+        }
+    }
 }
 
 #endif

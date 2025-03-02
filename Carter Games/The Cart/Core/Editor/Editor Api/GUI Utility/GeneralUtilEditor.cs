@@ -28,6 +28,15 @@ namespace CarterGames.Cart.Core.Editor
 {
     public static class GeneralUtilEditor
     {
+        // Icons
+        /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        public const string CrossIconColourised = "<color=#ff9494>\u2718</color>";
+        public const string CrossIcon = "\u2718";
+
+        public const string TickIconColourised = "<color=#71ff50>\u2714</color>";
+        public const string TickIcon = "\u2714";
+        
+        
         /// <summary>
         /// Gets the width of a string's GUI.
         /// </summary>

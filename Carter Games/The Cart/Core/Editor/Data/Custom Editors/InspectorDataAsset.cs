@@ -52,7 +52,7 @@ namespace CarterGames.Cart.Core.Data.Editor
             {
                 GUI.backgroundColor = Color.red;
 
-                EditorGUILayout.LabelField(ModuleManager.CrossIcon, new GUIStyle("minibutton"), GUILayout.Width(35));
+                EditorGUILayout.LabelField(GeneralUtilEditor.CrossIcon, new GUIStyle("minibutton"), GUILayout.Width(35));
                 
                 GUI.backgroundColor = Color.yellow;
                 
@@ -65,7 +65,7 @@ namespace CarterGames.Cart.Core.Data.Editor
             {
                 GUI.backgroundColor = Color.green;
                 
-                EditorGUILayout.LabelField(ModuleManager.TickIcon, new GUIStyle("minibutton"), GUILayout.Width(35));
+                EditorGUILayout.LabelField(GeneralUtilEditor.TickIcon, new GUIStyle("minibutton"), GUILayout.Width(35));
                 
                 GUI.backgroundColor = Color.yellow;
                 

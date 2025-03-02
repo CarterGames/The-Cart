@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.Globalization;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
@@ -38,7 +39,6 @@ namespace CarterGames.Cart.Modules.Localization
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		[SerializeField] private string name;
 		[SerializeField] private string code;
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -48,7 +48,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// The display name of the language on GUI etc.
 		/// </summary>
-		public string DisplayName => name;
+		public string DisplayName => CultureInfo.GetCultureInfoByIetfLanguageTag(code).DisplayName;
 		
 		
 		/// <summary>
@@ -66,11 +66,9 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// Creates a new language when called.
 		/// </summary>
-		/// <param name="name">The display name for the language</param>
 		/// <param name="code">The code for the language.</param>
-		public Language(string name, string code)
+		public Language(string code)
 		{
-			this.name = name;
 			this.code = code;
 		}
 #endif
@@ -80,7 +78,7 @@ namespace CarterGames.Cart.Modules.Localization
 		{
 			get
 			{
-				var instance = new Language(string.Empty, string.Empty);
+				var instance = new Language(string.Empty);
 				return instance;
 			}
 		}

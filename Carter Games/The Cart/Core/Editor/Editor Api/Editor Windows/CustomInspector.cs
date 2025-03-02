@@ -32,6 +32,24 @@ namespace CarterGames.Cart.Core.Editor
 	public abstract class CustomInspector : UnityEditor.Editor
 	{
 		/// <summary>
+		/// Stores the rect for the width to assign to.
+		/// </summary>
+		private Rect widthRect;
+
+
+		/// <summary>
+		/// Gets the raw width without padding.
+		/// </summary>
+		protected float ScreenWidth => widthRect.width;
+		
+		
+		/// <summary>
+		/// Gets the width of the inspector with some padding so its ready for use.
+		/// </summary>
+		protected float ScreenWidthPadded => widthRect.width - 12f;
+		
+		
+		/// <summary>
 		/// Gets the properties to not draw in the inspector.
 		/// </summary>
 		protected abstract string[] HideProperties { get; }
@@ -42,10 +60,14 @@ namespace CarterGames.Cart.Core.Editor
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
+			GetWidth();
+			
 			EditorGUI.BeginChangeCheck();
 			
 			GUILayout.Space(7.5f);
+			
 			DrawScriptField();
+			
 			DrawInspectorGUI();
 
 			if (EditorGUI.EndChangeCheck())
@@ -55,6 +77,20 @@ namespace CarterGames.Cart.Core.Editor
 			}
 		}
 
+
+		/// <summary>
+		/// Calculates the width for the custom inspectors to use.
+		/// </summary>
+		private void GetWidth()
+		{
+			EditorGUILayout.LabelField(string.Empty, GUILayout.MaxHeight(0));
+			
+			if (Event.current.type == EventType.Repaint)
+			{
+				widthRect = GUILayoutUtility.GetLastRect();
+			}
+		}
+		
 
 		/// <summary>
 		/// Implement to add your own GUI to the base GUI of the custom editor.

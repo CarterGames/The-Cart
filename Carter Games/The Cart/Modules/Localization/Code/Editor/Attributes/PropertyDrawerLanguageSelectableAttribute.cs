@@ -30,25 +30,14 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    [CustomPropertyDrawer(typeof(LanguageSelectableAttribute))]
+    [CustomPropertyDrawer(typeof(LanguageSelectableAttribute), true)]
     public sealed class PropertyDrawerLanguageSelectableAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderLanguages, Language>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected override bool HasValue => !string.IsNullOrEmpty(TargetProperty.Fpr("name").stringValue);
-        protected override Language CurrentValue
-        {
-            get
-            {
-                return DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
-                    t.DisplayName.Equals(TargetProperty.Fpr("name").stringValue));
-            }
-        }
-
         protected override SearchProviderLanguages Provider => SearchProviderLanguages.GetProvider();
-        protected override SerializedProperty EditDisplayProperty => TargetProperty.Fpr("name");
         protected override string InitialSelectButtonLabel => "Select Language";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -57,28 +46,38 @@ namespace CarterGames.Cart.Modules.Localization.Editor
         
         protected override bool IsValid(SerializedProperty property)
         {
-            return !string.IsNullOrEmpty(property.Fpr("name").stringValue) &&
-                   !string.IsNullOrEmpty(property.Fpr("code").stringValue);
-        }
-
-
-        protected override void OnSelectionMade(Language selectedEntry)
-        {
-            TargetProperty.Fpr("name").stringValue = selectedEntry.DisplayName;
-            TargetProperty.Fpr("code").stringValue = selectedEntry.Code;
-
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
+            return !string.IsNullOrEmpty(property.Fpr("code").stringValue);
         }
         
-        
-        protected override void ClearValue()
+
+        protected override bool GetHasValue(SerializedProperty property)
         {
-            TargetProperty.Fpr("name").stringValue = string.Empty;
-            TargetProperty.Fpr("code").stringValue = string.Empty;
+            return !string.IsNullOrEmpty(GetCurrentValue(property).Code);
+        }
+
+        
+        protected override Language GetCurrentValue(SerializedProperty property)
+        {
+            return DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
+                t.Code.Equals(property.Fpr("code").stringValue));
+        }
+        
+
+        protected override void OnSelectionMade(SerializedProperty property, Language selectedEntry)
+        {
+            property.Fpr("code").stringValue = selectedEntry.Code;
+
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
+        }
+        
+
+        protected override void ClearValue(SerializedProperty property)
+        {
+            property.Fpr("code").stringValue = string.Empty;
             
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
         }
     }
 }

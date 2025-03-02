@@ -65,13 +65,13 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 		{
 			var defaultLanguages = new List<Language>()
 			{
-				new Language("English (en-US)", "en-US"),
-				new Language("French (fr-FR)", "fr-FR"),
-				new Language("German (de-DE)", "de-DE"),
-				new Language("Spanish (es-ES)", "es-ES"),
-				new Language("Italian (it-IT)", "it-IT"),
-				new Language("Chinese Simplified (zh-CN)", "zh-CN"),
-				new Language("Japanese (ja-JP)", "ja-JP"),
+				new Language("en-US"),
+				new Language("fr-FR"),
+				new Language("de-DE"),
+				new Language("es-ES"),
+				new Language("it-IT"),
+				new Language("zh-CN"),
+				new Language("ja-JP"),
 			};
 			
 			ReflectionHelper.SetField("languages", AssetRef, defaultLanguages, false);

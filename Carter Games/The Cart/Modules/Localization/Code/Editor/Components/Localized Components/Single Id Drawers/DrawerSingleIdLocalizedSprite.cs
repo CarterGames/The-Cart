@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -16,19 +16,31 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-using System;
+using CarterGames.Cart.Core.Editor;
+using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.Localization
+namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    public sealed class LanguageSelectableAttribute : PropertyAttribute { }
+    [CustomPropertyDrawer(typeof(SingleIdLocalizedSprite), true)]
+    public class DrawerSingleIdLocalizedSprite : DrawerLocalizedSprite
+    {
+        protected override void DrawElements(Rect pos, SerializedProperty property, Rect ogPosition)
+        {
+            EditorGUI.PropertyField(pos, property.Fpr("locId"));
+
+            pos.y += EditorGUIUtility.singleLineHeight + 1.5f;
+            
+            base.DrawElements(pos, property, ogPosition);
+        }
+    }
 }
 
 #endif

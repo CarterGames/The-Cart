@@ -22,7 +22,6 @@
  */
 
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace CarterGames.Cart.Core.Editor
@@ -38,10 +37,7 @@ namespace CarterGames.Cart.Core.Editor
         |   Abstract Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected abstract bool HasValue { get; }
-        protected abstract TSearchType CurrentValue { get; }
         protected abstract TProviderType Provider { get; }
-        protected abstract SerializedProperty EditDisplayProperty { get; }
         protected abstract string InitialSelectButtonLabel { get; }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -49,14 +45,10 @@ namespace CarterGames.Cart.Core.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         protected abstract bool IsValid(SerializedProperty property);
-        protected abstract void OnSelectionMade(TSearchType selectedEntry);
-        protected abstract void ClearValue();
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected SerializedProperty TargetProperty { get; private set; }
+        protected abstract bool GetHasValue(SerializedProperty property);
+        protected abstract TSearchType GetCurrentValue(SerializedProperty property);
+        protected abstract void OnSelectionMade(SerializedProperty property, TSearchType selectedEntry);
+        protected abstract void ClearValue(SerializedProperty property);
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   GUI Methods
@@ -64,19 +56,17 @@ namespace CarterGames.Cart.Core.Editor
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            TargetProperty = property;
-            
             EditorGUI.BeginProperty(position, label, property);
             
             if (IsValid(property))
             {
                 // Draw field with edit button...
-                DrawEditView(position, label);
+                DrawEditView(position, property, label);
             }
             else
             {
                 // Draw initial value select button...
-                DrawInitialView(position, label);
+                DrawInitialView(position, property, label);
             }
             
             EditorGUI.EndProperty();
@@ -92,12 +82,9 @@ namespace CarterGames.Cart.Core.Editor
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private void DrawInitialView(Rect position, GUIContent label)
+        private void DrawInitialView(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorGUI.BeginDisabledGroup(true);
-                
             EditorGUI.LabelField(position, label);
-            EditorGUI.EndDisabledGroup();
                 
             position.width -= EditorGUIUtility.labelWidth;
             position.x += EditorGUIUtility.labelWidth;
@@ -107,24 +94,25 @@ namespace CarterGames.Cart.Core.Editor
             if (GUI.Button(position, InitialSelectButtonLabel))
             {
                 Provider.SelectionMade.Clear();
-                Provider.SelectionMade.Add(OnSearchSelectionMade);
-                Provider.Open(CurrentValue);
+                Provider.SelectionMade.Add((ste) =>
+                {
+                    Provider.SelectionMade.Clear();
+                    OnSelectionMade(property, (TSearchType) ste.userData);
+                });
+                Provider.Open(GetCurrentValue(property));
             }
             GUI.backgroundColor = Color.white;
         }
 
 
-        private void DrawEditView(Rect position, GUIContent label)
+        private void DrawEditView(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorGUI.BeginDisabledGroup(true);
-                
             var pos = new Rect(position);
             pos.width = (pos.width / 20) * 17;
                 
-            EditorGUI.PropertyField(pos, EditDisplayProperty, label);
-            EditorGUI.EndDisabledGroup();
+            EditorGUI.PropertyField(pos, property, label);
             
-            if (HasValue)
+            if (GetHasValue(property))
             {
                 var buttonPos = new Rect(position);
                 buttonPos.width = (position.width / 20 * 2) - 2.5f;
@@ -134,8 +122,12 @@ namespace CarterGames.Cart.Core.Editor
                 if (GUI.Button(buttonPos, "Edit"))
                 {
                     Provider.SelectionMade.Clear();
-                    Provider.SelectionMade.Add(OnSearchSelectionMade);
-                    Provider.Open(CurrentValue);
+                    Provider.SelectionMade.Add((ste) =>
+                    {
+                        Provider.SelectionMade.Clear();
+                        OnSelectionMade(property, (TSearchType) ste.userData);
+                    });
+                    Provider.Open(GetCurrentValue(property));
                 }
                 GUI.backgroundColor = Color.white;
            
@@ -145,9 +137,10 @@ namespace CarterGames.Cart.Core.Editor
                 clearPos.x = buttonPos.x + buttonPos.width + 2.5f;
             
                 GUI.backgroundColor = Color.red;
-                if (GUI.Button(clearPos, "X"))
+                if (GUI.Button(clearPos, GeneralUtilEditor.CrossIcon))
                 {
-                    ClearValue();
+                    Provider.SelectionMade.Clear();
+                    ClearValue(property);
                 }
                 GUI.backgroundColor = Color.white;
             }
@@ -161,21 +154,14 @@ namespace CarterGames.Cart.Core.Editor
                 if (GUI.Button(buttonPos, "Edit"))
                 {
                     Provider.SelectionMade.Clear();
-                    Provider.SelectionMade.Add(OnSearchSelectionMade);
-                    Provider.Open(CurrentValue);
+                    Provider.SelectionMade.Add((ste) =>
+                    {
+                        Provider.SelectionMade.Clear();
+                        OnSelectionMade(property, (TSearchType) ste.userData);
+                    });
+                    Provider.Open(GetCurrentValue(property));
                 }
                 GUI.backgroundColor = Color.white;
-            }
-        }
-
-        
-        private void OnSearchSelectionMade(SearchTreeEntry entry)
-        {
-            Provider.SelectionMade.Remove(OnSearchSelectionMade);
-            
-            if (TargetProperty != null)
-            {
-                OnSelectionMade((TSearchType) entry.userData);
             }
         }
     }

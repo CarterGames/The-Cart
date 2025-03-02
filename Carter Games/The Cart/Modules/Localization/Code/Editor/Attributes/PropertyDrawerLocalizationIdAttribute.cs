@@ -25,6 +25,7 @@
 
 using CarterGames.Cart.Core.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
@@ -34,11 +35,8 @@ namespace CarterGames.Cart.Modules.Localization.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        protected override bool HasValue => !string.IsNullOrEmpty(CurrentValue);
-        protected override string CurrentValue => TargetProperty.stringValue;
+        
         protected override SearchProviderLocalizationIds Provider => SearchProviderLocalizationIds.GetProvider();
-        protected override SerializedProperty EditDisplayProperty => TargetProperty;
         protected override string InitialSelectButtonLabel => "Select Localization Id";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -50,22 +48,34 @@ namespace CarterGames.Cart.Modules.Localization.Editor
             return !string.IsNullOrEmpty(property.stringValue);
         }
         
-
-        protected override void OnSelectionMade(string selectedEntry)
+        
+        protected override string GetCurrentValue(SerializedProperty property)
         {
-            TargetProperty.stringValue = selectedEntry;
+            return property.stringValue;
+        }
+        
+
+        protected override bool GetHasValue(SerializedProperty property)
+        {
+            return !string.IsNullOrEmpty(GetCurrentValue(property));
+        }
+        
+
+        protected override void OnSelectionMade(SerializedProperty property, string selectedEntry)
+        {
+            property.stringValue = selectedEntry;
             
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
         }
 
         
-        protected override void ClearValue()
+        protected override void ClearValue(SerializedProperty property)
         {
-            TargetProperty.stringValue = string.Empty;
+            property.stringValue = string.Empty;
             
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
         }
     }
 }
