@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.Localization
     /// <summary>
     /// A data asset used to store localized sprite for your game.
     /// </summary>
-    [CreateAssetMenu(fileName = "Data Asset Localized Sprite", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Localized Sprite")]
+    [CreateAssetMenu(fileName = "Data Asset Localized Sprite", menuName = "Carter Games/The Cart/Modules/Localization/Standard/Data Asset Localized Sprite")]
     [Serializable]
     public sealed class DataAssetLocalizedSprite : DataAsset
     {

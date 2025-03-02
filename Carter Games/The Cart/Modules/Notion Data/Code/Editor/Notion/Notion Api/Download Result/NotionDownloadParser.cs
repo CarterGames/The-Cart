@@ -94,7 +94,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
             for (var i = 0; i < keys.Count; i++)
             {
-                var adjustedKey = keys[i].Trim().ToLower().Replace(" ", string.Empty);
+                var adjustedKey = keys[i].Trim().Replace(" ", string.Empty);
 
                 var valueForType = GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i]);
                 var valueJson = valueForType;

@@ -31,7 +31,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
-    [CreateAssetMenu(fileName = "Data Asset Localization Font", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Localization Font")]
+    [CreateAssetMenu(fileName = "Data Asset Localization Font", menuName = "Carter Games/The Cart/Modules/Localization/Fonts/Data Asset Localization Font")]
     [Serializable]
     public sealed class DataAssetLocalizationFont : DataAsset
     {

@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// A Notion Data Asset for localized text.
 	/// </summary>
-	[CreateAssetMenu(fileName = "Notion Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Notion Data Asset Localized Text")]
+	[CreateAssetMenu(fileName = "Notion Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Notion/Notion Data Asset Localized Text")]
 	[Serializable]
 	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData<string>> { }
 }

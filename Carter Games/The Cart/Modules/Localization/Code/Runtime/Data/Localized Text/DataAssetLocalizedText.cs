@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// A data asset used to store localized text for your game.
 	/// </summary>
-	[CreateAssetMenu(fileName = "Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Localized Text")]
+	[CreateAssetMenu(fileName = "Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Standard/Data Asset Localized Text")]
 	[Serializable]
 	public sealed class DataAssetLocalizedText : DataAsset
 	{

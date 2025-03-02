@@ -31,7 +31,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
-    [CreateAssetMenu(fileName = "Data Asset Localization TMP Sprite Asset", menuName = "Carter Games/The Cart/Modules/Localization/Data Asset Localization  TMP Sprite Asset")]
+    [CreateAssetMenu(fileName = "Data Asset Localization TMP Sprite Asset", menuName = "Carter Games/The Cart/Modules/Localization/TMP/Data Asset Localization TMP Sprite Asset")]
     [Serializable]
     public sealed class DataAssetLocalizationTmpSpriteAsset : DataAsset
     {

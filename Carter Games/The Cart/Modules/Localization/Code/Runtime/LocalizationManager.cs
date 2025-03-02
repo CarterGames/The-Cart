@@ -258,7 +258,7 @@ namespace CarterGames.Cart.Modules.Localization
 			copy = string.Empty;
 			
 			var data = GetTextCopyData(id).Entries
-				.FirstOrDefault(t => t.LanguageCode.Equals(CurrentLanguage.Code));
+				.FirstOrDefault(t => t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()));
 
 			if (data == null)
 			{
@@ -285,7 +285,7 @@ namespace CarterGames.Cart.Modules.Localization
 			copy = null;
 			
 			var data = GetSpriteCopyData(id).Entries
-				.FirstOrDefault(t => t.LanguageCode.Equals(CurrentLanguage.Code));
+				.FirstOrDefault(t => t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()));
 
 			if (data == null)
 			{
@@ -312,7 +312,7 @@ namespace CarterGames.Cart.Modules.Localization
 			copy = null;
 			
 			var data = GetAudioCopyData(id).Entries
-				.FirstOrDefault(t => t.LanguageCode.Equals(CurrentLanguage.Code));
+				.FirstOrDefault(t => t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()));
 
 			if (data == null)
 			{
@@ -336,7 +336,7 @@ namespace CarterGames.Cart.Modules.Localization
 		public static string GetText(string id)
 		{
 			var copy = GetTextCopyData(id).Entries.FirstOrDefault(t =>
-				t.LanguageCode.Equals(CurrentLanguage.Code))
+				t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()))
 				?.Copy;
 
 			if (copy == null)
@@ -358,7 +358,7 @@ namespace CarterGames.Cart.Modules.Localization
 		public static Sprite GetSprite(string id)
 		{
 			var copy = GetSpriteCopyData(id).Entries.FirstOrDefault(t =>
-					t.LanguageCode.Equals(CurrentLanguage.Code))
+					t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()))
 				?.Copy;
 
 			if (copy == null)
@@ -380,7 +380,7 @@ namespace CarterGames.Cart.Modules.Localization
 		public static AudioClip GetAudio(string id)
 		{
 			var copy = GetAudioCopyData(id).Entries.FirstOrDefault(t =>
-					t.LanguageCode.Equals(CurrentLanguage.Code))
+					t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()))
 				?.Copy;
 
 			if (copy == null)

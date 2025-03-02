@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.Localization
     /// <summary>
     /// A Notion Data Asset for localized sprite.
     /// </summary>
-    [CreateAssetMenu(fileName = "Notion Data Asset Localized Sprite", menuName = "Carter Games/The Cart/Modules/Localization/Notion Data Asset Localized Sprite")]
+    [CreateAssetMenu(fileName = "Notion Data Asset Localized Sprite", menuName = "Carter Games/The Cart/Modules/Localization/Notion/Notion Data Asset Localized Sprite")]
     [Serializable]
     public sealed class NotionDataAssetLocalizedSprite : NotionDataAsset<LocalizationData<Sprite>> { }
 }
