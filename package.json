@@ -1,6 +1,6 @@
 {
   "name": "games.carter.thecart",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "displayName": "The Cart",
 "description": "[DEVELOPMENT BRANCH]: Use the library in this branch at your own risk. Features will likely have bugs, but you will be able to use the latest stuff as its written.",
   "unity": "2020.3",

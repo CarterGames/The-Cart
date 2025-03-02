@@ -60,9 +60,6 @@ namespace CarterGames.Cart.Modules.Localization
 		|   Constructors
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		// Only for editor tooling use.
-		
-#if UNITY_EDITOR
 		/// <summary>
 		/// Creates a new language when called.
 		/// </summary>
@@ -71,7 +68,6 @@ namespace CarterGames.Cart.Modules.Localization
 		{
 			this.code = code;
 		}
-#endif
 
 
 		public static Language None
