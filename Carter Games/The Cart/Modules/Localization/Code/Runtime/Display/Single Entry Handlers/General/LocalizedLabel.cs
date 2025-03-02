@@ -97,7 +97,11 @@ namespace CarterGames.Cart.Modules.Localization
             TrySubscribeToLanguageChange();
             
             PreReq.DisallowIfFalse(IsValid);
-            PreReq.DisallowIfFalse(requiresLocId && !IsLocIdValid);
+            
+            if (requiresLocId)
+            {
+                PreReq.DisallowIfFalse(!IsLocIdValid);
+            }
             
             font.ApplyToComponent(label);
             spriteAsset?.ApplyToComponent(label);
