@@ -81,7 +81,11 @@ namespace CarterGames.Cart.Modules.Localization
         {
             FormattingParameters = formatParams;
             PreReq.DisallowIfFalse(IsValid);
-            UpdateLocalization(LastCopySet, false);
+
+            UpdateLocalization(string.IsNullOrEmpty(LastCopySet) 
+                    ? LocalizationManager.GetText(LocId) 
+                    : LastCopySet,
+                false);
         }
         
         
