@@ -59,7 +59,12 @@ namespace CarterGames.Cart.Modules.Currency.Editor
             return property.stringValue;
         }
 
-        
+        protected override string GetCurrentValueString(SerializedProperty property)
+        {
+            return property.stringValue;
+        }
+
+
         protected override void OnSelectionMade(SerializedProperty property, string selectedEntry)
         {
             property.stringValue = selectedEntry;

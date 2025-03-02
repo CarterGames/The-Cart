@@ -23,10 +23,7 @@
  * THE SOFTWARE.
  */
 
-using System.Linq;
-using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Editor;
-using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 

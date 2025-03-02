@@ -24,8 +24,8 @@
  */
 
 using System.Linq;
-using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
@@ -58,10 +58,16 @@ namespace CarterGames.Cart.Modules.Localization.Editor
         
         protected override Language GetCurrentValue(SerializedProperty property)
         {
-            return DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
+            return ScriptableRef.GetAssetDef<DataAssetDefinedLanguages>().AssetRef.Languages.FirstOrDefault(t =>
                 t.Code.Equals(property.Fpr("code").stringValue));
         }
         
+
+        protected override string GetCurrentValueString(SerializedProperty property)
+        {
+            return GetCurrentValue(property).Code;
+        }
+
 
         protected override void OnSelectionMade(SerializedProperty property, Language selectedEntry)
         {

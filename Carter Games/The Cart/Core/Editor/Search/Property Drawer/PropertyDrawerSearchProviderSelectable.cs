@@ -39,6 +39,7 @@ namespace CarterGames.Cart.Core.Editor
         
         protected abstract TProviderType Provider { get; }
         protected abstract string InitialSelectButtonLabel { get; }
+        protected virtual bool DisableInputWhenSelected { get; } = true;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Abstract Methods
@@ -47,6 +48,7 @@ namespace CarterGames.Cart.Core.Editor
         protected abstract bool IsValid(SerializedProperty property);
         protected abstract bool GetHasValue(SerializedProperty property);
         protected abstract TSearchType GetCurrentValue(SerializedProperty property);
+        protected abstract string GetCurrentValueString(SerializedProperty property);
         protected abstract void OnSelectionMade(SerializedProperty property, TSearchType selectedEntry);
         protected abstract void ClearValue(SerializedProperty property);
 
@@ -109,8 +111,10 @@ namespace CarterGames.Cart.Core.Editor
         {
             var pos = new Rect(position);
             pos.width = (pos.width / 20) * 17;
-                
-            EditorGUI.PropertyField(pos, property, label);
+            
+            EditorGUI.BeginDisabledGroup(DisableInputWhenSelected);
+            EditorGUI.TextField(pos, label, GetCurrentValueString(property));
+            EditorGUI.EndDisabledGroup();
             
             if (GetHasValue(property))
             {
