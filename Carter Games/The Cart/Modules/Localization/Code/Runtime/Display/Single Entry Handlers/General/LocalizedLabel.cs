@@ -104,7 +104,7 @@ namespace CarterGames.Cart.Modules.Localization
             
             if (requiresLocId)
             {
-                PreReq.DisallowIfFalse(!IsLocIdValid);
+                PreReq.DisallowIfFalse(IsLocIdValid);
             }
             
             font.ApplyToComponent(label);
