@@ -1,7 +1,7 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 
@@ -31,13 +32,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 	public sealed class LanguageEditorPopup : EditorWindow
 	{
 		private SerializedObject AssetObjectRef => ScriptableRef.GetAssetDef<DataAssetDefinedLanguages>().ObjectRef;
-		
-		
-		public static void ShowLanguagesEditorWindow()
-		{
-			GetWindow<LanguageEditorPopup>(true, "Manage Languages").Show();
-		}
-		
+
 
 		private void OnGUI()
 		{
@@ -61,6 +56,12 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			}
 			
 			EditorGUILayout.EndVertical();
+		}
+
+
+		public static void ShowLanguagesEditorWindow()
+		{
+			GetWindow<LanguageEditorPopup>(true, "Manage Languages").Show();
 		}
 	}
 }

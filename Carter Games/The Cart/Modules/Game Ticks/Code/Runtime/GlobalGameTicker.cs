@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_GAMETICKER
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ namespace CarterGames.Cart.Modules.GameTicks
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Field
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The game ticker for the global system.
         /// </summary>
@@ -47,7 +47,7 @@ namespace CarterGames.Cart.Modules.GameTicks
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Runs when a tick is registered from the global ticker.
         /// </summary>
@@ -56,7 +56,7 @@ namespace CarterGames.Cart.Modules.GameTicks
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Initializes the global tick when called.
         /// </summary>

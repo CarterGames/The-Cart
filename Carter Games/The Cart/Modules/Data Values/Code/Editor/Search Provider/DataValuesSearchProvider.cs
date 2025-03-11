@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static readonly StringBuilder Builder = new StringBuilder();
 
         private static readonly Type[] DefaultIgnoredClasses = new Type[4]
@@ -50,7 +50,16 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             typeof(DataValueDictionary<,>),
             typeof(DataValueEventBase)
         };
-        
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when an entry is selected.
+        /// </summary>
+        public static readonly Evt<SearchTreeEntry> OnSearchTreeSelectionMade = new Evt<SearchTreeEntry>();
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -61,18 +70,9 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         public static List<string> ToExclude { get; }  = new List<string>();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Raises when an entry is selected.
-        /// </summary>
-        public static readonly Evt<SearchTreeEntry> OnSearchTreeSelectionMade = new Evt<SearchTreeEntry>();
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISearchWindowProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Creates the search GUI when called.
         /// </summary>
@@ -107,7 +107,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             return searchList;
         }
 
-        
+
         /// <summary>
         /// Runs when an entry is selected.
         /// </summary>
@@ -122,7 +122,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
             OnSearchTreeSelectionMade.Raise(searchTreeEntry);
             return true;
         }
-	}
+    }
 }
 
 #endif

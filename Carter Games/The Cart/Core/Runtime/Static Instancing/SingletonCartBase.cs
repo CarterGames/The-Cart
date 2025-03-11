@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,15 @@
  * THE SOFTWARE.
  */
 
+using UnityEngine;
+
 namespace CarterGames.Cart.Core
 {
     /// <summary>
     /// Your standard singleton base class, with initialization on awake.
     /// </summary>
     /// <typeparam name="T">The type to implement as.</typeparam>
-    public abstract class SingletonCartBase<T> : CartBase
+    public abstract class SingletonCartBase<T> : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields

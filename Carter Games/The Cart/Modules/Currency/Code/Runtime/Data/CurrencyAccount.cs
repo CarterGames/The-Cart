@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CURRENCY
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,14 +37,14 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private readonly object padlock = new object();
         private double balance;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The balance of the account.
         /// </summary>
@@ -59,7 +59,7 @@ namespace CarterGames.Cart.Modules.Currency
             }
         }
 
-        
+
         /// <summary>
         /// The balance of the account formatted with the generic formatter.
         /// </summary>
@@ -68,28 +68,27 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when the account is adjusted in any way.
+        /// </summary>
+        public readonly Evt Adjusted = new Evt();
+
+
+        /// <summary>
+        /// Raises when the account is credited to.
+        /// </summary>
+        public readonly Evt Credited = new Evt();
         
         /// <summary>
         /// Raises when the account is debited to.
         /// </summary>
         public readonly Evt Debited = new Evt();
         
-        
-        /// <summary>
-        /// Raises when the account is credited to.
-        /// </summary>
-        public readonly Evt Credited = new Evt();
-        
-        
-        /// <summary>
-        /// Raises when the account is adjusted in any way.
-        /// </summary>
-        public readonly Evt Adjusted = new Evt();
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Makes a new account with the initial balance entered.
         /// </summary>
@@ -103,7 +102,7 @@ namespace CarterGames.Cart.Modules.Currency
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Debit (remove) from the account.
         /// </summary>
@@ -150,8 +149,8 @@ namespace CarterGames.Cart.Modules.Currency
                 Adjusted.Raise();
             }
         }
-        
-        
+
+
         /// <summary>
         /// Processes the change either way.
         /// </summary>

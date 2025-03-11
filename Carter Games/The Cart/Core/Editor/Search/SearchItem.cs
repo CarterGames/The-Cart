@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 
 using System;
 
-namespace CarterGames.TheCart.Core.Editor
+namespace CarterGames.Cart.Core.Editor
 {
     [Serializable]
     public class SearchItem<T>

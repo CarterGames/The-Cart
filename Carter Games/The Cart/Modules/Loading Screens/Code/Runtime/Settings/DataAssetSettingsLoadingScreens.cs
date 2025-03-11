@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOADINGSCREENS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
@@ -31,34 +32,23 @@ namespace CarterGames.Cart.Modules.LoadingScreens
     /// <summary>
     /// The runtime settings for the loading screens system.
     /// </summary>
-    [CreateAssetMenu(fileName = "Loading Screens Runtime Settings Asset", menuName = "Carter Games/The Cart/Modules/Loading Screens/Runtime Settings")]
+    [Serializable]
     public sealed class DataAssetSettingsLoadingScreens : DataAsset
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private GenericLoadingScreenInstance loadingScreenPrefab;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Fields
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    [SerializeField] private GenericLoadingScreenInstance loadingScreenPrefab;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
         /// Gets the prefab for the loading screen.
         /// </summary>
         public GenericLoadingScreenInstance LoadingScreenPrefab => loadingScreenPrefab;
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Unity Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private void OnValidate()
-        {
-	        if (loadingScreenPrefab != null) return;
-	        loadingScreenPrefab =
-		        Resources.Load<GenericLoadingScreenInstance>("Prefabs/Loading Screen/++Canvas (Overlay) - (Cart) - Loading Screen");
-        }
     }
 }
 

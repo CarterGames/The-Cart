@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
  */
 
 using System.Linq;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -60,12 +61,10 @@ namespace CarterGames.Cart.Core.Logs.Editor
             EditorGUI.BeginChangeCheck();
             
             category.Fpr("value").boolValue = EditorGUILayout.Toggle(new GUIContent(TrimCategoryNameToLabel(category.Fpr("key").stringValue), GetTooltip(category.Fpr("key").stringValue)), category.Fpr("value").boolValue);
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
-                ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
-            }
+
+            if (!EditorGUI.EndChangeCheck()) return;
+            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
+            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
         }
     }
 }

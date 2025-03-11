@@ -1,7 +1,7 @@
-﻿#if CARTERGAMES_CART_MODULE_PANELS
+﻿#if CARTERGAMES_CART_MODULE_PANELS && CARTERGAMES_CART_MODULE_EASING
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,8 @@ namespace CarterGames.Cart.Modules.Panels
         [SerializeField] private Transform target;
         [SerializeField] private OutEaseData outEase;
         [SerializeField] private InEaseData inEase;
-        
-        
+
+
         protected override IEnumerator Co_Transition(bool fadeIn)
         {
             var elapsedTime = 0d;

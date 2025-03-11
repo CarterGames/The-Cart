@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_PANELS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,7 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private void OnDisable()
         {
             OpenStarted.Remove(PanelOpenStarted);
@@ -55,11 +55,11 @@ namespace CarterGames.Cart.Modules.Panels
             CloseStarted.Remove(PanelCloseStarted);
             CloseCompleted.Remove(PanelCloseComplete);
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Override Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         protected override void Initialise()
         {
             base.Initialise();
@@ -73,13 +73,13 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private void PanelOpenStarted()
         {
             onPanelOpenStart?.Invoke();
         }
 
-        
+
         private void PanelOpenComplete()
         {
             onPanelOpenComplete?.Invoke();

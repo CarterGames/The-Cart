@@ -1,7 +1,7 @@
-﻿#if CARTERGAMES_CART_MODULE_PANELS && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_PANELS && CARTERGAMES_CART_MODULE_EASING && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,7 +59,7 @@ namespace CarterGames.Cart.Modules.Panels.Editor
             var isValid = IsValidSetup();
 
             GUI.backgroundColor = isValid ? Color.green : Color.red;
-            GUILayout.Label(isValid ? ModuleManager.TickIcon : ModuleManager.CrossIcon, new GUIStyle("minibutton"), GUILayout.Width(25));
+            GUILayout.Label(isValid ? GeneralUtilEditor.TickIcon : GeneralUtilEditor.CrossIcon, new GUIStyle("minibutton"), GUILayout.Width(25));
             GUI.backgroundColor = Color.white;
             
             EditorGUILayout.EndHorizontal();

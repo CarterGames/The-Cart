@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ namespace CarterGames.Cart.Core.Data
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         /// <summary>
-        /// Gets all the assets from the build versions asset...
+        /// Gets all the assets from the library...
         /// </summary>
         private static DataAssetIndex Index
         {
@@ -59,11 +59,11 @@ namespace CarterGames.Cart.Core.Data
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
-        /// Gets the Save Manager Asset requested.
+        /// Gets the Data Asset requested.
         /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <typeparam name="T">The asset to get.</typeparam>
         /// <returns>The asset if it exists.</returns>
         public static T GetAsset<T>() where T : DataAsset
         {
@@ -77,9 +77,9 @@ namespace CarterGames.Cart.Core.Data
         
         
         /// <summary>
-        /// Gets the Save Manager Asset requested.
+        /// Gets the Data Asset requested.
         /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <typeparam name="T">The asset to get.</typeparam>
         /// <returns>The asset if it exists.</returns>
         public static T GetAsset<T>(string id) where T : DataAsset
         {
@@ -93,9 +93,9 @@ namespace CarterGames.Cart.Core.Data
         
         
         /// <summary>
-        /// Gets the Save Manager Asset requested.
+        /// Gets the Data Asset requested.
         /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <typeparam name="T">The asset to get.</typeparam>
         /// <returns>The asset if it exists.</returns>
         public static List<T> GetAssets<T>() where T : DataAsset
         {

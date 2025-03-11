@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_RUNTIMETIMERS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
     /// <summary>
     /// A runtime timer that can invoke actions when completed and can be created from anywhere in runtime space.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Runtime Timers/Timer")]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Runtime Timers/RuntimeTimer")]
     public class RuntimeTimer : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -91,7 +91,21 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        /// <summary>
+        /// Raises when the timer is completed.
+        /// </summary>
         public readonly Evt TimerCompleted = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when the timer is completed.
+        /// </summary>
+        public readonly Evt TimerTicked = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when a second has passed for the timer.
+        /// </summary>
         public readonly Evt<int> TimerSecondPassed = new Evt<int>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -119,7 +133,6 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         public virtual void Dispose()
         {
             UseUnscaledTime = false;
-            TimerCompleted.Clear();
             gameObject.SetActive(false);
         }
         
@@ -170,7 +183,12 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             var obj = new GameObject("RuntimeTimer-" + Guid.NewGuid()).AddComponent<RuntimeTimer>();
             DontDestroyOnLoad(obj.gameObject);
             obj.Initialize(duration, onComplete);
-            RuntimeTimerManager.Register(obj);
+            
+            if (!RuntimeTimerManager.IsRegistered(obj))
+            {
+                RuntimeTimerManager.Register(obj);
+            }
+            
             return obj;
         }
 
@@ -180,6 +198,11 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         /// </summary>
         public void StartTimer()
         {
+            if (!RuntimeTimerManager.IsRegistered(this))
+            {
+                RuntimeTimerManager.Register(this);
+            }
+            
             if (TimerActive)
             {
                 if (TimerPaused)
@@ -233,6 +256,23 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             RuntimeTimerManager.UnRegister(this);
         }
 
+
+        /// <summary>
+        /// Restarts the timer when called.
+        /// </summary>
+        public void RestartTimer()
+        {
+            PauseTimer();
+            TimeRemaining = TimerDuration;
+            
+            if (!RuntimeTimerManager.IsRegistered(this))
+            {
+                RuntimeTimerManager.Register(this);
+            }
+            
+            ResumeTimer();
+        }
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Coroutines
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -254,6 +294,7 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
                 var change = UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
                 TimeRemaining -= change;
                 t += change;
+                TimerTicked.Raise();
 
                 if (t > 1)
                 {

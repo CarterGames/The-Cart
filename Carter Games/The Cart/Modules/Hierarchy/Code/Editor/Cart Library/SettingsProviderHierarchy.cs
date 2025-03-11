@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_HIERARCHY && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,11 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Hierarchy.Editor
 {
@@ -34,10 +36,18 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
     /// </summary>
     public sealed class SettingsProviderHierarchy : ISettingsProvider
     {
+        private static readonly string[] OptionLabels = new string[2]
+        {
+            "Headers & Separators", "Alternate Colors"
+        };
+        
+        private static SerializedObject Config =>
+            ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Draws the inspector version of the settings.
         /// </summary>
@@ -45,45 +55,68 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             
-            EditorGUILayout.LabelField("Hierarchy", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Hierarchy (Header/Separator)", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            EditorSettingsHierarchy.HeaderPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("headerPrefix"), EditorSettingsHierarchy.HeaderPrefix);
-            EditorSettingsHierarchy.SeparatorPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("separatorPrefix"), EditorSettingsHierarchy.SeparatorPrefix);
-            EditorSettingsHierarchy.TextAlign = (HierarchyTitleTextAlign) EditorGUILayout.EnumPopup(AssetMeta.GetData("Hierarchy").Content("textAlignment"), EditorSettingsHierarchy.TextAlign);
-            EditorSettingsHierarchy.FullWidth = EditorGUILayout.Toggle(AssetMeta.GetData("Hierarchy").Content("useFullWidth"), EditorSettingsHierarchy.FullWidth);
-            EditorSettingsHierarchy.HeaderBackgroundColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerBackgroundColor"), EditorSettingsHierarchy.HeaderBackgroundColor);
-            EditorSettingsHierarchy.TextColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerTextColor"), EditorSettingsHierarchy.TextColor);
+            EditorGUI.BeginChangeCheck();
+            
+            ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.HeaderSeparatorConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("headerSeparatorConfig"));
+
+            EditorGUILayout.Space(2.5f);
+            
+            EditorGUILayout.LabelField("Hierarchy (Alternate Colors)", EditorStyles.boldLabel);
+            GeneralUtilEditor.DrawHorizontalGUILine();
+            
+            ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.AlternateLinesConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("alternateLinesConfig"));
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                Config.ApplyModifiedProperties();
+                Config.Update();
+            }
             
             EditorGUILayout.EndVertical();
         }
-        
+
 
         /// <summary>
         /// Draws the settings provider version of the settings.
         /// </summary>
         public void OnProjectSettingsGUI()
         {
-            EditorSettingsHierarchy.EditorSettingsSectionExpanded = EditorGUILayout.Foldout(EditorSettingsHierarchy.EditorSettingsSectionExpanded, AssetMeta.GetData("Hierarchy").Content(AssetMeta.SectionTitle));
+            EditorSettingsHierarchy.EditorSettingsSectionExpanded = EditorGUILayout.Foldout(EditorSettingsHierarchy.EditorSettingsSectionExpanded, "Hierarchy");
             
             if (!EditorSettingsHierarchy.EditorSettingsSectionExpanded) return;
 
-
             EditorGUILayout.BeginVertical("Box");
             EditorGUILayout.Space(1.5f);
-            EditorGUI.indentLevel++;
+
+            EditorGUILayout.BeginHorizontal();
+            for (var i = 0; i < OptionLabels.Length; i++)
+            {
+                GUI.backgroundColor = EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.white : Color.gray;
+                GUI.color = EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.white : Color.gray;
+                
+                if (GUILayout.Button(OptionLabels[i]))
+                {
+                    EditorSettingsHierarchy.EditorSettingsLastSelected = i;
+                }
+                
+                GUI.backgroundColor = Color.white;
+                GUI.color = Color.white;
+            }
+            EditorGUILayout.EndHorizontal();
             
+            switch (EditorSettingsHierarchy.EditorSettingsLastSelected)
+            {
+                case 0:
+                    ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.HeaderSeparatorConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("headerSeparatorConfig"));
+                    break;
+                case 1:
+                    ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().AssetRef.AlternateLinesConfig.DrawConfig(ScriptableRef.GetAssetDef<DataAssetHierarchySettings>().ObjectRef.Fp("alternateLinesConfig"));
+                    break;
+            }
             
-            // Draw the provider enum field on the GUI...
-            EditorSettingsHierarchy.HeaderPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("headerPrefix"), EditorSettingsHierarchy.HeaderPrefix);
-            EditorSettingsHierarchy.SeparatorPrefix = EditorGUILayout.TextField(AssetMeta.GetData("Hierarchy").Content("separatorPrefix"), EditorSettingsHierarchy.SeparatorPrefix);
-            EditorSettingsHierarchy.TextAlign = (HierarchyTitleTextAlign) EditorGUILayout.EnumPopup(AssetMeta.GetData("Hierarchy").Content("textAlignment"), EditorSettingsHierarchy.TextAlign);
-            EditorSettingsHierarchy.FullWidth = EditorGUILayout.Toggle(AssetMeta.GetData("Hierarchy").Content("useFullWidth"), EditorSettingsHierarchy.FullWidth);
-            EditorSettingsHierarchy.HeaderBackgroundColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerBackgroundColor"), EditorSettingsHierarchy.HeaderBackgroundColor);
-            EditorSettingsHierarchy.TextColor = EditorGUILayout.ColorField(AssetMeta.GetData("Hierarchy").Content("headerTextColor"), EditorSettingsHierarchy.TextColor);
-            
-            
-            EditorGUI.indentLevel--;
             EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }

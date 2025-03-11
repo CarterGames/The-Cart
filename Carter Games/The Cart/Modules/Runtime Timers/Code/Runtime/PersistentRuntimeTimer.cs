@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_RUNTIMETIMERS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.RuntimeTimers
 {
-    [AddComponentMenu("Carter Games/The Cart/Modules/Runtime Timers/Persistent Timer")]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Runtime Timers/PersistentRuntimeTimer")]
     public class PersistentRuntimeTimer : RuntimeTimer
     {
         /// <summary>

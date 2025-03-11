@@ -1,7 +1,7 @@
 #if CARTERGAMES_CART_MODULE_DICE
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -69,15 +69,15 @@ namespace CarterGames.Cart.Modules.Dice
         /// </summary>
         /// <returns>Int</returns>
         public static int D12() => GetSingleRoll(12);
-        
-        
+
+
         /// <summary>
         /// Rolls a single D20 and returns the result...
         /// </summary>
         /// <returns>Int</returns>
         public static int D20() => GetSingleRoll(20);
-        
-        
+
+
         /// <summary>
         /// Rolls a single D100 and returns the result...
         /// </summary>
@@ -91,27 +91,27 @@ namespace CarterGames.Cart.Modules.Dice
         /// <param name="sidesToDice">The number of sides the dice should have</param>
         /// <returns>Int</returns>
         public static int Custom(int sidesToDice) => GetSingleRoll(sidesToDice);
-        
-        
+
+
         /// <summary>
         /// Rolls a single dice...
         /// </summary>
         /// <param name="sidesToDice">The amount of sides to the dice...</param>
         /// <returns>The roll</returns>
         private static int GetSingleRoll(int sidesToDice) => Rng.Int(1, sidesToDice);
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Multiple Rolls
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Rolls multiple D4 and returns the result...
         /// </summary>
         /// <param name="numberOfRolls">Int | Number of times to roll</param>
         /// <returns>List of Ints</returns>
         public static int[] D4(int numberOfRolls) => GetMultipleRolls(100, numberOfRolls);
-        
-        
+
+
         /// <summary>
         /// Rolls multiple D6 and returns the result...
         /// </summary>
@@ -126,32 +126,32 @@ namespace CarterGames.Cart.Modules.Dice
         /// <param name="numberOfRolls">Int | Number of times to roll</param>
         /// <returns>List of Ints</returns>
         public static int[] D8(int numberOfRolls) => GetMultipleRolls(100, numberOfRolls);
-        
-        
+
+
         /// <summary>
         /// Rolls multiple D10 and returns the result...
         /// </summary>
         /// <param name="numberOfRolls">Int | Number of times to roll</param>
         /// <returns>List of Ints</returns>
         public static int[] D10(int numberOfRolls) => GetMultipleRolls(10, numberOfRolls);
-        
-        
+
+
         /// <summary>
         /// Rolls multiple D12 and returns the result...
         /// </summary>
         /// <param name="numberOfRolls">Int | Number of times to roll</param>
         /// <returns>List of Ints</returns>
         public static int[] D12(int numberOfRolls) => GetMultipleRolls(12, numberOfRolls);
-        
-        
+
+
         /// <summary>
         /// Rolls multiple D20 and returns the result...
         /// </summary>
         /// <param name="numberOfRolls">Int | Number of times to roll</param>
         /// <returns>List of Ints</returns>
         public static int[] D20(int numberOfRolls) => GetMultipleRolls(20, numberOfRolls);
-        
-        
+
+
         /// <summary>
         /// Rolls multiple D100 and returns the result...
         /// </summary>
@@ -167,7 +167,7 @@ namespace CarterGames.Cart.Modules.Dice
         /// <param name="sidesToDice">The amount of sides to the dice...</param>
         /// <returns>List of Ints</returns>
         public static int[] Custom(int sidesToDice, int numberOfRolls) => GetMultipleRolls(sidesToDice, numberOfRolls);
-        
+
 
         /// <summary>
         /// Rolls multiple dice...

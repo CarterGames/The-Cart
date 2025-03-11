@@ -13,5 +13,6 @@ namespace CarterGames.Cart.Modules.Settings
 		T AssetRef { get; }
 		SerializedObject ObjectRef { get; }
 		void TryCreate();
+		void OnCreated();
 	}
 }

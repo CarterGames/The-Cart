@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ namespace CarterGames.Cart.Core.Management
     /// <summary>
     /// Handles any runtime specific settings for the package.
     /// </summary>
+    [Serializable]
     public sealed class DataAssetCoreRuntimeSettings : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

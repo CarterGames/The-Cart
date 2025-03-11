@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,53 +22,45 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core.Events;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.TheCart.Core.Editor
+namespace CarterGames.Cart.Core.Editor
 {
-    // Implement to make a search provider for something....
-    // You still have to have a way to open it, but it will show the values entered.
+    /// <summary>
+    /// Implement to make a search provider for something.
+    /// You still have to have a way to open it, but it will show the values entered.
+    /// </summary>
+    /// <typeparam name="T">The type to provide from the search selection.</typeparam>
     public abstract class SearchProvider<T> : ScriptableObject, ISearchWindowProvider
     {
-        public readonly Evt<SearchTreeEntry> SelectionMade = new Evt<SearchTreeEntry>();
-        
-        
-        public abstract string ProviderTitle { get; }
-        public abstract List<SearchGroup<T>> GetEntriesToDisplay();
-        public List<T> ToExclude { get; set; } = new List<T>();
-        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        public void Open()
-        {
-            ToExclude.Clear();
-            
-            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), this);
-        }
+        /// <summary>
+        /// The title to add to the search provider when open.
+        /// </summary>
+        protected abstract string ProviderTitle { get; }
         
         
-        public void Open(T currentValue)
-        {
-            ToExclude.Clear();
-            ToExclude.Add(currentValue);
-            
-            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), this);
-        }
-        
-        
-        
-        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
-        {
-            var searchList = new List<SearchTreeEntry>();
-            
-            searchList.Add(new SearchTreeGroupEntry(new GUIContent(ProviderTitle), 0));
-            searchList.AddRange(AdditionalEntries);
+        /// <summary>
+        /// A list of entries to exclude from the search.
+        /// </summary>
+        protected List<T> ToExclude { get; set; } = new List<T>();
 
-            return searchList;
-        }
+
+        /// <summary>
+        /// The width of the search provider window.
+        /// </summary>
+        private float WindowWidth { get; set; } = -1;
         
         
+        /// <summary>
+        /// Gets any addition entries to show that can be shown such as group entries.
+        /// </summary>
         private List<SearchTreeEntry> AdditionalEntries
         {
             get
@@ -101,12 +93,94 @@ namespace CarterGames.TheCart.Core.Editor
             }
         }
         
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        /// <summary>
+        /// Raised when a selection is made.
+        /// </summary>
+        public readonly Evt<SearchTreeEntry> SelectionMade = new Evt<SearchTreeEntry>();
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Opens the search window when called.
+        /// </summary>
+        public void Open()
+        {
+            ToExclude.Clear();
+            
+            if (WindowWidth.Equals(-1))
+            {
+                WindowWidth = Mathf.Min(AdditionalEntries
+                    .Select(t => t.content.text.GUIWidth())
+                    .Max() + 35, 1000f);
+            }
+            
+            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), WindowWidth), this);
+        }
+        
+        
+        /// <summary>
+        /// Opens the search window when called.
+        /// </summary>
+        /// <param name="currentValue">The current value to not show.</param>
+        public void Open(T currentValue)
+        {
+            ToExclude.Clear();
+            
+            if (currentValue != null)
+            {
+                ToExclude.Add(currentValue);
+            }
+            
+            if (WindowWidth.Equals(-1))
+            {
+                WindowWidth = Mathf.Min(GetEntriesToDisplay()
+                    .Select(t => t.Key.GUIWidth())
+                    .Max() + 35, 1000f);
+            }
+            
+            SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), WindowWidth), this);
+        }
+        
+        
+        /// <summary>
+        /// Creates the search tree when called.
+        /// </summary>
+        /// <param name="context">The context for the window to target on.</param>
+        /// <returns>The entries to show.</returns>
+        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
+        {
+            var searchList = new List<SearchTreeEntry>();
+            
+            searchList.Add(new SearchTreeGroupEntry(new GUIContent(ProviderTitle), 0));
+            searchList.AddRange(AdditionalEntries);
+
+            return searchList;
+        }
+        
+        
+        /// <summary>
+        /// Runs when a selection is made.
+        /// </summary>
+        /// <param name="searchTreeEntry">The tree entry pressed.</param>
+        /// <param name="context">The window context.</param>
         public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             if (searchTreeEntry == null) return false;
             SelectionMade.Raise(searchTreeEntry);
             return true;
         }
+        
+        
+        /// <summary>
+        /// The entries the search provider can display.
+        /// </summary>
+        /// <returns>A list of entries to show.</returns>
+        public abstract List<SearchGroup<T>> GetEntriesToDisplay();
     }
 }

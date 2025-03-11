@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_GAMETICKER && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
 
@@ -35,7 +35,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Custom editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         public override void OnInspectorGUI()
         {
             GeneralUtilEditor.DrawMonoScriptSection(target as GameTicker);

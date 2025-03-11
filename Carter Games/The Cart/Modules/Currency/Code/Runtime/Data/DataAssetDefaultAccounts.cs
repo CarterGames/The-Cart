@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CURRENCY
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
@@ -33,20 +34,20 @@ namespace CarterGames.Cart.Modules.Currency
 	/// <summary>
 	/// A data asset for the default accounts the system has.
 	/// </summary>
-    [CreateAssetMenu(fileName = "Data Asset Default Accounts", menuName = "Carter Games/The Cart/Modules/Currency/Data Asset Default Accounts")]
+	[Serializable]
     public class DataAssetDefaultAccounts : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-	    
-        [SerializeField] private List<SerializableKeyValuePair<string, double>> defaultAccounts;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        public List<SerializableKeyValuePair<string, double>> DefaultAccounts => defaultAccounts;
+
+	    [SerializeField] private List<SerializableKeyValuePair<string, double>> defaultAccounts;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    public List<SerializableKeyValuePair<string, double>> DefaultAccounts => defaultAccounts;
     }
 }
 

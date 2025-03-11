@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CURRENCY && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.Save;
 using UnityEditor;
@@ -40,9 +41,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
             get => PerUserSettings.GetValue<bool>(FoldoutKey, SettingType.EditorPref);
             set => PerUserSettings.SetValue<bool>(FoldoutKey, SettingType.EditorPref, value);
         }
-        
-        
-        
+
+
         public void OnInspectorSettingsGUI()
         {
             EditorGUILayout.BeginVertical("HelpBox");
@@ -56,7 +56,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 
             EditorGUILayout.EndVertical();
         }
-        
+
 
         public void OnProjectSettingsGUI()
         {

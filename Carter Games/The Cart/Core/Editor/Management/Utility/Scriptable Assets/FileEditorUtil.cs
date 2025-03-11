@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,17 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Data.Editor;
+using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart.Core.Management.Editor
 {
@@ -186,8 +191,8 @@ namespace CarterGames.Cart.Core.Management.Editor
             {
                 return AssetDatabase.LoadAssetAtPath(assetPath, typeof(T));
             }
-            
-            string path = string.Empty;
+
+            var path = string.Empty;
             
             foreach (var assetFound in AssetDatabase.FindAssets(filter, null))
             {
@@ -250,6 +255,32 @@ namespace CarterGames.Cart.Core.Management.Editor
         
         
         /// <summary>
+        /// Creates a scriptable object or assigns the cache to an existing instance if one is found.
+        /// </summary>
+        /// <param name="cache">The cache to check.</param>
+        /// <param name="definition">The definition in use.</param>
+        /// <param name="pathContains">Any string that should be in the path to make sure its the right asset.</param>
+        /// <typeparam name="T">The type to check for.</typeparam>
+        /// <returns>The found or created asset.</returns>
+        public static T CreateSoGetOrAssignAssetCache<T>(ref T cache, IScriptableAssetDef<T> definition, params string[] pathContains) where T : DataAsset
+        {
+            if (cache != null) return cache;
+
+            cache = (T)GetAssetInstance<T>(definition.DataAssetFilter, definition.DataAssetPath, pathContains);
+
+            if (cache == null)
+            {
+                cache = CreateScriptableObject<T>(definition.DataAssetPath);
+                definition.OnCreated();
+            }
+            
+            DataAssetIndexHandler.UpdateIndex();
+
+            return cache;
+        }
+        
+        
+        /// <summary>
         /// Creates, gets or assigns a serialized object reference.
         /// </summary>
         /// <param name="cache">The cache to assign to.</param>
@@ -272,14 +303,22 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <returns>The newly created asset.</returns>
         private static T CreateScriptableObject<T>(string path) where T : ScriptableObject
         {
-            var instance = ScriptableObject.CreateInstance(typeof(T));
+            try
+            {
+                var instance = ScriptableObject.CreateInstance(typeof(T));
 
-            CreateToDirectory(path);
+                CreateToDirectory(path);
 
-            AssetDatabase.CreateAsset(instance, path);
-            AssetDatabase.Refresh();
+                AssetDatabase.CreateAsset(instance, path);
+                AssetDatabase.Refresh();
 
-            return (T)instance;
+                return (T)instance;
+            }
+            catch (Exception e)
+            {
+                CartLogger.LogWarning<LogCategoryCore>($"Failed to create asset of type {typeof(T)}. Error message: {e.Message}");
+                return null;
+            }
         }
         
         

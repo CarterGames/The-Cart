@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CURRENCY && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -45,30 +45,32 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			
 			EditorGUILayout.Space(1f);
 			
-			if (string.IsNullOrEmpty(serializedObject.Fp("accountId").stringValue))
-			{
-				if (GUILayout.Button("Select Account"))
-				{
-					SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
-					SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
-				}
-			}
-			else
-			{
-				EditorGUILayout.BeginHorizontal();
-				
-				EditorGUI.BeginDisabledGroup(true);
-				EditorGUILayout.PropertyField(serializedObject.Fp("accountId"));
-				EditorGUI.EndDisabledGroup();
-
-				if (GUILayout.Button("Edit", GUILayout.Width(55)))
-				{
-					SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
-					SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
-				}
-				
-				EditorGUILayout.EndHorizontal();
-			}
+			EditorGUILayout.PropertyField(serializedObject.Fp("accountId"));
+			
+			// if (string.IsNullOrEmpty(serializedObject.Fp("accountId").stringValue))
+			// {
+			// 	if (GUILayout.Button("Select Account"))
+			// 	{
+			// 		SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
+			// 		SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
+			// 	}
+			// }
+			// else
+			// {
+			// 	EditorGUILayout.BeginHorizontal();
+			// 	
+			// 	EditorGUI.BeginDisabledGroup(true);
+			// 	EditorGUILayout.PropertyField(serializedObject.Fp("accountId"));
+			// 	EditorGUI.EndDisabledGroup();
+			//
+			// 	if (GUILayout.Button("Edit", GUILayout.Width(55)))
+			// 	{
+			// 		SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
+			// 		SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
+			// 	}
+			// 	
+			// 	EditorGUILayout.EndHorizontal();
+			// }
 
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.PropertyField(serializedObject.Fp("label"));
@@ -95,8 +97,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			
 			EditorGUILayout.EndVertical();
 		}
-		
-		
+
+
 		private void OnSelectionMade(SearchTreeEntry entry)
 		{
 			SearchProviderAccounts.GetProvider().SelectionMade.Remove(OnSelectionMade);

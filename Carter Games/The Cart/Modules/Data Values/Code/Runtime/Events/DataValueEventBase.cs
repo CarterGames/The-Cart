@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,19 +31,20 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 	/// <summary>
 	/// A base class for event data values.
 	/// </summary>
+	[Serializable]
 	public abstract class DataValueEventBase : DataValueAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		[SerializeField, TextArea] private string devDescription;
 		[SerializeField] private string key;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// The key for the value.
 		/// </summary>
@@ -52,14 +53,14 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Implement to add a listener.
 		/// </summary>
 		/// <param name="action">The action to change.</param>
 		public abstract void AddListener(Action action);
-		
-		
+
+
 		/// <summary>
 		/// Implement to remove a listener.
 		/// </summary>

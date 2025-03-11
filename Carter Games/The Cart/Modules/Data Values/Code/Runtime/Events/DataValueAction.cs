@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,18 +32,19 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 	/// An event data value for normal system action.
 	/// </summary>
 	[CreateAssetMenu(fileName = "Data Value Action", menuName = "Carter Games/The Cart/Modules/Data Values/Events/Data Value Action", order = 1)]
+	[Serializable]
 	public class DataValueAction : DataValueEventBase
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private event Action EventAction;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Adds a listener when called.
 		/// </summary>
@@ -54,7 +55,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 			EventAction += action;
 		}
 
-		
+
 		/// <summary>
 		/// Removes a listener when called.
 		/// </summary>
@@ -64,7 +65,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 			EventAction -= action;
 		}
 
-		
+
 		/// <summary>
 		/// Raises the event when called.
 		/// </summary>

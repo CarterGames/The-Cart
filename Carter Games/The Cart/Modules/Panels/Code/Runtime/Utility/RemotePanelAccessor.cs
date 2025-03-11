@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_PANELS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,11 +45,11 @@ namespace CarterGames.Cart.Modules.Panels
                 return panel;
             }
 
-            CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
+            CartLogger.LogError<LogCategoryModules>($"[Panels]: Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
             return null;
         }
-        
-        
+
+
         /// <summary>
         /// Opens the panel of the entered Id if it can find it...
         /// </summary>
@@ -62,10 +62,10 @@ namespace CarterGames.Cart.Modules.Panels
                 return;
             }
 
-            CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
+            CartLogger.LogError<LogCategoryModules>($"[Panels]: Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
         }
-        
-        
+
+
         /// <summary>
         /// Closes the panel of the entered Id if it can find it...
         /// </summary>
@@ -78,7 +78,7 @@ namespace CarterGames.Cart.Modules.Panels
                 return;
             }
             
-            CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
+            CartLogger.LogError<LogCategoryModules>($"[Panels]: Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CURRENCY
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,23 +39,50 @@ namespace CarterGames.Cart.Modules.Currency
     /// </summary>
     public static class CurrencyManager
     {
+        private const string AccountsSaveKey = "CartSave_Modules_Currency_Accounts";
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static readonly Dictionary<string, CurrencyAccount> Accounts = new Dictionary<string, CurrencyAccount>();
-        private const string AccountsSaveKey = "CartSave_Modules_Currency_Accounts";
-        
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Raises when all accounts are loaded into the system.
+        /// </summary>
+        public static readonly Evt AccountsLoaded = new Evt();
+
+
+        /// <summary>
+        /// Raises when an account is opened.
+        /// </summary>
+        public static readonly Evt AccountOpened = new Evt();
+
+
+        /// <summary>
+        /// Raises when an accounts balance is altered.
+        /// </summary>
+        public static readonly Evt<CurrencyAccount> AccountBalanceChanged = new Evt<CurrencyAccount>();
+
+
+        /// <summary>
+        /// Raises when an account is closed.
+        /// </summary>
+        public static readonly Evt AccountClosed = new Evt();
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Gets if the accounts have been loaded from the save or not.
         /// </summary>
         public static bool HasLoadedAccounts { get; private set; }
 
-        
+
         /// <summary>
         /// Gets all the account id's the system has stored.
         /// </summary>
@@ -79,47 +106,23 @@ namespace CarterGames.Cart.Modules.Currency
                     }
                 }
                 
-                foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
+                if (DataAccess.GetAsset<DataAssetDefaultAccounts>())
                 {
-                    if (keys.Contains(defAccount.Key)) continue;
-                    keys.Add(defAccount.Key);
+                    foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
+                    {
+                        if (keys.Contains(defAccount.Key)) continue;
+                        keys.Add(defAccount.Key);
+                    }
                 }
 
                 return keys;
             }
         }
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Raises when all accounts are loaded into the system.
-        /// </summary>
-        public static readonly Evt AccountsLoaded = new Evt();
-        
-        
-        /// <summary>
-        /// Raises when an account is opened.
-        /// </summary>
-        public static readonly Evt AccountOpened = new Evt();
-        
-        
-        /// <summary>
-        /// Raises when an accounts balance is altered.
-        /// </summary>
-        public static readonly Evt<CurrencyAccount> AccountBalanceChanged = new Evt<CurrencyAccount>();
-        
-        
-        /// <summary>
-        /// Raises when an account is closed.
-        /// </summary>
-        public static readonly Evt AccountClosed = new Evt();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Initialization
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Initializes the system automatically.
         /// </summary>
@@ -137,11 +140,11 @@ namespace CarterGames.Cart.Modules.Currency
                 SaveAccounts();
             }
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Gets if an account exists.
         /// </summary>
@@ -158,7 +161,7 @@ namespace CarterGames.Cart.Modules.Currency
             return Accounts.ContainsKey(accountId);
         }
 
-        
+
         /// <summary>
         /// Tries to get the balance of an account.
         /// </summary>
@@ -171,7 +174,7 @@ namespace CarterGames.Cart.Modules.Currency
             return balance > -1;
         }
 
-        
+
         /// <summary>
         /// Gets the balance of an account.
         /// </summary>
@@ -182,8 +185,8 @@ namespace CarterGames.Cart.Modules.Currency
             if (!Accounts.TryGetValue(accountId, out var account)) return -1;
             return account.Balance;
         }
-        
-        
+
+
         /// <summary>
         /// Tries to get an account of the required id.
         /// </summary>
@@ -195,8 +198,8 @@ namespace CarterGames.Cart.Modules.Currency
             account = GetAccount(accountId);
             return account != null;
         }
-        
-        
+
+
         /// <summary>
         /// Gets an account.
         /// </summary>
@@ -208,7 +211,7 @@ namespace CarterGames.Cart.Modules.Currency
             return account;
         }
 
-        
+
         /// <summary>
         /// Adds an account to the system.
         /// </summary>
@@ -229,8 +232,8 @@ namespace CarterGames.Cart.Modules.Currency
                 AccountBalanceChanged.Raise(Accounts[accountId]);
             }
         }
-        
-        
+
+
         /// <summary>
         /// Closes an account when called.
         /// </summary>
@@ -242,8 +245,7 @@ namespace CarterGames.Cart.Modules.Currency
             AccountClosed.Raise();
         }
 
-        
-        
+
         /// <summary>
         /// Loads the accounts when called.
         /// </summary>
@@ -274,8 +276,8 @@ namespace CarterGames.Cart.Modules.Currency
             HasLoadedAccounts = true;
             AccountsLoaded.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Saves the accounts when called.
         /// </summary>

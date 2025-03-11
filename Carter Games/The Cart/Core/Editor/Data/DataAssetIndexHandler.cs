@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEditor.Build;
@@ -86,9 +87,9 @@ namespace CarterGames.Cart.Core.Data.Editor
         
 
         /// <summary>
-        /// Updates the index with all the save manager asset scriptable objects in the project.
+        /// Updates the index with all the asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Core/Data/Update Asset Index", priority = 516)]
+        [MenuItem("Tools/Carter Games/The Cart/Core/Data/Update Asset Index", priority = 122)]
         public static void UpdateIndex()
         {
             var foundAssets = new List<DataAsset>();
@@ -104,6 +105,7 @@ namespace CarterGames.Cart.Core.Data.Editor
                 // Doesn't include editor only or the index itself.
                 if (assetObj == null) continue;
                 if (assetObj is DataAssetIndex) continue;
+                if (assetObj.ExcludeFromAssetIndex) continue;
                 
                 foundAssets.Add((DataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));
             }

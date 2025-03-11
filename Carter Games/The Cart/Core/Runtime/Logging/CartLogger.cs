@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,14 @@ namespace CarterGames.Cart.Core.Logs
         /// <summary>
         /// Gets if the system should show logs (in a production build) based on the current settings.
         /// </summary>
-        private static bool ShowLogsOnProductionBuild => IsProductionBuild && UtilRuntime.Settings.UseLogsInProductionBuilds;
+        private static bool ShowLogsOnProductionBuild
+        {
+            get
+            {
+                if (Application.isEditor) return true;
+                return IsProductionBuild && UtilRuntime.Settings.UseLogsInProductionBuilds;
+            }
+        }
 
 
         /// <summary>
@@ -68,14 +75,14 @@ namespace CarterGames.Cart.Core.Logs
         {
             get
             {
+                if (Application.isEditor) return true;
+                
                 if (IsProductionBuild)
                 {
                     return ShowLogsOnProductionBuild && UtilRuntime.Settings.LoggingUseCartLogs;
                 }
-                else
-                {
-                    return UtilRuntime.Settings.LoggingUseCartLogs;
-                }
+                
+                return UtilRuntime.Settings.LoggingUseCartLogs;
             }
         }
         

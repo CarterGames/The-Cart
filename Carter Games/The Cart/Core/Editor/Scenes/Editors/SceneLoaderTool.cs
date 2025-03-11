@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
  */
 
 using System.Linq;
-using CarterGames.Cart.ThirdParty;
+using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -30,27 +30,10 @@ using UnityEngine.SceneManagement;
 
 namespace CarterGames.Cart.Core.Editor
 {
-	[InitializeOnLoad]
-	public static class SceneLoaderTool
+	public class SceneLoaderTool : IToolbarElementRight
 	{
         private static GenericMenu scenesMenu;
         
-
-        static SceneLoaderTool()
-        {
-            ToolbarExtender.RightToolbarGUI.Remove(DrawRightGUI);
-            ToolbarExtender.RightToolbarGUI.Add(DrawRightGUI);
-
-            EditorSceneManager.sceneOpened -= OnSceneChanged;
-            EditorSceneManager.sceneOpened += OnSceneChanged;
-
-            EditorApplication.projectChanged -= UpdateSceneOptions;
-            EditorApplication.projectChanged += UpdateSceneOptions;
-            
-            EditorApplication.delayCall -= OnEditorDelayCall;
-            EditorApplication.delayCall += OnEditorDelayCall;
-        }
-
 
         private static void OnEditorDelayCall()
         {
@@ -59,27 +42,6 @@ namespace CarterGames.Cart.Core.Editor
         }
 
         
-        private static void DrawRightGUI()
-        {
-            GUILayout.FlexibleSpace();
-            
-            EditorGUI.BeginDisabledGroup(EditorApplication.isCompiling || EditorApplication.isPlaying);
-            
-            var label = " " + SceneManager.GetActiveScene().name.Replace("SCNE_", string.Empty);
-            
-            if (EditorGUILayout.DropdownButton(new GUIContent(label, EditorGUIUtility.IconContent("SceneAsset Icon").image), FocusType.Passive, GUILayout.Width(TextWidth(label) + 37.5f)))
-            {
-                OnMouseDown();
-            }
-            
-            EditorGUI.EndDisabledGroup();
-            
-            GUILayout.Space(5f);
-            GUI.backgroundColor = Color.white;
-        }
-
-
-
         private static void UpdateSceneOptions()
         {
             scenesMenu = new GenericMenu();
@@ -125,9 +87,9 @@ namespace CarterGames.Cart.Core.Editor
 
         private static void OnSceneSelected(object scenePath)
         {
-            if (EditorSceneManager.GetActiveScene().path == (string)scenePath) return;
+            if (SceneManager.GetActiveScene().path == (string)scenePath) return;
             
-            if (EditorSceneManager.GetActiveScene().isDirty)
+            if (SceneManager.GetActiveScene().isDirty)
             {
                 var option = EditorUtility.DisplayDialogComplex("Scene Hop", "You have unsaved changes in the current scene, do you want to save them and hop?, or hop without saving?",
                     "Hop (Save)", "Hop (Don't Save)", "Cancel");
@@ -162,11 +124,35 @@ namespace CarterGames.Cart.Core.Editor
         {
             EditorSceneManager.OpenScene(scenePath);
         }
+        
+        
+        public int RightOrder { get; }
 
-
-        private static float TextWidth(string text)
+        public void Initialize()
         {
-            return GUI.skin.label.CalcSize(new GUIContent(text)).x + 2.5f;
+            EditorSceneManager.sceneOpened -= OnSceneChanged;
+            EditorSceneManager.sceneOpened += OnSceneChanged;
+            
+            EditorApplication.delayCall -= OnEditorDelayCall;
+            EditorApplication.delayCall += OnEditorDelayCall;
         }
-	}
+
+        public void OnRightGUI()
+        {
+            EditorGUI.BeginDisabledGroup(EditorApplication.isCompiling || EditorApplication.isPlaying);
+            
+            var label = " " + SceneManager.GetActiveScene().name.Replace("SCNE_", string.Empty);
+            GUILayout.Space(2.5f);
+            
+            if (EditorGUILayout.DropdownButton(new GUIContent(label, EditorGUIUtility.IconContent("SceneAsset Icon").image), FocusType.Passive, GUILayout.Width(label.GUIWidth() + 37.5f)))
+            {
+                OnMouseDown();
+            }
+            
+            EditorGUI.EndDisabledGroup();
+            
+            GUILayout.Space(2.5f);
+            GUI.backgroundColor = Color.white;
+        }
+    }
 }

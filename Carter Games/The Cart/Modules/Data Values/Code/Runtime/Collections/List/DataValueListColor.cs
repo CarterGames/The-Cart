@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,14 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value List Color", menuName = "Carter Games/The Cart/Modules/Data Values/Lists/Data Value List Color", order = 1)]
-	public class DataValueListColor : DataValueList<Color> { }
+	[Serializable]
+	public class DataValueListColor : DataValueList<Color> {}
 }
 
 #endif

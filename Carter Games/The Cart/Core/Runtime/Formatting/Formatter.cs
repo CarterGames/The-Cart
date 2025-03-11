@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,20 +33,20 @@ namespace CarterGames.Cart.Core
     /// <typeparam name="TFormatter">The type of formatter interface to use.</typeparam>
     public sealed class Formatter<TFormatter>
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private Dictionary<Type, TFormatter> formatterLookupCache;
         
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private Dictionary<Type, TFormatter> FormatterLookup => CacheRef.GetOrAssign(ref formatterLookupCache, GetFormatters);
         
         
-        private Dictionary<Type, TFormatter> GetFormatters()
+        private static Dictionary<Type, TFormatter> GetFormatters()
         {
             var lookup = new Dictionary<Type, TFormatter>();
             var formatters = AssemblyHelper.GetClassesOfType<TFormatter>();
@@ -59,9 +59,9 @@ namespace CarterGames.Cart.Core
             return lookup;
         }
 
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
         /// Creates a new formatter instance if one doesn't exist at the time of requesting.

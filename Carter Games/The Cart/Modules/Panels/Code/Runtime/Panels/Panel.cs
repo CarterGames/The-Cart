@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_PANELS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,67 +40,18 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         [SerializeField][Tooltip("The id the panel is referred to.")] protected string panelId;
         [SerializeField][Tooltip("The object the panel is on.")] protected GameObject panelObject;
+
         [Space] 
         [SerializeField] private List<PanelTransition> transitions;
-        
-        
+
+
         [SerializeField] protected Canvas canvas;
         [SerializeField] protected GraphicRaycaster graphicRaycaster;
 
-        private int completedTransitions;
 
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// The object the panel is contained on.
-        /// </summary>
-        public Transform PanelObject => panelObject.transform;
-
-        
-        /// <summary>
-        /// The ID of the panel.
-        /// </summary>
-        public string PanelId => panelId;
-        
-        
-        /// <summary>
-        /// Returns if the panel is open.
-        /// </summary>
-        public bool IsOpen { get; private set; }
-        
-        
-        /// <summary>
-        /// Gets if the panel is transitioning or not.
-        /// </summary>
-        public bool IsTransitioning { get; private set; }
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Runs when the panel begins to open.
-        /// </summary>
-        public readonly Evt OpenStarted = new Evt();
-        
-        
-        /// <summary>
-        /// Runs when the panel has opened.
-        /// </summary>
-        public readonly Evt OpenCompleted = new Evt();
-        
-        
-        /// <summary>
-        /// Runs when the panel begins to close.
-        /// </summary>
-        public readonly Evt CloseStarted = new Evt();
-        
-        
         /// <summary>
         /// Runs when the panel has closed.
         /// </summary>
@@ -108,20 +59,70 @@ namespace CarterGames.Cart.Modules.Panels
 
 
         /// <summary>
+        /// Runs when the panel begins to close.
+        /// </summary>
+        public readonly Evt CloseStarted = new Evt();
+
+
+        /// <summary>
+        /// Runs when the panel has opened.
+        /// </summary>
+        public readonly Evt OpenCompleted = new Evt();
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Runs when the panel begins to open.
+        /// </summary>
+        public readonly Evt OpenStarted = new Evt();
+
+
+        /// <summary>
         /// Raises when the transitions are completed.
         /// </summary>
         private readonly Evt TransitionsCompleted = new Evt();
 
+        private int completedTransitions;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// The object the panel is contained on.
+        /// </summary>
+        public Transform PanelObject => panelObject.transform;
+
+
+        /// <summary>
+        /// The ID of the panel.
+        /// </summary>
+        public string PanelId => panelId;
+
+
+        /// <summary>
+        /// Returns if the panel is open.
+        /// </summary>
+        public bool IsOpen { get; private set; }
+
+
+        /// <summary>
+        /// Gets if the panel is transitioning or not.
+        /// </summary>
+        public bool IsTransitioning { get; private set; }
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         protected virtual void OnEnable()
         {
             Initialise();
         }
 
-        
+
         private void OnDestroy()
         {
             PanelTracker.RemovePanel(this);
@@ -130,7 +131,7 @@ namespace CarterGames.Cart.Modules.Panels
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Initialises the panel with any references it needs to get & sets it up in its default state.
         /// </summary>
@@ -141,7 +142,7 @@ namespace CarterGames.Cart.Modules.Panels
 
             if (!IsValid())
             {
-                CartLogger.LogError<LogCategoryPanels>($"Panel on {gameObject.name} is not setup correctly", typeof(Panel));
+                CartLogger.LogError<LogCategoryModules>($"[Panels]: Panel on {gameObject.name} is not setup correctly", typeof(Panel));
                 return;
             }
             
@@ -190,8 +191,8 @@ namespace CarterGames.Cart.Modules.Panels
             
             PanelTracker.MarkPanelOpened(this);
         }
-        
-        
+
+
         /// <summary>
         /// Runs the sequence to close the panel.
         /// </summary>
@@ -228,7 +229,7 @@ namespace CarterGames.Cart.Modules.Panels
             OpenStarted.Raise();
         }
 
-        
+
         /// <summary>
         /// Runs logic for the completion of opening a panel.
         /// </summary>
@@ -252,8 +253,8 @@ namespace CarterGames.Cart.Modules.Panels
             graphicRaycaster.enabled = false;
             CloseStarted.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Runs logic for the completion of closing a panel.
         /// </summary>
@@ -264,7 +265,7 @@ namespace CarterGames.Cart.Modules.Panels
             CloseCompleted.Raise();
         }
 
-        
+
         /// <summary>
         /// Runs when any transition attached to the panel completes.
         /// </summary>
@@ -280,8 +281,8 @@ namespace CarterGames.Cart.Modules.Panels
             completedTransitions = 0;
             IsTransitioning = false;
         }
-        
-        
+
+
         /// <summary>
         /// Gets if the panel is setup correctly for use or not. 
         /// </summary>

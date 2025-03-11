@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,12 @@ using System.Linq;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
-using CarterGames.Cart.Core.Reflection;
+using CarterGames.Cart.Core.Random;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Cart.Core.Random.Editor
+namespace CarterGames.Cart.Core.Editor
 {
     /// <summary>
     /// Handles the settings drawing for the random system.

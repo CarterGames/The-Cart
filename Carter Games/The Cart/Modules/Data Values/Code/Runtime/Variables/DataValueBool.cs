@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,17 +23,19 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
+	[Serializable]
 	[CreateAssetMenu(fileName = "Data Value Bool", menuName = "Carter Games/The Cart/Modules/Data Values/Variables/Data Value Bool", order = 0)]
 	public class DataValueBool : DataVariable<bool>
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		/// <summary>
 		/// Toggles the bool value when called.
 		/// </summary>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.TheCart.Core.Editor
+namespace CarterGames.Cart.Core.Editor
 {
     public static class SearchHelper
     {

@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,14 @@
  */
 
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value List AudioClip", menuName = "Carter Games/The Cart/Modules/Data Values/Lists/Data Value List AudioClip", order = 0)]
-	public sealed class DataValueListAudioClip : DataValueList<AudioClip> { }
+	[Serializable]
+	public sealed class DataValueListAudioClip : DataValueList<AudioClip> {}
 }
 
 #endif

@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_PANELS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,8 +45,8 @@ namespace CarterGames.Cart.Modules.Panels.Editor
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
         }
-        
-        
+
+
         private void DrawSettings()
         {
             EditorGUILayout.BeginVertical("HelpBox");

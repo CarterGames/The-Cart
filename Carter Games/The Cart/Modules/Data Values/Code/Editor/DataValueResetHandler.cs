@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,13 +38,13 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         public int callbackOrder { get; }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IPreprocessBuildWithReport Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         public void OnPreprocessBuild(BuildReport report)
         {
             ResetValuesOnPreBuild();
@@ -53,8 +53,8 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Menu Items
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Reset All To Default Values", priority = 302)]
+
+        [MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Reset All To Default Values", priority = 1301)]
         public static void ResetValuesInEditor()
         {
             ResetAllValues();
@@ -63,15 +63,15 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         [InitializeOnLoadMethod]
         private static void EditorInitialize()
         {
             EditorApplication.playModeStateChanged -= OnPlayStateChanged;
             EditorApplication.playModeStateChanged += OnPlayStateChanged;
         }
-        
-        
+
+
         private static void OnPlayStateChanged(PlayModeStateChange change)
         {
             switch (change)
@@ -88,8 +88,8 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
                     break;
             }
         }
-        
-        
+
+
         private static void ResetValuesOnEnterPlayMode()
         {
             foreach (var asset in DataValueAccess.AllValues.Where(t => t.ValidStates.HasFlag(DataValueResetState.EnterPlay)))
@@ -97,8 +97,8 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
                 asset.ResetAsset();
             }
         }
-        
-        
+
+
         private static void ResetValuesOnExitPlayMode()
         {
             foreach (var asset in DataValueAccess.AllValues.Where(t => t.ValidStates.HasFlag(DataValueResetState.ExitPlay)))
@@ -106,8 +106,8 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
                 asset.ResetAsset();
             }
         }
-        
-        
+
+
         private static void ResetValuesOnPreBuild()
         {
             foreach (var asset in DataValueAccess.AllValues.Where(t => t.ValidStates.HasFlag(DataValueResetState.PreBuild)))
@@ -115,8 +115,8 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
                 asset.ResetAsset();
             }
         }
-        
-        
+
+
         private static void ResetAllValues()
         {
             foreach (var asset in DataValueAccess.AllValues)

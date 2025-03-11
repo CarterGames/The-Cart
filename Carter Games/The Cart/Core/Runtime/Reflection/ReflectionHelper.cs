@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,10 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.Reflection
 {
@@ -46,6 +49,69 @@ namespace CarterGames.Cart.Core.Reflection
                 (isStatic != null && isStatic.Value ? BindingFlags.Static : BindingFlags.Instance);
 
             return type.GetField(fieldName, flags);
+        }
+        
+        
+        /// <summary>
+        /// Gets The field requested in the class type.
+        /// </summary>
+        /// <param name="fieldName">The field name (This is CaSe SeNsItIvE).</param>
+        /// <param name="target">The target object to set to, leave null for static types.</param>
+        /// <param name="value">The value to set to.</param>
+        /// <param name="isPublic">Tells the system to not look through public methods if set to false.</param>
+        /// <param name="isStatic">Tells the system to check static fields if true.</param>
+        /// <returns>The FieldInfo found or null if nothing found.</returns>
+        public static void SetField<T>(string fieldName, T target, object value, bool? isPublic = true, bool? isStatic = false)
+        {
+            var flags = 
+                (isPublic != null && isPublic.Value ? BindingFlags.Public : BindingFlags.NonPublic) | 
+                (isStatic != null && isStatic.Value ? BindingFlags.Static : BindingFlags.Instance);
+
+            typeof(T).GetField(fieldName, flags)?.SetValue(target, value);
+        }
+
+
+        /// <summary>
+        /// Gets fields with particular attribute on a class type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="bindingFlags">Any specific binding flags to check.</param>
+        /// <typeparam name="T">The attribute type to find.</typeparam>
+        /// <returns>Any FieldInfo's that match the request.</returns>
+        public static FieldInfo[] GetFieldsWithAttribute<T>(Type type, BindingFlags bindingFlags) where T : Attribute
+        {
+            var fields = type.GetFields(bindingFlags);
+            var filedInfos = new List<FieldInfo>();
+
+            foreach (var f in fields)
+            {
+                if (f.GetCustomAttribute(attributeType: typeof(T)) == null) continue;
+                filedInfos.Add(f);
+            }
+
+            return filedInfos.ToArray();
+        }
+        
+        
+        /// <summary>
+        /// Gets fields without particular attribute on a class type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="bindingFlags">Any specific binding flags to check.</param>
+        /// <typeparam name="T">The attribute type to find not on the fields.</typeparam>
+        /// <returns>Any FieldInfo's that match the request.</returns>
+        public static FieldInfo[] GetFieldsWithoutAttribute<T>(Type type, BindingFlags bindingFlags) where T : Attribute
+        {
+            var fields = type.GetFields(bindingFlags);
+            var filedInfos = new List<FieldInfo>();
+
+            foreach (var f in fields)
+            {
+                if (f.GetCustomAttribute(attributeType: typeof(T)) != null) continue;
+                filedInfos.Add(f);
+            }
+
+            return filedInfos.ToArray();
         }
         
         

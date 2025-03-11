@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,11 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
+using CarterGames.Cart.Modules.DataValues.Events;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
@@ -35,14 +37,15 @@ namespace CarterGames.Cart.Modules.DataValues
     /// </summary>
     /// <typeparam name="TKey">The key type.</typeparam>
     /// <typeparam name="TValue">The value type.</typeparam>
+    [Serializable]
     public class DataValueDictionary<TKey, TValue> : DataValueAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         [SerializeField, TextArea] private string devDescription;
-        
+
         [SerializeField] private string key;
         [SerializeField] private SerializableDictionary<TKey, TValue> value = new SerializableDictionary<TKey, TValue>();
 
@@ -50,34 +53,38 @@ namespace CarterGames.Cart.Modules.DataValues
         [SerializeField] private SerializableDictionary<TKey, TValue> defaultValue;
         [SerializeField] private DataValueResetState resetStates;
         
+        [SerializeField] private bool useDataValueEvents;
+        [SerializeField] private DataValueEventBase onChanged;
+        [SerializeField] private DataValueEventBase onReset;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The key for the value.
         /// </summary>
         public override string Key => key;
-        
-        
+
+
         /// <summary>
         /// The value of the dictionary.
         /// </summary>
         public SerializableDictionary<TKey, TValue> Value => value;
-        
-        
+
+
         /// <summary>
         /// The default value for the asset.
         /// </summary>
         public SerializableDictionary<TKey, TValue> DefaultValue => defaultValue;
-        
-        
+
+
         /// <summary>
         /// The valid reset states for the asset.
         /// </summary>
         public override DataValueResetState ValidStates => resetStates;
-        
-        
+
+
         /// <summary>
         /// Gets the count for the dictionary.
         /// </summary>
@@ -87,16 +94,16 @@ namespace CarterGames.Cart.Modules.DataValues
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Raises when the value is changed.
         /// </summary>
         public Evt Changed { get; } = new Evt();
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Adds an entry to the dictionary.
         /// </summary>
@@ -106,9 +113,13 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (value.ContainsKey(elementKey)) return;
             value.Add(elementKey, elementValue);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Adds an entry to the dictionary.
         /// </summary>
@@ -117,8 +128,12 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (value.ContainsKey(element.Key)) return;
             value.Add(element.Key, element.Value);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
-        
+
 
         /// <summary>
         /// Removes an entry from the dictionary.
@@ -128,9 +143,13 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (!value.ContainsKey(elementKey)) return;
             value.Remove(elementKey);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Removes an entry from the dictionary.
         /// </summary>
@@ -139,6 +158,10 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             if (!value.ContainsKey(element.Key)) return;
             value.Remove(element.Key);
+            Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
 
 
@@ -148,8 +171,8 @@ namespace CarterGames.Cart.Modules.DataValues
         /// <param name="elementKey"></param>
         /// <returns>If it exists in the dictionary.</returns>
         public bool ContainsKey(TKey elementKey) => value.ContainsKey(elementKey);
-        
-        
+
+
         /// <summary>
         /// Sets the dictionary to the entered value.
         /// </summary>
@@ -158,9 +181,12 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = (SerializableDictionary<TKey, TValue>) input;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Sets the dictionary to the entered value.
         /// </summary>
@@ -169,9 +195,12 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = input;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Sets the dictionary to the entered value without raising the changed evt.
         /// </summary>
@@ -180,8 +209,8 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = (SerializableDictionary<TKey, TValue>) input;
         }
-        
-        
+
+
         /// <summary>
         /// Sets the dictionary to the entered value without raising the changed evt.
         /// </summary>
@@ -190,8 +219,8 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = input;
         }
-        
-        
+
+
         /// <summary>
         /// Forces the asset to reset to default value.
         /// </summary>
@@ -199,9 +228,13 @@ namespace CarterGames.Cart.Modules.DataValues
         {
             value = defaultValue;
             Changed.Raise();
+            
+            if (!useDataValueEvents) return;
+            onChanged.Raise();
+            onReset.Raise();
         }
-        
-        
+
+
         /// <summary>
         /// Resets the asset when called.
         /// Only works if the asset can reset.

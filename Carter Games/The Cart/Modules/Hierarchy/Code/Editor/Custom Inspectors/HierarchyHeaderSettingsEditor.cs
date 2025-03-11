@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_HIERARCHY && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -39,7 +39,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Overrides
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         public override void OnInspectorGUI()
         {
             GUILayout.Space(4f);
@@ -57,7 +57,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Draws the header settings box & its options.
         /// </summary>
@@ -73,7 +73,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_backgroundCol")); 
+            EditorGUILayout.PropertyField(serializedObject.Fp("backgroundColor")); 
 
             if (GUILayout.Button("R", GUILayout.Width("  R  ".GUIWidth())))
             {
@@ -82,7 +82,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_fullWidth"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("fullWidth"));
             
             if (EditorGUI.EndChangeCheck())
             {
@@ -101,17 +101,17 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
         {
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(2f);
-            EditorGUILayout.LabelField(AssetMeta.GetData("Hierarchy").Labels["customHierarchy_LabelTitle"], EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Label", EditorStyles.boldLabel);
             GUILayout.Space(1f);
             GeneralUtilEditor.DrawHorizontalGUILine();
             GUILayout.Space(1f);
             
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(serializedObject.Fp("label"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_label"));
-            EditorGUILayout.PropertyField(serializedObject.Fp("labelColor"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_labelColor"));
-            EditorGUILayout.PropertyField(serializedObject.Fp("boldLabel"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_labelBold"));
-            EditorGUILayout.PropertyField(serializedObject.Fp("textAlign"), AssetMeta.GetData("Hierarchy").Content("customHierarchy_labelAlignment"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("label"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("labelColor"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("boldLabel"));
+            EditorGUILayout.PropertyField(serializedObject.Fp("textAlign"));
           
             if (EditorGUI.EndChangeCheck())
             {

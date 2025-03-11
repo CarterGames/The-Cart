@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_GAMETICKER && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using CarterGames.Cart.Modules.Settings;
@@ -38,13 +39,13 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         private static readonly string ExpandedId = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Modules_GameTicks_IsExpanded";
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Should the game ticks dropdown be active?
         /// </summary>
@@ -53,13 +54,13 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
             get => (bool)PerUserSettings.GetOrCreateValue<bool>(ExpandedId, SettingType.EditorPref);
             set => PerUserSettings.SetValue<bool>(ExpandedId, SettingType.EditorPref, value);
         }
-        
+
         private IScriptableAssetDef<DataAssetSettingsGameTicker> SettingsDef => ScriptableRef.GetAssetDef<DataAssetSettingsGameTicker>();
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   ISettingsProvider Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Draws the inspector version of the settings.
         /// </summary>
@@ -77,7 +78,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
             EditorGUILayout.EndVertical();
         }
 
-        
+
         /// <summary>
         /// Draws the settings provider version of the settings.
         /// </summary>

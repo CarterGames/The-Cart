@@ -145,7 +145,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2745969087689031314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8d835c27761bbd4caf44df85b229004, type: 3}
+  m_Script: {fileID: 11500000, guid: e9082a1051723404db117a254087e945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 2049125646993593789}
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f2c582979983e494cbcc157ac80e7dd3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 191680ebc07a06642b34bf437d20c548, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e561c750bc227fa4caf8459f68392d5f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 54205421dc96d164899d6012abd1a2a4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -363,7 +363,7 @@ Animator:
   m_GameObject: {fileID: 2745969088532616640}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 029ac3a5bb6dcb846a667408bd74a3f6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 56eb072109ace534585708cd74b12c9b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

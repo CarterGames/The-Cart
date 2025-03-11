@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace CarterGames.Cart.Core.Logs
     /// <summary>
     /// A data asset to store the states of all the log categories.
     /// </summary>
-    [CreateAssetMenu(menuName = "Carter Games/The Cart/Log Categories (Data Asset)")]
+    [Serializable]
     public sealed class DataAssetCartLogCategories : DataAsset
     {
         [SerializeField] private SerializableDictionary<string, bool> lookup;

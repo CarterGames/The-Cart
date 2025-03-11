@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_GAMETICKER && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Modules.GameTicks.Editor
 {
     public sealed class MetaDataDefGameTicker : IMetaDefinition
     {
-        public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Game Ticks/Data/Meta Data";
+	    public string MetaPath => $"{FileEditorUtil.AssetBasePath}/Carter Games/The Cart/Modules/Game Ticks/Data/Meta Data";
     }
 }
 

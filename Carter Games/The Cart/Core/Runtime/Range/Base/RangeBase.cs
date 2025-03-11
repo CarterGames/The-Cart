@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
  */
 
 using System;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core
 {
@@ -39,12 +40,12 @@ namespace CarterGames.Cart.Core
         /// <summary>
         /// The min value the range allows for...
         /// </summary>
-        public T min;
+        [HideInInspector] public T min;
         
         /// <summary>
         /// The max value the range allows for...
         /// </summary>
-        public T max;
+        [HideInInspector] public T max;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors

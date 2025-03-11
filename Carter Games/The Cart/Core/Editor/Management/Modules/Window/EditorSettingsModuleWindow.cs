@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,10 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
 using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.ThirdParty;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Window
 {
@@ -35,6 +38,7 @@ namespace CarterGames.Cart.Modules.Window
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private static readonly string SelectedModuleId  = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleWindow_SelectedName";
+        private static readonly string MultiSelectModuleId  = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_ModuleWindow_MultiSelectedModuleNames";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -47,6 +51,51 @@ namespace CarterGames.Cart.Modules.Window
         {
             get => (string)PerUserSettings.GetOrCreateValue<string>(SelectedModuleId, SettingType.EditorPref);
             set => PerUserSettings.SetValue<string>(SelectedModuleId, SettingType.EditorPref, value);
+        }
+        
+        
+        private static string MultiSelectedModuleNames
+        {
+            get => (string)PerUserSettings.GetOrCreateValue<string>(MultiSelectModuleId, SettingType.EditorPref);
+            set => PerUserSettings.SetValue<string>(MultiSelectModuleId, SettingType.EditorPref, value);
+        }
+
+
+        private static JSONNode MultiSelectModulesContainer
+        {
+            get => string.IsNullOrEmpty(MultiSelectedModuleNames) ? new JSONObject() : JSON.Parse(MultiSelectedModuleNames);
+            set => MultiSelectedModuleNames = value.ToString();
+        }
+
+
+        /// <summary>
+        /// All the selected modules in the multi-select.
+        /// </summary>
+        public static List<IModule> MultiSelectModules
+        {
+            get
+            {
+                var modules = new List<IModule>();
+
+                for (var i = 0; i < MultiSelectModulesContainer.Count; i++)
+                {
+                    modules.Add(ModuleManager.GetModuleFromName(MultiSelectModulesContainer[i]));
+                }
+
+                return modules;
+            }
+            set
+            {
+                var data = new JSONArray();
+
+                for (var j = 0; j < value.Count; j++)
+                {
+                    if (value[j] == null) continue;
+                    data.Add(value[j].ModuleName);
+                }
+
+                MultiSelectModulesContainer = data;
+            }
         }
     }
 }

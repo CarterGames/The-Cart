@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -36,16 +37,16 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Window
 	/// </summary>
 	public sealed class DataValuesCreatorTool : EditorWindow
 	{
+		private const string KeyId = "dataValueCreator_newKey";
+		private const string TypeId = "dataValueCreator_newType";
+
+		private const string LocationId = "dataValueCreator_newLocation";
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private DataValuesSearchProvider search;
 		private SearchTreeEntry selectedEntry;
-
-		private const string KeyId = "dataValueCreator_newKey";
-		private const string TypeId = "dataValueCreator_newType";
-		private const string LocationId = "dataValueCreator_newLocation";
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
@@ -56,40 +57,25 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Window
 			get => (string) PerUserSettings.GetOrCreateValue<string>(KeyId, SettingType.SessionState);
 			set => PerUserSettings.SetValue<string>(KeyId, SettingType.SessionState, value);
 		}
-		
-		
+
+
 		private static string TypeName
 		{
 			get => (string) PerUserSettings.GetOrCreateValue<string>(TypeId, SettingType.SessionState);
 			set => PerUserSettings.SetValue<string>(TypeId, SettingType.SessionState, value);
 		}
-		
-		
+
+
 		private static string Location
 		{
 			get => (string) PerUserSettings.GetOrCreateValue<string>(LocationId, SettingType.SessionState);
 			set => PerUserSettings.SetValue<string>(LocationId, SettingType.SessionState, value);
 		}
-		
-		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Menu Items
-		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-		/// <summary>
-		/// Makes a menu item for the creator to open.
-		/// </summary>
-		[MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Data Value Asset Creator", priority = 300)]
-		private static void ShowWindow()
-		{
-			var window = GetWindow<DataValuesCreatorTool>();
-			window.titleContent = new GUIContent("Data Value Creator");
-			window.Show();
-		}
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
+
 		private void OnGUI()
 		{
 			EditorGUILayout.Space(5f);
@@ -119,7 +105,22 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Window
 			EditorGUILayout.EndVertical();
 		}
 
-		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Menu Items
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+		/// <summary>
+		/// Makes a menu item for the creator to open.
+		/// </summary>
+		[MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Data Value Asset Creator", priority = 1300)]
+		private static void ShowWindow()
+		{
+			var window = GetWindow<DataValuesCreatorTool>(true);
+			window.titleContent = new GUIContent("Data Value Creator");
+			window.Show();
+		}
+
+
 		private void DrawKeyField()
 		{
 			EditorGUILayout.BeginHorizontal();
@@ -268,7 +269,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Window
 			selectedEntry = entry;
 			TypeName = ((Type)entry.userData).FullName;
 		}
-		
+
 
 		private void CreateAsset(string key, Type type)
 		{

@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_RUNTIMETIMERS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -165,6 +165,22 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             var timer = FreeTimers.Pop();
             timer.transform.SetParent(ActiveTimersParent);
             return timer;
+        }
+
+        
+        /// <summary>
+        /// Gets if a timer is already registered or not.
+        /// </summary>
+        /// <param name="runtimeTimer">The timer to check.</param>
+        /// <returns>If that timer is registered or not.</returns>
+        public static bool IsRegistered(RuntimeTimer runtimeTimer)
+        {
+            if (runtimeTimer.GetType() == typeof(PersistentRuntimeTimer))
+            {
+                return PersistentTimers.Contains(runtimeTimer);
+            }
+            
+            return ActiveTimers.Contains(runtimeTimer);
         }
     }
 }

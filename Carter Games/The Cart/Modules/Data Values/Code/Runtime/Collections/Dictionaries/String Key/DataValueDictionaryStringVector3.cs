@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,14 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
 {
 	[CreateAssetMenu(fileName = "Data Value Dictionary String Vector3", menuName = "Carter Games/The Cart/Modules/Data Values/Dictionaries/Data Value Dictionary String Vector3", order = 11)]
-	public class DataValueDictionaryStringVector3 : DataValueDictionary<string, Vector3> { }
+	[Serializable]
+	public class DataValueDictionaryStringVector3 : DataValueDictionary<string, Vector3> {}
 }
 
 #endif
