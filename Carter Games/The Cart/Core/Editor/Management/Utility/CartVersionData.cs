@@ -40,6 +40,6 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <remarks>
         /// Format is Y/M/D.
         /// </remarks>
-        public static string ReleaseDate => "2025/03/11";
+        public static string ReleaseDate => "2025/03/12";
     }
 }
