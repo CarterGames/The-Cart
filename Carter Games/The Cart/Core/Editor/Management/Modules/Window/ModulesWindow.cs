@@ -184,7 +184,6 @@ namespace CarterGames.Cart.Modules.Window
                             {
                                 moduleGrouping.Add(selectedModule);
                                 EditorSettingsModuleWindow.MultiSelectModules = moduleGrouping;
-                                selectedModule = null;
                             }
                             
                             if (!moduleGrouping.Contains(module))

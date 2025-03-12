@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Data.Editor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.ColourFolders.Editor
@@ -34,7 +35,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 	/// Stores the overrides the user has applied to the project.
 	/// </summary>
 	[Serializable]
-	public class DataAssetFolderIconOverrides : DataAsset
+	public class DataAssetFolderIconOverrides : EditorOnlyDataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields

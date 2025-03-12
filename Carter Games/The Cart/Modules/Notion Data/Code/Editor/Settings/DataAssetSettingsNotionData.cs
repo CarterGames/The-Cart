@@ -25,6 +25,7 @@
 
 using System;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Data.Editor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
@@ -33,7 +34,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
     /// Handles the settings asset for the notion data module.
     /// </summary>
     [Serializable]
-    public sealed class DataAssetSettingsNotionData : DataAsset
+    public sealed class DataAssetSettingsNotionData : EditorOnlyDataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields

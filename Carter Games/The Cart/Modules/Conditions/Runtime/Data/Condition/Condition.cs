@@ -44,13 +44,11 @@ namespace CarterGames.Cart.Modules.Conditions
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-#if UNITY_EDITOR
 		[SerializeField, HideInInspector] private bool isExpanded;
 #pragma warning disable 0414
 		// ignore def value warning on editor only bit.
 		[SerializeField, HideInInspector] private int groupsMade = 1;
 #pragma warning restore
-#endif
 		
 		[SerializeField] private string id;
 		[SerializeField] private List<Criteria> baseAndGroup;

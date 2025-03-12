@@ -29,7 +29,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Core.MetaData.Editor
 {
     [Serializable]
-    public class DataAssetMetaData : DataAsset
+    public class DataAssetMetaData : EditorOnlyDataAsset
     {
         [SerializeField] private SerializableDictionary<string, TextAsset> data;
 

@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
-
-/*
+﻿/*
  * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,19 +22,13 @@
  */
 
 using System;
-using System.Collections.Generic;
-using CarterGames.Cart.Core.Data;
 
-namespace CarterGames.Cart.Modules.NotionData
+namespace CarterGames.Cart.Core.Data
 {
-	/// <summary>
-	/// Implement to alter the method at which data is parser to an asset from the data downloaded from Notion.
-	/// </summary>
-	[Serializable]
-	public abstract class NotionDatabaseProcessor : EditorOnlyDataAsset
-	{
-		public abstract List<object> Process<T>(NotionDatabaseQueryResult result) where T : new();
-	}
+    /// <summary>
+    /// A data asset variant that is always ignored from the index.
+    /// Intended for assets that should only be accessible through editor API.
+    /// </summary>
+    [Serializable]
+    public abstract class EditorOnlyDataAsset : DataAsset { }
 }
-
-#endif

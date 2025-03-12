@@ -25,12 +25,13 @@
 
 using System;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Data.Editor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Hierarchy.Editor
 {
     [Serializable]
-    public sealed class DataAssetHierarchySettings : DataAsset
+    public sealed class DataAssetHierarchySettings : EditorOnlyDataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields

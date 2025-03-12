@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Modules.NotionData;
@@ -34,6 +35,7 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    [Serializable]
     public class NotionDatabaseProcessorAudioLocalization : NotionDatabaseProcessor
     {
         /// <summary>

@@ -188,6 +188,7 @@ namespace CarterGames.Cart.Modules
                 foreach (var module in modules)
                 {
                     if (HasDefine(module)) continue;
+                    Debug.Log(module.ModuleDefine);
                     toAdd.Add($"-define:{module.ModuleDefine}");
                 }
 

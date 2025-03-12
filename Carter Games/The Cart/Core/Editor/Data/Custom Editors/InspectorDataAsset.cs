@@ -36,6 +36,7 @@ namespace CarterGames.Cart.Core.Data.Editor
             "m_Script", "variantId", "excludeFromAssetIndex"
         };
 
+        
         protected override void DrawInspectorGUI()
         {
             GUILayout.Space(1.5f);

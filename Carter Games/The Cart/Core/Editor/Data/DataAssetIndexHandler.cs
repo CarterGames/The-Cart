@@ -105,6 +105,7 @@ namespace CarterGames.Cart.Core.Data.Editor
                 // Doesn't include editor only or the index itself.
                 if (assetObj == null) continue;
                 if (assetObj is DataAssetIndex) continue;
+                if (assetObj is EditorOnlyDataAsset) continue;
                 if (assetObj.ExcludeFromAssetIndex) continue;
                 
                 foundAssets.Add((DataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));

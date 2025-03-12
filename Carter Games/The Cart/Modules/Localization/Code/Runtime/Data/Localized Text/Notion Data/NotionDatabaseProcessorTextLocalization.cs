@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -45,7 +45,7 @@ namespace CarterGames.Cart.Modules.Localization
         public override List<object> Process<T>(NotionDatabaseQueryResult result)
         {
             var list = new List<object>();
-
+            
             foreach (var row in result.Rows)
             {
                 var entries = new List<LocalizationEntry<string>>();

@@ -41,8 +41,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-#if UNITY_EDITOR
+        
 #pragma warning disable
         [SerializeField, HideInInspector] private string linkToDatabase;
         [SerializeField, HideInInspector] private string databaseApiKey;
@@ -50,7 +49,6 @@ namespace CarterGames.Cart.Modules.NotionData
         [SerializeField] private List<NotionSortProperty> sortProperties;
         [SerializeField] private NotionDatabaseProcessor processor;
 #pragma warning restore
-#endif
         
         [SerializeField] private List<T> data;
 

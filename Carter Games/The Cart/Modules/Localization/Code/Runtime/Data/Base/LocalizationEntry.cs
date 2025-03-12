@@ -41,9 +41,7 @@ namespace CarterGames.Cart.Modules.Localization
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        // Limited to editor and only used if Notion Data module is active.
-#if UNITY_EDITOR && CARTERGAMES_CART_MODULE_NOTIONDATA
+        
         /// <summary>
         /// Creates a new entry when called with the requested values.
         /// </summary>
@@ -55,7 +53,6 @@ namespace CarterGames.Cart.Modules.Localization
             this.languageCode = languageCode;
             this.copy = copy;
         }
-#endif
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties

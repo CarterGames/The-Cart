@@ -31,7 +31,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules
 {
     [Serializable]
-    public sealed class DataAssetCsc : DataAsset
+    public sealed class DataAssetCsc : EditorOnlyDataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
