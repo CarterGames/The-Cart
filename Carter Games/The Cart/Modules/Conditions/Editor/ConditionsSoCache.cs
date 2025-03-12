@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CONDITIONS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -72,11 +72,12 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			{
 				if (!conditionCriteriaSoLookup.IsEmptyOrNull()) return conditionCriteriaSoLookup;
 				conditionCriteriaSoLookup = new Dictionary<SerializedObject, List<SerializedObject>>();
-
-				var entry = new List<SerializedObject>();
+				
 				
 				for (var i = 0; i < SoLookup.Count; i++)
 				{
+					var entry = new List<SerializedObject>();
+					
 					for (var j = 0; j < SoLookup[i].Fp("baseAndGroup").arraySize; j++)
 					{
 						if (SoLookup[i].Fp("baseAndGroup").GetIndex(j).objectReferenceValue == null) continue;

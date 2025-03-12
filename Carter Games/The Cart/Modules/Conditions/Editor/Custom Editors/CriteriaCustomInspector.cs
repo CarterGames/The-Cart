@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CONDITIONS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,8 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 	[CustomEditor(typeof(Criteria), true)]
 	public sealed class CriteriaCustomInspector : CustomInspector
 	{
+		protected override string[] HideProperties { get; }
+
 		protected override void DrawInspectorGUI()
 		{
 			EditorGUILayout.Space(5f);
@@ -96,6 +98,8 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 
 			targetCondition.ApplyModifiedProperties();
 			targetCondition.Update();
+			
+			ConditionsSoCache.ClearCache();
 		}
 	}
 }

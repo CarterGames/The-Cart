@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -164,12 +164,12 @@ namespace CarterGames.Cart.Modules.Window
                 
                 if (showText)
                 {
-                    GUILayout.Label(ModuleManager.TickIcon + " Enabled", new GUIStyle("minibutton"),
+                    GUILayout.Label(GeneralUtilEditor.TickIcon + " Enabled", new GUIStyle("minibutton"),
                         GUILayout.MaxWidth(100));
                 }
                 else
                 {
-                    GUILayout.Label(ModuleManager.TickIcon, new GUIStyle("minibutton"),
+                    GUILayout.Label(GeneralUtilEditor.TickIcon, new GUIStyle("minibutton"),
                         GUILayout.MaxWidth(22.5f));
                 }
             }
@@ -179,12 +179,12 @@ namespace CarterGames.Cart.Modules.Window
                 
                 if (showText)
                 {
-                    GUILayout.Label(ModuleManager.CrossIcon + " Disabled", new GUIStyle("minibutton"),
+                    GUILayout.Label(GeneralUtilEditor.CrossIcon + " Disabled", new GUIStyle("minibutton"),
                         GUILayout.MaxWidth(100));
                 }
                 else
                 {
-                    GUILayout.Label(ModuleManager.CrossIcon, new GUIStyle("minibutton"),
+                    GUILayout.Label(GeneralUtilEditor.CrossIcon, new GUIStyle("minibutton"),
                         GUILayout.MaxWidth(22.5f));
                 }
             }
@@ -280,7 +280,7 @@ namespace CarterGames.Cart.Modules.Window
         {
             GUI.backgroundColor = ModuleManager.InstallCol;
                 
-            if (GUILayout.Button(ModuleManager.TickIcon + " Enable"))
+            if (GUILayout.Button(GeneralUtilEditor.TickIcon + " Enable"))
             {
                 ModuleInstaller.Install(module);
             }
@@ -293,7 +293,7 @@ namespace CarterGames.Cart.Modules.Window
         {
             GUI.backgroundColor = ModuleManager.UninstallCol;
                     
-            if (GUILayout.Button(ModuleManager.CrossIcon + " Disable"))
+            if (GUILayout.Button(GeneralUtilEditor.CrossIcon + " Disable"))
             {
                 ModuleManager.HasPrompted = false;
                 ModuleUninstaller.Uninstall(module);

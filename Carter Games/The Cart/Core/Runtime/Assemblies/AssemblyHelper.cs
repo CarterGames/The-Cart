@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -146,6 +146,22 @@ namespace CarterGames.Cart.Core.Management
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
                 .Select(type => (T)Activator.CreateInstance(type));
+        }
+        
+        
+        /// <summary>
+        /// Gets all the class names of the entered type in the project that use the base type.
+        /// </summary>
+        /// <param name="baseType">The base tye to get from.</param>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType, bool internalCheckOnly = true)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && x.BaseType is {IsConstructedGenericType: true} && x.FullName != baseType.FullName)
+                .Where(t => baseType == t.BaseType.GetGenericTypeDefinition());
         }
     }
 }

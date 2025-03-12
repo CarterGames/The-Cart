@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
@@ -72,6 +73,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiVersion"));
             EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiReleaseVersion"));
+            EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("downloadTimeout"));
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -102,8 +104,14 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 // Draw the provider enum field on the GUI...
                 EditorGUI.BeginChangeCheck();
                 
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.TextField("Standalone Parity", "0.5.1");
+                EditorGUI.EndDisabledGroup();
+                
+                GeneralUtilEditor.DrawHorizontalGUILine();
                 EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiVersion"));
                 EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("apiReleaseVersion"));
+                EditorGUILayout.PropertyField(SettingsDef.ObjectRef.Fp("downloadTimeout"));
                 
                 if (EditorGUI.EndChangeCheck())
                 {

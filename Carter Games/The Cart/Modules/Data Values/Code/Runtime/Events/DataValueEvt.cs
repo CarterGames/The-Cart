@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ namespace CarterGames.Cart.Modules.DataValues.Events
 	/// An event data value for the cart evt class.
 	/// </summary>
 	[CreateAssetMenu(fileName = "Data Value Cart Evt", menuName = "Carter Games/The Cart/Modules/Data Values/Events/Data Value Cart Evt", order = 0)]
+	[Serializable]
 	public class DataValueEvt : DataValueEventBase
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,9 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Data.Editor;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
@@ -31,7 +33,8 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
     /// <summary>
     /// Handles the settings asset for the notion data module.
     /// </summary>
-    public sealed class DataAssetSettingsNotionData : DataAsset
+    [Serializable]
+    public sealed class DataAssetSettingsNotionData : EditorOnlyDataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields
@@ -39,6 +42,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
 	    [SerializeField] private NotionApiVersion apiVersion;
 	    [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
+	    [SerializeField] [Range(2, 25)] private int downloadTimeout = 10;
 
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Properties
@@ -54,6 +58,12 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /// The Notion API version to use.
         /// </summary>
         public NotionApiVersion NotionApiVersion => apiVersion;
+	    
+	    
+	    /// <summary>
+	    /// The time required to wait until a download attempt will fail automatically.
+	    /// </summary>
+	    public int DownloadTimeout => downloadTimeout;
     }
 }
 

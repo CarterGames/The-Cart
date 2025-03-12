@@ -12,7 +12,6 @@ namespace CarterGames.Cart.Core.Editor
 		
         public static string CurrentValue { get; private set; }
         private static string Description { get; set; }
-        private static bool HasRaisedLostFocus { get; set; }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
@@ -22,6 +21,9 @@ namespace CarterGames.Cart.Core.Editor
         /// Raises when the value is changed at any time.
         /// </summary>
         public static readonly Evt<string> ValueChangedCtx = new Evt<string>();
+        
+        
+        public static readonly Evt<string> ValueConfirmedCtx = new Evt<string>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Open Window Method

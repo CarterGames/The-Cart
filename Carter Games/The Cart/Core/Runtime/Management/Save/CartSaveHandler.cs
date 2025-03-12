@@ -5,7 +5,7 @@ namespace CarterGames.Cart.Core.Save
 {
 	public static class CartSaveHandler
 	{
-		private static ISaveMethod SaveMethod => CoreSettings.SaveMethodType;
+		private static ISaveMethod SaveMethod => CoreSettings!.SaveMethodType;
 
 		private static DataAssetCoreRuntimeSettings CoreSettings =>
 			DataAccess.GetAsset<DataAssetCoreRuntimeSettings>();

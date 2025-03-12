@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,15 +33,75 @@ namespace CarterGames.Cart.Core.Editor
 	public abstract class CustomInspector : UnityEditor.Editor
 	{
 		/// <summary>
+		/// Stores the rect for the width to assign to.
+		/// </summary>
+		private Rect widthRect;
+
+
+		/// <summary>
+		/// Gets the raw width without padding.
+		/// </summary>
+		protected float ScreenWidth => widthRect.width;
+		
+		
+		/// <summary>
+		/// Gets the width of the inspector with some padding so its ready for use.
+		/// </summary>
+		protected float ScreenWidthPadded => widthRect.width - 12f;
+		
+		
+		/// <summary>
+		/// Gets the properties to not draw in the inspector.
+		/// </summary>
+		protected abstract string[] HideProperties { get; }
+		
+		
+		/// <summary>
 		/// Override to change the inspector GUI entirely.
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
-			GUILayout.Space(7.5f);
+			GetWidth();
+			
+			EditorGUI.BeginChangeCheck();
+			
+			GUILayout.Space(2.5f);
+			
 			DrawScriptField();
+			
 			DrawInspectorGUI();
+
+			if (EditorGUI.EndChangeCheck())
+			{
+				try
+				{
+					serializedObject.ApplyModifiedProperties();
+					serializedObject.Update();
+				}
+#pragma warning disable 0168
+				catch (Exception e)
+#pragma warning restore
+				{
+					// Console.WriteLine(e);
+					// throw;
+				}
+			}
 		}
 
+
+		/// <summary>
+		/// Calculates the width for the custom inspectors to use.
+		/// </summary>
+		private void GetWidth()
+		{
+			EditorGUILayout.LabelField(string.Empty, GUILayout.MaxHeight(0));
+			
+			if (Event.current.type == EventType.Repaint)
+			{
+				widthRect = GUILayoutUtility.GetLastRect();
+			}
+		}
+		
 
 		/// <summary>
 		/// Implement to add your own GUI to the base GUI of the custom editor.
@@ -71,7 +132,7 @@ namespace CarterGames.Cart.Core.Editor
 		/// </summary>
 		protected void DrawBaseInspectorGUI()
 		{
-			base.OnInspectorGUI();
+			DrawPropertiesExcluding(serializedObject, HideProperties);
 		}
 	}
 }

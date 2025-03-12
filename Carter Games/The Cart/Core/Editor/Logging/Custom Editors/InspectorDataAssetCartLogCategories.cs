@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core.Data.Editor;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
@@ -32,34 +33,22 @@ namespace CarterGames.Cart.Core.Logs.Editor
     /// Handles the custom editor of the log categories data asset.
     /// </summary>
     [CustomEditor(typeof(DataAssetCartLogCategories))]
-    public sealed class InspectorDataAssetCartLogCategories : CustomInspector
+    public sealed class InspectorDataAssetCartLogCategories : InspectorDataAsset
     {
+        protected override string[] HideProperties => new string[]
+        {
+            "m_Script", "variantId", "excludeFromAssetIndex", "lookup"
+        };
+
+        
         protected override void DrawInspectorGUI()
         {
-            EditorGUILayout.Space(2.5f);
-
-            DrawVariantId();
+            base.DrawInspectorGUI();
             
             EditorGUILayout.Space(2.5f);
             
             DrawCategories();
         }
-
-
-        private void DrawVariantId()
-        {
-            EditorGUILayout.BeginVertical("HelpBox");
-            EditorGUILayout.Space(1f);
-
-            EditorGUILayout.LabelField("Data Asset", EditorStyles.boldLabel);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            
-            EditorGUILayout.PropertyField(serializedObject.Fp("variantId"));
-            
-            EditorGUILayout.Space(1.5f);
-            EditorGUILayout.EndVertical();
-        }
-        
         
 
         private void DrawCategories()

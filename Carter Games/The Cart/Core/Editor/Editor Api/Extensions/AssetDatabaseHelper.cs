@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Logs;
 using UnityEditor;
@@ -83,20 +84,13 @@ namespace CarterGames.Cart.Core.Editor
             
             return !string.IsNullOrEmpty(path);
         }
-
-
-        public static string FindScriptInProject<T>()
-        {
-            return AssetDatabase.FindAssets($"t:Script {nameof(T)}").FirstOrDefault();
-        }
         
         
-        public static string PathToClass(string target)
-        {
-            return AssetDatabase.GUIDToAssetPath(target);
-        }
-
-
+        /// <summary>
+        /// Gets all the instances of a class in the project.
+        /// </summary>
+        /// <typeparam name="T">The type to get.</typeparam>
+        /// <returns>All the instances found.</returns>
         public static T[] GetAllInstancesInProject<T>() where T : Object
         {
             var assets = AssetDatabase.FindAssets($"t:{typeof(T)}");
@@ -107,10 +101,90 @@ namespace CarterGames.Cart.Core.Editor
 
             for (var i = 0; i < array.Length; i++)
             {
-                array[i] = AssetDatabase.LoadAssetAtPath<T>(PathToClass(assets[i]));
+                array[i] = AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(assets[i]));
             }
 
             return array;
+        }
+        
+        
+        /// <summary>
+        /// Gets the string paths for any asset of the type not in the expected location.
+        /// </summary>
+        /// <param name="expectedPath">The path the asset should be at.</param>
+        /// <typeparam name="T">The type to check for.</typeparam>
+        /// <returns>The paths for any asset not where it should be.</returns>
+        public static IEnumerable<string> GetAssetPathNotAtPath<T>(string expectedPath)
+        {
+            if (TryGetPathsToAssetsNotAtPath<T>(expectedPath, out var result))
+            {
+                return result;
+            }
+
+            return null;
+        }
+        
+        
+        /// <summary>
+        /// Returns if an instance of the asset type is not where it should be.
+        /// </summary>
+        /// <param name="expectedPath">The path it should be at.</param>
+        /// <typeparam name="T">The type to try and get.</typeparam>
+        /// <returns>If the asset correctly exists in the asset database.</returns>
+        public static bool TypeExistsElsewhere<T>(string expectedPath) where T : Object
+        {
+            return TryGetTypeNotAtPath<T>(expectedPath, out _);
+        }
+
+
+        /// <summary>
+        /// A helper method to get assets of a type not at the expected path.
+        /// </summary>
+        /// <param name="expectedPath">The path the asset should be at.</param>
+        /// <param name="result">The result of the operation.</param>
+        /// <typeparam name="T">The type to try and get.</typeparam>
+        /// <returns>If it was successful at finding any assets at the wrong path.</returns>
+        private static bool TryGetTypeNotAtPath<T>(string expectedPath, out IEnumerable<T> result) where T : Object
+        {
+            if (!TryGetPathsToAssetsNotAtPath<T>(expectedPath, out var paths))
+            {
+                result = null;
+                return false;
+            }
+            
+            result = paths.Select(t => AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(t)));
+            return true;
+        }
+        
+        
+        /// <summary>
+        /// A helper method to get paths of any asset of a type not at the expected path.
+        /// </summary>
+        /// <param name="expectedPath">The path the asset should be at.</param>
+        /// <param name="result">The result of the operation.</param>
+        /// <typeparam name="T">The type to try and get.</typeparam>
+        /// <returns>If it was successful at finding any assets at the wrong path.</returns>
+        private static bool TryGetPathsToAssetsNotAtPath<T>(string expectedPath, out IEnumerable<string> result)
+        {
+            result = null;
+            
+            if (string.IsNullOrEmpty(expectedPath)) return false;
+            var assets = AssetDatabase.FindAssets($"t:{typeof(T).FullName}");
+
+            if (assets.Length <= 1)
+            {
+                if (AssetDatabase.GUIDToAssetPath(assets.First()) == expectedPath) return false;
+                
+                result = new string[1]
+                {
+                    AssetDatabase.GUIDToAssetPath(assets.First()) 
+                };
+                
+                return true;
+            }
+
+            result = assets.Where(t => AssetDatabase.GUIDToAssetPath(t) != expectedPath).Select(AssetDatabase.GUIDToAssetPath);
+            return true;
         }
     }
 }

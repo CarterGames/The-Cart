@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CONDITIONS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,13 +56,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <summary>
 		/// Gets if conditions can be used or not. Is disabled if a criteria class is not setup property.
 		/// </summary>
-		private static bool CanEnableSystem
-		{
-			get
-			{
-				return CriteriaValidation.AllCriteriaValid();
-			}
-		}
+		private static bool CanEnableSystem => CriteriaValidation.AllCriteriaValid();
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Events
@@ -86,9 +80,11 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <summary>
 		/// Initializes the manager automatically.
 		/// </summary>
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
 		private static void Initialize()
 		{
+			Debug.Log("Init started");
+			
 			if (!CanEnableSystem)
 			{
 				CartLogger.LogWarning<LogCategoryModules>("Cannot initialize conditions as the system is not setup correctly in the editor.", typeof(ConditionManager));
@@ -97,6 +93,7 @@ namespace CarterGames.Cart.Modules.Conditions
 			
 			if (IsInitialized) return;
 
+			Debug.Log("Get index for conditions");
 			conditions = DataAccess.GetAsset<ConditionsIndex>().Lookup;
 
 			foreach (var entry in conditions)
@@ -105,6 +102,7 @@ namespace CarterGames.Cart.Modules.Conditions
 				entry.Value.Initialize();
 			}
 			
+			Debug.Log("Init completed");
 			IsInitialized = true;
 			Initialized.Raise();
 		}

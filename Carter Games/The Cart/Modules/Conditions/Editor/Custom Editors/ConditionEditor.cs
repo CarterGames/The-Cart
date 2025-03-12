@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CONDITIONS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -129,6 +129,10 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 						condition.Fp("id").stringValue = value;
 						condition.ApplyModifiedProperties();
 						condition.Update();
+
+						AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(condition.targetObject),
+							$"Condition_{value}_{condition.Fp("variantId").stringValue}");
+						AssetDatabase.SaveAssets();
 					}
 				}
 				
@@ -167,7 +171,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				{
 					void Listener(SearchTreeEntry entry)
 					{
-						SearchProviderCriteria.GetProvider().SelectionMade.Remove(Listener);
+						SearchProviderCriteria.GetProvider().SelectionMade.Clear();
 
 						var criteria = (Criteria) ScriptableObject.CreateInstance((Type) entry.userData);
 						criteria.name = $"{criteria.GetType().Name}_{Guid.NewGuid()}";
@@ -185,6 +189,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 						window.Repaint();
 					}
 
+					SearchProviderCriteria.GetProvider().SelectionMade.Clear();
 					SearchProviderCriteria.GetProvider().SelectionMade.Add(Listener);
 					SearchProviderCriteria.GetProvider().Open();
 				}
@@ -249,7 +254,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				{
 					void Listener(SearchTreeEntry entry)
 					{
-						SearchProviderConditionGroups.GetProvider().SelectionMade.Remove(Listener);
+						SearchProviderConditionGroups.GetProvider().SelectionMade.Clear();
 						SearchProviderConditionGroups.IsInGroup = false;
 
 						if ((int)entry.userData < 0)
@@ -433,7 +438,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 				{
 					void Listener(SearchTreeEntry entry)
 					{
-						SearchProviderConditionGroups.GetProvider().SelectionMade.Remove(Listener);
+						SearchProviderConditionGroups.GetProvider().SelectionMade.Clear();
 						SearchProviderConditionGroups.IsInGroup = false;
 
 						if ((int)entry.userData < 0)

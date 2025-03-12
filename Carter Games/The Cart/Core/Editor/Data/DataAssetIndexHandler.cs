@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -105,6 +105,7 @@ namespace CarterGames.Cart.Core.Data.Editor
                 // Doesn't include editor only or the index itself.
                 if (assetObj == null) continue;
                 if (assetObj is DataAssetIndex) continue;
+                if (assetObj is EditorOnlyDataAsset) continue;
                 if (assetObj.ExcludeFromAssetIndex) continue;
                 
                 foundAssets.Add((DataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));

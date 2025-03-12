@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CURRENCY
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -106,10 +106,13 @@ namespace CarterGames.Cart.Modules.Currency
                     }
                 }
                 
-                foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
+                if (DataAccess.GetAsset<DataAssetDefaultAccounts>())
                 {
-                    if (keys.Contains(defAccount.Key)) continue;
-                    keys.Add(defAccount.Key);
+                    foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
+                    {
+                        if (keys.Contains(defAccount.Key)) continue;
+                        keys.Add(defAccount.Key);
+                    }
                 }
 
                 return keys;

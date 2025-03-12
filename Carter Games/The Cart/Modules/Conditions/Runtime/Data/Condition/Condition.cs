@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CONDITIONS
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,19 +37,18 @@ namespace CarterGames.Cart.Modules.Conditions
 	/// <summary>
 	/// A container for a condition asset.
 	/// </summary>
+	[Serializable]
 	public sealed class Condition : DataAsset
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-#if UNITY_EDITOR
 		[SerializeField, HideInInspector] private bool isExpanded;
 #pragma warning disable 0414
 		// ignore def value warning on editor only bit.
 		[SerializeField, HideInInspector] private int groupsMade = 1;
 #pragma warning restore
-#endif
 		
 		[SerializeField] private string id;
 		[SerializeField] private List<Criteria> baseAndGroup;

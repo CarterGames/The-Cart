@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,24 +24,20 @@
  */
 
 using System.Linq;
-using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management.Editor;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    [CustomPropertyDrawer(typeof(LanguageSelectableAttribute))]
+    [CustomPropertyDrawer(typeof(LanguageSelectableAttribute), true)]
     public sealed class PropertyDrawerLanguageSelectableAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderLanguages, Language>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected override bool HasValue => !string.IsNullOrEmpty(TargetProperty.Fpr("name").stringValue);
-        protected override Language CurrentValue => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
-            t.DisplayName.Equals(TargetProperty.Fpr("name").stringValue));
         protected override SearchProviderLanguages Provider => SearchProviderLanguages.GetProvider();
-        protected override SerializedProperty EditDisplayProperty => TargetProperty.Fpr("name");
         protected override string InitialSelectButtonLabel => "Select Language";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -50,28 +46,44 @@ namespace CarterGames.Cart.Modules.Localization.Editor
         
         protected override bool IsValid(SerializedProperty property)
         {
-            return !string.IsNullOrEmpty(property.Fpr("name").stringValue) &&
-                   !string.IsNullOrEmpty(property.Fpr("code").stringValue);
+            return !string.IsNullOrEmpty(property.Fpr("code").stringValue);
+        }
+        
+
+        protected override bool GetHasValue(SerializedProperty property)
+        {
+            return !string.IsNullOrEmpty(GetCurrentValue(property).Code);
+        }
+
+        
+        protected override Language GetCurrentValue(SerializedProperty property)
+        {
+            return ScriptableRef.GetAssetDef<DataAssetDefinedLanguages>().AssetRef.Languages.FirstOrDefault(t =>
+                t.Code.Equals(property.Fpr("code").stringValue));
+        }
+        
+
+        protected override string GetCurrentValueString(SerializedProperty property)
+        {
+            return GetCurrentValue(property).Code;
         }
 
 
-        protected override void OnSelectionMade(Language selectedEntry)
+        protected override void OnSelectionMade(SerializedProperty property, Language selectedEntry)
         {
-            TargetProperty.Fpr("name").stringValue = selectedEntry.DisplayName;
-            TargetProperty.Fpr("code").stringValue = selectedEntry.Code;
+            property.Fpr("code").stringValue = selectedEntry.Code;
 
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
         }
         
-        
-        protected override void ClearValue()
+
+        protected override void ClearValue(SerializedProperty property)
         {
-            TargetProperty.Fpr("name").stringValue = string.Empty;
-            TargetProperty.Fpr("code").stringValue = string.Empty;
+            property.Fpr("code").stringValue = string.Empty;
             
-            TargetProperty.serializedObject.ApplyModifiedProperties();
-            TargetProperty.serializedObject.Update();
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
         }
     }
 }

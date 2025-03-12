@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_COLORFOLDERS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		private static Dictionary<string, DataFolderIconSet> setsLookupCache;
+		private static Dictionary<string, DataFolderIconSet> setsLookupCache = new Dictionary<string, DataFolderIconSet>();
 		private static Dictionary<string, DataFolderIconSet> folderResultCache = new Dictionary<string, DataFolderIconSet>();
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

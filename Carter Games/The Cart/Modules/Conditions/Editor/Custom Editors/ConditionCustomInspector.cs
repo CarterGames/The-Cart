@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_CONDITIONS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -55,9 +55,10 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 			(bool) typeof(Condition)
 				.GetProperty("IsValid", BindingFlags.Public | BindingFlags.Instance)
 				!.GetValue(serializedObject.targetObject);
-		
-		
-		
+
+
+		protected override string[] HideProperties { get; }
+
 		protected override void DrawInspectorGUI()
 		{
 			EditorGUILayout.Space(5f);

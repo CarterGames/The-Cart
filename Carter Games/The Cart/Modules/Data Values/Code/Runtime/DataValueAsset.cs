@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.DataValues
@@ -30,6 +31,7 @@ namespace CarterGames.Cart.Modules.DataValues
 	/// <summary>
 	/// A base class for all data values to inherit from.
 	/// </summary>
+	[Serializable]
     public abstract class DataValueAsset : ScriptableObject, IDataValueReset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

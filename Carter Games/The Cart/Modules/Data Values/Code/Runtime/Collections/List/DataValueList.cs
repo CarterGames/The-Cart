@@ -1,7 +1,7 @@
 #if CARTERGAMES_CART_MODULE_DATAVALUES
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Modules.DataValues.Events;
@@ -34,6 +35,7 @@ namespace CarterGames.Cart.Modules.DataValues
     /// The base class for a list data value.
     /// </summary>
     /// <typeparam name="T">The value type for the list.</typeparam>
+    [Serializable]
     public abstract class DataValueList<T> : DataValueAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

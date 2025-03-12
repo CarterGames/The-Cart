@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,8 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace CarterGames.Cart.Core.Editor
@@ -38,47 +38,51 @@ namespace CarterGames.Cart.Core.Editor
         |   Abstract Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected abstract bool HasValue { get; }
-        protected abstract TSearchType CurrentValue { get; }
         protected abstract TProviderType Provider { get; }
-        protected abstract SerializedProperty EditDisplayProperty { get; }
         protected abstract string InitialSelectButtonLabel { get; }
+        protected virtual bool DisableInputWhenSelected { get; } = true;
+        protected virtual List<TSearchType> ExtraIgnoreValues { get; }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Abstract Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         protected abstract bool IsValid(SerializedProperty property);
-        protected abstract void OnSelectionMade(TSearchType selectedEntry);
-        protected abstract void ClearValue();
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        protected SerializedProperty TargetProperty { get; private set; }
+        protected abstract bool GetHasValue(SerializedProperty property);
+        protected abstract TSearchType GetCurrentValue(SerializedProperty property);
+        protected abstract string GetCurrentValueString(SerializedProperty property);
+        protected abstract void OnSelectionMade(SerializedProperty property, TSearchType selectedEntry);
+        protected abstract void ClearValue(SerializedProperty property);
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   GUI Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        protected bool IsValidFieldType => fieldInfo.FieldType == typeof(TSearchType);
+        
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            TargetProperty = property;
-            
             EditorGUI.BeginProperty(position, label, property);
-            
-            if (IsValid(property))
+
+            if (IsValidFieldType)
             {
-                // Draw field with edit button...
-                DrawEditView(position, label);
+                if (IsValid(property))
+                {
+                    // Draw field with edit button...
+                    DrawEditView(position, property, label);
+                }
+                else
+                {
+                    // Draw initial value select button...
+                    DrawInitialView(position, property, label);
+                }
             }
             else
             {
-                // Draw initial value select button...
-                DrawInitialView(position, label);
+                DrawInvalidView(position, property, label);
             }
-            
+
             EditorGUI.EndProperty();
         }
         
@@ -92,12 +96,22 @@ namespace CarterGames.Cart.Core.Editor
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private void DrawInitialView(Rect position, GUIContent label)
+        private void DrawInvalidView(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorGUI.BeginDisabledGroup(true);
-                
+            GUI.color = Color.yellow;
             EditorGUI.LabelField(position, label);
-            EditorGUI.EndDisabledGroup();
+                
+            position.width -= EditorGUIUtility.labelWidth;
+            position.x += EditorGUIUtility.labelWidth;
+            
+            EditorGUI.LabelField(position, "Invalid field type for attribute.");
+            GUI.color = Color.white;
+        }
+        
+        
+        private void DrawInitialView(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.LabelField(position, label);
                 
             position.width -= EditorGUIUtility.labelWidth;
             position.x += EditorGUIUtility.labelWidth;
@@ -106,24 +120,29 @@ namespace CarterGames.Cart.Core.Editor
             GUI.backgroundColor = Color.green;
             if (GUI.Button(position, InitialSelectButtonLabel))
             {
-                Provider.SelectionMade.Add(OnSearchSelectionMade);
-                Provider.Open(CurrentValue);
+                Provider.SelectionMade.Clear();
+                Provider.SelectionMade.Add((ste) =>
+                {
+                    Provider.SelectionMade.Clear();
+                    OnSelectionMade(property, (TSearchType) ste.userData);
+                });
+                
+                Provider.Open(GetCurrentValue(property));
             }
             GUI.backgroundColor = Color.white;
         }
 
 
-        private void DrawEditView(Rect position, GUIContent label)
+        private void DrawEditView(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorGUI.BeginDisabledGroup(true);
-                
             var pos = new Rect(position);
             pos.width = (pos.width / 20) * 17;
-                
-            EditorGUI.PropertyField(pos, EditDisplayProperty, label);
+            
+            EditorGUI.BeginDisabledGroup(DisableInputWhenSelected);
+            EditorGUI.TextField(pos, label, GetCurrentValueString(property));
             EditorGUI.EndDisabledGroup();
             
-            if (HasValue)
+            if (GetHasValue(property))
             {
                 var buttonPos = new Rect(position);
                 buttonPos.width = (position.width / 20 * 2) - 2.5f;
@@ -132,8 +151,13 @@ namespace CarterGames.Cart.Core.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, "Edit"))
                 {
-                    Provider.SelectionMade.Add(OnSearchSelectionMade);
-                    Provider.Open(CurrentValue);
+                    Provider.SelectionMade.Clear();
+                    Provider.SelectionMade.Add((ste) =>
+                    {
+                        Provider.SelectionMade.Clear();
+                        OnSelectionMade(property, (TSearchType) ste.userData);
+                    });
+                    Provider.Open(GetCurrentValue(property));
                 }
                 GUI.backgroundColor = Color.white;
            
@@ -143,9 +167,10 @@ namespace CarterGames.Cart.Core.Editor
                 clearPos.x = buttonPos.x + buttonPos.width + 2.5f;
             
                 GUI.backgroundColor = Color.red;
-                if (GUI.Button(clearPos, "X"))
+                if (GUI.Button(clearPos, GeneralUtilEditor.CrossIcon))
                 {
-                    ClearValue();
+                    Provider.SelectionMade.Clear();
+                    ClearValue(property);
                 }
                 GUI.backgroundColor = Color.white;
             }
@@ -158,18 +183,16 @@ namespace CarterGames.Cart.Core.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, "Edit"))
                 {
-                    Provider.SelectionMade.Add(OnSearchSelectionMade);
-                    Provider.Open(CurrentValue);
+                    Provider.SelectionMade.Clear();
+                    Provider.SelectionMade.Add((ste) =>
+                    {
+                        Provider.SelectionMade.Clear();
+                        OnSelectionMade(property, (TSearchType) ste.userData);
+                    });
+                    Provider.Open(GetCurrentValue(property));
                 }
                 GUI.backgroundColor = Color.white;
             }
-        }
-
-        
-        private void OnSearchSelectionMade(SearchTreeEntry entry)
-        {
-            Provider.SelectionMade.Remove(OnSearchSelectionMade);
-            OnSelectionMade((TSearchType) entry.userData);
         }
     }
 }

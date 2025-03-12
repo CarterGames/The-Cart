@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOADINGSCREENS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,12 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Reflection;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 {
@@ -57,12 +60,27 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 		{
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
-		
-		
+
+
 		/// <summary>
 		/// Runs when the asset is created.
 		/// </summary>
-		public void OnCreated() { }
+		public void OnCreated()
+		{
+			try
+			{
+				var prefab =
+					Resources.Load<GenericLoadingScreenInstance>(
+						"Prefabs/Loading Screen/++Canvas (Overlay) - (Cart) - Loading Screen");
+				ReflectionHelper.SetField("loadingScreenPrefab", AssetRef, prefab, false, false);
+			}
+#pragma warning disable 0168
+			catch (Exception e)
+			{
+				CartLogger.LogError<LogCategoryModules>("Loading screens failed to OnCreated() logic.");
+			}
+#pragma warning restore
+		}
 	}
 }
 

@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.ThirdParty;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
@@ -59,7 +60,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		/// <summary>
 		/// The url for the call.
 		/// </summary>
-		public string Url => $"https://api.notion.com/{DataAccess.GetAsset<DataAssetSettingsNotionData>().NotionApiVersion.ToString()}/databases/{databaseId}/query";
+		public string Url => $"https://api.notion.com/{ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.NotionApiVersion.ToString()}/databases/{databaseId}/query";
 
 
 		/// <summary>

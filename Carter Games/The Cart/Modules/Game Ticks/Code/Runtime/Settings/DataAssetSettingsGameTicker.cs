@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_GAMETICKER
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,13 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.GameTicks
 { 
+	[Serializable]
 	public sealed class DataAssetSettingsGameTicker : DataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

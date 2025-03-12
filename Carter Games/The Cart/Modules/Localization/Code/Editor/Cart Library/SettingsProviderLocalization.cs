@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
@@ -99,6 +100,19 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			
 			EditorGUILayout.BeginHorizontal();
 			EditorGUI.BeginChangeCheck();
+
+			// Fixes older versions that may have issues.
+			try
+			{
+				var isValid = string.IsNullOrEmpty(LocalizationManager.CurrentLanguage.DisplayName);
+			}
+#pragma warning disable 0168
+			catch (Exception e)
+#pragma warning restore
+			{
+				LocalizationManager.SetLanguage(Language.Default);
+				throw;
+			}
 			
 			if (string.IsNullOrEmpty(LocalizationManager.CurrentLanguage.DisplayName))
 			{

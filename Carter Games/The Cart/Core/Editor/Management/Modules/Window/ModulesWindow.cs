@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -184,7 +184,6 @@ namespace CarterGames.Cart.Modules.Window
                             {
                                 moduleGrouping.Add(selectedModule);
                                 EditorSettingsModuleWindow.MultiSelectModules = moduleGrouping;
-                                selectedModule = null;
                             }
                             
                             if (!moduleGrouping.Contains(module))
@@ -298,7 +297,7 @@ namespace CarterGames.Cart.Modules.Window
             GUI.backgroundColor = ModuleManager.InstallCol;
             
             EditorGUI.BeginDisabledGroup(!CanEnableAny);
-            if (GUILayout.Button(ModuleManager.TickIcon + " Enable", GUILayout.Width(90f)))
+            if (GUILayout.Button(GeneralUtilEditor.TickIcon + " Enable", GUILayout.Width(90f)))
             {
                 CscFileHandler.AddDefine(moduleGrouping.ToList());
             }
@@ -307,7 +306,7 @@ namespace CarterGames.Cart.Modules.Window
             GUI.backgroundColor = ModuleManager.UninstallCol;
             
             EditorGUI.BeginDisabledGroup(!CanDisableAny);
-            if (GUILayout.Button(ModuleManager.CrossIcon + " Disable", GUILayout.Width(90f)))
+            if (GUILayout.Button(GeneralUtilEditor.CrossIcon + " Disable", GUILayout.Width(90f)))
             {
                 CscFileHandler.RemoveDefine(moduleGrouping.ToList());
             }

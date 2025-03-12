@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
 	{
 		public override void OnInspectorGUI()
 		{
-			CustomEditorDataValueDefault.DrawInspector(serializedObject);
+			CustomEditorDataValueDefault.DrawInspector(serializedObject, true);
 		}
 	}
 }

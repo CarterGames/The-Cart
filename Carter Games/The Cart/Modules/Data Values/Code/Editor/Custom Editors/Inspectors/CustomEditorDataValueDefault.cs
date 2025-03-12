@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_DATAVALUES && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
 {
 	public static class CustomEditorDataValueDefault
 	{
-		public static void DrawInspector(SerializedObject serializedObject)
+		public static void DrawInspector(SerializedObject serializedObject, bool forceIndent = false)
 		{
 			EditorGUILayout.Space(5f);
 			
@@ -51,7 +51,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
 			
 			
 			EditorGUILayout.Space(5f);
-			DrawValue(serializedObject);
+			DrawValue(serializedObject, forceIndent);
 			EditorGUILayout.Space(5f);
 			DrawDefaultValueSection(serializedObject);
 			EditorGUILayout.Space(5f);
@@ -63,7 +63,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
 		}
 
 
-		private static void DrawValue(SerializedObject serializedObject)
+		private static void DrawValue(SerializedObject serializedObject, bool forceIndent = false)
 		{
 			EditorGUILayout.BeginVertical("HelpBox");
 			EditorGUILayout.Space(1.5f);
@@ -73,7 +73,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
 
 			EditorGUILayout.PropertyField(serializedObject.Fp("key"));
 			
-			if (serializedObject.Fp("value").isArray || serializedObject.Fp("value").exposedReferenceValue != null)
+			if (serializedObject.Fp("value").isArray || serializedObject.Fp("value").exposedReferenceValue != null || forceIndent)
 			{
 				EditorGUILayout.BeginHorizontal();
 				GUILayout.Space(12.5f);

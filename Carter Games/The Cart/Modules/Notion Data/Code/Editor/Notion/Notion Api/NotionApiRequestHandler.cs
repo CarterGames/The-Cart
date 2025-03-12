@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.ThirdParty;
 using UnityEditor;
 using UnityEngine;
@@ -74,7 +75,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             if (!NotionSecretKeyValidator.IsKeyValid(requestData.ApiKey))
             {
-                if (EditorUtility.DisplayDialog("Standalone Notion Data", "Api key for database download is invalid.",
+                if (EditorUtility.DisplayDialog("Notion Data", "Api key for database download is invalid.",
                     "Continue"))
                 {
                     CartLogger.LogError<LogCategoryModules>(
@@ -88,7 +89,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             AsyncOperation asyncOperation = request.SendWebRequest();
 
-            EditorUtility.DisplayProgressBar("Standalone Notion Data", "Downloading Data", 0f);
+            EditorUtility.DisplayProgressBar("Notion Data", "Downloading Data", 0f);
             
             asyncOperation.completed += (a) =>
             {
@@ -117,7 +118,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
             if (data.ShowResponseDialogue)
             {
-                EditorUtility.DisplayProgressBar("Standalone Notion Data", "Downloading Data", .5f);
+                EditorUtility.DisplayProgressBar("Notion Data", "Downloading Data", .5f);
             }
             
             asyncOperation.completed += (a) =>
@@ -176,8 +177,9 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", DataAccess.GetAsset<DataAssetSettingsNotionData>().NotionAPIReleaseVersion.ToVersionString());
-
+            request.SetRequestHeader("Notion-Version", ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.DownloadTimeout;
+            
             return request;
         }
         
@@ -211,8 +213,9 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             request.method = "POST";
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", DataAccess.GetAsset<DataAssetSettingsNotionData>().NotionAPIReleaseVersion.ToVersionString());
-
+            request.SetRequestHeader("Notion-Version", ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.DownloadTimeout;
+            
             return request;
         }
 

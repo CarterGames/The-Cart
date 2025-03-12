@@ -1,7 +1,7 @@
 ﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && UNITY_EDITOR
 
 /*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,10 @@
  */
 
 using System;
+using System.Collections.Generic;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Core.Reflection;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
@@ -58,7 +61,23 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			ScriptableRef.GetOrCreateAsset(this, ref cache);
 		}
 
-		public void OnCreated() { }
+		public void OnCreated()
+		{
+			var defaultLanguages = new List<Language>()
+			{
+				new Language("en-US"),
+				new Language("fr-FR"),
+				new Language("de-DE"),
+				new Language("es-ES"),
+				new Language("it-IT"),
+				new Language("zh-CN"),
+				new Language("ja-JP"),
+			};
+			
+			ReflectionHelper.SetField("languages", AssetRef, defaultLanguages, false);
+			EditorUtility.SetDirty(AssetRef);
+			AssetDatabase.SaveAssets();
+		}
 	}
 }
 
