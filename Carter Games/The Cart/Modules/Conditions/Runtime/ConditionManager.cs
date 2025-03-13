@@ -83,8 +83,6 @@ namespace CarterGames.Cart.Modules.Conditions
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
 		private static void Initialize()
 		{
-			Debug.Log("Init started");
-			
 			if (!CanEnableSystem)
 			{
 				CartLogger.LogWarning<LogCategoryModules>("Cannot initialize conditions as the system is not setup correctly in the editor.", typeof(ConditionManager));
@@ -92,8 +90,7 @@ namespace CarterGames.Cart.Modules.Conditions
 			}
 			
 			if (IsInitialized) return;
-
-			Debug.Log("Get index for conditions");
+			
 			conditions = DataAccess.GetAsset<ConditionsIndex>().Lookup;
 
 			foreach (var entry in conditions)
@@ -102,7 +99,6 @@ namespace CarterGames.Cart.Modules.Conditions
 				entry.Value.Initialize();
 			}
 			
-			Debug.Log("Init completed");
 			IsInitialized = true;
 			Initialized.Raise();
 		}

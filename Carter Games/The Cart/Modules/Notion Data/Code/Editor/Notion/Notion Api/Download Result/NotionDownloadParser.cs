@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.ThirdParty;
 using UnityEngine;
 
@@ -162,7 +163,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                         
                         break;
                     default:
-                        Debug.LogWarning($"Unable to assign value: {keys[i]} as the Notion data type {element.AsObject[i]["type"].Value} is not supported.");
+                        CartLogger.LogWarning<LogCategoryModules>($"Unable to assign value: {keys[i]} as the Notion data type {element.AsObject[i]["type"].Value} is not supported.", typeof(NotionDownloadParser));
                         break;
                 }
             }

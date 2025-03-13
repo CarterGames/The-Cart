@@ -24,6 +24,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Modules;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -157,7 +159,7 @@ namespace CarterGames.Cart.Core.Editor
         {
             if (!property.isArray)
             {
-                Debug.LogError($"Not an array... {property.type} {property.arraySize}");
+                CartLogger.LogError<LogCategoryCore>($"Not an array... {property.type} {property.arraySize}", typeof(SerializedPropertyHelper));
                 return false;
             }
             

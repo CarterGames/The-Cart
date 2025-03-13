@@ -29,6 +29,7 @@ using System.Reflection;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Data.Editor;
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Logs;
 using UnityEditor;
 using UnityEngine;
 
@@ -205,7 +206,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 {
                     foreach (var error in silencedErrors)
                     {
-                        Debug.LogError($"Failed to download an asset: {error.Asset.name} | {error.Error} | {error.Message}", error.Asset);
+                        CartLogger.LogError<LogCategoryCore>($"Failed to download an asset: {error.Asset.name} | {error.Error} | {error.Message}", error.Asset);
                     }
                 }
             }
