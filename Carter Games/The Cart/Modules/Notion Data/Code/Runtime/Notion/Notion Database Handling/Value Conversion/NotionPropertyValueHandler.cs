@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.ThirdParty;
 using UnityEngine;
@@ -86,7 +87,7 @@ namespace CarterGames.Cart.Modules.NotionData
                 return value != null;
             }
 
-            Debug.LogError("Couldn't parse data");
+            CartLogger.LogError<LogCategoryModules>("Couldn't parse data", typeof(NotionPropertyValueHandler));
             return false;
         }
         
@@ -102,7 +103,7 @@ namespace CarterGames.Cart.Modules.NotionData
         {
             if (TryParseWrapper(property, fieldType, out value)) return true;
             
-            Debug.LogError("Couldn't parse data");
+            CartLogger.LogError<LogCategoryModules>("Couldn't parse data", typeof(NotionPropertyValueHandler));
             return false;
         }
 

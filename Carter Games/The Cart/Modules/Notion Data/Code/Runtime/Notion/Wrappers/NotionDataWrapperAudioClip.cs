@@ -24,6 +24,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Logs;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData
@@ -83,12 +84,12 @@ namespace CarterGames.Cart.Modules.NotionData
 			    }
 			    else
 			    {
-				    Debug.LogWarning($"Unable to find a reference with the name {id}");
+				    CartLogger.LogWarning<LogCategoryModules>($"Unable to find a reference with the name {id}", GetType());
 			    }
 		    }
 		    else
 		    {
-			    Debug.LogWarning("Unable to assign a reference, the id was empty.");
+			    CartLogger.LogWarning<LogCategoryModules>("Unable to assign a reference, the id was empty.", GetType());
 		    }
 #endif
 	    }

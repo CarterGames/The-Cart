@@ -117,8 +117,6 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             // Select the searched clip in the library & just show that result in the window.
-            Debug.LogError(searchTreeEntry.userData);
-            
             OnSearchTreeSelectionMade.Raise(searchTreeEntry);
             return true;
         }
