@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.11.2";
+        public static string VersionNumber => "0.11.3";
         
         
         /// <summary>
