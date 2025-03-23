@@ -61,7 +61,7 @@ namespace CarterGames.Cart.Modules.Localization
                     var valueData = row.DataLookup[k];
                     var asset = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets($"t:Sprite {valueData.RichText().Value}").First()));
                     
-                    entries.Add(new LocalizationEntry<Sprite>(k, asset));
+                    entries.Add(new LocalizationEntry<Sprite>(row.DataLookup[k].PropertyName, asset));
                 }
                 
                 list.Add(new LocalizationData<Sprite>(row.DataLookup["id"].RichText().Value, entries));

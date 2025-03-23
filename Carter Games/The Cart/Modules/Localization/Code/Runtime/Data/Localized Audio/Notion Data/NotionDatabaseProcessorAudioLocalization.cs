@@ -57,7 +57,7 @@ namespace CarterGames.Cart.Modules.Localization
                     var valueData = row.DataLookup[k];
                     var asset = AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets($"t:AudioClip {valueData.RichText().Value}").First()));
                     
-                    entries.Add(new LocalizationEntry<AudioClip>(k, asset));
+                    entries.Add(new LocalizationEntry<AudioClip>(row.DataLookup[k].PropertyName, asset));
                 }
                 
                 list.Add(new LocalizationData<AudioClip>(row.DataLookup["id"].RichText().Value, entries));

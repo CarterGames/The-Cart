@@ -35,7 +35,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The typed-value, stored in an object so it can be generic without a type required.
         /// </summary>
@@ -63,11 +63,12 @@ namespace CarterGames.Cart.Modules.NotionData
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public NotionPropertyDate(SerializableDateTime value, string jsonValue, string downloadedText)
+        public NotionPropertyDate(NotionPropertyData data)
         {
-            InternalValue = value;
-            JsonValue = jsonValue;
-            DownloadText = downloadedText;
+            PropertyName = data.propertyName;
+            InternalValue = (SerializableDateTime) data.valueForType;
+            JsonValue = data.jsonValue;
+            DownloadText = data.downloadText;
         }
     }
 }

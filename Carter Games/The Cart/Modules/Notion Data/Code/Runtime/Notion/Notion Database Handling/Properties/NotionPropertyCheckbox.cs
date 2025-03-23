@@ -33,7 +33,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// The typed-value, stored in an object so it can be generic without a type required.
         /// </summary>
@@ -61,11 +61,12 @@ namespace CarterGames.Cart.Modules.NotionData
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public NotionPropertyCheckbox(bool value, string jsonValue, string downloadedText)
+        public NotionPropertyCheckbox(NotionPropertyData data)
         {
-            InternalValue = value;
-            JsonValue = jsonValue;
-            DownloadText = downloadedText;
+            PropertyName = data.propertyName;
+            InternalValue = bool.Parse(data.jsonValue);
+            JsonValue = data.jsonValue;
+            DownloadText = data.downloadText;
         }
     }
 }
