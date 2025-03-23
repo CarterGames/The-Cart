@@ -1,4 +1,6 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+﻿using CarterGames.Cart.Core;
+
+#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -23,8 +25,6 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core;
-
 namespace CarterGames.Cart.Modules.NotionData
 {
     /// <summary>
@@ -35,7 +35,7 @@ namespace CarterGames.Cart.Modules.NotionData
     {
         public static NotionPropertyCheckbox Checkbox(object value, string jsonValue, string rawDownloadText)
         {
-            return new NotionPropertyCheckbox((bool) value, jsonValue, rawDownloadText);
+            return new NotionPropertyCheckbox(bool.Parse(jsonValue), jsonValue, rawDownloadText);
         }
         
         
@@ -77,7 +77,7 @@ namespace CarterGames.Cart.Modules.NotionData
         
         public static NotionPropertyNumber Number(object value, string jsonValue, string rawDownloadText)
         {
-            return new NotionPropertyNumber((double) value, jsonValue, rawDownloadText);
+            return new NotionPropertyNumber(double.Parse(jsonValue), jsonValue, rawDownloadText);
         }
     }
 }

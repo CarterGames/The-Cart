@@ -2,18 +2,18 @@
 
 /*
  * Copyright (c) 2025 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,20 +27,21 @@ using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management;
+using CarterGames.Cart.Modules.NotionData.Filters;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
 	public class SearchProviderFilterType : SearchProvider<NotionFilterOption>
 	{
 		private static SearchProviderFilterType Instance;
-
+		
 		protected override string ProviderTitle => "Select Notion Filter Type";
 		
 		
 		public override List<SearchGroup<NotionFilterOption>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<NotionFilterOption>>();
-			var options = AssemblyHelper.GetClassesOfType<NotionFilterOption>(false).Where(t => !ToExclude.Contains(t) && t.EditorTypeName != "Group");
+			var options = AssemblyHelper.GetClassesOfType<NotionFilterOption>().Where(t => !ToExclude.Contains(t) && t.EditorTypeName != "Group");
 			var items = new List<SearchItem<NotionFilterOption>>();
 			
 			foreach (var entry in options)

@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Management.Editor;
+using CarterGames.Cart.Modules.NotionData.Filters;
 using CarterGames.Cart.ThirdParty;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
@@ -38,7 +39,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+		
 		private readonly DataAsset requestingAsset;
 		private readonly string databaseId;
 		private readonly string apiKey;
@@ -50,25 +51,25 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+		
 		/// <summary>
 		/// The data asset the request is for.
 		/// </summary>
 		public DataAsset RequestingAsset => requestingAsset;
-
-
+		
+		
 		/// <summary>
 		/// The url for the call.
 		/// </summary>
 		public string Url => $"https://api.notion.com/{ScriptableRef.GetAssetDef<DataAssetSettingsNotionData>().AssetRef.NotionApiVersion.ToString()}/databases/{databaseId}/query";
-
-
+		
+		
 		/// <summary>
 		/// The api key for the database to be accessed with.
 		/// </summary>
 		public string ApiKey => apiKey;
-
-
+		
+		
 		/// <summary>
 		/// The sorting to apply on requesting the data from the database.
 		/// </summary>
@@ -79,23 +80,23 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		/// The filtering to apply on requesting the data from the database.
 		/// </summary>
 		public NotionFilterContainer Filter => filter;
-
-
+		
+		
 		/// <summary>
 		/// The result of the request.
 		/// </summary>
 		public NotionRequestResult ResultData => resultData;
-
-
+		
+		
 		/// <summary>
 		/// Should the dialogues show for this request?
 		/// </summary>
 		public bool ShowResponseDialogue => !silentCall;
-
+		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Constructor
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+		
 		/// <summary>
 		/// Creates a new request data class instance when called.
 		/// </summary>
@@ -103,7 +104,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		/// <param name="databaseId">The database id to get.</param>
 		/// <param name="apiKey">The api key to get.</param>
 		/// <param name="sorts">The sorting properties to apply.</param>
-		/// <param name="filter">The filter to apply.</param>
 		/// <param name="silentResponse">Should the response from the request be hidden from the user? DEF = false</param>
 		public NotionRequestData(DataAsset requestingAsset, string databaseId, string apiKey, NotionSortProperty[] sorts, NotionFilterContainer filter, bool silentResponse = false)
 		{

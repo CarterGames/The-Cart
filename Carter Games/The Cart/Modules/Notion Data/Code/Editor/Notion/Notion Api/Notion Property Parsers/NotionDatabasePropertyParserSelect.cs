@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 	public class NotionDatabasePropertyParserSelect : INotionDatabasePropertyParser
 	{
 		public string PropertyIdentifier => "select";
-
+		
 
 		public string GetJsonValue(JSONNode json)
 		{

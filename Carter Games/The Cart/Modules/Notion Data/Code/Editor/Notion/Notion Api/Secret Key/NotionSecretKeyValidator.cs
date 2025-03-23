@@ -33,15 +33,15 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         private const string SecretAPIKeyPrefix = "secret_";
         private const string NtnKeyPrefix = "ntn_";
         private const int MaxKeyLenght = 50;
-
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Returns if the api key entered is in the valid format for notion or not.
         /// </summary>
@@ -65,7 +65,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         {
             return key.Contains(SecretAPIKeyPrefix) || key.Contains(NtnKeyPrefix);
         }
-
+        
 
         /// <summary>
         /// Validates the lenght of the key to max of 50 characters.

@@ -31,6 +31,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
     {
         public string PropertyIdentifier => "status";
         
+        
         public string GetJsonValue(JSONNode json)
         {
             return json["status"]["name"] == null ? null : json["status"]["name"].Value;

@@ -1,4 +1,6 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+﻿using CarterGames.Cart.Core;
+
+#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -22,8 +24,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-using CarterGames.Cart.Core;
 
 namespace CarterGames.Cart.Modules.NotionData
 {
