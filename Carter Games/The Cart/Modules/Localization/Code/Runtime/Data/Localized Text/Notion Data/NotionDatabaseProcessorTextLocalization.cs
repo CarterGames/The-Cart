@@ -53,7 +53,7 @@ namespace CarterGames.Cart.Modules.Localization
                 foreach (var k in row.DataLookup.Keys.Where(t => t != "id"))
                 {
                     var valueData = row.DataLookup[k];
-                    entries.Add(new LocalizationEntry<string>(k, valueData.RichText().Value));
+                    entries.Add(new LocalizationEntry<string>(row.DataLookup[k].PropertyName, valueData.RichText().Value));
                 }
                 
                 list.Add(new LocalizationData<string>(row.DataLookup["id"].RichText().Value, entries));

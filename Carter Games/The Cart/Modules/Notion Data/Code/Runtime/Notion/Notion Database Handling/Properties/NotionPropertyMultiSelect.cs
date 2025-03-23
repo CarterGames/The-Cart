@@ -61,11 +61,12 @@ namespace CarterGames.Cart.Modules.NotionData
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public NotionPropertyMultiSelect(string[] value, string jsonValue, string downloadedText)
+        public NotionPropertyMultiSelect(NotionPropertyData data)
         {
-            InternalValue = value;
-            JsonValue = jsonValue;
-            DownloadText = downloadedText;
+            PropertyName = data.propertyName;
+            InternalValue = (string[]) data.valueForType;
+            JsonValue = data.jsonValue;
+            DownloadText = data.downloadText;
         }
     }
 }

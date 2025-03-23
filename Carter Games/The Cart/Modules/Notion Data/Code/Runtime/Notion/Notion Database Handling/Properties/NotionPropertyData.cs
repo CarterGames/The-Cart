@@ -1,4 +1,6 @@
-﻿/*
+﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+
+/*
  * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,25 +23,24 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Cart.Core.Management.Editor
+namespace CarterGames.Cart.Modules.NotionData
 {
-    /// <summary>
-    /// Contains details for the package.
-    /// </summary>
-    public static class CartVersionData
+    public struct NotionPropertyData
     {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.11.3";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2025/03/23";
+        public string propertyName;
+        public object valueForType;
+        public string jsonValue;
+        public string downloadText;
+
+
+        public NotionPropertyData(string propertyName, object valueForType, string jsonValue, string downloadText)
+        {
+            this.propertyName = propertyName;
+            this.valueForType = valueForType;
+            this.jsonValue = jsonValue;
+            this.downloadText = downloadText;
+        }
     }
 }
+
+#endif
