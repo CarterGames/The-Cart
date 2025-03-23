@@ -1,4 +1,6 @@
-﻿/*
+#if CARTERGAMES_CART_MODULE_NOTIONDATA
+
+/*
  * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Cart.Modules.NotionData
+namespace CarterGames.Cart.Modules.NotionData.Filters
 {
 	public enum NotionFilerSelectComparison
 	{
@@ -31,3 +33,5 @@ namespace CarterGames.Cart.Modules.NotionData
 		IsNotEmpty,
 	}
 }
+
+#endif

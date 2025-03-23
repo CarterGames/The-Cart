@@ -1,4 +1,6 @@
-﻿using CarterGames.Cart.Modules.NotionData;
+﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+
+using CarterGames.Cart.Modules.NotionData;
 using UnityEngine;
 
 
@@ -10,3 +12,5 @@ namespace Data
         
     }
 }
+
+#endif

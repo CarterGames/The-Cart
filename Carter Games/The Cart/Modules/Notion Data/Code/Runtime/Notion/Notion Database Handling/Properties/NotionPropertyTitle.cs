@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -33,19 +33,19 @@ namespace CarterGames.Cart.Modules.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// The typed-value, stored in an object so it can be generic without a type required.
         /// </summary>
         protected override object InternalValue { get; set; }
-
-
+        
+        
         /// <summary>
         /// The JSON value of the value this property holds.
         /// </summary>
         public override string JsonValue { get; protected set; }
-
-
+        
+        
         /// <summary>
         /// The raw download Json in-case it is needed.
         /// </summary>
@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Modules.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         public NotionPropertyTitle(string value, string jsonValue, string downloadedText)
         {
             InternalValue = value;

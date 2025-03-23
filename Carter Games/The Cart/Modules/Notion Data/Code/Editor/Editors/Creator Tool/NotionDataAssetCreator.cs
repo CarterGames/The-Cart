@@ -2,18 +2,18 @@
 
 /*
  * Copyright (c) 2025 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -38,30 +38,30 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         private string dataAssetName;
-        private string lastSavePath;
         private bool makeDataAssetWhenGenerated;
+        private string lastSavePath;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Menu Items
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Makes a menu item for the creator to open.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Notion Data/Asset Creator", priority = 1500)]
+        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Asset Creator", priority = 20)]
         private static void ShowWindow()
         {
             var window = GetWindow<NotionDataAssetCreator>(true);
             window.titleContent = new GUIContent("Notion Data Asset Creator");
             window.Show();
         }
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Draws the GUI.
         /// </summary>
@@ -98,7 +98,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             if (GUILayout.Button("Create"))
             {
                 CreateDataFile();
-                CreateAssetFile(out var path);
+                CreateAssetFile(out string path);
                 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
@@ -112,7 +112,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 }
             }
         }
-        
+
 
         /// <summary>
         /// Creates the asset file for the notion data class the user is making.
@@ -127,7 +127,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             var pathToTextFile = AssetDatabase.GUIDToAssetPath(script);
             pathToTextFile = pathToTextFile.Replace("NotionDataAssetCreator.cs", "NotionDataAssetTemplate.txt");
             
-            var template = AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile);
+            TextAsset template = AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile);
             template = new TextAsset(template.text);
             var replace = template.text.Replace("%DataAssetName%", "NotionDataAsset" + dataAssetName);
             replace = replace.Replace("%DataTypeName%", "NotionData" + dataAssetName);
@@ -149,7 +149,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             var pathToTextFile = AssetDatabase.GUIDToAssetPath(script);
             pathToTextFile = pathToTextFile.Replace("NotionDataAssetCreator.cs", "NotionDataTemplate.txt");
             
-            var template = AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile);
+            TextAsset template = AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile);
             template = new TextAsset(template.text);
             var replace = template.text.Replace("%DataTypeName%", "NotionData" + dataAssetName);
 

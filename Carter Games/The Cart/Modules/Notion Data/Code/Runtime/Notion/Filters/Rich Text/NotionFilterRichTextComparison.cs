@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Cart.Modules.NotionData
+namespace CarterGames.Cart.Modules.NotionData.Filters
 {
 	public enum NotionFilterRichTextComparison
 	{

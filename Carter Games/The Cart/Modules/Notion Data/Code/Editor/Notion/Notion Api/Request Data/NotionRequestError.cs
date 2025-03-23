@@ -25,8 +25,8 @@
 
 using System;
 using CarterGames.Cart.Core.Data;
-using CarterGames.Cart.ThirdParty;
 using UnityEngine;
+using CarterGames.Cart.ThirdParty;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
@@ -84,7 +84,18 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         public NotionRequestError(DataAsset asset, JSONNode errorJson)
         {
             this.asset = asset;
-            errorCode = errorJson["errorCode"].AsInt;
+
+            try
+            {
+                errorCode = errorJson["errorCode"].AsInt;
+            }
+#pragma warning disable 0168
+            catch (Exception e)
+#pragma warning restore
+            {
+                errorCode = 0;
+            }
+
             code = errorJson["code"];
             message = errorJson["message"];
         }

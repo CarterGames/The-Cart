@@ -2,18 +2,18 @@
 
 /*
  * Copyright (c) 2025 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
-using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.ThirdParty;
 using UnityEngine;
 
@@ -95,8 +94,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
             for (var i = 0; i < keys.Count; i++)
             {
-                var adjustedKey = keys[i].Trim().Replace(" ", string.Empty);
-
+                var adjustedKey = keys[i].Trim().ToLower().Replace(" ", string.Empty);
                 var valueForType = GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i]);
                 var valueJson = valueForType;
                 var downloadText = element.AsObject[i].ToString();
@@ -129,8 +127,8 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                         break;
                     case "rollup":
 
-                        downloadText = element.AsObject[i]["rollup"]["array"][0];
-                        valueJson = GetValueForType(element.AsObject[i]["type"].Value, downloadText);
+                        downloadText = element.AsObject[i]["rollup"]["array"][0].ToString();
+                        valueJson = GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0]);
                         valueForType = valueJson;
                         
                         switch (element.AsObject[i]["rollup"]["array"][0]["type"].Value)
@@ -163,7 +161,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                         
                         break;
                     default:
-                        CartLogger.LogWarning<LogCategoryModules>($"Unable to assign value: {keys[i]} as the Notion data type {element.AsObject[i]["type"].Value} is not supported.", typeof(NotionDownloadParser));
+                        Debug.LogWarning($"Unable to assign value: {keys[i]} as the Notion data type {element.AsObject[i]["type"].Value} is not supported.");
                         break;
                 }
             }
@@ -185,7 +183,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             {
                 return DatabasePropertyParserLookup[type].GetJsonValue(element);
             }
-#pragma warning disable
+#pragma warning disable 0168
             catch (Exception e)
 #pragma warning restore
             {

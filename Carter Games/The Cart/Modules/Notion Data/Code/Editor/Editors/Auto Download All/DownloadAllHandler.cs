@@ -2,18 +2,18 @@
 
 /*
  * Copyright (c) 2025 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,7 +29,7 @@ using System.Reflection;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Data.Editor;
 using CarterGames.Cart.Core.Editor;
-using CarterGames.Cart.Core.Logs;
+using CarterGames.Cart.Modules.NotionData.Filters;
 using UnityEditor;
 using UnityEngine;
 
@@ -43,18 +43,44 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         private static bool haltOnDownload = true;
         private static List<DataAsset> toProcess;
         private static int TotalToProcessed = 0;
         private static int TotalProcessed = 0;
         private static bool hasErrorOnDownload;
         private static List<NotionRequestError> silencedErrors;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Menu Item
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update Data", priority = 21)]
+        private static void DownloadAll()
+        {
+            haltOnDownload = true;
+            TotalToProcessed = 0;
+            TotalProcessed = 0;
+            hasErrorOnDownload = false;
+            silencedErrors = new List<NotionRequestError>();
+            
+            DataAssetIndexHandler.UpdateIndex();
+            
+            if (HasOpenInstances<DownloadAllHandler>())
+            {
+                FocusWindowIfItsOpen(typeof(DownloadAllHandler));
+            }
+            else
+            {
+                var window = GetWindow<DownloadAllHandler>(true, "Download Notion Data");
+                window.maxSize = new Vector2(400, 400);
+            }
+        }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         private void OnGUI()
         {
             GUILayout.Space(7.5f);
@@ -103,32 +129,6 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Menu Item
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Notion Data/Update Data", priority = 1501)]
-        private static void DownloadAll()
-        {
-            haltOnDownload = true;
-            TotalToProcessed = 0;
-            TotalProcessed = 0;
-            hasErrorOnDownload = false;
-            silencedErrors = new List<NotionRequestError>();
-            
-            DataAssetIndexHandler.UpdateIndex();
-            
-            if (HasOpenInstances<DownloadAllHandler>())
-            {
-                FocusWindowIfItsOpen(typeof(DownloadAllHandler));
-            }
-            else
-            {
-                var window = GetWindow<DownloadAllHandler>(true, "Download Notion Data");
-                window.maxSize = new Vector2(400, 400);
-            }
-        }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
@@ -172,14 +172,14 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             var requestData = new NotionRequestData(asset, databaseId, assetObject.Fp("databaseApiKey").stringValue, assetObject.Fp("sortProperties").ToSortPropertyArray(), filters, true);
             NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
         }
-
+        
 
         private static void OnAssetDownloadComplete(NotionRequestResult result)
         {
             ProcessNextAsset();
         }
-
-
+        
+        
         private static void OnAssetDownloadComplete(NotionRequestError error)
         {
             if (!haltOnDownload)
@@ -206,7 +206,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 {
                     foreach (var error in silencedErrors)
                     {
-                        CartLogger.LogError<LogCategoryCore>($"Failed to download an asset: {error.Asset.name} | {error.Error} | {error.Message}", error.Asset);
+                        Debug.LogError($"Failed to download an asset: {error.Asset.name} | {error.Error} | {error.Message}", error.Asset);
                     }
                 }
             }

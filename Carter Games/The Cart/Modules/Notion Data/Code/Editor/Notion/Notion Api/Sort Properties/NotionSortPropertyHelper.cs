@@ -24,8 +24,8 @@
  */
 
 using CarterGames.Cart.Core.Editor;
-using CarterGames.Cart.ThirdParty;
 using UnityEditor;
+using CarterGames.Cart.ThirdParty;
 
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
@@ -55,8 +55,8 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 
 			return array;
 		}
-
-
+		
+		
 		/// <summary>
 		/// Converts a notion sort property to valid Json for use in the Notion API calls.
 		/// </summary>

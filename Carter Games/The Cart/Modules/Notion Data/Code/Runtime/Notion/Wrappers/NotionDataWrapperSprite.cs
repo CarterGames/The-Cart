@@ -1,19 +1,19 @@
-﻿#if CARTERGAMES_CART_MODULE_NOTIONDATA
+#if CARTERGAMES_CART_MODULE_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,6 @@
  */
 
 using System;
-using CarterGames.Cart.Core.Logs;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.NotionData
@@ -39,7 +38,7 @@ namespace CarterGames.Cart.Modules.NotionData
 	    |   Constructors
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-	    public NotionDataWrapperSprite(string id) : base(id) { }
+	    public NotionDataWrapperSprite(string id) : base(id) {}
         
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Operator
@@ -84,12 +83,12 @@ namespace CarterGames.Cart.Modules.NotionData
 			    }
 			    else
 			    {
-				    CartLogger.LogWarning<LogCategoryModules>($"Unable to find a reference with the name {id}", GetType());
+				    Debug.LogWarning($"Unable to find a reference with the name {id}");
 			    }
 		    }
 		    else
 		    {
-			    CartLogger.LogWarning<LogCategoryModules>("Unable to assign a reference, the id was empty.", GetType());
+			    Debug.LogWarning("Unable to assign a reference, the id was empty.");
 		    }
 #endif
 	    }

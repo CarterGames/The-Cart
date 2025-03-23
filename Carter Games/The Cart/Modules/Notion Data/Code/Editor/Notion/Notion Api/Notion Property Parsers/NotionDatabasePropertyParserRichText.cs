@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 	public class NotionDatabasePropertyParserRichText : INotionDatabasePropertyParser
 	{
 		public string PropertyIdentifier => "rich_text";
-
+		
 
 		public string GetJsonValue(JSONNode json)
 		{
