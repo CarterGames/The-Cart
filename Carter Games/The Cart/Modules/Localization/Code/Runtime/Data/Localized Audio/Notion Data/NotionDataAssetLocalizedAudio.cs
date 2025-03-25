@@ -24,17 +24,32 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Reflection;
 using CarterGames.Cart.Modules.NotionData;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
-    /// <summary>
-    /// A Notion Data Asset for localized sprite.
-    /// </summary>
-    [CreateAssetMenu(fileName = "Notion Data Asset Localized Audio", menuName = "Carter Games/The Cart/Modules/Localization/Notion/Notion Data Asset Localized Audio")]
-    [Serializable]
-    public sealed class NotionDataAssetLocalizedAudio : NotionDataAsset<LocalizationData<AudioClip>> { }
+	/// <summary>
+	/// A Notion Data Asset for localized sprite.
+	/// </summary>
+	[CreateAssetMenu(fileName = "Notion Data Asset Localized Audio",
+		menuName = "Carter Games/The Cart/Modules/Localization/Notion/Notion Data Asset Localized Audio")]
+	[Serializable]
+	public sealed class NotionDataAssetLocalizedAudio : NotionDataAsset<LocalizationData<AudioClip>>
+	{
+#if UNITY_EDITOR
+		private void Awake()
+		{
+			var processor = ReflectionHelper.GetField(typeof(NotionDataAsset<LocalizationData<AudioClip>>), "processor", false);
+			
+			if (processor.GetValue(this) != null) return;
+			processor.SetValue(this, Core.Management.Editor.ScriptableRef.GetAssetDef<NotionDatabaseProcessorAudioLocalization>().AssetRef);
+			UnityEditor.EditorUtility.SetDirty(this);
+			UnityEditor.AssetDatabase.SaveAssets();
+		}
+#endif
+	}
 }
 
 #endif

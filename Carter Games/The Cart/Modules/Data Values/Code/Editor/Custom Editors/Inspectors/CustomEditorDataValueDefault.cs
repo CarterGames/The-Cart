@@ -108,12 +108,19 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
 					EditorGUILayout.HelpBox("Value will not reset when the reset state is not assigned", MessageType.Info);
 					EditorGUILayout.Space(2.5f);
 				}
-				
-				EditorGUILayout.BeginHorizontal();
-				GUILayout.Space(12.5f);
-				EditorGUILayout.PropertyField(serializedObject.Fp("defaultValue"));
-				GUILayout.Space(2.5f);
-				EditorGUILayout.EndHorizontal();
+
+				if (serializedObject.Fp("defaultValue").hasVisibleChildren)
+				{
+					EditorGUILayout.BeginHorizontal();
+					GUILayout.Space(12.5f);
+					EditorGUILayout.PropertyField(serializedObject.Fp("defaultValue"));
+					GUILayout.Space(2.5f);
+					EditorGUILayout.EndHorizontal();
+				}
+				else
+				{
+					EditorGUILayout.PropertyField(serializedObject.Fp("defaultValue"));
+				}
 				
 				EditorGUILayout.PropertyField(serializedObject.Fp("resetStates"));
 				

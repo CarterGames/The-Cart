@@ -108,7 +108,11 @@ namespace CarterGames.Cart.Modules.DataValues
             Changed.Raise();
             
             if (!useDataValueEvents) return;
-            onChanged.Raise();
+            
+            if (onChanged != null)
+            {
+                onChanged.Raise();
+            }
         }
 
 
@@ -131,8 +135,16 @@ namespace CarterGames.Cart.Modules.DataValues
             Changed.Raise();
 
             if (!useDataValueEvents) return;
-            onChanged.Raise();
-            onReset.Raise();
+            
+            if (onChanged != null)
+            {
+                onChanged.Raise();
+            }
+            
+            if (onReset != null)
+            {
+                onReset.Raise();
+            }
         }
 
 

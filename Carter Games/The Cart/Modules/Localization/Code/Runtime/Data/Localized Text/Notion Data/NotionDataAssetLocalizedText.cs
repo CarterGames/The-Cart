@@ -24,6 +24,7 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Reflection;
 using CarterGames.Cart.Modules.NotionData;
 using UnityEngine;
 
@@ -32,9 +33,23 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// A Notion Data Asset for localized text.
 	/// </summary>
-	[CreateAssetMenu(fileName = "Notion Data Asset Localized Text", menuName = "Carter Games/The Cart/Modules/Localization/Notion/Notion Data Asset Localized Text")]
+	[CreateAssetMenu(fileName = "Notion Data Asset Localized Text",
+		menuName = "Carter Games/The Cart/Modules/Localization/Notion/Notion Data Asset Localized Text")]
 	[Serializable]
-	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData<string>> { }
+	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData<string>>
+	{
+#if UNITY_EDITOR
+		private void Awake()
+		{
+			var processor = ReflectionHelper.GetField(typeof(NotionDataAsset<LocalizationData<string>>), "processor", false);
+			
+			if (processor.GetValue(this) != null) return;
+			processor.SetValue(this, Core.Management.Editor.ScriptableRef.GetAssetDef<NotionDatabaseProcessorTextLocalization>().AssetRef);
+			UnityEditor.EditorUtility.SetDirty(this);
+			UnityEditor.AssetDatabase.SaveAssets();
+		}
+#endif
+	}
 }
 
 #endif
