@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Reflection;
 using CarterGames.Cart.Modules.NotionData.Filters;
 using UnityEngine;
 
@@ -72,7 +73,17 @@ namespace CarterGames.Cart.Modules.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
+#if UNITY_EDITOR
+        private void Awake()
+        {
+            if (processor != null) return;
+            processor = Core.Management.Editor.ScriptableRef.GetAssetDef<NotionDatabaseProcessorStandard>().AssetRef;
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.AssetDatabase.SaveAssets();
+        }
+#endif
+
         /// <summary>
         /// Applies the data found to the asset.
         /// </summary>

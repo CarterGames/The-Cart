@@ -26,6 +26,7 @@
 using System.Linq;
 using System.Reflection;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Data.Editor;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Modules.NotionData.Filters;
 using UnityEditor;
@@ -34,16 +35,22 @@ using UnityEngine;
 namespace CarterGames.Cart.Modules.NotionData.Editor
 {
     [CustomEditor(typeof(NotionDataAsset<>), true)]
-    public sealed class NotionDataAssetEditor : UnityEditor.Editor
+    public sealed class NotionDataAssetEditor : InspectorDataAsset
     {
+        protected override string[] HideProperties => new string[]
+        {
+            "m_Script", "variantId", "excludeFromAssetIndex", "lookup", "sortProperties", "filters", "m_Script", "processor"
+        };
+        
+        
         private void OnEnable()
         {
             NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
             NotionApiRequestHandler.RequestError.Remove(OnErrorReceived);
         }
 
-
-        public override void OnInspectorGUI()
+        
+        protected override void DrawInspectorGUI()
         {
             EditorGUILayout.Space(5f);
             
@@ -52,11 +59,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             EditorGUILayout.Space(1.5f);
             GeneralUtilEditor.DrawHorizontalGUILine();
 
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.PropertyField(serializedObject.Fp("m_Script"));
-            EditorGUI.EndDisabledGroup();
-
-            DrawPropertiesExcluding(serializedObject, "sortProperties", "filters", "m_Script", "processor");
+            base.DrawInspectorGUI();
             
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
@@ -108,7 +111,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             {
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
-                    EditorUtility.DisplayDialog("Standalone Notion Data", "You cannot download data while offline.",
+                    EditorUtility.DisplayDialog("Notion Data Download", "You cannot download data while offline.",
                         "Continue");
                     return;
                 }
