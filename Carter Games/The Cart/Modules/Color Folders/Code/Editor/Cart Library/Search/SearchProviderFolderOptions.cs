@@ -45,6 +45,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 		protected override string ProviderTitle => "Folder Style Options";
+		public override bool HasOptions => ColourFolderManager.folderIconsAsset.FolderGraphics.Count > 0;
 
 
 		public override List<SearchGroup<DataFolderIconSet>> GetEntriesToDisplay()

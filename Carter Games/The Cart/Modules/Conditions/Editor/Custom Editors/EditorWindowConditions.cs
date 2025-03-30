@@ -42,7 +42,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 		
 		
 		
-		[MenuItem("Tools/Carter Games/The Cart/Modules/Conditions/Editor", priority = 1200)]
+		[MenuItem("Tools/Carter Games/The Cart/[Conditions] Editor Window", priority = 1200)]
 		private static void OpenThis()
 		{
 			ConditionsIndexHandler.UpdateIndex();

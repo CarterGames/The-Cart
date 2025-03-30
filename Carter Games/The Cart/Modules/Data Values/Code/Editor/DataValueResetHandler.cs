@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         |   Menu Items
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Reset All To Default Values", priority = 1301)]
+        [MenuItem("Tools/Carter Games/The Cart/[Data Values] Reset All To Default Values", priority = 1301)]
         public static void ResetValuesInEditor()
         {
             ResetAllValues();

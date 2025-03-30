@@ -148,7 +148,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
 
 
 		
-		[MenuItem("Tools/Carter Games/The Cart/Modules/Conditions/Clear Cache", priority = 1205)]
+		[MenuItem("Tools/Carter Games/The Cart/[Conditions] Clear Cache", priority = 1205)]
 		public static void ClearCache()
 		{
 			conditionsSoLookup?.Clear();

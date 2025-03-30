@@ -131,7 +131,7 @@ namespace CarterGames.Cart.Core.Editor
 		/// <summary>
 		/// The menu item for the window to open from.
 		/// </summary>
-		[MenuItem("Tools/Carter Games/The Cart/Core/Setup Folder Structure", priority = 131)]
+		[MenuItem("Tools/Carter Games/The Cart/Setup Folder Structure", priority = 20)]
 		private static void OpenDisplay()
 		{
 			Open<UtilityWindowProjectSetup>("Project Setup");

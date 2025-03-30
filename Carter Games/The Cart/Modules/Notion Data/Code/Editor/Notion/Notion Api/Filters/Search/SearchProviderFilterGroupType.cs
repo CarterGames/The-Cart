@@ -33,8 +33,9 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		private static SearchProviderFilterGroupType Instance;
 		private static int NestLevel;
 		protected override string ProviderTitle => "Select Filter Type";
-		
-		
+		public override bool HasOptions => true;
+
+
 		public override List<SearchGroup<int>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<int>>();

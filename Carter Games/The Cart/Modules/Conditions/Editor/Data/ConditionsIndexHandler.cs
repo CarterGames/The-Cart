@@ -89,7 +89,7 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
         /// <summary>
         /// Updates the index with all the data asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Conditions/Update Index", priority = 1201)]
+        [MenuItem("Tools/Carter Games/The Cart/[Conditions] Update Condition Index", priority = 1201)]
         public static void UpdateIndex()
         {
             var foundAssets = new List<Condition>();

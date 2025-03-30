@@ -72,7 +72,7 @@ namespace CarterGames.Cart.Modules.Window
         |   Menu Items
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Module Manager", priority = 1000)]
+        [MenuItem("Tools/Carter Games/The Cart/Module Manager", priority = 1000)]
         private static void ShowWindow()
         {
             var window = GetWindow<ModulesWindow>();

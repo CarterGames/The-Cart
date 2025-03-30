@@ -89,7 +89,7 @@ namespace CarterGames.Cart.Core.Data.Editor
         /// <summary>
         /// Updates the index with all the asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Core/Data/Update Asset Index", priority = 122)]
+        [MenuItem("Tools/Carter Games/The Cart/[Data] Update Data Asset Index", priority = 122)]
         public static void UpdateIndex()
         {
             var foundAssets = new List<DataAsset>();

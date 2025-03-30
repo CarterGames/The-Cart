@@ -39,6 +39,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 		private static SearchProviderAccounts Instance;
 
 		protected override string ProviderTitle => "Select Account";
+		
+		public override bool HasOptions => CartSaveHandler.Get<string>("CartSave_Modules_Currency_Accounts")?.Length > 0;
 
 
 		private List<string> GetAccountIds()

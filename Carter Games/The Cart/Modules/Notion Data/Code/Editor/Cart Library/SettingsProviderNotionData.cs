@@ -105,7 +105,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
                 EditorGUI.BeginChangeCheck();
                 
                 EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.TextField("Standalone Parity", "0.5.3");
+                EditorGUILayout.TextField("Standalone Parity", "0.5.4");
                 EditorGUI.EndDisabledGroup();
                 
                 GeneralUtilEditor.DrawHorizontalGUILine();
