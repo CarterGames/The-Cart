@@ -10,8 +10,9 @@ namespace CarterGames.Cart.Core.Editor
 		private static SearchProviderRandom Instance;
 
 		protected override string ProviderTitle => "Select Random Provider";
-		
-		
+		public override bool HasOptions => AssemblyHelper.GetClassesOfType<IRngProvider>(false)?.Count() > 0;
+
+
 		public override List<SearchGroup<IRngProvider>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<IRngProvider>>();

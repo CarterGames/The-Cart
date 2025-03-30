@@ -10,6 +10,7 @@ namespace CarterGames.Cart.Core.Editor
 		private static SearchProviderSaveMethod Instance;
 
 		protected override string ProviderTitle => "Select Save Method";
+		public override bool HasOptions => AssemblyHelper.GetClassesOfType<ISaveMethod>(false)?.Count() > 0;
 		
 		
 		public override List<SearchGroup<ISaveMethod>> GetEntriesToDisplay()

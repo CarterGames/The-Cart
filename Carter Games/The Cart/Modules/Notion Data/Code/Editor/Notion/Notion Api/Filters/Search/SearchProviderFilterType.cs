@@ -36,6 +36,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
 		private static SearchProviderFilterType Instance;
 		
 		protected override string ProviderTitle => "Select Notion Filter Type";
+		public override bool HasOptions => true;
 		
 		
 		public override List<SearchGroup<NotionFilterOption>> GetEntriesToDisplay()

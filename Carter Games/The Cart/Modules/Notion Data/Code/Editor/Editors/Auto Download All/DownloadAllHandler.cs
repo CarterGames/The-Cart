@@ -55,7 +55,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
         |   Menu Item
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update Data", priority = 21)]
+        [MenuItem("Tools/Carter Games/The Cart/[Notion Data] Download Data Window", priority = 1401)]
         private static void DownloadAll()
         {
             haltOnDownload = true;
@@ -110,7 +110,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             {
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
-                    EditorUtility.DisplayDialog("Standalone Notion Data", "You cannot download data while offline.",
+                    EditorUtility.DisplayDialog("Notion Data", "You cannot download data while offline.",
                         "Continue");
                     return;
                 }
@@ -161,7 +161,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             NotionApiRequestHandler.RequestError.Remove(OnAssetDownloadComplete);
             NotionApiRequestHandler.RequestError.Add(OnAssetDownloadComplete);
             
-            EditorUtility.DisplayProgressBar("Standalone Notion Data", $"Downloading {asset.name}", (float) TotalProcessed / TotalToProcessed);
+            EditorUtility.DisplayProgressBar("Notion Data", $"Downloading {asset.name}", (float) TotalProcessed / TotalToProcessed);
             
             NotionApiRequestHandler.ResetRequestData();
             
@@ -191,7 +191,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             }
             
             EditorUtility.ClearProgressBar();
-            EditorUtility.DisplayDialog("Standalone Notion Data", $"Download failed due to an error:\n{error.Asset.name}\n{error.Error}\n{error.Message}", "Continue");
+            EditorUtility.DisplayDialog("Notion Data", $"Download failed due to an error:\n{error.Asset.name}\n{error.Error}\n{error.Message}", "Continue");
         }
 
 
@@ -201,7 +201,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             
             if (hasErrorOnDownload)
             {
-                if (EditorUtility.DisplayDialog("Standalone Notion Data",
+                if (EditorUtility.DisplayDialog("Notion Data",
                         "Download completed with errors.\nSee console for errors.", "Continue"))
                 {
                     foreach (var error in silencedErrors)
@@ -212,7 +212,7 @@ namespace CarterGames.Cart.Modules.NotionData.Editor
             }
             else
             {
-                EditorUtility.DisplayDialog("Standalone Notion Data", "Download completed.", "Continue");
+                EditorUtility.DisplayDialog("Notion Data", "Download completed.", "Continue");
             }
         }
     }

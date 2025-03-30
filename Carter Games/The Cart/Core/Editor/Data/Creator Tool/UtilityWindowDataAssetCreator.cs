@@ -48,7 +48,7 @@ namespace CarterGames.Cart.Core.Data.Editor
         /// <summary>
         /// Makes a menu item for the creator to open.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Core/Data/Asset Creator", priority = 121)]
+        [MenuItem("Tools/Carter Games/The Cart/[Data] Data Asset Creator", priority = 121)]
         private static void ShowWindow()
         {
             Open<UtilityWindowDataAssetCreator>("Data Asset Creator");

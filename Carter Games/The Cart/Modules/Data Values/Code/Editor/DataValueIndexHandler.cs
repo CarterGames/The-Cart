@@ -92,7 +92,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
         /// <summary>
         /// Updates the index with all the data asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Update Index", priority = 1302)]
+        [MenuItem("Tools/Carter Games/The Cart/[Data Values] Update Data Value Index", priority = 1302)]
         public static void UpdateIndex()
         {
             var foundAssets = new List<DataValueAsset>();

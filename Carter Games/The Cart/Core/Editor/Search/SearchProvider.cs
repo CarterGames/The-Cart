@@ -50,6 +50,12 @@ namespace CarterGames.Cart.Core.Editor
         /// A list of entries to exclude from the search.
         /// </summary>
         protected List<T> ToExclude { get; set; } = new List<T>();
+        
+        
+        /// <summary>
+        /// Gets if the proivder has options to show.
+        /// </summary>
+        public abstract bool HasOptions { get; }
 
 
         /// <summary>

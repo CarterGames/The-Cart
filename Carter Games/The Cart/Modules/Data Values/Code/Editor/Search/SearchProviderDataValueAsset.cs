@@ -24,6 +24,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core.Editor;
 
 namespace CarterGames.Cart.Modules.DataValues.Editor.Search
@@ -33,6 +34,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Search
 		private static SearchProviderDataValueAsset Instance;
 
 		protected override string ProviderTitle => "Select Data Value";
+		public override bool HasOptions => AssetDatabaseHelper.GetAllInstancesInProject<DataValueAsset>().Any();
 
 
 		public override List<SearchGroup<DataValueAsset>> GetEntriesToDisplay()
@@ -40,7 +42,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Search
 			var list = new List<SearchGroup<DataValueAsset>>();
 			var items = new List<SearchItem<DataValueAsset>>();
 			
-			foreach (var asset in DataValueAccess.AllValues)
+			foreach (var asset in AssetDatabaseHelper.GetAllInstancesInProject<DataValueAsset>())
 			{
 				if (ToExclude.Contains(asset)) continue;
 				items.Add(SearchItem<DataValueAsset>.Set(asset.Key, asset));

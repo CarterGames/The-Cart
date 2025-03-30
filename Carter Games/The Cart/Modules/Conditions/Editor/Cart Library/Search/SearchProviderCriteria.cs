@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management;
@@ -36,8 +37,9 @@ namespace CarterGames.Cart.Modules.Conditions
 		private static SearchProviderCriteria Instance;
 
 		protected override string ProviderTitle => "Select Criteria";
-		
-		
+		public override bool HasOptions => AssemblyHelper.GetClassesNamesOfType<Criteria>(false).Any();
+
+
 		public override List<SearchGroup<Type>> GetEntriesToDisplay()
 		{
 			var group = new List<SearchGroup<Type>>();

@@ -35,6 +35,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 		private static SearchProviderLanguages Instance;
 
 		protected override string ProviderTitle => "Select Language";
+		public override bool HasOptions => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.Count > 0;
 
 
 		public override List<SearchGroup<Language>> GetEntriesToDisplay()

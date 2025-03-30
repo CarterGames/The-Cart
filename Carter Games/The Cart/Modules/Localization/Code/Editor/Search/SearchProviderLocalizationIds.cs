@@ -35,8 +35,26 @@ namespace CarterGames.Cart.Modules.Localization.Editor
         private static SearchProviderLocalizationIds Instance;
         
         protected override string ProviderTitle => "Select Localization Id";
-        
-        
+
+        public override bool HasOptions
+        {
+            get
+            {
+                if (DataAccess.GetAssets<DataAssetLocalizedText>()?.Count > 0) return true;
+                if (DataAccess.GetAssets<DataAssetLocalizedSprite>()?.Count > 0) return true;
+                if (DataAccess.GetAssets<DataAssetLocalizedAudio>()?.Count > 0) return true;
+                
+#if CARTERGAMES_CART_MODULE_NOTIONDATA
+                if (DataAccess.GetAssets<NotionDataAssetLocalizedText>()?.Count > 0) return true;
+                if (DataAccess.GetAssets<NotionDataAssetLocalizedSprite>()?.Count > 0) return true;
+                if (DataAccess.GetAssets<NotionDataAssetLocalizedAudio>()?.Count > 0) return true;
+#endif
+
+                return false;
+            }
+        }
+
+
         public override List<SearchGroup<string>> GetEntriesToDisplay()
         {
             var list = new List<SearchGroup<string>>();

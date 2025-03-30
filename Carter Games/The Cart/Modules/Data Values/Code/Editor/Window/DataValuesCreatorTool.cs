@@ -112,7 +112,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor.Window
 		/// <summary>
 		/// Makes a menu item for the creator to open.
 		/// </summary>
-		[MenuItem("Tools/Carter Games/The Cart/Modules/Data Values/Data Value Asset Creator", priority = 1300)]
+		[MenuItem("Tools/Carter Games/The Cart/[Data Values] Data Value Asset Creator", priority = 1300)]
 		private static void ShowWindow()
 		{
 			var window = GetWindow<DataValuesCreatorTool>(true);

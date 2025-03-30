@@ -117,19 +117,31 @@ namespace CarterGames.Cart.Core.Editor
             position.x += EditorGUIUtility.labelWidth;
                 
             // Draw select button only...
-            GUI.backgroundColor = Color.green;
-            if (GUI.Button(position, InitialSelectButtonLabel))
+
+            if (Provider.HasOptions)
             {
-                Provider.SelectionMade.Clear();
-                Provider.SelectionMade.Add((ste) =>
+                GUI.backgroundColor = Color.green;
+                if (GUI.Button(position, InitialSelectButtonLabel))
                 {
                     Provider.SelectionMade.Clear();
-                    OnSelectionMade(property, (TSearchType) ste.userData);
-                });
+                    Provider.SelectionMade.Add((ste) =>
+                    {
+                        Provider.SelectionMade.Clear();
+                        OnSelectionMade(property, (TSearchType) ste.userData);
+                    });
                 
-                Provider.Open(GetCurrentValue(property));
+                    Provider.Open(GetCurrentValue(property));
+                }
+                GUI.backgroundColor = Color.white;
             }
-            GUI.backgroundColor = Color.white;
+            else
+            {
+                GUI.backgroundColor = Color.gray;
+                EditorGUI.BeginDisabledGroup(true);
+                if (GUI.Button(position, "No options available")) { }
+                EditorGUI.EndDisabledGroup();
+                GUI.backgroundColor = Color.white;
+            }
         }
 
 
