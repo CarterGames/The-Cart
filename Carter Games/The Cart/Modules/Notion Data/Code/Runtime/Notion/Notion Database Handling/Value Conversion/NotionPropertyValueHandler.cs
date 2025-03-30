@@ -366,59 +366,60 @@ namespace CarterGames.Cart.Modules.NotionData
                     ? fieldType.GenericTypeArguments[0]
                     : fieldType;
 
+
                 switch (typeName.Name)
                 {
-                    case { } x when x.Equals("Int"):
+                    case { } x when x.Contains("Int"):
 
                         var parsedIntList = new List<int>();
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedIntList[i] = int.Parse(data[i].Value);
+                            parsedIntList.Add(int.Parse(data[i].Value));
                         }
 
                         result = parsedIntList;
                         break;
-                    case { } x when x.Equals("Boolean"):
+                    case { } x when x.Contains("Boolean"):
 
                         var parsedBoolList = new List<bool>();
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedBoolList[i] = bool.Parse(data[i].Value);
+                            parsedBoolList.Add(bool.Parse(data[i].Value));
                         }
 
                         result = parsedBoolList;
                         break;
-                    case { } x when x.Equals("Single"):
+                    case { } x when x.Contains("Single"):
 
                         var parsedFloatList = new List<float>();
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedFloatList[i] = float.Parse(data[i].Value);
+                            parsedFloatList.Add(float.Parse(data[i].Value));
                         }
 
                         result = parsedFloatList;
                         break;
-                    case { } x when x.Equals("Double"):
+                    case { } x when x.Contains("Double"):
 
                         var parsedDoubleList = new List<double>();
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedDoubleList[i] = double.Parse(data[i].Value);
+                            parsedDoubleList.Add(double.Parse(data[i].Value));
                         }
 
                         result = parsedDoubleList;
                         break;
-                    case { } x when x.Equals("String"):
+                    case { } x when x.Contains("String"):
 
                         var parsedStringList = new List<string>();
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedStringList[i] = data[i].Value;
+                            parsedStringList.Add(data[i].Value);
                         }
 
                         result = parsedStringList;
