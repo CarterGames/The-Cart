@@ -284,7 +284,7 @@ namespace CarterGames.Cart.Modules.NotionData
                 {
                     switch (fieldType.GetElementType()?.Name)
                     {
-                        case { } x when x.Equals("Int"):
+                        case { } x when x.Contains("Int"):
 
                             var parsedIntArray = new int[data.Count];
 
@@ -295,7 +295,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                             result = parsedIntArray;
                             break;
-                        case { } x when x.Equals("Boolean"):
+                        case { } x when x.Contains("Boolean"):
 
                             var parsedBoolArray = new bool[data.Count];
 
@@ -306,7 +306,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                             result = parsedBoolArray;
                             break;
-                        case { } x when x.Equals("Single"):
+                        case { } x when x.Contains("Single"):
 
                             var parsedFloatArray = new float[data.Count];
 
@@ -317,7 +317,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                             result = parsedFloatArray;
                             break;
-                        case { } x when x.Equals("Double"):
+                        case { } x when x.Contains("Double"):
 
                             var parsedDoubleArray = new double[data.Count];
 
@@ -328,7 +328,7 @@ namespace CarterGames.Cart.Modules.NotionData
 
                             result = parsedDoubleArray;
                             break;
-                        case { } x when x.Equals("String"):
+                        case { } x when x.Contains("String"):
 
                             var parsedStringArray = new string[data.Count];
 

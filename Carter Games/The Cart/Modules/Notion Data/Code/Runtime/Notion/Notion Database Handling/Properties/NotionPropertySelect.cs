@@ -64,6 +64,13 @@ namespace CarterGames.Cart.Modules.NotionData
         public NotionPropertySelect(NotionPropertyData data)
         {
             PropertyName = data.propertyName;
+
+            if (string.IsNullOrEmpty(data.downloadText))
+            {
+                DownloadText = data.downloadText;
+                return;
+            }
+            
             InternalValue = data.valueForType.ToString();
             JsonValue = data.jsonValue;
             DownloadText = data.downloadText;
