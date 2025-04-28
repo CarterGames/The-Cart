@@ -43,7 +43,7 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// A description of what the module does.
         /// </summary>
-        public string ModuleDescription => "A system to handle text elements that are for different languages.";
+        public string ModuleDescription => "A system to handle elements that need to change for different languages.";
         
         
         /// <summary>
@@ -61,7 +61,7 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// Any optional modules that the module can use.
         /// </summary>
-        public IModule[] OptionalPreRequisites => new IModule[] { new ModuleNotionData() };
+        public IModule[] OptionalPreRequisites => new IModule[] { new ModuleHierarchy(), new ModuleNotionData() };
         
         
         /// <summary>

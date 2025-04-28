@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.11.5";
+        public static string VersionNumber => "0.12.0";
         
         
         /// <summary>
@@ -40,6 +40,6 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <remarks>
         /// Format is Y/M/D.
         /// </remarks>
-        public static string ReleaseDate => "2025/03/30";
+        public static string ReleaseDate => "2025/??/??";
     }
 }

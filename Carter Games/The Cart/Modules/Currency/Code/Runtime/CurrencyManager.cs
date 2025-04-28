@@ -39,11 +39,11 @@ namespace CarterGames.Cart.Modules.Currency
     /// </summary>
     public static class CurrencyManager
     {
-        private const string AccountsSaveKey = "CartSave_Modules_Currency_Accounts";
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
+        private const string AccountsSaveKey = "CartSave_Modules_Currency_Accounts";
         private static readonly Dictionary<string, CurrencyAccount> Accounts = new Dictionary<string, CurrencyAccount>();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -65,7 +65,7 @@ namespace CarterGames.Cart.Modules.Currency
         /// <summary>
         /// Raises when an accounts balance is altered.
         /// </summary>
-        public static readonly Evt<CurrencyAccount> AccountBalanceChanged = new Evt<CurrencyAccount>();
+        public static readonly Evt<CurrencyAccount, AccountTransaction> AccountBalanceChanged = new Evt<CurrencyAccount, AccountTransaction>();
 
 
         /// <summary>
@@ -220,16 +220,16 @@ namespace CarterGames.Cart.Modules.Currency
         public static void AddAccount(string accountId, double startingBalance = 0d)
         {
             if (Accounts.ContainsKey(accountId)) return;
-            Accounts.Add(accountId, new CurrencyAccount(startingBalance));
+            Accounts.Add(accountId, CurrencyAccount.NewAccount(startingBalance));
 
             Accounts[accountId].Adjusted.Add(OnAccountAdjusted);
             AccountOpened.Raise();
             return;
             
             
-            void OnAccountAdjusted()
+            void OnAccountAdjusted(AccountTransaction transaction)
             {
-                AccountBalanceChanged.Raise(Accounts[accountId]);
+                AccountBalanceChanged.Raise(Accounts[accountId], transaction);
             }
         }
 
@@ -262,7 +262,14 @@ namespace CarterGames.Cart.Modules.Currency
                 {
                     foreach (var account in jsonData)
                     {
-                        Accounts.Add(account.Value["key"], new CurrencyAccount(account.Value["value"].AsDouble.Round()));
+                        if (account.Value.HasKey("starting"))
+                        {
+                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["value"].AsDouble.Round(), account.Value["starting"].AsDouble.Round()));
+                        }
+                        else
+                        {
+                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["value"].AsDouble.Round()));
+                        }
                     }
                 }
             }
@@ -270,7 +277,18 @@ namespace CarterGames.Cart.Modules.Currency
             foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
             {
                 if (Accounts.ContainsKey(defAccount.Key)) continue;
-                Accounts.Add(defAccount.Key, new CurrencyAccount(defAccount.Value.Round()));
+                Accounts.Add(defAccount.Key, CurrencyAccount.NewAccount(defAccount.Value.Round()));
+            }
+
+            foreach (var account in Accounts)
+            {
+                account.Value.Adjusted.Add(OnAccountAdjusted);
+                
+                continue;
+                void OnAccountAdjusted(AccountTransaction transaction)
+                {
+                    AccountBalanceChanged.Raise(account.Value, transaction);
+                }
             }
             
             HasLoadedAccounts = true;
@@ -298,7 +316,8 @@ namespace CarterGames.Cart.Modules.Currency
                     var obj = new JSONObject
                     {
                         ["key"] = account.Key,
-                        ["value"] = account.Value.Balance.Round()
+                        ["value"] = account.Value.Balance.Round(),
+                        ["starting"] = account.Value.StartingBalance.Round(),
                     };
 
                     list.Add(account.Key, obj);

@@ -84,6 +84,8 @@ namespace CarterGames.Cart.Modules.Currency
 
         private void OnEnable()
         {
+            PreReq.DisallowIfNull(button);
+            
             button.onClick.RemoveListener(InternalOnButtonPressed);
             button.onClick.AddListener(InternalOnButtonPressed);
             
@@ -102,6 +104,7 @@ namespace CarterGames.Cart.Modules.Currency
 
         private void OnDestroy()
         {
+            if (button == null) return;
             button.onClick.RemoveListener(InternalOnButtonPressed);
             button.onClick.RemoveListener(OnButtonPressed);
         }

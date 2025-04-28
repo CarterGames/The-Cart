@@ -69,31 +69,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			EditorGUILayout.BeginVertical("HelpBox");
 			EditorGUILayout.Space(1f);
 			
-			if (string.IsNullOrEmpty(serializedObject.Fp("accountId").stringValue))
-			{
-				if (GUILayout.Button("Select Account"))
-				{
-					SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
-					SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
-				}
-			}
-			else
-			{
-				EditorGUILayout.BeginHorizontal();
-				
-				EditorGUI.BeginDisabledGroup(true);
-				EditorGUILayout.PropertyField(serializedObject.Fp("accountId"));
-				EditorGUI.EndDisabledGroup();
-
-				if (GUILayout.Button("Edit", GUILayout.Width(55)))
-				{
-					SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
-					SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
-				}
-				
-				EditorGUILayout.EndHorizontal();
-			}
-			
+			EditorGUILayout.PropertyField(serializedObject.Fp("accountId"));
 			EditorGUILayout.PropertyField(serializedObject.Fp("setAmount"), new GUIContent("Pre-defined Amount"));
 
 			if (serializedObject.Fp("setAmount").boolValue)
@@ -114,9 +90,6 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			
 			EditorGUILayout.PropertyField(serializedObject.Fp("button"));
 			EditorGUILayout.PropertyField(serializedObject.Fp("buttonGraphic"));
-			
-			EditorGUILayout.Space(2.5f);
-			
 			EditorGUILayout.PropertyField(serializedObject.Fp("buttonLabel"));
 			EditorGUILayout.PropertyField(serializedObject.Fp("affordableLabelColor"));
 			EditorGUILayout.PropertyField(serializedObject.Fp("unaffordableLabelColor"));
@@ -130,23 +103,10 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 		{
 			if (serializedObject.TotalProperties().Equals(ToExcludeFromDraw.Length)) return;
 			
-			EditorGUILayout.BeginVertical("HelpBox");
-			EditorGUILayout.Space(1f);
+			GeneralUtilEditor.DrawHorizontalGUILine();
+			EditorGUILayout.Space(2.5f);
 			
 			DrawPropertiesExcluding(serializedObject, ToExcludeFromDraw);
-			
-			EditorGUILayout.Space(1f);
-			EditorGUILayout.EndVertical();
-		}
-
-
-		private void OnSelectionMade(SearchTreeEntry entry)
-		{
-			SearchProviderAccounts.GetProvider().SelectionMade.Remove(OnSelectionMade);
-				
-			serializedObject.Fp("accountId").stringValue = (string) entry.userData;
-			serializedObject.ApplyModifiedProperties();
-			serializedObject.Update();
 		}
 	}
 }

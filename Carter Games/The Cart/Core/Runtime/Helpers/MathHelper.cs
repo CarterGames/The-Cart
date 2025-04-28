@@ -21,6 +21,8 @@
  * THE SOFTWARE.
  */
 
+using UnityEngine;
+
 namespace CarterGames.Cart.Core
 {
     /// <summary>
@@ -61,6 +63,13 @@ namespace CarterGames.Cart.Core
         public static float GetTime(float distance, float speed)
         {
             return distance / speed;
+        }
+        
+        
+        // Interpolates between /a/ and /b/ by /t/. /t/ is clamped between 0 and 1.
+        public static double Lerp(double a, double b, float t)
+        {
+            return a + (b - a) * Mathf.Clamp01(t);
         }
     }
 }

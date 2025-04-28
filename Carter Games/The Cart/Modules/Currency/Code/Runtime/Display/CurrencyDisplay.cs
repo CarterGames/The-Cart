@@ -24,6 +24,7 @@
  */
 
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Management;
 using TMPro;
 using UnityEngine;
 
@@ -39,9 +40,11 @@ namespace CarterGames.Cart.Modules.Currency
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField, SelectAccount] private string accountId;
+        [SerializeField] [SelectAccount] private string accountId;
+        [SerializeField] [SelectMoneyFormatter] private AssemblyClassDef formatter;
+        [SerializeField] private DisplayStyleHandler displayStyle;
         [SerializeField] private TMP_Text label;
-
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -57,6 +60,9 @@ namespace CarterGames.Cart.Modules.Currency
         /// </summary>
         private double LastBalanceShown { get; set; }
 
+
+        private IMoneyFormatter Formatter => formatter.GetDefinedType<IMoneyFormatter>();
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -64,13 +70,16 @@ namespace CarterGames.Cart.Modules.Currency
         private void OnEnable()
         {
             CurrencyManager.AccountBalanceChanged.Add(UpdateDisplay);
-            UpdateDisplay(CurrencyManager.GetAccount(accountId));
+            displayStyle.DisplayedValue.Add(UpdateDisplayManually);
+            
+            UpdateDisplayManually(CurrencyManager.GetAccount(accountId).Balance);
         }
 
 
         private void OnDestroy()
         {
             CurrencyManager.AccountBalanceChanged.Remove(UpdateDisplay);
+            displayStyle.DisplayedValue.Remove(UpdateDisplayManually);
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -81,9 +90,9 @@ namespace CarterGames.Cart.Modules.Currency
         /// Updates the display when called.
         /// </summary>
         /// <param name="account">The account to read.</param>
-        private void UpdateDisplay(CurrencyAccount account)
+        private void UpdateDisplay(CurrencyAccount account, AccountTransaction transaction)
         {
-            label.SetText(account.Balance.Format<MoneyFormatterGeneric>());
+            displayStyle.ProcessDisplayEffect(this, transaction);
         }
 
 
@@ -93,7 +102,7 @@ namespace CarterGames.Cart.Modules.Currency
         /// <param name="valueToDisplay">The value to display.</param>
         public void UpdateDisplayManually(double valueToDisplay)
         {
-            label.SetText(valueToDisplay.Format<MoneyFormatterGeneric>());
+            label.SetText(Formatter.Format(valueToDisplay));
         }
 
 
@@ -103,7 +112,7 @@ namespace CarterGames.Cart.Modules.Currency
         public void ForceUpdateDisplay()
         {
             if (CurrencyManager.AccountExists(accountId)) return;
-            label.SetText(CurrencyManager.GetAccount(accountId).Balance.Format<MoneyFormatterGeneric>());
+            label.SetText(Formatter.Format(CurrencyManager.GetAccount(accountId).Balance));
         }
     }
 }

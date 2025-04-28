@@ -61,5 +61,23 @@ namespace CarterGames.Cart.Core.Data
         /// Gets if the asset is ignored from being added to the asset index system.
         /// </summary>
         public bool ExcludeFromAssetIndex => excludeFromAssetIndex;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Initializes the asset when called.
+        /// </summary>
+        public void Initialize()
+        {
+            OnInitialize();
+        }
+        
+        
+        /// <summary>
+        /// Override to implement logic when the asset is initialized.
+        /// </summary>
+        protected virtual void OnInitialize() {}
     }
 }

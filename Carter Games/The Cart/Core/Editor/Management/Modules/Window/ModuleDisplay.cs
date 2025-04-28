@@ -127,13 +127,14 @@ namespace CarterGames.Cart.Modules.Window
                 }
             }
             
+            // Optional requirements..
             if (module.OptionalPreRequisites.Length > 0)
             {
                 GeneralUtilEditor.DrawHorizontalGUILine();
                 
                 EditorGUILayout.LabelField("Optional Modules", EditorStyles.boldLabel);
 
-                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginVertical();
                 
                 foreach (var preRequisite in module.OptionalPreRequisites)
                 {
@@ -144,8 +145,7 @@ namespace CarterGames.Cart.Modules.Window
                     EditorGUILayout.EndHorizontal();
                 }
                 
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndVertical();
             }
             
 

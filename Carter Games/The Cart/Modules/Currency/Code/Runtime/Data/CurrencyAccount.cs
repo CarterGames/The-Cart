@@ -40,6 +40,7 @@ namespace CarterGames.Cart.Modules.Currency
 
         private readonly object padlock = new object();
         private double balance;
+        private double startingBalance;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -64,7 +65,9 @@ namespace CarterGames.Cart.Modules.Currency
         /// The balance of the account formatted with the generic formatter.
         /// </summary>
         public string BalanceFormatted => Balance.Format<MoneyFormatterGeneric>();
-        
+
+        public double StartingBalance => startingBalance;
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -72,13 +75,14 @@ namespace CarterGames.Cart.Modules.Currency
         /// <summary>
         /// Raises when the account is adjusted in any way.
         /// </summary>
-        public readonly Evt Adjusted = new Evt();
+        public readonly Evt<AccountTransaction> Adjusted = new Evt<AccountTransaction>();
 
 
         /// <summary>
         /// Raises when the account is credited to.
         /// </summary>
         public readonly Evt Credited = new Evt();
+        
         
         /// <summary>
         /// Raises when the account is debited to.
@@ -89,14 +93,35 @@ namespace CarterGames.Cart.Modules.Currency
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        private CurrencyAccount() { }
+        
+        
         /// <summary>
         /// Makes a new account with the initial balance entered.
         /// </summary>
         /// <param name="initialBalance">The balance to start on.</param>
-        public CurrencyAccount(double initialBalance = 0)
+        public static CurrencyAccount NewAccount(double initialBalance = 0)
         {
-            balance = initialBalance;
-            balance.Round();
+            return new CurrencyAccount()
+            {
+                startingBalance = initialBalance.Round(),
+                balance = initialBalance.Round()
+            };
+        }
+        
+        
+        /// <summary>
+        /// Makes a new account with the initial balance entered.
+        /// </summary>
+        /// <param name="currentBalance">The current balance of the account.</param>
+        /// <param name="initialBalance">The balance to start on.</param>
+        public static CurrencyAccount AccountWithBalance(double currentBalance, double initialBalance = 0)
+        {
+            return new CurrencyAccount()
+            {
+                startingBalance = initialBalance.Round(),
+                balance = currentBalance.Round()
+            };
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -119,11 +144,13 @@ namespace CarterGames.Cart.Modules.Currency
             {
                 if (balance < amount.Round()) return;
 
+                var starting = balance;
+                
                 balance -= amount.Round();
                 balance.Round();
                 
                 Debited.Raise();
-                Adjusted.Raise();
+                Adjusted.Raise(AccountTransaction.Debited(starting, starting + amount));
             }
         }
 
@@ -142,14 +169,30 @@ namespace CarterGames.Cart.Modules.Currency
 
             lock (padlock)
             {
+                var starting = balance;
+                
                 balance += amount.Round();
                 balance.Round();
                 
                 Credited.Raise();
-                Adjusted.Raise();
+                Adjusted.Raise(AccountTransaction.Credited(starting, starting + amount));
             }
         }
 
+
+        /// <summary>
+        /// Clears the account to its default balance or a specified value.
+        /// </summary>
+        public void Clear(bool clearToInitial = true)
+        {
+            lock (padlock)
+            {
+                var starting = balance;
+                balance = 0d;
+                Adjusted.Raise(AccountTransaction.Reset(starting, clearToInitial ? startingBalance : 0d));
+            }
+        }
+        
 
         /// <summary>
         /// Processes the change either way.

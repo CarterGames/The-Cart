@@ -41,7 +41,6 @@ namespace CarterGames.Cart.Core.Editor
         protected abstract TProviderType Provider { get; }
         protected abstract string InitialSelectButtonLabel { get; }
         protected virtual bool DisableInputWhenSelected { get; } = true;
-        protected virtual List<TSearchType> ExtraIgnoreValues { get; }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Abstract Methods

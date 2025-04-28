@@ -33,12 +33,20 @@ namespace CarterGames.Cart.Core.Logs.Editor
     {
         public static void DrawLogCategories()
         {
-            if (ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").arraySize <= 0) return;
-            
-            for (var i = 0; i < ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").arraySize; i++)
+            if (LogCategoryStates.CategoryStates.IsEmptyOrNull())
             {
-                DrawLogCategory(ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").GetIndex(i));
+                Debug.Log("NONE");
+                return;
             }
+
+            EditorGUILayout.BeginVertical();
+            
+            foreach (var entry in LogCategoryStates.CategoryStates)
+            {
+                DrawLogCategory(entry.Key, entry.Value);
+            }
+            
+            EditorGUILayout.EndVertical();
         }
 
 
@@ -54,17 +62,16 @@ namespace CarterGames.Cart.Core.Logs.Editor
         }
         
         
-        private static void DrawLogCategory(SerializedProperty category)
+        private static void DrawLogCategory(string typeName, bool enabled)
         {
-            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
-            
             EditorGUI.BeginChangeCheck();
             
-            category.Fpr("value").boolValue = EditorGUILayout.Toggle(new GUIContent(TrimCategoryNameToLabel(category.Fpr("key").stringValue), GetTooltip(category.Fpr("key").stringValue)), category.Fpr("value").boolValue);
+            enabled = EditorGUILayout.Toggle(new GUIContent(TrimCategoryNameToLabel(typeName), GetTooltip(typeName)), enabled);
 
             if (!EditorGUI.EndChangeCheck()) return;
-            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
-            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
+            var data = LogCategoryStates.CategoryStates;
+            data[typeName] = enabled;
+            LogCategoryStates.CategoryStates = SerializableDictionary<string, bool>.FromDictionary(data);
         }
     }
 }

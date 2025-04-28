@@ -44,7 +44,7 @@ namespace CarterGames.Cart.Core.Editor
         /// <returns>The resulting size.</returns>
         public static float GUIWidth(this string text)
         {
-            return GUI.skin.label.CalcSize(new GUIContent(text)).x + 3f;
+            return GUI.skin.label.CalcSize(new GUIContent(text)).x + 10f;
         }
         
         

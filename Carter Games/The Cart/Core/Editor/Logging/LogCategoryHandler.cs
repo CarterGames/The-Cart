@@ -23,10 +23,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules;
+using UnityEditor;
 
 namespace CarterGames.Cart.Core.Logs.Editor
 {
@@ -35,27 +34,6 @@ namespace CarterGames.Cart.Core.Logs.Editor
     /// </summary>
     public sealed class LogCategoryHandler : IAssetEditorReload
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// The default categories for the setup.
-        /// </summary>
-        private static readonly List<string> DefaultEnabled = new List<string>()
-        {
-            typeof(LogCategoryCore).FullName,
-            typeof(LogCategoryModules).FullName,
-            "CarterGames.Cart.Modules.NotionData.LogCategoryNotionData",
-            "CarterGames.Cart.Modules.Panels.LogCategoryPanels",
-        };
-
-
-        /// <summary>
-        /// The last data that was set, used as a cache before a reload.
-        /// </summary>
-        private static Dictionary<string, bool> oldData = new Dictionary<string, bool>();
-        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IAssetEditorReload Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -76,65 +54,34 @@ namespace CarterGames.Cart.Core.Logs.Editor
         /// Gets all the categories in the project currently.
         /// </summary>
         /// <returns>The found categories.</returns>
-        private static IEnumerable<CartLogCategory> GetCategories()
+        private static IEnumerable<LogCategory> GetCategories()
         {
-            return AssemblyHelper.GetClassesOfType<CartLogCategory>(false).OrderBy(t => t.GetType().Name);
+            return AssemblyHelper.GetClassesOfType<LogCategory>(false).OrderBy(t => t.GetType().FullName);
         }
 
 
         /// <summary>
         /// Updates the cache of categories and their settings.
         /// </summary>
-        private void UpdateCache()
+        public static void UpdateCache()
         {
             var data = GetCategories();
+            var states = SerializableDictionary<string, bool>.FromDictionary(LogCategoryStates.CategoryStates);
 
-            oldData = new Dictionary<string, bool>();
-
-            for (var i = 0; i < ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").arraySize; i++)
+            foreach (var entry in data)
             {
-                oldData.Add(
-                    ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").GetIndex(i).Fpr("key").stringValue,
-                    ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list").GetIndex(i).Fpr("value").boolValue);
-            }
-            
-            var lookup = ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Fp("lookup").Fpr("list");
-            
-            lookup.ClearArray();
-
-            foreach (var category in data)
-            {
-                lookup.InsertIndex(lookup.arraySize);
-
-                var newEntry = lookup.GetIndex(lookup.arraySize - 1);
-
-                newEntry.Fpr("key").stringValue = category.GetType().FullName;
-
-                var wasSet = false;
-                var toSetAs = false;
-
-                foreach (var oldDataEntry in oldData)
-                {
-                    if (oldDataEntry.Key != category.GetType().FullName) continue;
-                    toSetAs = oldDataEntry.Value;
-                    wasSet = true;
-                    break;
-                }
-                
-                if (!wasSet)
-                {
-                    if (DefaultEnabled.Contains(category.GetType().FullName))
-                    {
-                        toSetAs = true;
-                    }
-                }
-
-
-                newEntry.Fpr("value").boolValue = toSetAs;
+                if (states.ContainsKey(entry.GetType().FullName)) continue;
+                states.Add(entry.GetType().FullName, false);
             }
 
-            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.ApplyModifiedProperties();
-            ScriptableRef.GetAssetDef<DataAssetCartLogCategories>().ObjectRef.Update();
+            LogCategoryStates.CategoryStates = states;
+        }
+
+
+        [MenuItem("Tools/Carter Games/The Cart/[Logging] Reset Categories")]
+        private static void ResetCategories()
+        {
+            LogCategoryStates.CategoryStates = new SerializableDictionary<string, bool>();
         }
     }
 }

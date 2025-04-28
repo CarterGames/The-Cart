@@ -22,10 +22,12 @@
  */
 
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Logs.Editor.Windows;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.Logs.Editor
 {
@@ -89,14 +91,15 @@ namespace CarterGames.Cart.Core.Logs.Editor
 
             EditorGUILayout.EndVertical();
         }
-        
+
 
         public void OnProjectSettingsGUI()
         {
             EditorGUI.BeginChangeCheck();
-            
-            IsExpanded = EditorGUILayout.Foldout(IsExpanded, AssetMeta.GetData("CartLogs").Content(AssetMeta.SectionTitle));
-            
+
+            IsExpanded =
+                EditorGUILayout.Foldout(IsExpanded, AssetMeta.GetData("CartLogs").Content(AssetMeta.SectionTitle));
+
             if (!IsExpanded) return;
 
 
@@ -104,37 +107,22 @@ namespace CarterGames.Cart.Core.Logs.Editor
             EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
             
-            IsSettingsExpanded = EditorGUILayout.Foldout(IsSettingsExpanded, AssetMeta.GetData("CartLogs").Content("sectionSettingsTitle"));
 
-            if (IsSettingsExpanded)
-            {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.BeginVertical("Box");
-                
-                // Draw the provider enum field on the GUI...
-                EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("loggingUseCartLogs"),
-                    AssetMeta.GetData("CartLogs").Content("useLogs"));
-                EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("useLogsInProductionBuilds"),
-                    AssetMeta.GetData("CartLogs").Content("useInProduction"));
-                
-                EditorGUILayout.EndVertical();
-                EditorGUI.indentLevel--;
-            }
-
-            IsCategoriesExpanded = EditorGUILayout.Foldout(IsCategoriesExpanded, AssetMeta.GetData("CartLogs").Content("sectionCategoriesTitle"));
+            // Draw the provider enum field on the GUI...
+            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("loggingUseCartLogs"),
+                AssetMeta.GetData("CartLogs").Content("useLogs"));
+            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("useLogsInProductionBuilds"),
+                AssetMeta.GetData("CartLogs").Content("useInProduction"));
             
-            if (IsCategoriesExpanded)
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(15f);
+
+            if (GUILayout.Button("Edit Category States"))
             {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.BeginVertical("Box");
-                
-                EditorGUILayout.HelpBox("Toggle categories here to define if logs of that type appear in the console.", MessageType.Info);
-                
-                LogCategoryDrawer.DrawLogCategories();
-                
-                EditorGUILayout.EndVertical();
-                EditorGUI.indentLevel--;
+                UtilityEditorWindow.Open<LogCategoriesEditor>("Log Category Statuses Window");
             }
+
+            EditorGUILayout.EndHorizontal();
 
             EditorGUI.indentLevel--;
             EditorGUILayout.Space(1.5f);
