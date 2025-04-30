@@ -76,7 +76,7 @@ namespace CarterGames.Cart.Modules.Localization
             else
             {
                 return new GUIContent(EditorGUIUtility.IconContent("CollabEdit Icon").image,
-                    "Text localized with a pre-defined loc id.");
+                    $"Text localized with loc id: {component.LocId}.");
             }
         }
         
@@ -91,7 +91,7 @@ namespace CarterGames.Cart.Modules.Localization
             else
             {
                 return new GUIContent(EditorGUIUtility.IconContent("AudioListener Icon").image,
-                    "Audio localized with a pre-defined loc id.");
+                    $"Audio localized with loc id: {component.LocId}.");
             }
         }
         
@@ -106,7 +106,7 @@ namespace CarterGames.Cart.Modules.Localization
             else
             {
                 return new GUIContent(EditorGUIUtility.IconContent("d_SpriteAtlasAsset Icon").image,
-                    "Sprite localized with a pre-defined loc id.");
+                    $"Sprite localized with loc id: {component.LocId}.");
             }
         }
         
@@ -121,7 +121,7 @@ namespace CarterGames.Cart.Modules.Localization
             else
             {
                 return new GUIContent(EditorGUIUtility.IconContent("d_RawImage Icon").image,
-                    "Image localized with a pre-defined loc id.");
+                    $"Image localized with loc id: {component.LocId}.");
             }
         }
     }

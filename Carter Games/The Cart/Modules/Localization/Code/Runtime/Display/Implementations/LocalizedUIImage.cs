@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.Localization
     /// <summary>
     /// A simple component for a localized UI Image element.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Localization/Basic Components/LocalizedUIImage")]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Localization/Localized UI Image")]
     public class LocalizedUIImage : LocalizedComponent<Sprite>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
