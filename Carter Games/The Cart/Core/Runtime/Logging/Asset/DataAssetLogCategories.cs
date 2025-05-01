@@ -70,7 +70,7 @@ namespace CarterGames.Cart.Core
         {
             var key = typeof(T).FullName;
 
-            if (categories.ContainsKey(key))
+            if (!categories.ContainsKey(key))
             {
                 Debug.LogWarning($"Cannot find category of: {key}");
                 return false;
