@@ -39,6 +39,7 @@ namespace CarterGames.Cart.Core.Logs.Editor
         private static readonly string LoggingExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_Expanded";
         private static readonly string LoggingSettingsExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_SettingsExpanded";
         private static readonly string LoggingCategoriesExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_CategoriesExpanded";
+        private static readonly string LoggingEditorWindowScrollPos = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_ScrollPos";
 
 
         private static bool IsExpanded
@@ -59,6 +60,13 @@ namespace CarterGames.Cart.Core.Logs.Editor
         {
             get => PerUserSettings.GetValue<bool>(LoggingCategoriesExpanded, SettingType.EditorPref, false);
             set => PerUserSettings.SetValue<bool>(LoggingCategoriesExpanded, SettingType.EditorPref, value);
+        }
+        
+        
+        public static Vector2 ScrollPos
+        {
+            get => PerUserSettings.GetValue<Vector2>(LoggingEditorWindowScrollPos, SettingType.EditorPref, Vector2.zero);
+            set => PerUserSettings.SetValue<Vector2>(LoggingEditorWindowScrollPos, SettingType.EditorPref, value);
         }
 
 

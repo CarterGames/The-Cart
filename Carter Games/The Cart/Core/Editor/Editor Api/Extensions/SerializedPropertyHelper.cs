@@ -60,6 +60,16 @@ namespace CarterGames.Cart.Core.Editor
         
         
         /// <summary>
+        /// Calls InsertArrayElementAtIndex(ArraySize)
+        /// </summary>
+        /// <param name="property">The property.</param>
+        public static void InsertAtEnd(this SerializedProperty property)
+        {
+            property.InsertArrayElementAtIndex(property.arraySize);
+        }
+        
+        
+        /// <summary>
         /// Calls DeleteArrayElementAtIndex()
         /// </summary>
         /// <param name="property">The property.</param>
@@ -108,6 +118,16 @@ namespace CarterGames.Cart.Core.Editor
         public static SerializedProperty GetIndex(this SerializedProperty property, int index)
         {
             return property.GetArrayElementAtIndex(index);
+        }
+        
+        
+        /// <summary>
+        /// Calls GetArrayElementAtIndex(ArraySize - 1)
+        /// </summary>
+        /// <param name="property">The property.</param>
+        public static SerializedProperty GetLastIndex(this SerializedProperty property)
+        {
+            return property.GetArrayElementAtIndex(property.arraySize - 1);
         }
         
         

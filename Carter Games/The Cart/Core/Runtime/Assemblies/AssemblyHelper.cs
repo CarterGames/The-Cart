@@ -115,7 +115,7 @@ namespace CarterGames.Cart.Core.Management
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
             
             return assemblies.SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName && !x.IsAbstract)
                 .Select(type => (T)Activator.CreateInstance(type));
         }
         

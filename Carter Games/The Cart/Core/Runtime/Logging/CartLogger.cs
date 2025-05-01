@@ -157,7 +157,7 @@ namespace CarterGames.Cart.Core.Logs
         public static void Log<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!LogCategoryStates.IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
 
             var formattedLog = CreateLogMessage<T>(message);
@@ -177,7 +177,7 @@ namespace CarterGames.Cart.Core.Logs
         public static void Log<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!LogCategoryStates.IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
@@ -200,7 +200,7 @@ namespace CarterGames.Cart.Core.Logs
         public static void LogWarning<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!LogCategoryStates.IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message);
@@ -220,7 +220,7 @@ namespace CarterGames.Cart.Core.Logs
         public static void LogWarning<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!LogCategoryStates.IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
@@ -243,7 +243,7 @@ namespace CarterGames.Cart.Core.Logs
         public static void LogError<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!LogCategoryStates.IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message);
@@ -263,7 +263,7 @@ namespace CarterGames.Cart.Core.Logs
         public static void LogError<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!LogCategoryStates.IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);

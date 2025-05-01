@@ -35,6 +35,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
     {
         private static SearchProviderMoneyFormatters Instance;
         private List<IMoneyFormatter> moneyFormatterTypes;
+        private bool cacheHasOptions = false;
+        private bool hasSetCache = false;
         
         
         protected override string ProviderTitle => "Select Money Formatter";

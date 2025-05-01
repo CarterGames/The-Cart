@@ -77,7 +77,7 @@ namespace CarterGames.Cart.Modules.LoadingScreens.Editor
 #pragma warning disable 0168
 			catch (Exception e)
 			{
-				CartLogger.LogError<LogCategoryModules>("Loading screens failed to OnCreated() logic.");
+				CartLogger.LogError<LogCategoryLoadingScreens>("Loading screens failed to OnCreated() logic.");
 			}
 #pragma warning restore
 		}
