@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Modules.Localization
 {
     public abstract class LocalizedComponent<T> : MonoBehaviour
     {
-        [SerializeField] protected bool updateOnStart;
+        [SerializeField] protected bool updateOnStart = true;
         
         public abstract string LocId { get; protected set; }
         protected T ManuallyAssignedValue { get; set; }

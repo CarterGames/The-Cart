@@ -47,6 +47,10 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			EditorGUILayout.BeginVertical("HelpBox");
 			
 			EditorGUI.BeginChangeCheck();
+			EditorGUILayout.PropertyField(serializedObject.Fp("updateOnStart"));
+            
+			GeneralUtilEditor.DrawHorizontalGUILine();
+			
 			EditorGUILayout.PropertyField(serializedObject.Fp("locId"));
 			
 			EditorGUILayout.BeginHorizontal();
