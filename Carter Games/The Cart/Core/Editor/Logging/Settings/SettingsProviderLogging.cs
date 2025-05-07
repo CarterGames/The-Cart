@@ -78,15 +78,6 @@ namespace CarterGames.Cart.Core.Logs.Editor
         
         
         
-
-        public static void ExpandSection(bool showSettings, bool showCategories)
-        {
-            IsExpanded = true;
-            IsSettingsExpanded = showSettings;
-            IsCategoriesExpanded = showCategories;
-        }
-        
-        
         public void OnInspectorSettingsGUI()
         {
             EditorGUILayout.BeginVertical("HelpBox");
@@ -96,7 +87,8 @@ namespace CarterGames.Cart.Core.Logs.Editor
             
             EditorGUILayout.PropertyField(ObjectRef.Fp("loggingUseCartLogs"), AssetMeta.GetData("CartLogs").Content("useLogs"));
             EditorGUILayout.PropertyField(ObjectRef.Fp("useLogsInProductionBuilds"), AssetMeta.GetData("CartLogs").Content("useInProduction"));
-
+            EditorGUILayout.PropertyField(ObjectRef.Fp("forceShowErrors"), AssetMeta.GetData("CartLogs").Content("forceShowErrors"));
+            
             EditorGUILayout.EndVertical();
         }
 
@@ -117,10 +109,9 @@ namespace CarterGames.Cart.Core.Logs.Editor
             
 
             // Draw the provider enum field on the GUI...
-            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("loggingUseCartLogs"),
-                AssetMeta.GetData("CartLogs").Content("useLogs"));
-            EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("useLogsInProductionBuilds"),
-                AssetMeta.GetData("CartLogs").Content("useInProduction"));
+            EditorGUILayout.PropertyField(ObjectRef.Fp("loggingUseCartLogs"), AssetMeta.GetData("CartLogs").Content("useLogs"));
+            EditorGUILayout.PropertyField(ObjectRef.Fp("useLogsInProductionBuilds"), AssetMeta.GetData("CartLogs").Content("useInProduction"));
+            EditorGUILayout.PropertyField(ObjectRef.Fp("forceShowErrors"), AssetMeta.GetData("CartLogs").Content("forceShowErrors"));
             
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(15f);

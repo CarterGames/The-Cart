@@ -77,7 +77,7 @@ namespace CarterGames.Cart.Core.Logs
             {
                 if (Application.isEditor) return true;
                 
-                if (IsProductionBuild)
+                if (IsProductionBuild && !UtilRuntime.Settings.ForceShowErrors)
                 {
                     return ShowLogsOnProductionBuild && UtilRuntime.Settings.LoggingUseCartLogs;
                 }
@@ -107,7 +107,10 @@ namespace CarterGames.Cart.Core.Logs
             Builder.Clear();
             
             Builder.Append(TypeColorPrefix);
-            Builder.Append(typeof(T).Name);
+            Builder.Append(typeof(T).Name
+                .Replace("Logs", string.Empty)
+                .Replace("Log", string.Empty)
+                .Replace("Category", string.Empty));
 
             if (additionalContext != null)
             {
@@ -242,9 +245,12 @@ namespace CarterGames.Cart.Core.Logs
         /// <typeparam name="T">The log type to display as.</typeparam>
         public static void LogError<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
-            if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
-            if (!Application.isEditor && editorOnlyLog) return;
+            if (!UtilRuntime.Settings.ForceShowErrors)
+            {
+                if (!CanShowLogs) return;
+                if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
+                if (!Application.isEditor && editorOnlyLog) return;
+            }
             
             var formattedLog = CreateLogMessage<T>(message);
             
@@ -262,9 +268,12 @@ namespace CarterGames.Cart.Core.Logs
         /// <typeparam name="T">The log type to display as.</typeparam>
         public static void LogError<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
-            if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
-            if (!Application.isEditor && editorOnlyLog) return;
+            if (!UtilRuntime.Settings.ForceShowErrors)
+            {
+                if (!CanShowLogs) return;
+                if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
+                if (!Application.isEditor && editorOnlyLog) return;
+            }
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
             
