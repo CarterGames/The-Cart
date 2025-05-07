@@ -53,7 +53,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// A reference to the component, assumed on same object or child if auto-finding.
 		/// </summary>
-		private TMP_Text LabelRef => CacheRef.GetOrAssign(ref displayLabel, GetComponentInChildren<TMP_Text>);
+		public TMP_Text LabelRef => CacheRef.GetOrAssign(ref displayLabel, GetComponentInChildren<TMP_Text>);
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
