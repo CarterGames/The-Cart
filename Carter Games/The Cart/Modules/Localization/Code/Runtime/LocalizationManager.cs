@@ -30,7 +30,6 @@ using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Save;
-using CarterGames.Cart.Modules.Localization.Data.Lookup;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
