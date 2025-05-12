@@ -163,7 +163,7 @@ namespace CarterGames.Cart.Modules.Currency
                 balance.Round();
                 
                 Debited.Raise();
-                Adjusted.Raise(AccountTransaction.Debited(starting, starting + amount));
+                Adjusted.Raise(AccountTransaction.Debited(starting, starting - amount));
             }
         }
 

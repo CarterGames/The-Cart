@@ -34,19 +34,33 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 	public class EditorWindowColorFolderAssignment : EditorWindow
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Fields
-		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-		private static string folderPath;
-		private DataFolderIconSet iconSet;
-		private bool recursive = true;
-
-		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+		private static string TargetFolderPath
+		{
+			get => SessionState.GetString("CarterGames_Cart_Modules_ColorFolders_TargetFolderPath", string.Empty);
+			set => SessionState.SetString("CarterGames_Cart_Modules_ColorFolders_TargetFolderPath", value);
+		}
+		
+		private static string IconSetKey
+		{
+			get => SessionState.GetString("CarterGames_Cart_Modules_ColorFolders_IconSetKey", string.Empty);
+			set => SessionState.SetString("CarterGames_Cart_Modules_ColorFolders_IconSetKey", value);
+		}
+		
+		private static bool Recursive
+		{
+			get => SessionState.GetBool("CarterGames_Cart_Modules_ColorFolders_Recursive", true);
+			set => SessionState.SetBool("CarterGames_Cart_Modules_ColorFolders_Recursive", value);
+		}
+		
+		
 		private static SerializedObject ObjectRef => ScriptableRef.GetAssetDef<DataAssetFolderIconOverrides>().ObjectRef;
-		private bool CanSetColor => !string.IsNullOrEmpty(folderPath) && iconSet != null;
+		
+		
+		private bool CanSetColor => !string.IsNullOrEmpty(TargetFolderPath) && !string.IsNullOrEmpty(IconSetKey);
+		
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   GUI
@@ -56,51 +70,76 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		{
 			EditorGUILayout.Space(5f);
 
+			EditorGUILayout.BeginVertical("HelpBox");
 			EditorGUI.BeginDisabledGroup(true);
-			folderPath = EditorGUILayout.TextField(new GUIContent("Path"), folderPath);
+			TargetFolderPath = EditorGUILayout.TextField(new GUIContent("Path"), TargetFolderPath);
 			EditorGUI.EndDisabledGroup();
 			
-			recursive = EditorGUILayout.Toggle(new GUIContent("Is Recursive"), recursive);
+			Recursive = EditorGUILayout.Toggle(new GUIContent("Is Recursive"), Recursive);
 
-			if (iconSet == null)
+			EditorGUILayout.EndVertical();
+			
+			GeneralUtilEditor.DrawHorizontalGUILine();
+			
+			var index = 0;
+
+			EditorGUILayout.BeginVertical();
+			
+			foreach (var kvp in ColorFolderCache.SetsLookup)
 			{
-				if (GUILayout.Button("Select Style"))
+				if (index % 5 == 0)
 				{
-					SearchProviderFolderOptions.GetProvider().SelectionMade.Remove(OnSelectionMade);
-					SearchProviderFolderOptions.GetProvider().SelectionMade.Add(OnSelectionMade);
-
-					SearchProviderFolderOptions.GetProvider().Open(ColourFolderManager.CurrentlyAppliedSet(folderPath));
+					EditorGUILayout.BeginHorizontal();
 				}
+
+				if (!string.IsNullOrEmpty(IconSetKey))
+				{
+					GUI.backgroundColor = IconSetKey == kvp.Key ? Color.green : Color.grey;
+				}
+				else
+				{
+					GUI.backgroundColor = Color.grey;
+				}
+				
+				if (GUILayout.Button(new GUIContent(kvp.Value.Large)))
+				{
+					IconSetKey = IconSetKey == kvp.Key ? string.Empty : kvp.Key;
+				}
+				
+				if (!string.IsNullOrEmpty(IconSetKey))
+				{
+					GUI.backgroundColor = Color.white;
+				}
+
+				if (index % 5 == 4)
+				{
+					EditorGUILayout.EndHorizontal();
+				}
+
+				index++;
 			}
-			else
+			
+			GUI.backgroundColor = Color.white;
+			
+			if (index == 0)
 			{
-				EditorGUILayout.BeginHorizontal();
-
-				EditorGUI.BeginDisabledGroup(true);
-				EditorGUILayout.TextField(new GUIContent("Style"), iconSet.Id);
-				EditorGUI.EndDisabledGroup();
-				
-				if (GUILayout.Button("Select Style", GUILayout.Width(100)))
-				{
-					SearchProviderFolderOptions.GetProvider().SelectionMade.Remove(OnSelectionMade);
-					SearchProviderFolderOptions.GetProvider().SelectionMade.Add(OnSelectionMade);
-
-					SearchProviderFolderOptions.GetProvider().Open(ColourFolderManager.CurrentlyAppliedSet(folderPath));
-				}
-				
 				EditorGUILayout.EndHorizontal();
 			}
+			
+			EditorGUILayout.EndVertical();
 
+			GeneralUtilEditor.DrawHorizontalGUILine();
+			
 			GUI.backgroundColor = CanSetColor ? Color.green : Color.red;
 			EditorGUI.BeginDisabledGroup(!CanSetColor);
 			
-			if (GUILayout.Button("Apply"))
+			if (GUILayout.Button("Apply", GUILayout.Height(27f)))
 			{
 				TryAddOverride();
 				
-				folderPath = string.Empty;
-				recursive = true;
-				iconSet = null;
+				TargetFolderPath = string.Empty;
+				Recursive = true;
+				IconSetKey = string.Empty;
 				
 				GetWindow<EditorWindowColorFolderAssignment>().Close();
 			}
@@ -115,25 +154,21 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 
 		public static void OpenAssignToFolder(string path)
 		{
-			folderPath = path;
-			GetWindow(typeof (EditorWindowColorFolderAssignment),true, "Assign Folder Color").Show();
+			TargetFolderPath = path;
+			var window = GetWindow(typeof(EditorWindowColorFolderAssignment), true, "Assign Folder Color");
+			window.minSize = new Vector2(435, 250);
+			window.maxSize = new Vector2(435, 250);
+			window.Show();
 		}
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Helper Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-		private void OnSelectionMade(SearchTreeEntry entry)
-		{
-			SearchProviderFolderOptions.GetProvider().SelectionMade.Remove(OnSelectionMade);
-			iconSet = (DataFolderIconSet) entry.userData;
-		}
-
-
+		
 		private void TryAddOverride()
 		{
-			if (string.IsNullOrEmpty(folderPath)) return;
-			if (iconSet == null) return;
+			if (string.IsNullOrEmpty(TargetFolderPath)) return;
+			if (string.IsNullOrEmpty(IconSetKey)) return;
 			
 			SerializedProperty entry;
 			
@@ -141,10 +176,10 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			{
 				entry = ObjectRef.Fp("folderOverrides").GetIndex(i);
 
-				if (entry.Fpr("folderPath").stringValue != folderPath) continue;
+				if (entry.Fpr("folderPath").stringValue != TargetFolderPath) continue;
 				
-				entry.Fpr("isRecursive").boolValue = recursive;
-				entry.Fpr("folderSetId").stringValue = iconSet.Id;
+				entry.Fpr("isRecursive").boolValue = Recursive;
+				entry.Fpr("folderSetId").stringValue = IconSetKey;
 				ObjectRef.ApplyModifiedProperties();
 				ObjectRef.Update();
 				
@@ -158,9 +193,9 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			
 			entry = ObjectRef.Fp("folderOverrides").GetIndex(ObjectRef.Fp("folderOverrides").arraySize-1);
 
-			entry.Fpr("folderPath").stringValue = folderPath;
-			entry.Fpr("isRecursive").boolValue = recursive;
-			entry.Fpr("folderSetId").stringValue = iconSet.Id;
+			entry.Fpr("folderPath").stringValue = TargetFolderPath;
+			entry.Fpr("isRecursive").boolValue = Recursive;
+			entry.Fpr("folderSetId").stringValue = IconSetKey;
 			ObjectRef.ApplyModifiedProperties();
 			ObjectRef.Update();
 			

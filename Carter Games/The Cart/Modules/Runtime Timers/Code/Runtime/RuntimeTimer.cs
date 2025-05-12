@@ -88,7 +88,15 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         public float TimeRemainingFraction => TimeRemaining / TimerDuration;
 
 
+        /// <summary>
+        /// Gets if the timer loops.
+        /// </summary>
         public bool Loop { get; private set; } = false;
+        
+        
+        /// <summary>
+        /// Gets the total loops required.
+        /// </summary>
         public int LoopCount { get; private set; } = -1;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

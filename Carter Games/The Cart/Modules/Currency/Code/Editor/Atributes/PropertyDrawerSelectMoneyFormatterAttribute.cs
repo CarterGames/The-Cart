@@ -1,9 +1,4 @@
-﻿using CarterGames.Cart.Core;
-using CarterGames.Cart.Core.Editor;
-using CarterGames.Cart.Core.Management;
-using UnityEditor;
-
-#if CARTERGAMES_CART_MODULE_CURRENCY && UNITY_EDITOR
+﻿#if CARTERGAMES_CART_MODULE_CURRENCY && UNITY_EDITOR
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -28,6 +23,10 @@ using UnityEditor;
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management;
+using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Currency.Editor
 {
