@@ -100,33 +100,6 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 
 			return Instance;
 		}
-
-
-		public static void DrawSelectableAccount(SerializedProperty targetProperty)
-		{
-			if (string.IsNullOrEmpty(targetProperty.stringValue))
-			{
-				if (GUILayout.Button("Select Account"))
-				{
-					GetProvider().Open(targetProperty.stringValue);
-				}
-			}
-			else
-			{
-				EditorGUILayout.BeginHorizontal();
-				
-				EditorGUI.BeginDisabledGroup(true);
-				EditorGUILayout.PropertyField(targetProperty);
-				EditorGUI.EndDisabledGroup();
-
-				if (GUILayout.Button("Edit", GUILayout.Width(55)))
-				{
-					GetProvider().Open(targetProperty.stringValue);
-				}
-				
-				EditorGUILayout.EndHorizontal();
-			}
-		}
 	}
 }
 

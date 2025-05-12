@@ -38,6 +38,7 @@ namespace CarterGames.Cart.Modules.Currency
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        private string id;
         private readonly object padlock = new object();
         private double balance;
         private double startingBalance;
@@ -46,6 +47,12 @@ namespace CarterGames.Cart.Modules.Currency
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// The Id of the account.
+        /// </summary>
+        public string Id => id;
+        
+        
         /// <summary>
         /// The balance of the account.
         /// </summary>
@@ -66,6 +73,10 @@ namespace CarterGames.Cart.Modules.Currency
         /// </summary>
         public string BalanceFormatted => Balance.Format<MoneyFormatterGeneric>();
 
+        
+        /// <summary>
+        /// The starting balance of the account.
+        /// </summary>
         public double StartingBalance => startingBalance;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -100,10 +111,11 @@ namespace CarterGames.Cart.Modules.Currency
         /// Makes a new account with the initial balance entered.
         /// </summary>
         /// <param name="initialBalance">The balance to start on.</param>
-        public static CurrencyAccount NewAccount(double initialBalance = 0)
+        public static CurrencyAccount NewAccount(string id, double initialBalance = 0)
         {
             return new CurrencyAccount()
             {
+                id = id,
                 startingBalance = initialBalance.Round(),
                 balance = initialBalance.Round()
             };
@@ -115,10 +127,11 @@ namespace CarterGames.Cart.Modules.Currency
         /// </summary>
         /// <param name="currentBalance">The current balance of the account.</param>
         /// <param name="initialBalance">The balance to start on.</param>
-        public static CurrencyAccount AccountWithBalance(double currentBalance, double initialBalance = 0)
+        public static CurrencyAccount AccountWithBalance(string id, double currentBalance, double initialBalance = 0)
         {
             return new CurrencyAccount()
             {
+                id = id,
                 startingBalance = initialBalance.Round(),
                 balance = currentBalance.Round()
             };

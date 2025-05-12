@@ -27,6 +27,9 @@ using CarterGames.Cart.Core.Logs;
 
 namespace CarterGames.Cart.Modules.Panels
 {
+    /// <summary>
+    /// A cart logging category for the panels setup.
+    /// </summary>
     public sealed class LogCategoryPanels : LogCategory { }
 }
 

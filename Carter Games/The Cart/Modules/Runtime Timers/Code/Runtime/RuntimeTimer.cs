@@ -86,6 +86,10 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         /// Gets the fraction of time remaining on the timer (between 0-1).
         /// </summary>
         public float TimeRemainingFraction => TimeRemaining / TimerDuration;
+
+
+        public bool Loop { get; private set; } = false;
+        public int LoopCount { get; private set; } = -1;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
@@ -148,6 +152,29 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
         public static RuntimeTimer Set(float duration, Action onComplete, bool? useUnscaledTime = false, bool? autoStart = true)
         {
             var timer = Create(duration, onComplete);
+            
+            if (useUnscaledTime.HasValue)
+            {
+                timer.UseUnscaledTime = useUnscaledTime.Value;
+            }
+
+            if (!autoStart.HasValue) return timer;
+            
+            if (autoStart.Value)
+            {
+                timer.StartTimer();
+            }
+
+            return timer;
+        }
+        
+        
+        public static RuntimeTimer SetLooping(float duration, Action onComplete, int loopCount = -1, bool? useUnscaledTime = false, bool? autoStart = true)
+        {
+            var timer = Create(duration, onComplete);
+            
+            timer.Loop = true;
+            timer.LoopCount = loopCount;
             
             if (useUnscaledTime.HasValue)
             {
@@ -289,25 +316,64 @@ namespace CarterGames.Cart.Modules.RuntimeTimers
             
             var t = 0f;
 
-            while (TimeRemaining > 0f)
-            { 
-                var change = UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
-                TimeRemaining -= change;
-                t += change;
-                TimerTicked.Raise();
-
-                if (t > 1)
+            if (Loop)
+            {
+                var loopsCompleted = 0;
+                
+                while (loopsCompleted < LoopCount)
                 {
-                    t = 0;
-                    TimerSecondPassed.Raise(TimeRemainingInSeconds);
+                    while (TimeRemaining > 0f)
+                    { 
+                        var change = UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                        TimeRemaining -= change;
+                        t += change;
+                        TimerTicked.Raise();
+
+                        if (t > 1)
+                        {
+                            t = 0;
+                            TimerSecondPassed.Raise(TimeRemainingInSeconds);
+                        }
+                
+                        yield return null;
+                    }
+
+                    loopsCompleted++;
+
+                    if (loopsCompleted == LoopCount)
+                    {
+                        TimerCompleted.Raise();
+                        timerRoutine = null;
+                        RuntimeTimerManager.UnRegister(this);
+                        yield break;
+                    }
+                    
+                    TimeRemaining = TimerDuration;
+                    TimerCompleted.Raise();
+                }
+            }
+            else
+            {
+                while (TimeRemaining > 0f)
+                { 
+                    var change = UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                    TimeRemaining -= change;
+                    t += change;
+                    TimerTicked.Raise();
+
+                    if (t > 1)
+                    {
+                        t = 0;
+                        TimerSecondPassed.Raise(TimeRemainingInSeconds);
+                    }
+                
+                    yield return null;
                 }
                 
-                yield return null;
+                TimerCompleted.Raise();
+                timerRoutine = null;
+                RuntimeTimerManager.UnRegister(this);
             }
-            
-            TimerCompleted.Raise();
-            timerRoutine = null;
-            RuntimeTimerManager.UnRegister(this);
         }
     }
 }

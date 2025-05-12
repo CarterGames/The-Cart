@@ -220,7 +220,7 @@ namespace CarterGames.Cart.Modules.Currency
         public static void AddAccount(string accountId, double startingBalance = 0d)
         {
             if (Accounts.ContainsKey(accountId)) return;
-            Accounts.Add(accountId, CurrencyAccount.NewAccount(startingBalance));
+            Accounts.Add(accountId, CurrencyAccount.NewAccount(accountId, startingBalance));
 
             Accounts[accountId].Adjusted.Add(OnAccountAdjusted);
             AccountOpened.Raise();
@@ -264,11 +264,11 @@ namespace CarterGames.Cart.Modules.Currency
                     {
                         if (account.Value.HasKey("starting"))
                         {
-                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["value"].AsDouble.Round(), account.Value["starting"].AsDouble.Round()));
+                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["key"], account.Value["value"].AsDouble.Round(), account.Value["starting"].AsDouble.Round()));
                         }
                         else
                         {
-                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["value"].AsDouble.Round()));
+                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["key"], account.Value["value"].AsDouble.Round()));
                         }
                     }
                 }
@@ -277,7 +277,7 @@ namespace CarterGames.Cart.Modules.Currency
             foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
             {
                 if (Accounts.ContainsKey(defAccount.Key)) continue;
-                Accounts.Add(defAccount.Key, CurrencyAccount.NewAccount(defAccount.Value.Round()));
+                Accounts.Add(defAccount.Key, CurrencyAccount.NewAccount(defAccount.Key, defAccount.Value.Round()));
             }
 
             foreach (var account in Accounts)
@@ -299,7 +299,7 @@ namespace CarterGames.Cart.Modules.Currency
         /// <summary>
         /// Saves the accounts when called.
         /// </summary>
-        private static void SaveAccounts()
+        public static void SaveAccounts()
         {
             var list = new JSONArray();
             

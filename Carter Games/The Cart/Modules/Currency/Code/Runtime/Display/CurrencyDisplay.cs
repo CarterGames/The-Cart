@@ -92,6 +92,7 @@ namespace CarterGames.Cart.Modules.Currency
         /// <param name="account">The account to read.</param>
         private void UpdateDisplay(CurrencyAccount account, AccountTransaction transaction)
         {
+            if (!account.Id.Equals(accountId)) return;
             displayStyle.ProcessDisplayEffect(this, transaction);
         }
 

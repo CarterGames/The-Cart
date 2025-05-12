@@ -50,10 +50,10 @@ namespace CarterGames.Cart.Modules.Panels
 
         private void OnDisable()
         {
-            OpenStarted.Remove(PanelOpenStarted);
-            OpenCompleted.Remove(PanelOpenComplete);
-            CloseStarted.Remove(PanelCloseStarted);
-            CloseCompleted.Remove(PanelCloseComplete);
+            OpenStartedEvt.Remove(PanelOpenStarted);
+            OpenCompletedEvt.Remove(PanelOpenComplete);
+            CloseStartedEvt.Remove(PanelCloseStarted);
+            CloseCompletedEvt.Remove(PanelCloseComplete);
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -64,10 +64,10 @@ namespace CarterGames.Cart.Modules.Panels
         {
             base.Initialise();
             
-            OpenStarted.Add(PanelOpenStarted);
-            OpenCompleted.Add(PanelOpenComplete);
-            CloseStarted.Add(PanelCloseStarted);
-            CloseCompleted.Add(PanelCloseComplete);
+            OpenStartedEvt.Add(PanelOpenStarted);
+            OpenCompletedEvt.Add(PanelOpenComplete);
+            CloseStartedEvt.Add(PanelCloseStarted);
+            CloseCompletedEvt.Add(PanelCloseComplete);
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

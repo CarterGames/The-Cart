@@ -148,6 +148,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
             DefAccountsProp.serializedObject.ApplyModifiedProperties();
             DefAccountsProp.serializedObject.Update();
             
+            CurrencyManager.SaveAccounts();
+            
             GUI.FocusControl(null);
         }
 
@@ -168,6 +170,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
                 {
                     DefAccountsProp.serializedObject.ApplyModifiedProperties();
                     DefAccountsProp.serializedObject.Update();
+                    CurrencyManager.SaveAccounts();
                 }
 
                 GUI.backgroundColor = Color.red;
@@ -177,6 +180,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
                     DefAccountsProp.DeleteIndex(i);
                     DefAccountsProp.serializedObject.ApplyModifiedProperties();
                     DefAccountsProp.serializedObject.Update();
+                    CurrencyManager.SaveAccounts();
                     return;
                 }
 

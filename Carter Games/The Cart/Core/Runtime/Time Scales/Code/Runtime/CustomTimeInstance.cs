@@ -27,10 +27,10 @@ using System;
 using CarterGames.Cart.Core.Events;
 using UnityEngine;
 
-namespace CarterGames.Cart.Modules.TimeScales
+namespace CarterGames.Cart.Core
 {
     /// <summary>
-    /// A custom time scale class, handy for when you need to control the timescale of element separately from Time.timescale.
+    /// A custom time-scale class, handy for when you need to control the timescale of element separately from Time.timescale.
     /// </summary>
     [Serializable]
     public class CustomTimeInstance
@@ -91,13 +91,13 @@ namespace CarterGames.Cart.Modules.TimeScales
         /// <summary>
         /// Raises when the time instance is paused.
         /// </summary>
-        public readonly Evt Paused = new Evt();
+        public readonly Evt PausedEvt = new Evt();
         
         
         /// <summary>
         /// Raises when the time instance is resumed.
         /// </summary>
-        public readonly Evt Resumed = new Evt();
+        public readonly Evt ResumedEvt = new Evt();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
@@ -123,7 +123,7 @@ namespace CarterGames.Cart.Modules.TimeScales
         {
             if (IsPaused) return;
             localTimeScale = Mathf.Epsilon;
-            Paused.Raise();
+            PausedEvt.Raise();
         }
 
         
@@ -134,7 +134,7 @@ namespace CarterGames.Cart.Modules.TimeScales
         {
             if (!IsPaused) return;
             localTimeScale = 1f;
-            Resumed.Raise();
+            ResumedEvt.Raise();
         }
     }
 }

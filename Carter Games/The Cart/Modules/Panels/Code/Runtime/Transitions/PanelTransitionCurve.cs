@@ -28,17 +28,37 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Panels
 {
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Animation Curve")]
+    /// <summary>
+    /// A animation curve transition for panels
+    /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Panel Transition Animation Curve")]
     public class PanelTransitionCurve : PanelTransition
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] private Transform target;
         [SerializeField] private AnimationCurve curve;
         [SerializeField] private float speed = 4f;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The speed of the transition.
+        /// </summary>
         private float TransitionSpeed => 1f / speed;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Coroutines
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Runs the transition.
+        /// </summary>
+        /// <param name="fadeIn">Is it a fade in?</param>
         protected override IEnumerator Co_Transition(bool fadeIn)
         {
             var elapsedTime = 0f;
@@ -54,7 +74,7 @@ namespace CarterGames.Cart.Modules.Panels
                     yield return null;
                 }
                 
-                Completed.Raise();
+                CompletedEvt.Raise();
                 target.transform.localScale = Vector3.one;
                 TransitionRoutine = null;
             }
@@ -68,7 +88,7 @@ namespace CarterGames.Cart.Modules.Panels
                     yield return null;
                 }
                 
-                Completed.Raise();
+                CompletedEvt.Raise();
                 target.transform.localScale = Vector3.zero;
                 TransitionRoutine = null;
             }

@@ -28,13 +28,27 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Panels
 {
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Canvas Group")]
+    /// <summary>
+    /// A canvas group fade transition for panels
+    /// </summary>
+    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Panel Transition Canvas Group")]
     public class PanelTransitionCanvasGroup : PanelTransition
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private float fadeSpeed;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Coroutines
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Runs the transition.
+        /// </summary>
+        /// <param name="fadeIn">Is it a fade in?</param>
         protected override IEnumerator Co_Transition(bool fadeIn)
         {
             if (fadeIn)
@@ -48,7 +62,7 @@ namespace CarterGames.Cart.Modules.Panels
                     yield return null;
                 }
                 
-                Completed.Raise();
+                CompletedEvt.Raise();
                 canvasGroup.alpha = 1;
                 TransitionRoutine = null;
             }
@@ -63,7 +77,7 @@ namespace CarterGames.Cart.Modules.Panels
                     yield return null;
                 }
                 
-                Completed.Raise();
+                CompletedEvt.Raise();
                 canvasGroup.alpha = 0;
                 TransitionRoutine = null;
             }

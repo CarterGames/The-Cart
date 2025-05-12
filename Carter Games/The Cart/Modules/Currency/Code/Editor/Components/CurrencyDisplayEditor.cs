@@ -24,6 +24,7 @@
  */
 
 using CarterGames.Cart.Core.Editor;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 				if (GUILayout.Button("Try Get Reference", GUILayout.Width(140)))
 				{
 					serializedObject.Fp("label").objectReferenceValue ??=
-						((CurrencyDisplay) target).GetComponentInChildren<Canvas>();
+						((CurrencyDisplay) target).GetComponentInChildren<TMP_Text>();
 
 					serializedObject.ApplyModifiedProperties();
 					serializedObject.Update();

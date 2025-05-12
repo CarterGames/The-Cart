@@ -26,30 +26,52 @@
 using System.Collections;
 using CarterGames.Cart.Core.Events;
 using UnityEngine;
-// using CarterGames.Cart.Modules.TimeScales;
 
 namespace CarterGames.Cart.Modules.Panels
 {
+    /// <summary>
+    /// The base class for panel transition methods.
+    /// </summary>
     public abstract class PanelTransition : MonoBehaviour
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] private bool useUnscaledTime;
-
-
-        public readonly Evt Completed = new Evt();
-        // [SerializeField] private bool useCustomInstance;
-        // private CustomTimeInstance timeInstance;
-
         protected Coroutine TransitionRoutine;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Gets if the transition is currently running.
+        /// </summary>
         protected bool IsRunning => TransitionRoutine != null;
+        
+        
+        /// <summary>
+        /// Gets the transition time to adjust by.
+        /// </summary>
+        protected float TransitionDeltaTime => useUnscaledTime ?  Time.unscaledDeltaTime : Time.deltaTime;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Raises when the transition is completed.
+        /// </summary>
+        public readonly Evt CompletedEvt = new Evt();
 
-
-        private float DeltaTime => Time.deltaTime; // useCustomInstance ? timeInstance.DeltaTime : Time.deltaTime;
-        private float UnscaledDeltaTime => Time.unscaledDeltaTime; // useCustomInstance ? timeInstance.DeltaTime : Time.unscaledDeltaTime;
-
-
-        protected float TransitionDeltaTime => useUnscaledTime ? UnscaledDeltaTime : DeltaTime;
-
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Transitions in the transition.
+        /// </summary>
         public void TransitionIn()
         {
             if (IsRunning)
@@ -60,7 +82,10 @@ namespace CarterGames.Cart.Modules.Panels
             TransitionRoutine = StartCoroutine(Co_Transition(true));
         }
 
-
+        
+        /// <summary>
+        /// Transitions out the transition.
+        /// </summary>
         public void TransitionOut()
         {
             if (IsRunning)
@@ -71,7 +96,14 @@ namespace CarterGames.Cart.Modules.Panels
             TransitionRoutine = StartCoroutine(Co_Transition(false));
         }
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Coroutines
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Runs the transition.
+        /// </summary>
+        /// <param name="fadeIn">Is it a fade in?</param>
         protected abstract IEnumerator Co_Transition(bool fadeIn);
     }
 }
