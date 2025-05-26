@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core;
 using UnityEditor;
 using UnityEngine;
 

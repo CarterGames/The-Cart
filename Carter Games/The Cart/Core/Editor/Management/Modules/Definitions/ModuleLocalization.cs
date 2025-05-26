@@ -22,13 +22,14 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace CarterGames.Cart.Modules
 {
     /// <summary>
     /// The definition for the localization module
     /// </summary>
-    public sealed class ModuleLocalization : IModule
+    public sealed class ModuleLocalization : IModule, IPackageDependency
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -61,12 +62,18 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// Any optional modules that the module can use.
         /// </summary>
-        public IModule[] OptionalPreRequisites => new IModule[] { new ModuleHierarchy(), new ModuleNotionData() };
+        public IModule[] OptionalPreRequisites => new IModule[] { new ModuleHierarchy() };
         
         
         /// <summary>
         /// The scripting define the module uses.
         /// </summary>
         public string ModuleDefine => "CARTERGAMES_CART_MODULE_LOCALIZATION";
+
+
+        public List<PackageInfo> Packages => new List<PackageInfo>()
+        {
+            new PackageInfo("Notion Data", "games.carter.standalone.notiondata", "https://github.com/CarterGames/NotionToUnity.git#pre-release")
+        };
     }
 }

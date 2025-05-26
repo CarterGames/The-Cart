@@ -66,7 +66,13 @@ namespace CarterGames.Cart.Core
         }
         
         
-        // Interpolates between /a/ and /b/ by /t/. /t/ is clamped between 0 and 1.
+        /// <summary>
+        /// Lerp functionally but with double. Clamped between 0-1.
+        /// </summary>
+        /// <param name="a">Value A</param>
+        /// <param name="b">Value B</param>
+        /// <param name="t">Time</param>
+        /// <returns>The progress in the lerp.</returns>
         public static double Lerp(double a, double b, float t)
         {
             return a + (b - a) * Mathf.Clamp01(t);

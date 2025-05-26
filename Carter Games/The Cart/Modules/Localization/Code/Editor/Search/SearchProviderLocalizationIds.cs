@@ -25,6 +25,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
+
+#if CARTERGAMES_NOTIONDATA
+using CarterGames.Assets.Shared.Common;
+#endif
+
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
 
@@ -44,10 +49,10 @@ namespace CarterGames.Cart.Modules.Localization.Editor
                 if (DataAccess.GetAssets<DataAssetLocalizedSprite>()?.Count > 0) return true;
                 if (DataAccess.GetAssets<DataAssetLocalizedAudio>()?.Count > 0) return true;
                 
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
-                if (DataAccess.GetAssets<NotionDataAssetLocalizedText>()?.Count > 0) return true;
-                if (DataAccess.GetAssets<NotionDataAssetLocalizedSprite>()?.Count > 0) return true;
-                if (DataAccess.GetAssets<NotionDataAssetLocalizedAudio>()?.Count > 0) return true;
+#if CARTERGAMES_NOTIONDATA
+                if (NotionDataAccessor.GetAssets<NotionDataAssetLocalizedText>()?.Count > 0) return true;
+                if (NotionDataAccessor.GetAssets<NotionDataAssetLocalizedSprite>()?.Count > 0) return true;
+                if (NotionDataAccessor.GetAssets<NotionDataAssetLocalizedAudio>()?.Count > 0) return true;
 #endif
 
                 return false;
@@ -84,26 +89,26 @@ namespace CarterGames.Cart.Modules.Localization.Editor
                 }
             }
             
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
-            if (DataAccess.GetAssets<NotionDataAssetLocalizedText>()?.Count > 0)
+#if CARTERGAMES_NOTIONDATA
+            if (NotionDataAccessor.GetAssets<NotionDataAssetLocalizedText>()?.Count > 0)
             {
-                foreach (var asset in DataAccess.GetAssets<NotionDataAssetLocalizedText>())
+                foreach (var asset in NotionDataAccessor.GetAssets<NotionDataAssetLocalizedText>())
                 {
                     list.Add(GetGroupFromData(asset.VariantId, asset.Data.Select(t => t.LocId)));
                 }
             }
             
-            if (DataAccess.GetAssets<NotionDataAssetLocalizedSprite>()?.Count > 0)
+            if (NotionDataAccessor.GetAssets<NotionDataAssetLocalizedSprite>()?.Count > 0)
             {
-                foreach (var asset in DataAccess.GetAssets<NotionDataAssetLocalizedSprite>())
+                foreach (var asset in NotionDataAccessor.GetAssets<NotionDataAssetLocalizedSprite>())
                 {
                     list.Add(GetGroupFromData(asset.VariantId, asset.Data.Select(t => t.LocId)));
                 }
             }
             
-            if (DataAccess.GetAssets<NotionDataAssetLocalizedAudio>()?.Count > 0)
+            if (NotionDataAccessor.GetAssets<NotionDataAssetLocalizedAudio>()?.Count > 0)
             {
-                foreach (var asset in DataAccess.GetAssets<NotionDataAssetLocalizedAudio>())
+                foreach (var asset in NotionDataAccessor.GetAssets<NotionDataAssetLocalizedAudio>())
                 {
                     list.Add(GetGroupFromData(asset.VariantId, asset.Data.Select(t => t.LocId)));
                 }

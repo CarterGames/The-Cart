@@ -149,6 +149,15 @@ namespace CarterGames.Cart.Modules.GameTicks
             hasTimescaleOverride = true;
             timescaleOverride = useUnscaled;
         }
+
+
+        /// <summary>
+        /// Resets the tick position back to 0.
+        /// </summary>
+        public void ResetTickPosition()
+        {
+            tickTimer = 0;
+        }
     }
 }
 

@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using CarterGames.Cart.Core.Management;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules
@@ -53,7 +54,6 @@ namespace CarterGames.Cart.Modules
             }
             
             toInstall.Add(module);
-
 
             if (toInstall.Count > 1)
             {

@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_DELAYEDEVENTS && CARTERGAMES_CART_MODULE_RUNTIMETIMERS
+﻿#if CARTERGAMES_CART_MODULE_DELAYEDEVENTS
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -23,8 +23,8 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
-using CarterGames.Cart.Modules.RuntimeTimers;
 
 namespace CarterGames.Cart.Modules.DelayedEvents
 {

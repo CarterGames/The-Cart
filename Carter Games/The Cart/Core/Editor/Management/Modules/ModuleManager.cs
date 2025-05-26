@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System.IO;
 using System.Linq;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Editor;
@@ -127,6 +128,41 @@ namespace CarterGames.Cart.Modules
         public static IModule GetModuleFromDefine(string moduleDefine)
         {
             return AllModules.FirstOrDefault(t => t.ModuleDefine.Equals(moduleDefine));
+        }
+        
+        
+        public static void AddPackage(PackageInfo package)
+        {
+            var path = Path.Combine(Application.dataPath, "../Packages/manifest.json");
+            var jsonString = File.ReadAllText(path);
+            int indexOfLastBracket = jsonString.IndexOf("}");
+            string dependenciesSubstring = jsonString.Substring(0, indexOfLastBracket);
+            var endOfLastPackage = dependenciesSubstring.LastIndexOf("\"");
+            string oldValue = jsonString.Substring(endOfLastPackage, indexOfLastBracket - endOfLastPackage);
+            jsonString = jsonString.Insert(endOfLastPackage + 1,
+                $", \n \"{package.packageName}\": \"{package.packageUrl}\"");
+            File.WriteAllText(path, jsonString);
+            UnityEditor.PackageManager.Client.Resolve();
+        }
+        
+        
+        public static void RemovePackage(PackageInfo package)
+        {
+            var path = Path.Combine(Application.dataPath, "../Packages/manifest.json");
+            var jsonString = File.ReadAllText(path);
+            
+            jsonString = jsonString.Replace($"    \"{package.packageName}\": \"{package.packageUrl}\",", string.Empty);
+            
+            File.WriteAllText(path, jsonString);
+            UnityEditor.PackageManager.Client.Resolve();
+        }
+        
+        
+        public static bool CheckPackageInstalled(string packageName)        
+        {
+            var path = Path.Combine(Application.dataPath, "../Packages/manifest.json");
+            var jsonString = File.ReadAllText(path);
+            return jsonString.Contains(packageName);        
         }
     }
 }

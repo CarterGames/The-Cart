@@ -21,9 +21,13 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Management;
 using UnityEditor;
 using UnityEngine;
 
@@ -149,6 +153,42 @@ namespace CarterGames.Cart.Modules.Window
             }
             
 
+            // Packaged extra(s)
+            if (HasPackagesForModule(module, out var packageInterface))
+            {
+                GeneralUtilEditor.DrawHorizontalGUILine();
+                
+                EditorGUILayout.LabelField("Package Dependant Extra's", EditorStyles.boldLabel);
+
+                EditorGUILayout.BeginVertical();
+                
+                foreach (var entry in packageInterface.Packages)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    
+                    EditorGUILayout.LabelField(entry.displayName);
+                    
+                    if (ModuleManager.CheckPackageInstalled(entry.packageName))
+                    {
+                        if (GUILayout.Button("Remove", GUILayout.Width(100f)))
+                        {
+                            ModuleManager.RemovePackage(entry);
+                        }
+                    }
+                    else
+                    {
+                        if (GUILayout.Button("Install", GUILayout.Width(100f)))
+                        {
+                            ModuleManager.AddPackage(entry);
+                        }
+                    }
+                    
+                    EditorGUILayout.EndHorizontal();
+                }
+                
+                EditorGUILayout.EndVertical();
+            }
+            
 
             GUILayout.Space(2.5f);
             
@@ -300,6 +340,23 @@ namespace CarterGames.Cart.Modules.Window
             }
                     
             GUI.backgroundColor = Color.white;
+        }
+
+
+        private static bool HasPackagesForModule(IModule module, out IPackageDependency package)
+        {
+            try
+            {
+                package = AssemblyHelper.GetClassesOfType<IPackageDependency>().First(t => t.GetType() == module.GetType());
+                return package != null;
+            }
+#pragma warning disable 0168
+            catch (Exception e)
+#pragma warning restore
+            {
+                package = null;
+                return false;
+            }
         }
     }
 }

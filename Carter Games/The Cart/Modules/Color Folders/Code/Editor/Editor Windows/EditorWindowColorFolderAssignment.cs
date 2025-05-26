@@ -87,7 +87,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 			
 			foreach (var kvp in ColorFolderCache.SetsLookup)
 			{
-				if (index % 5 == 0)
+				if (index % 6 == 0)
 				{
 					EditorGUILayout.BeginHorizontal();
 				}
@@ -111,7 +111,7 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 					GUI.backgroundColor = Color.white;
 				}
 
-				if (index % 5 == 4)
+				if (index % 6 == 5)
 				{
 					EditorGUILayout.EndHorizontal();
 				}
@@ -156,8 +156,8 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		{
 			TargetFolderPath = path;
 			var window = GetWindow(typeof(EditorWindowColorFolderAssignment), true, "Assign Folder Color");
-			window.minSize = new Vector2(435, 250);
-			window.maxSize = new Vector2(435, 250);
+			window.minSize = new Vector2(500, 250);
+			window.maxSize = new Vector2(500, 250);
 			window.Show();
 		}
 

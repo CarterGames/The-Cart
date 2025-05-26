@@ -6,7 +6,9 @@
         "GUID:70913f3dbaf500447ac3cab07477430f",
         "GUID:f9eb8297e33d3b14ea4786f5a0c2ac04",
         "GUID:6d41763603f56404492cef226e63cb07",
-        "GUID:6546d7765b4165b40850b3667f981c26"
+        "GUID:6546d7765b4165b40850b3667f981c26",
+        "GUID:aa312903d0d2e3541bf075ab426e5d8d",
+        "GUID:a184079ce5111d7429ec494dc3af3d92"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -15,6 +17,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "games.carter.standalone.notiondata",
+            "expression": "0.6.0",
+            "define": "CARTERGAMES_NOTIONDATA"
+        }
+    ],
     "noEngineReferences": false
 }

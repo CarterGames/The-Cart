@@ -27,7 +27,6 @@ using System;
 using System.Collections;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Events;
-using CarterGames.Cart.Modules.RuntimeTimers;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency

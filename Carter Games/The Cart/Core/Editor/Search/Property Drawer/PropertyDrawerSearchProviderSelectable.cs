@@ -71,6 +71,10 @@ namespace CarterGames.Cart.Core.Editor
                     // Draw field with edit button...
                     DrawEditView(position, property, label);
                 }
+                else if (!IsCurrentValueValid(property))
+                {
+                    DrawInitialView(position, property, label);
+                }
                 else
                 {
                     // Draw initial value select button...
@@ -79,7 +83,7 @@ namespace CarterGames.Cart.Core.Editor
             }
             else
             {
-                DrawInvalidView(position, property, label);
+                DrawInvalidView(position, property, label, "Invalid field type for attribute.");
             }
 
             EditorGUI.EndProperty();
@@ -90,12 +94,23 @@ namespace CarterGames.Cart.Core.Editor
         {
             return EditorGUIUtility.singleLineHeight + 1.25f;
         }
+        
+        
+        protected bool IsCurrentValueValid(SerializedProperty property)
+        {
+            if (Provider.GetValidValues() != null)
+            {
+                return Provider.GetValidValues().Contains(GetCurrentValue(property));
+            }
+
+            return true;
+        }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private void DrawInvalidView(Rect position, SerializedProperty property, GUIContent label)
+        private void DrawInvalidView(Rect position, SerializedProperty property, GUIContent label, string message)
         {
             GUI.color = Color.yellow;
             EditorGUI.LabelField(position, label);
@@ -103,7 +118,7 @@ namespace CarterGames.Cart.Core.Editor
             position.width -= EditorGUIUtility.labelWidth;
             position.x += EditorGUIUtility.labelWidth;
             
-            EditorGUI.LabelField(position, "Invalid field type for attribute.");
+            EditorGUI.LabelField(position, message);
             GUI.color = Color.white;
         }
         
@@ -147,7 +162,7 @@ namespace CarterGames.Cart.Core.Editor
         private void DrawEditView(Rect position, SerializedProperty property, GUIContent label)
         {
             var pos = new Rect(position);
-            pos.width = (pos.width / 20) * 17;
+            pos.width = position.width - 57.5f;
             
             EditorGUI.BeginDisabledGroup(DisableInputWhenSelected);
             EditorGUI.TextField(pos, label, GetCurrentValueString(property));
@@ -156,8 +171,8 @@ namespace CarterGames.Cart.Core.Editor
             if (GetHasValue(property))
             {
                 var buttonPos = new Rect(position);
-                buttonPos.width = (position.width / 20 * 2) - 2.5f;
-                buttonPos.x += ((position.width / 20) * 17) + 2.5f;
+                buttonPos.width = 35f;
+                buttonPos.x += (position.width - 55f);
                 
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, "Edit"))
@@ -174,7 +189,7 @@ namespace CarterGames.Cart.Core.Editor
            
             
                 var clearPos = new Rect(position);
-                clearPos.width = (position.width / 20) - 2.5f;
+                clearPos.width = 17.5f;
                 clearPos.x = buttonPos.x + buttonPos.width + 2.5f;
             
                 GUI.backgroundColor = Color.red;
@@ -188,8 +203,8 @@ namespace CarterGames.Cart.Core.Editor
             else
             {
                 var buttonPos = new Rect(position);
-                buttonPos.width = (position.width / 20 * 2) - 2.5f;
-                buttonPos.x += ((position.width / 20) * 18) + 2.5f;
+                buttonPos.width = 35f;
+                buttonPos.x += (position.width - 55f);
                 
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, "Edit"))

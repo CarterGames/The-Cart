@@ -24,6 +24,9 @@
  */
 
 using System.Collections.Generic;
+#if CARTERGAMES_NOTIONDATA
+using CarterGames.Assets.Shared.Common;
+#endif
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
@@ -42,10 +45,10 @@ namespace CarterGames.Cart.Modules.Localization
         private static List<DataAssetLocalizedSprite> SpriteNormalAssets => DataAccess.GetAssets<DataAssetLocalizedSprite>();
         private static List<DataAssetLocalizedAudio> AudioNormalAssets => DataAccess.GetAssets<DataAssetLocalizedAudio>();
 
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
-        private static List<NotionDataAssetLocalizedText> TextNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedText>();
-        private static List<NotionDataAssetLocalizedSprite> SpriteNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedSprite>();
-        private static List<NotionDataAssetLocalizedAudio> AudioNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedAudio>();
+#if CARTERGAMES_NOTIONDATA
+        private static List<NotionDataAssetLocalizedText> TextNotionAssets => NotionDataAccessor.GetAssets<NotionDataAssetLocalizedText>();
+        private static List<NotionDataAssetLocalizedSprite> SpriteNotionAssets => NotionDataAccessor.GetAssets<NotionDataAssetLocalizedSprite>();
+        private static List<NotionDataAssetLocalizedAudio> AudioNotionAssets => NotionDataAccessor.GetAssets<NotionDataAssetLocalizedAudio>();
 #endif
         
         
@@ -74,7 +77,7 @@ namespace CarterGames.Cart.Modules.Localization
 				}
 			}
 			
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
+#if CARTERGAMES_NOTIONDATA
 			if (TextNotionAssets != null)
 			{
 				foreach (var asset in TextNotionAssets)
@@ -108,7 +111,7 @@ namespace CarterGames.Cart.Modules.Localization
 				}
 			}
 			
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
+#if CARTERGAMES_NOTIONDATA
 			if (SpriteNotionAssets != null)
 			{
 				foreach (var asset in SpriteNotionAssets)
@@ -142,7 +145,7 @@ namespace CarterGames.Cart.Modules.Localization
 				}
 			}
 			
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
+#if CARTERGAMES_NOTIONDATA
 			if (AudioNotionAssets != null)
 			{
 				foreach (var asset in AudioNotionAssets)

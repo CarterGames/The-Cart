@@ -73,5 +73,16 @@ namespace CarterGames.Cart.Core
 			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,
 				timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds, dateTime.Kind);
 		}
+
+
+		/// <summary>
+		/// Converts the date time entered into a Utc Unix Epoch timestamp (in long form to avoid the 2038 issue).
+		/// </summary>
+		/// <param name="dateTime">The date time to convert.</param>
+		/// <returns>The Unix Epoch Utc of the entered time.</returns>
+		public static long ToUnixEpoch(this DateTime dateTime)
+		{
+			return (long) dateTime.ToUniversalTime().Subtract(DateTimeHelper.UnixEpoch).TotalSeconds;
+		}
 	}
 }
