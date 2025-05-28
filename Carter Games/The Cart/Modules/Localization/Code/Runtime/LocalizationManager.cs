@@ -64,7 +64,11 @@ namespace CarterGames.Cart.Modules.Localization
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+		/// <summary>
+		/// Gets if the language has been set.
+		/// </summary>
 		private static bool HasSetLanguage => string.IsNullOrEmpty(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
+		
 		
 		/// <summary>
 		/// The current language assigned.
