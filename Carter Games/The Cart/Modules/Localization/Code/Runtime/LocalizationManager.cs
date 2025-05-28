@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -72,11 +73,20 @@ namespace CarterGames.Cart.Modules.Localization
 		{
 			get
 			{
-				var data = CartSaveHandler.Get<string>(SaveKeyCurrentLanguage);
-				
-				return string.IsNullOrEmpty(data) 
-					? Language.Default 
-					: JsonUtility.FromJson<Language>(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
+				try
+				{
+					var data = CartSaveHandler.Get<string>(SaveKeyCurrentLanguage);
+					
+					return string.IsNullOrEmpty(data) 
+						? Language.Default 
+						: JsonUtility.FromJson<Language>(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
+				}
+#pragma warning disable 0168
+				catch (Exception e)
+#pragma warning restore
+				{
+					return Language.Default;
+				}
 			}
 		}
 
