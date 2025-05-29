@@ -25,7 +25,6 @@
 
 using System;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules.Localization;
 using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
