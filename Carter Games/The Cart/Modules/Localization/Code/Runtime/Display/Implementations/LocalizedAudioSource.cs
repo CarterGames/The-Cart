@@ -31,7 +31,7 @@ namespace CarterGames.Cart.Modules.Localization
     /// <summary>
     /// A simple component for a localized AudioSource element.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Localization/Localized Audio Source")]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Localization/LocalizedAudioSource")]
     public class LocalizedAudioSource : LocalizedComponent<AudioClip>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

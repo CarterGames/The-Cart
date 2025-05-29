@@ -33,7 +33,7 @@ namespace CarterGames.Cart.Modules.Currency
     /// <summary>
     /// A display class for a currency.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Currency/Currency Display Component")]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Currency/CurrencyDisplay")]
     public class CurrencyDisplay : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

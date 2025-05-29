@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Modules.GameTicks
     /// <summary>
     /// Handles a tick system with the ticks defined locally.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Game Ticks/Game Ticker")]
+    [AddComponentMenu("Carter Games/The Cart/Modules/Game Ticks/GameTicker")]
     public class GameTicker : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

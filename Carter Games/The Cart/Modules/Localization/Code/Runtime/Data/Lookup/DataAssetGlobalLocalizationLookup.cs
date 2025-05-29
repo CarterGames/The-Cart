@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 #if CARTERGAMES_NOTIONDATA
 using CarterGames.Assets.Shared.Common;
@@ -33,6 +34,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+	[Serializable]
     public class DataAssetGlobalLocalizationLookup : DataAsset
     {
         public SerializableDictionary<string, LocalizationData<string>> textLookup;

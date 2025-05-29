@@ -28,7 +28,7 @@ namespace CarterGames.Cart.Core
     /// <summary>
     /// A helper class for opening websites, discord links and email.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Core/Open URL")]
+    [AddComponentMenu("Carter Games/The Cart/Core/OpenURL")]
     public sealed class OpenURL : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
