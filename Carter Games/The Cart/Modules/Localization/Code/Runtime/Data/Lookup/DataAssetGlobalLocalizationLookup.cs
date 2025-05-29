@@ -37,10 +37,14 @@ namespace CarterGames.Cart.Modules.Localization
 	[Serializable]
     public class DataAssetGlobalLocalizationLookup : DataAsset
     {
-        public SerializableDictionary<string, LocalizationData<string>> textLookup;
-        public SerializableDictionary<string, LocalizationData<Sprite>> spriteLookup;
-        public SerializableDictionary<string, LocalizationData<AudioClip>> audioLookup;
+        [SerializeField] private SerializableDictionary<string, LocalizationData<string>> textLookup;
+        [SerializeField] private SerializableDictionary<string, LocalizationData<Sprite>> spriteLookup;
+        [SerializeField] private SerializableDictionary<string, LocalizationData<AudioClip>> audioLookup;
 
+
+        public IReadOnlyDictionary<string, LocalizationData<string>> TextLocalizationLookup => textLookup;
+        public IReadOnlyDictionary<string, LocalizationData<Sprite>> SpriteLocalizationLookup => spriteLookup;
+        public IReadOnlyDictionary<string, LocalizationData<AudioClip>> AudioLocalizationLookup => audioLookup;
         
         
         private static List<DataAssetLocalizedText> TextNormalAssets => DataAccess.GetAssets<DataAssetLocalizedText>();

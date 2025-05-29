@@ -166,7 +166,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <returns>The copy for the id.</returns>
 		private static LocalizationData<string> GetTextCopyData(string id)
 		{
-			return Lookup.textLookup[id];
+			return Lookup.TextLocalizationLookup[id];
 		}
 		
 		
@@ -177,7 +177,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <returns>The copy for the id.</returns>
 		private static LocalizationData<Sprite> GetSpriteCopyData(string id)
 		{
-			return Lookup.spriteLookup[id];
+			return Lookup.SpriteLocalizationLookup[id];
 		}
 		
 		
@@ -188,7 +188,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <returns>The copy for the id.</returns>
 		private static LocalizationData<AudioClip> GetAudioCopyData(string id)
 		{
-			return Lookup.audioLookup[id];
+			return Lookup.AudioLocalizationLookup[id];
 		}
 
 
