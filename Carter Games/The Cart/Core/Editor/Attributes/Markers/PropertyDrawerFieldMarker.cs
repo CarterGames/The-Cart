@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.SceneManagement;

@@ -40,7 +40,7 @@ namespace CarterGames.Cart.Modules.GameTicks
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         [SerializeField] private GameTickSyncState syncState;
-        [SerializeField] private float ticksPerSecond;
+        [SerializeField] private float ticksPerSecond = 30;
 
         private bool hasTimescaleOverride;
         private bool tickerEnabled = true;
