@@ -34,8 +34,9 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+	[CreateAssetMenu]
 	[Serializable]
-    public class DataAssetGlobalLocalizationLookup : DataAsset
+    public sealed class DataAssetGlobalLocalizationLookup : DataAsset
     {
         [SerializeField] private SerializableDictionary<string, LocalizationData<string>> textLookup;
         [SerializeField] private SerializableDictionary<string, LocalizationData<Sprite>> spriteLookup;
