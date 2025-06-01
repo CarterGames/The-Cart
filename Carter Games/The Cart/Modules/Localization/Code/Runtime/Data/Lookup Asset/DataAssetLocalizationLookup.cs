@@ -36,7 +36,7 @@ namespace CarterGames.Cart.Modules.Localization
 {
 	[CreateAssetMenu]
 	[Serializable]
-    public sealed class DataAssetGlobalLocalizationLookup : DataAsset
+    public sealed class DataAssetLocalizationLookup : DataAsset
     {
         [SerializeField] private SerializableDictionary<string, LocalizationData<string>> textLookup;
         [SerializeField] private SerializableDictionary<string, LocalizationData<Sprite>> spriteLookup;

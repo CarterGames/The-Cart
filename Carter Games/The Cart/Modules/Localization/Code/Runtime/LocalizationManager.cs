@@ -47,8 +47,8 @@ namespace CarterGames.Cart.Modules.Localization
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		private static DataAssetGlobalLocalizationLookup Lookup =>
-			DataAccess.GetAsset<DataAssetGlobalLocalizationLookup>();
+		private static DataAssetLocalizationLookup Lookup =>
+			DataAccess.GetAsset<DataAssetLocalizationLookup>();
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Events

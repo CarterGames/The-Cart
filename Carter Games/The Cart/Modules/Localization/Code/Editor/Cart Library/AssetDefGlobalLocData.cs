@@ -30,26 +30,26 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    public class AssetDefGlobalLocData : IScriptableAssetDef<DataAssetGlobalLocalizationLookup>
+    public class AssetDefGlobalLocData : IScriptableAssetDef<DataAssetLocalizationLookup>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private static DataAssetGlobalLocalizationLookup cache;
+        private static DataAssetLocalizationLookup cache;
         private static SerializedObject objCache;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IScriptableAssetDef Implementation
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        public Type AssetType => typeof(DataAssetGlobalLocalizationLookup);
+        public Type AssetType => typeof(DataAssetLocalizationLookup);
         public string DataAssetFileName => "[Cart] [Localization] Global Localization Lookup Data Asset.asset";
-        public string DataAssetFilter => $"t:{typeof(DataAssetGlobalLocalizationLookup).FullName}";
+        public string DataAssetFilter => $"t:{typeof(DataAssetLocalizationLookup).FullName}";
         public string DataAssetPath => $"{ScriptableRef.FullPathData}/Modules/{DataAssetFileName}";
 
 
-        public DataAssetGlobalLocalizationLookup AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+        public DataAssetLocalizationLookup AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
         public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
 
 
