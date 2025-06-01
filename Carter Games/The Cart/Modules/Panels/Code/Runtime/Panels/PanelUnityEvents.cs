@@ -31,7 +31,6 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A script to manage a UI panel to appear and disappear at will, but with events that you can assign in the inspector.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Panel (Unity Events)")]
     public class PanelUnityEvents : Panel
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

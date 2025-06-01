@@ -31,7 +31,6 @@ namespace CarterGames.Cart.Modules.Hierarchy
     /// <summary>
     /// (EDITOR ONLY) Handles the settings for a hierarchy header object.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Hierarchy/HierarchySeparatorSettings")]
     public sealed class HierarchySeparatorSettings : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

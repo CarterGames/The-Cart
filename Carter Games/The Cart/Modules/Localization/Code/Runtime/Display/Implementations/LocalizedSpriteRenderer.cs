@@ -31,7 +31,6 @@ namespace CarterGames.Cart.Modules.Localization
     /// <summary>
     /// A simple component for a localized SpriteRenderer element.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Localization/LocalizedSpriteRenderer")]
     public class LocalizedSpriteRenderer : LocalizedComponent<Sprite>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

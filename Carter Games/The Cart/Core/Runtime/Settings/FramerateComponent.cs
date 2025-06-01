@@ -29,7 +29,6 @@ namespace CarterGames.Cart.Core
 	/// <summary>
 	/// Handles editing the application framerate.
 	/// </summary>
-	[AddComponentMenu("Carter Games/The Cart/Core/FramerateComponent")]
 	public sealed class FramerateComponent : MonoBehaviour
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

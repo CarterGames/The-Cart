@@ -31,7 +31,6 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A animation curve transition for panels
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Panel Transition Animation Curve")]
     public class PanelTransitionCurve : PanelTransition
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

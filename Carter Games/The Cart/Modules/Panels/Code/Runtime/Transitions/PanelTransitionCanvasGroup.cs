@@ -31,7 +31,6 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A canvas group fade transition for panels
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Panel Transition Canvas Group")]
     public class PanelTransitionCanvasGroup : PanelTransition
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -28,7 +28,6 @@ namespace CarterGames.Cart.Core
     /// <summary>
     /// An instance that can be statically referenced for things such as coroutines in static classes etc.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Core/MonoInstance")]
     public class MonoInstance : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

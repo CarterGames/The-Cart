@@ -33,7 +33,6 @@ namespace CarterGames.Cart.Modules.Localization
 	/// <summary>
 	/// A simple component for a localized TMP_Text element.
 	/// </summary>
-	[AddComponentMenu("Carter Games/The Cart/Modules/Localization/Localized Text Mesh Pro")]
 	public sealed class LocalizedTextMeshPro : LocalizedComponent<string>
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

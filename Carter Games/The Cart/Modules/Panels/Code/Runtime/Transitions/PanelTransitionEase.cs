@@ -32,7 +32,6 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A easing transition for panels
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Panel Transition Ease")]
     public class PanelTransitionEase : PanelTransition
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
