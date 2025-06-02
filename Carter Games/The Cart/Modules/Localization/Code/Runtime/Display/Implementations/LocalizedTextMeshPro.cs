@@ -23,8 +23,10 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
+using CarterGames.Cart.Core.Logs;
 using TMPro;
 using UnityEngine;
 
@@ -44,6 +46,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 		private TMP_FontAsset defaultFontAsset;
 		private Material defaultFontMaterial;
+		private object[] formatParameters;
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
@@ -71,9 +74,44 @@ namespace CarterGames.Cart.Modules.Localization
 		}
 
 		
+		public void Localize(params object[] parameters)
+		{
+			if (string.IsNullOrEmpty(locId))
+			{
+				CartLogger.LogWarning<LogCategoryLocalization>("Cannot apply just parameters to this localized text as the loc id is not set!");
+				return;
+			}
+			
+			formatParameters = parameters;
+			base.Localize(locId);
+		}
+		
+
+		public void Localize(string locId, params object[] parameters)
+		{
+			formatParameters = parameters;
+			base.Localize(locId);
+		}
+
+		
 		protected override void AssignValue(string localizedValue)
 		{
-			LabelRef.SetText(localizedValue);
+			if (formatParameters.IsEmptyOrNull())
+			{
+				LabelRef.SetText(localizedValue);
+			}
+			else
+			{
+				try
+				{
+					LabelRef.SetText(string.Format(localizedValue, formatParameters));
+				}
+				catch (Exception e)
+				{
+					CartLogger.LogWarning<LogCategoryLocalization>($"Failed to format copy with parameters: {e.Message}.");
+				}
+			}
+			
 			TryAssignFont();
 		}
 
