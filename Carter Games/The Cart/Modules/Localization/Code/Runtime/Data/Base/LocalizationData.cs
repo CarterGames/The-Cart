@@ -30,6 +30,10 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// The base class for localization data.
+    /// </summary>
+    /// <typeparam name="T">The type to contain.</typeparam>
     [Serializable]
     public class LocalizationData<T>
     {

@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -33,19 +34,41 @@ namespace CarterGames.Cart.Modules.Localization
 	[Serializable]
 	public class LocalizationSpriteAsset
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Fields
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
 		[SerializeField] private string displayName;
 		[SerializeField] private SpriteAssetDef[] data;
 
-
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Gets if the default setup has been assigned.
+		/// </summary>
 		public bool HasDefaultSetup => data.Any(t => t.LanguageCode == Language.Default.Code);
 		
+		
+		/// <summary>
+		/// Gets the default language entry in the data if assigned.
+		/// </summary>
 		public SpriteAssetDef DefaultLanguageData =>
 			data.FirstOrDefault(t => t.LanguageCode == Language.Default.Code);
 		
+		
+		/// <summary>
+		/// Gets the default sprite asset if assigned.
+		/// </summary>
 		public TMP_SpriteAsset DefaultSpriteAsset =>
 			data.FirstOrDefault(t => t.LanguageCode == Language.Default.Code)?.SpriteAsset;
 		
-		public SpriteAssetDef[] Data => data;
+		
+		/// <summary>
+		/// Gets the data to search through.
+		/// </summary>
+		public IReadOnlyCollection<SpriteAssetDef> Data => data;
 	}
 }
 

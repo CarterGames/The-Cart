@@ -28,6 +28,10 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// The data structure for an entry for a localized element. ONe per language supported.
+    /// </summary>
+    /// <typeparam name="T">The type to contain</typeparam>
     [Serializable]
     public class LocalizationEntry<T>
     {

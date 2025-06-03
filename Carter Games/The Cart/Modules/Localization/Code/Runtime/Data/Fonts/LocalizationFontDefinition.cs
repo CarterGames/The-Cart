@@ -29,21 +29,53 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// Defines a font that localization can use for a specific language.
+    /// </summary>
     [Serializable]
     public sealed class LocalizationFontDefinition
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] [LanguageSelectable] private Language language;
         [SerializeField] private TMP_FontAsset fontAsset;
         [SerializeField] private bool usesMaterial;
         [SerializeField] private Material fontMaterial;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The language the font applies to.
+        /// </summary>
         public Language Language => language;
+        
+        /// <summary>
+        /// The font asset to apply.
+        /// </summary>
         public TMP_FontAsset Font => fontAsset;
+        
+        /// <summary>
+        /// Gets if a material is used for this font.
+        /// </summary>
         public bool UsesMaterial => usesMaterial;
+        
+        /// <summary>
+        /// The font material used for the font asset.
+        /// </summary>
         public Material FontMaterial => fontMaterial;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Applies to font to the label entered.
+        /// </summary>
+        /// <param name="label">The label to edit.</param>
         public void ApplyToLabel(TMP_Text label)
         {
             label.font = Font;

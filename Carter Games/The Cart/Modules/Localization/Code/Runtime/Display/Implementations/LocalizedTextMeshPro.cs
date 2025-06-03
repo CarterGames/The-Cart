@@ -61,6 +61,9 @@ namespace CarterGames.Cart.Modules.Localization
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
+		/// <summary>
+		/// The loc id to use.
+		/// </summary>
 		public override string LocId
 		{
 			get => locId;
@@ -68,17 +71,26 @@ namespace CarterGames.Cart.Modules.Localization
 		}
 		
 
-		protected override string GetValueFromId(string locId)
+		/// <summary>
+		/// Gets the text from the loc id.
+		/// </summary>
+		/// <param name="requestLocId">The id to use.</param>
+		/// <returns>The text for the loc id.</returns>
+		protected override string GetValueFromId(string requestLocId)
 		{
-			return LocalizationManager.GetText(locId);
+			return LocalizationManager.GetText(requestLocId);
 		}
 
 		
+		/// <summary>
+		/// Localizes the element with the current loc id and uses the parameters entered to format the string.
+		/// </summary>
+		/// <param name="parameters">The parameters to use.</param>
 		public void Localize(params object[] parameters)
 		{
 			if (string.IsNullOrEmpty(locId))
 			{
-				CartLogger.LogWarning<LogCategoryLocalization>("Cannot apply just parameters to this localized text as the loc id is not set!");
+				CartLogger.LogWarning<LogCategoryModuleLocalization>("Cannot apply just parameters to this localized text as the loc id is not set!");
 				return;
 			}
 			
@@ -87,35 +99,50 @@ namespace CarterGames.Cart.Modules.Localization
 		}
 		
 
-		public void Localize(string locId, params object[] parameters)
+		/// <summary>
+		/// Localizes the element with the entered loc id and uses the parameters entered to format the string.
+		/// </summary>
+		/// <param name="customLocId">The loc id to use.</param>
+		/// <param name="parameters">The parameters to use.</param>
+		public void Localize(string customLocId, params object[] parameters)
 		{
 			formatParameters = parameters;
-			base.Localize(locId);
+			base.Localize(customLocId);
 		}
 
 		
+		/// <summary>
+		/// Assigns the value based on the data assigned to the component.
+		/// </summary>
+		/// <param name="localizedValue">The localized value to show.</param>
 		protected override void AssignValue(string localizedValue)
 		{
 			if (formatParameters.IsEmptyOrNull())
 			{
+				// Just set..
 				LabelRef.SetText(localizedValue);
 			}
 			else
 			{
+				// Try set with params entered..
 				try
 				{
 					LabelRef.SetText(string.Format(localizedValue, formatParameters));
 				}
 				catch (Exception e)
 				{
-					CartLogger.LogWarning<LogCategoryLocalization>($"Failed to format copy with parameters: {e.Message}.");
+					CartLogger.LogWarning<LogCategoryModuleLocalization>($"Failed to format copy with parameters: {e.Message}.");
 				}
 			}
 			
+			// Update font.
 			TryAssignFont();
 		}
 
 
+		/// <summary>
+		/// Tries to update the font on the label to the relevant localization font.
+		/// </summary>
 		private void TryAssignFont()
 		{
 			if (defaultFontAsset == null)

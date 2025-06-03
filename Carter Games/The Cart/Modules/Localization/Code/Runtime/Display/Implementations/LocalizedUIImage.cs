@@ -54,6 +54,9 @@ namespace CarterGames.Cart.Modules.Localization
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// The loc id to use.
+        /// </summary>
         public override string LocId
         {
             get => locId;
@@ -61,12 +64,21 @@ namespace CarterGames.Cart.Modules.Localization
         }
         
 
-        protected override Sprite GetValueFromId(string locId)
+        /// <summary>
+        /// Gets the sprite from the loc id.
+        /// </summary>
+        /// <param name="requestLocId">The id to use.</param>
+        /// <returns>The sprite for the loc id.</returns>
+        protected override Sprite GetValueFromId(string requestLocId)
         {
-            return LocalizationManager.GetSprite(locId);
+            return LocalizationManager.GetSprite(requestLocId);
         }
         
 
+        /// <summary>
+        /// Assigns to the sprite to the image.
+        /// </summary>
+        /// <param name="localizedValue">The sprite to assign.</param>
         protected override void AssignValue(Sprite localizedValue)
         {
             ImageRef.sprite = localizedValue;

@@ -98,7 +98,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// Gets the languages in the system.
 		/// </summary>
-		public static List<Language> GetLanguages => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages;
+		public static IReadOnlyCollection<Language> GetLanguages => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
@@ -146,7 +146,7 @@ namespace CarterGames.Cart.Modules.Localization
 				}
 				else
 				{
-					CartLogger.LogWarning<LogCategoryLocalization>(
+					CartLogger.LogWarning<LogCategoryModuleLocalization>(
 						$"Unable to get override language from code {languageCode}. Using default.",
 						typeof(LocalizationManager));
 					
@@ -209,7 +209,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LogCategoryModuleLocalization>(
 					$"[TryGetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
@@ -238,7 +238,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LogCategoryModuleLocalization>(
 					$"[TryGetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
@@ -267,7 +267,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LogCategoryModuleLocalization>(
 					$"[TryGetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
@@ -294,7 +294,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LogCategoryModuleLocalization>(
 					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}
@@ -318,7 +318,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LogCategoryModuleLocalization>(
 					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}
@@ -342,7 +342,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LogCategoryModuleLocalization>(
 					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}

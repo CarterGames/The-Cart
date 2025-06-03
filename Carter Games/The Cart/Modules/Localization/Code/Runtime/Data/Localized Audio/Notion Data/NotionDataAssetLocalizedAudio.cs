@@ -39,6 +39,7 @@ namespace CarterGames.Cart.Modules.Localization
 	{
 		private void Awake()
 		{
+			// Auto-assigns the audio processor to the asset when created.
 			processor = typeof(NotionDatabaseProcessorAudioLocalization);
 		}
 	}

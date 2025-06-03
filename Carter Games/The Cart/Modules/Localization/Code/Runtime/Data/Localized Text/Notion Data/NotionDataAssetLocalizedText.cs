@@ -39,6 +39,7 @@ namespace CarterGames.Cart.Modules.Localization
 	{
 		private void Awake()
 		{
+			// Auto-assigns the text processor to the asset when created.
 			processor = typeof(NotionDatabaseProcessorTextLocalization);
 		}
 	}

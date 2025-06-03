@@ -24,24 +24,46 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// Defines a font that localization can use.
+    /// </summary>
     [Serializable]
     public struct LocalizationFont
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] private string displayName;
         [SerializeField] private LocalizationFontDefinition[] data;
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
+        /// <summary>
+        /// Gets if the default setup has been assigned.
+        /// </summary>
         public bool HasDefaultSetup => data.Any(t => t.Language.Code == LocalizationManager.CurrentLanguage.Code);
 		
+        
+        /// <summary>
+        /// Gets the default setup.
+        /// </summary>
         public LocalizationFontDefinition DefaultLanguageData =>
             data.FirstOrDefault(t => t.Language.Code == Language.Default.Code);
         
-        public LocalizationFontDefinition[] Data => data;
+        
+        /// <summary>
+        /// Gets the data to read from.
+        /// </summary>
+        public IReadOnlyCollection<LocalizationFontDefinition> Data => data;
     }
 }
 

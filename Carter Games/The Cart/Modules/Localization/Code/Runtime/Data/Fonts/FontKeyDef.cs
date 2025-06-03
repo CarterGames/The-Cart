@@ -29,18 +29,49 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// Defines a key to use to lookup fonts from assigned assets + material combo's
+    /// </summary>
     [Serializable]
     public struct FontKeyDef
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] private TMP_FontAsset fontAsset;
         [SerializeField] private Material fontMaterial;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The font asset.
+        /// </summary>
         public TMP_FontAsset Font => fontAsset;
+        
+        
+        /// <summary>
+        /// The material if present.
+        /// </summary>
         public Material Material => fontMaterial;
+        
+        
+        /// <summary>
+        /// Gets if the material is not null.
+        /// </summary>
         public bool HasMaterial => fontMaterial != null;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Makes a font key from the loc font definition data type.
+        /// </summary>
+        /// <param name="data">The data to read</param>
+        /// <returns>The font key</returns>
         public static FontKeyDef FromFontDef(LocalizationFontDefinition data)
         {
             return new FontKeyDef()
@@ -51,6 +82,12 @@ namespace CarterGames.Cart.Modules.Localization
         }
         
         
+        /// <summary>
+        /// Makes a font key from the loc font definition data type.
+        /// </summary>
+        /// <param name="fontAsset">The font asset to use</param>
+        /// <param name="material">The font material to use</param>
+        /// <returns>The font key</returns>
         public static FontKeyDef FromElements(TMP_FontAsset fontAsset, Material material)
         {
             return new FontKeyDef()
@@ -61,6 +98,11 @@ namespace CarterGames.Cart.Modules.Localization
         }
 
 
+        /// <summary>
+        /// Makes a font key from the loc font definition data type.
+        /// </summary>
+        /// <param name="component">The TMP text component to use</param>
+        /// <returns>The font key</returns>
         public static FontKeyDef FromTMPComponent(TMP_Text component)
         {
             var data = new FontKeyDef()

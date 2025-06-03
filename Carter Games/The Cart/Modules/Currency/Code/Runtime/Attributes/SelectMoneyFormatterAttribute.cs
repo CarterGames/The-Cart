@@ -28,11 +28,11 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency
 {
+    /// <summary>
+    /// A select attribute for money formatters
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class SelectMoneyFormatterAttribute : PropertyAttribute
-    {
-        public SelectMoneyFormatterAttribute() { }
-    }
+    public sealed class SelectMoneyFormatterAttribute : PropertyAttribute { }
 }
 
 #endif

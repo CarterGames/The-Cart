@@ -29,19 +29,49 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// The base class for localizing an element of the project.
+    /// </summary>
+    /// <typeparam name="T">The localized type.</typeparam>
     public abstract class LocalizedComponent<T> : MonoBehaviour
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] protected bool updateOnStart = true;
         
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The loc id for the component to use.
+        /// </summary>
         public abstract string LocId { get; protected set; }
-        protected T ManuallyAssignedValue { get; set; }
-        protected bool IsAssignedManually { get; set; }
+        
+        /// <summary>
+        /// Gets if the loc id is assigned or not.
+        /// </summary>
         private bool IsLocIdAssigned => string.IsNullOrEmpty(LocId);
         
+        /// <summary>
+        /// The manually assigned value by the user if assigned.
+        /// </summary>
+        protected T ManuallyAssignedValue { get; set; }
+        
+        /// <summary>
+        /// Gets if the setup should use the manually assigned value.
+        /// </summary>
+        protected bool IsAssignedManually { get; set; }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Unity Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private void OnEnable()
         {
-            LocalizationManager.LanguageChanged.Add(OnLanguageChanged);
+            LocalizationManager.LanguageChanged.Add(Localize);
         }
 
 
@@ -54,17 +84,17 @@ namespace CarterGames.Cart.Modules.Localization
 
         private void OnDestroy()
         {
-            LocalizationManager.LanguageChanged.Remove(OnLanguageChanged);
+            LocalizationManager.LanguageChanged.Remove(Localize);
         }
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private void OnLanguageChanged()
-        {
-            Localize();
-        }
-
-
-        protected void AssignLocalization()
+        /// <summary>
+        /// Assigns the localization to the componenet when called based on the current data setup it has to work with.
+        /// </summary>
+        private void AssignLocalization()
         {
             if (IsAssignedManually)
             {
@@ -76,7 +106,7 @@ namespace CarterGames.Cart.Modules.Localization
             {
                 if (IsLocIdAssigned)
                 {
-                    CartLogger.LogWarning<LogCategoryLocalization>("Loc Id not assigned, cannot localize", GetType());
+                    CartLogger.LogWarning<LogCategoryModuleLocalization>("Loc Id not assigned, cannot localize", GetType());
                     return;
                 }
                 
@@ -84,22 +114,40 @@ namespace CarterGames.Cart.Modules.Localization
             }
             catch (Exception e)
             {
-                CartLogger.LogError<LogCategoryLocalization>($"Failed to localize component with the exception {e}", GetType());
+                CartLogger.LogError<LogCategoryModuleLocalization>($"Failed to localize component with the exception {e}", GetType());
             }
         }
 
 
+        /// <summary>
+        /// Implement to get the localized value from the localization setup.
+        /// </summary>
+        /// <param name="locId">The id to look for.</param>
+        /// <returns>The value found.</returns>
         protected abstract T GetValueFromId(string locId);
+        
+        
+        /// <summary>
+        /// Implement to assign the localized value to the target component.
+        /// </summary>
+        /// <param name="localizedValue">The localized value to assign.</param>
         protected abstract void AssignValue(T localizedValue);
 
         
+        /// <summary>
+        /// Call to update the localization on the component with the current loc id assigned.
+        /// </summary>
         public void Localize()
         {
             ClearManuallySetValue();
             AssignLocalization();
         }
         
-        
+       
+        /// <summary>
+        /// Call to update the localization on the component with the loc id entered.
+        /// </summary>
+        /// <param name="locId">The loc id to use.</param>
         public void Localize(string locId)
         {
             LocId = locId;
@@ -109,6 +157,10 @@ namespace CarterGames.Cart.Modules.Localization
         }
         
         
+        /// <summary>
+        /// Localize the component manually to the entered value.
+        /// </summary>
+        /// <param name="value">The value to display.</param>
         public virtual void LocalizeManually(T value)
         {
             ManuallyAssignedValue = value;
@@ -118,6 +170,9 @@ namespace CarterGames.Cart.Modules.Localization
         }
 
         
+        /// <summary>
+        /// Clears the current manually assigned value.
+        /// </summary>
         protected virtual void ClearManuallySetValue()
         {
             if (!IsAssignedManually) return;

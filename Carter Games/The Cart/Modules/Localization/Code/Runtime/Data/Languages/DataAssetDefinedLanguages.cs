@@ -49,7 +49,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// Gets a list of all the languages defined in the asset.
 		/// </summary>
-		public List<Language> Languages => languages;
+		public IReadOnlyCollection<Language> Languages => languages;
 	}
 }
 

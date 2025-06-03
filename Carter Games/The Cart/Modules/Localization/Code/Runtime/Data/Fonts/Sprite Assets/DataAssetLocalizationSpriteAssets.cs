@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Logs;
@@ -34,6 +33,9 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+	/// <summary>
+	/// Handles any TMP_SpriteAsset usage in the localization setup.
+	/// </summary>
     [CreateAssetMenu(fileName = "Data Asset Localization Sprite Assets", menuName = "Carter Games/The Cart/Modules/Localization/TMP/Data Asset Localization Sprite Assets")]
     [Serializable]
     public sealed class DataAssetLocalizationSpriteAssets : DataAsset
@@ -59,7 +61,7 @@ namespace CarterGames.Cart.Modules.Localization
             {
                 if (!entry.HasDefaultSetup)
                 {
-                    CartLogger.LogWarning<LogCategoryLocalization>($"Unable to set the entry for {entry} as it doesn't have a default language setup.");
+                    CartLogger.LogWarning<LogCategoryModuleLocalization>($"Unable to set the entry for {entry} as it doesn't have a default language setup.");
                     continue;
                 }
 				
@@ -75,23 +77,24 @@ namespace CarterGames.Cart.Modules.Localization
             }
         }
         
+        
 		private SerializableDictionary<string, SpriteAssetDef> GetSpriteAssetData(TMP_Text label)
 		{
 			return GetSpriteAssetData(label.spriteAsset);
 		}
 		
-		
+
 		private SerializableDictionary<string, SpriteAssetDef> GetSpriteAssetData(TMP_SpriteAsset spriteAsset)
 		{
 			if (spriteAsset == null)
 			{
-				CartLogger.LogWarning<LogCategoryLocalization>($"Sprite asset ref is null!");
+				CartLogger.LogWarning<LogCategoryModuleLocalization>($"Sprite asset ref is null!");
 				return null;
 			}
 
 			if (!spritesLookup.ContainsKey(spriteAsset))
 			{
-				CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find entry for {spriteAsset.name} in setup!");
+				CartLogger.LogWarning<LogCategoryModuleLocalization>($"Couldn't find entry for {spriteAsset.name} in setup!");
 				return null;
 			}
 
@@ -142,7 +145,7 @@ namespace CarterGames.Cart.Modules.Localization
 			
 			if (foundSpriteData.ContainsKey(targetLanguageCode))
 			{
-				CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
+				CartLogger.LogWarning<LogCategoryModuleLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
 				return;
 			}
 			

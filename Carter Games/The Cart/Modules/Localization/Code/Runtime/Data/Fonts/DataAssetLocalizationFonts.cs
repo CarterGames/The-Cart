@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Modules.Localization
 	        {
 		        if (!entry.HasDefaultSetup)
 		        {
-			        CartLogger.LogWarning<LogCategoryLocalization>(
+			        CartLogger.LogWarning<LogCategoryModuleLocalization>(
 				        $"Unable to set the entry for {entry} as it doesn't have a default language setup.");
 			        continue;
 		        }
@@ -110,7 +110,7 @@ namespace CarterGames.Cart.Modules.Localization
 		        return fontData;
 	        }
 	        
-	        CartLogger.LogError<LogCategoryLocalization>($"Couldn't find default font setup for {fontAsset.name} | {fontMaterial}, using fallback!");
+	        CartLogger.LogError<LogCategoryModuleLocalization>($"Couldn't find default font setup for {fontAsset.name} | {fontMaterial}, using fallback!");
 	        return fallbackFont;
         }
 
@@ -172,7 +172,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 	        if (!GetFontData(label).ContainsKey(targetLanguageCode))
 	        {
-		        CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
+		        CartLogger.LogWarning<LogCategoryModuleLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
 		        return;
 	        }
 	        
@@ -185,6 +185,12 @@ namespace CarterGames.Cart.Modules.Localization
         }
 
 
+        /// <summary>
+        /// Updates the label to the entered font asset.
+        /// </summary>
+        /// <param name="label">The label to apply to.</param>
+        /// <param name="fontAsset">The asset to apply.</param>
+        /// <param name="overrideLanguageCode">The language code to get for. If not overriden it'll be the current language.</param>
         public void UpdateLabelToFont(TMP_Text label, TMP_FontAsset fontAsset, string overrideLanguageCode = "")
         {
 	        UpdateLabelToFont(label, fontAsset, null, overrideLanguageCode);
@@ -195,6 +201,8 @@ namespace CarterGames.Cart.Modules.Localization
         /// Updates the font on a label to the current language or a specific language code if requested.
         /// </summary>
         /// <param name="label">The label to apply to.</param>
+        /// <param name="fontAsset">The asset to apply.</param>
+        /// <param name="material">The material to apply for the font.</param>
         /// <param name="overrideLanguageCode">The language code to get for. If not overriden it'll be the current language.</param>
         public void UpdateLabelToFont(TMP_Text label, TMP_FontAsset fontAsset, Material material, string overrideLanguageCode = "")
         {
@@ -202,7 +210,7 @@ namespace CarterGames.Cart.Modules.Localization
 
 	        if (!GetFontData(fontAsset, material).ContainsKey(targetLanguageCode))
 	        {
-		        CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
+		        CartLogger.LogWarning<LogCategoryModuleLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
 		        return;
 	        }
 	        

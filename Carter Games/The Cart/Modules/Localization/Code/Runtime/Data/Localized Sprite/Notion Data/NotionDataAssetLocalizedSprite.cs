@@ -39,6 +39,7 @@ namespace CarterGames.Cart.Modules.Localization
 	{
 		private void Awake()
 		{
+			// Auto-assigns the sprite processor to the asset when created.
 			processor = typeof(NotionDatabaseProcessorSpriteLocalization);
 		}
 	}

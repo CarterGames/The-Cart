@@ -27,7 +27,10 @@ using CarterGames.Cart.Core.Logs;
 
 namespace CarterGames.Cart.Modules.Localization
 {
-    public sealed class LogCategoryLocalization : LogCategory { }
+    /// <summary>
+    /// A log category for the localization module.
+    /// </summary>
+    public sealed class LogCategoryModuleLocalization : LogCategory { }
 }
 
 #endif

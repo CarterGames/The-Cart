@@ -25,26 +25,51 @@
 
 using System;
 using System.Collections.Generic;
-#if CARTERGAMES_NOTIONDATA
-using CarterGames.Assets.Shared.Common;
-#endif
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
+#if CARTERGAMES_NOTIONDATA
+using CarterGames.Assets.Shared.Common;
+#endif
+
 namespace CarterGames.Cart.Modules.Localization
 {
-	[CreateAssetMenu]
+	/// <summary>
+	/// The global localization lookup asset to search through all copy in the project with.
+	/// </summary>
+	[CreateAssetMenu(fileName = "Localization Lookup",
+		menuName = "Carter Games/The Cart/Modules/Localization/Global Localization Lookup")]
 	[Serializable]
     public sealed class DataAssetLocalizationLookup : DataAsset
     {
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Fields
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+	    
         [SerializeField] private SerializableDictionary<string, LocalizationData<string>> textLookup;
         [SerializeField] private SerializableDictionary<string, LocalizationData<Sprite>> spriteLookup;
         [SerializeField] private SerializableDictionary<string, LocalizationData<AudioClip>> audioLookup;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// A readonly lookup of all text entries in the localization setup.
+        /// </summary>
         public IReadOnlyDictionary<string, LocalizationData<string>> TextLocalizationLookup => textLookup;
+        
+        
+        /// <summary>
+        /// A readonly lookup of all sprite entries in the localization setup.
+        /// </summary>
         public IReadOnlyDictionary<string, LocalizationData<Sprite>> SpriteLocalizationLookup => spriteLookup;
+        
+        
+        /// <summary>
+        /// A readonly lookup of all audio entries in the localization setup.
+        /// </summary>
         public IReadOnlyDictionary<string, LocalizationData<AudioClip>> AudioLocalizationLookup => audioLookup;
         
         
@@ -58,8 +83,10 @@ namespace CarterGames.Cart.Modules.Localization
         private static List<NotionDataAssetLocalizedAudio> AudioNotionAssets => NotionDataAccessor.GetAssets<NotionDataAssetLocalizedAudio>();
 #endif
         
-        
-
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Methods
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+	    
         protected override void OnInitialize()
         {
 	        textLookup = GetTextAssetsLookup();

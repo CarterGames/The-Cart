@@ -53,6 +53,9 @@ namespace CarterGames.Cart.Modules.Localization
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// The loc id to use.
+        /// </summary>
         public override string LocId
         {
             get => locId;
@@ -60,12 +63,21 @@ namespace CarterGames.Cart.Modules.Localization
         }
 
         
-        protected override AudioClip GetValueFromId(string locId)
+        /// <summary>
+        /// Gets the audio from the loc id.
+        /// </summary>
+        /// <param name="requestLocId">The id to use.</param>
+        /// <returns>The audio for the loc id.</returns>
+        protected override AudioClip GetValueFromId(string requestLocId)
         {
-            return LocalizationManager.GetAudio(locId);
+            return LocalizationManager.GetAudio(requestLocId);
         }
         
 
+        /// <summary>
+        /// Assigns to the audio to the source.
+        /// </summary>
+        /// <param name="localizedValue">The clip to assign.</param>
         protected override void AssignValue(AudioClip localizedValue)
         {
             AudioRef.clip = localizedValue;
