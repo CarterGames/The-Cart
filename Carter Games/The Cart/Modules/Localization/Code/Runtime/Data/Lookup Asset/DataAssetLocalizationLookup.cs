@@ -30,7 +30,7 @@ using CarterGames.Cart.Core.Data;
 using UnityEngine;
 
 #if CARTERGAMES_NOTIONDATA
-using CarterGames.Assets.Shared.Common;
+using CarterGames.Shared.NotionData;
 #endif
 
 namespace CarterGames.Cart.Modules.Localization

@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 #if CARTERGAMES_NOTIONDATA
-using CarterGames.Assets.Shared.Common;
+using CarterGames.Shared.NotionData;
 #endif
 
 using CarterGames.Cart.Core.Data;
