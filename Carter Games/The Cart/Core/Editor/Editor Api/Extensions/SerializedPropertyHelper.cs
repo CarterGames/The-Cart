@@ -60,12 +60,45 @@ namespace CarterGames.Cart.Core.Editor
         
         
         /// <summary>
+        /// Calls InsertArrayElementAtIndex() followed by GetArrayElementAtIndex() for the same index.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="index">The index.</param>
+        public static SerializedProperty InsertAndGetIndex(this SerializedProperty property, int index)
+        {
+            property.InsertArrayElementAtIndex(index);
+            return property.GetArrayElementAtIndex(index);
+        }
+        
+        
+        /// <summary>
         /// Calls InsertArrayElementAtIndex(ArraySize)
         /// </summary>
         /// <param name="property">The property.</param>
         public static void InsertAtEnd(this SerializedProperty property)
         {
             property.InsertArrayElementAtIndex(property.arraySize);
+        }
+        
+        
+        /// <summary>
+        /// Calls InsertArrayElementAtIndex(ArraySize) followed by GetArrayElementAtIndex(ArraySize).
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="value">The inserted value.</param>
+        public static void InsertAtEnd(this SerializedProperty property, out SerializedProperty value)
+        {
+            property.InsertArrayElementAtIndex(property.arraySize);
+            value = property.GetArrayElementAtIndex(property.arraySize - 1);
+        }
+
+
+        public static void ClearAllValues(SerializedProperty property)
+        {
+            while (property.Next(true))
+            {
+                property.TryResetToDefaultValue();
+            }
         }
         
         
@@ -213,6 +246,90 @@ namespace CarterGames.Cart.Core.Editor
         public static SerializedProperty Fpr(this SerializedProperty property, string propName)
         {
             return property.FindPropertyRelative(propName);
+        }
+
+
+        public static void TryResetToDefaultValue(this SerializedProperty property)
+        {
+            switch (property.propertyType)
+            {
+                case SerializedPropertyType.Generic:
+                    property.objectReferenceValue = default;
+                    break;
+                case SerializedPropertyType.Integer:
+                    property.intValue = default;
+                    break;
+                case SerializedPropertyType.Boolean:
+                    property.boolValue = default;
+                    break;
+                case SerializedPropertyType.Float:
+                    property.floatValue = default;
+                    break;
+                case SerializedPropertyType.String:
+                    property.stringValue = default;
+                    break;
+                case SerializedPropertyType.Color:
+                    property.colorValue = default;
+                    break;
+                case SerializedPropertyType.ObjectReference:
+                    property.objectReferenceValue = default;
+                    break;
+                case SerializedPropertyType.LayerMask:
+                    property.intValue = default;
+                    break;
+                case SerializedPropertyType.Enum:
+                    property.intValue = default;
+                    break;
+                case SerializedPropertyType.Vector2:
+                    property.vector2Value = default;
+                    break;
+                case SerializedPropertyType.Vector3:
+                    property.vector3Value = default;
+                    break;
+                case SerializedPropertyType.Vector4:
+                    property.vector4Value = default;
+                    break;
+                case SerializedPropertyType.Rect:
+                    property.rectValue = default;
+                    break;
+                case SerializedPropertyType.ArraySize:
+                    property.ClearArray();
+                    break;
+                case SerializedPropertyType.Character:
+                    property.stringValue = default;
+                    break;
+                case SerializedPropertyType.AnimationCurve:
+                    property.animationCurveValue = default;
+                    break;
+                case SerializedPropertyType.Bounds:
+                    property.boundsValue = default;
+                    break;
+                case SerializedPropertyType.Quaternion:
+                    property.quaternionValue = default;
+                    break;
+                case SerializedPropertyType.ExposedReference:
+                    property.exposedReferenceValue = default;
+                    break;
+                case SerializedPropertyType.Vector2Int:
+                    property.vector2IntValue = default;
+                    break;
+                case SerializedPropertyType.Vector3Int:
+                    property.vector3IntValue = default;
+                    break;
+                case SerializedPropertyType.RectInt:
+                    property.rectIntValue = default;
+                    break;
+                case SerializedPropertyType.BoundsInt:
+                    property.boundsIntValue = default;
+                    break;
+                case SerializedPropertyType.ManagedReference:
+                    property.managedReferenceValue = default;
+                    break;
+                case SerializedPropertyType.Gradient:
+                case SerializedPropertyType.FixedBufferSize:
+                default:
+                    break;
+            }
         }
     }
 }

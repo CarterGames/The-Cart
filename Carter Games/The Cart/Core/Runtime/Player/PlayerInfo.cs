@@ -41,7 +41,7 @@ namespace CarterGames.Cart.Core
 		/// <summary>
 		/// Gets if the user has a player id.
 		/// </summary>
-		public static bool HasPlayerId => string.IsNullOrEmpty(PlayerId);
+		public static bool HasPlayerId => !string.IsNullOrEmpty(PlayerId);
 		
 		
 		/// <summary>
@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Core
 			if (HasPlayerId) return;
 
 			string playerIntId = "";
-			var rngProvider = AssemblyHelper.GetClassesOfType<UnityRngProvider>().First();
+			var rngProvider = new UnityRngProvider();
 			
 			for (var i = 0; i < 16; i++)
 			{

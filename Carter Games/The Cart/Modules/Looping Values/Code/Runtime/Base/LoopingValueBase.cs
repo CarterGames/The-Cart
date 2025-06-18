@@ -51,7 +51,7 @@ namespace CarterGames.Cart.Modules.LoopingValues
         /// <summary>
         /// The value currently at.
         /// </summary>
-        public T Value => currentValue;
+        public abstract T Value { get; }
 
         
         /// <summary>
@@ -67,6 +67,12 @@ namespace CarterGames.Cart.Modules.LoopingValues
 
 
         /// <summary>
+        /// Gets the mod value for the number
+        /// </summary>
+        protected T ModValue => Difference;
+        
+
+        /// <summary>
         /// Gets the difference between the min & max values.
         /// </summary>
         protected abstract T Difference { get; }
@@ -78,7 +84,7 @@ namespace CarterGames.Cart.Modules.LoopingValues
         /// <summary>
         /// Is raised when the value is changed by normal means.
         /// </summary>
-        public readonly Evt ValueChanged = new Evt();
+        public readonly Evt ValueChangedEvt = new Evt();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -122,7 +128,7 @@ namespace CarterGames.Cart.Modules.LoopingValues
         {
             currentValue = minValue;
             if (!notify) return;
-            ValueChanged.Raise();
+            ValueChangedEvt.Raise();
         }
         
         
@@ -134,7 +140,7 @@ namespace CarterGames.Cart.Modules.LoopingValues
         {
             currentValue = maxValue;
             if (!notify) return;
-            ValueChanged.Raise();
+            ValueChangedEvt.Raise();
         }
 
         

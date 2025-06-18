@@ -38,6 +38,12 @@ namespace CarterGames.Cart.Modules.LoopingValues
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
+        /// The value currently at.
+        /// </summary>
+        public override double Value => currentValue % ModValue;
+        
+        
+        /// <summary>
         /// Gets the difference between the min & max values.
         /// </summary>
         protected override double Difference => MaxValue - MinValue;
@@ -98,8 +104,11 @@ namespace CarterGames.Cart.Modules.LoopingValues
         /// <returns>The updated value.</returns>
         protected override double SetToValue(double value, bool notify = true)
         {
-            currentValue = value;
-            return KeepValueInRange(notify);
+            currentValue += value;
+            
+            if (!notify) return Value;
+            ValueChangedEvt.Raise();
+            return Value;
         }
         
 
@@ -112,46 +121,10 @@ namespace CarterGames.Cart.Modules.LoopingValues
         protected override double UpdateValue(double adjustment, bool notify = true)
         {
             currentValue += adjustment;
-            return KeepValueInRange(notify);
-        }
-
-
-        /// <summary>
-        /// Logic to loop the value correctly.
-        /// </summary>
-        /// <param name="notify">Should it notify the change?</param>
-        /// <returns>The looped position if applicable.</returns>
-        private double KeepValueInRange(bool notify)
-        {
-            var remainder = 0d;
-
-            if (currentValue > maxValue)
-            {
-                remainder = currentValue - Difference;
-                
-                while (remainder > maxValue)
-                {
-                    currentValue -= currentValue - Difference;
-                    remainder = currentValue - Difference;
-                }
-            }
-            else if (currentValue < minValue)
-            {
-                remainder = currentValue + Difference;
-
-                while (remainder < minValue)
-                {
-                    currentValue = maxValue - Difference;
-                    remainder = (currentValue + Difference);
-                }
-            }
             
-            if (notify)
-            {
-                ValueChanged.Raise();
-            }
-            
-            return currentValue;
+            if (!notify) return Value;
+            ValueChangedEvt.Raise();
+            return Value;
         }
     }
 }

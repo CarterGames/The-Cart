@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Is raised when the asset is initialized.
         /// </summary>
-        public static readonly Evt Initialized = new Evt();
+        public static readonly Evt InitializedEvt = new Evt();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -107,7 +107,7 @@ namespace CarterGames.Cart.Core.Management.Editor
             AssetDatabase.Refresh();
             
             IsInitialized = true;
-            Initialized.Raise();
+            InitializedEvt.Raise();
         }
     }
 }

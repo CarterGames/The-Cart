@@ -41,7 +41,7 @@ namespace CarterGames.Cart.Modules.Parameters
 			: string.Empty;
 		
 		
-		public readonly Evt Updated = new Evt();
+		public readonly Evt UpdatedEvt = new Evt();
 
 
 		public void Initialize() => OnInitialize();

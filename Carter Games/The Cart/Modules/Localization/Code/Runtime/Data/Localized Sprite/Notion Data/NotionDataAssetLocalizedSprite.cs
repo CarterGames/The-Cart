@@ -24,7 +24,7 @@
  */
 
 using System;
-using CarterGames.Standalone.NotionData;
+using CarterGames.NotionData;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization

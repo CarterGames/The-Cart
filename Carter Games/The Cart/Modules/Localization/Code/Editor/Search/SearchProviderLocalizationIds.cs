@@ -63,7 +63,6 @@ namespace CarterGames.Cart.Modules.Localization.Editor
         public override List<SearchGroup<string>> GetEntriesToDisplay()
         {
             var list = new List<SearchGroup<string>>();
-            var items = new List<SearchItem<string>>();
 
             if (DataAccess.GetAssets<DataAssetLocalizedText>()?.Count > 0)
             {
