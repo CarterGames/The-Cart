@@ -24,6 +24,7 @@
 using System.Collections.Generic;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.ThirdParty;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Window
@@ -61,9 +62,9 @@ namespace CarterGames.Cart.Modules.Window
         }
 
 
-        private static JSONNode MultiSelectModulesContainer
+        private static JArray MultiSelectModulesContainer
         {
-            get => string.IsNullOrEmpty(MultiSelectedModuleNames) ? new JSONObject() : JSON.Parse(MultiSelectedModuleNames);
+            get => string.IsNullOrEmpty(MultiSelectedModuleNames) ? new JArray() : JArray.Parse(MultiSelectedModuleNames);
             set => MultiSelectedModuleNames = value.ToString();
         }
 
@@ -79,14 +80,14 @@ namespace CarterGames.Cart.Modules.Window
 
                 for (var i = 0; i < MultiSelectModulesContainer.Count; i++)
                 {
-                    modules.Add(ModuleManager.GetModuleFromName(MultiSelectModulesContainer[i]));
+                    modules.Add(ModuleManager.GetModuleFromName(MultiSelectModulesContainer[i].ToString()));
                 }
 
                 return modules;
             }
             set
             {
-                var data = new JSONArray();
+                var data = new JArray();
 
                 for (var j = 0; j < value.Count; j++)
                 {

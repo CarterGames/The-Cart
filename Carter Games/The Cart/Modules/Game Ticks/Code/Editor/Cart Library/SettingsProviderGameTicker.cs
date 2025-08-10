@@ -26,7 +26,6 @@
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules.GameTicks.Editor

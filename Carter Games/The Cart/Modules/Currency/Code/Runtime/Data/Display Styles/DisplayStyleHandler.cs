@@ -70,7 +70,6 @@ namespace CarterGames.Cart.Modules.Currency
                     break;
                 case CurrencyDisplayStyle.Instant:
                 default:
-                    Debug.Log("Instantly set.");
                     DisplayedValue.Raise(transaction.NewValue);
                     break;
             }

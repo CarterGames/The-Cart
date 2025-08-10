@@ -24,12 +24,13 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Save;
-using CarterGames.Cart.ThirdParty;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency
@@ -95,13 +96,13 @@ namespace CarterGames.Cart.Modules.Currency
             
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var jsonData = JSONNode.Parse(data);
+                    var jsonData = JArray.Parse(data);
 
-                    if (jsonData.AsArray.Count > 0)
+                    if (jsonData.Count > 0)
                     {
                         foreach (var account in jsonData)
                         {
-                            keys.Add(account.Value["key"]);
+                            keys.Add(account["key"]!.ToString());
                         }
                     }
                 }
@@ -253,23 +254,24 @@ namespace CarterGames.Cart.Modules.Currency
         {
             var data = CartSaveHandler.Get<string>(AccountsSaveKey);
             Accounts.Clear();
-            
+
             if (!string.IsNullOrEmpty(data))
             {
-                var jsonData = JSONNode.Parse(data);
+                var jsonData = JToken.Parse(data); // Array (account in json)
 
-                if (jsonData.AsArray.Count > 0)
+                foreach (var account in jsonData)
                 {
-                    foreach (var account in jsonData)
+                    if (account["starting"] != null)
                     {
-                        if (account.Value.HasKey("starting"))
-                        {
-                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["key"], account.Value["value"].AsDouble.Round(), account.Value["starting"].AsDouble.Round()));
-                        }
-                        else
-                        {
-                            Accounts.Add(account.Value["key"], CurrencyAccount.AccountWithBalance(account.Value["key"], account.Value["value"].AsDouble.Round()));
-                        }
+                        Accounts.Add(account["key"].ToString(),
+                            CurrencyAccount.AccountWithBalance(account["key"].ToString(),
+                                account["value"].Value<double>().Round(), account["starting"].Value<double>().Round()));
+                    }
+                    else
+                    {
+                        Accounts.Add(account["key"].ToString(),
+                            CurrencyAccount.AccountWithBalance(account["key"].ToString(),
+                                account["value"].Value<double>().Round()));
                     }
                 }
             }
@@ -301,30 +303,30 @@ namespace CarterGames.Cart.Modules.Currency
         /// </summary>
         public static void SaveAccounts()
         {
-            var list = new JSONArray();
+            var list = new Dictionary<string, AccountSaveStructure>();
             
             foreach (var account in Accounts)
             {
                 if (string.IsNullOrEmpty(account.Key)) continue;
                 
-                if (list.HasKey(account.Key))
+                if (list.ContainsKey(account.Key))
                 {
-                    list[account.Key]["value"] = account.Value.Balance.Round();
+                    list[account.Key].balance = account.Value.Balance.Round();
                 }
                 else
                 {
-                    var obj = new JSONObject
+                    var obj = new AccountSaveStructure
                     {
-                        ["key"] = account.Key,
-                        ["value"] = account.Value.Balance.Round(),
-                        ["starting"] = account.Value.StartingBalance.Round(),
+                        key = account.Key,
+                        balance = account.Value.Balance.Round(),
+                        starting = account.Value.StartingBalance.Round(),
                     };
 
                     list.Add(account.Key, obj);
                 }
             }
             
-            CartSaveHandler.Set(AccountsSaveKey, list.ToString());
+            CartSaveHandler.Set(AccountsSaveKey, JObject.FromObject(list));
         }
     }
 }

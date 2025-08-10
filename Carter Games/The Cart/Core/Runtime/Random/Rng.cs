@@ -37,6 +37,8 @@ namespace CarterGames.Cart.Core.Random
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         private static IRngProvider providerCache;
+        private const string StringGlyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
+        private const string StringSymbols = "!£$%^&*()-_=+[]{}:;@~#<>?/,.";
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -455,6 +457,29 @@ namespace CarterGames.Cart.Core.Random
             float minW, float maxW)
         {
             return new Vector4(Float(minX, maxX), Float(minY, maxY), Float(minZ, maxZ), Float(minW, maxW));
+        }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   String
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Generates a random string of the desired length.
+        /// </summary>
+        /// <param name="length">The length to generate.</param>
+        /// <param name="useSymbols">Defines if the string can use symbols.</param>
+        /// <returns>string</returns>
+        public static string String(int length, bool useSymbols = false)
+        {
+            var result = string.Empty;
+            var validGlyphs = useSymbols ? StringGlyphs + StringSymbols : StringGlyphs;
+            
+            for (var i = 0; i < length; i++)
+            {
+                result += validGlyphs[Int(validGlyphs.Length)];
+            }
+
+            return result;
         }
     }
 }

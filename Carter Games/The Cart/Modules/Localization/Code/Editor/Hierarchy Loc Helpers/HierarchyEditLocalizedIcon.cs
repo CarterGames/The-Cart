@@ -35,6 +35,7 @@ namespace CarterGames.Cart.Modules.Localization
 
         public int Order => 0;
         
+        
         public void OnHierarchyDraw(int instanceId, Rect rect)
         {
             var gameObject = EditorUtility.InstanceIDToObject(instanceId) as GameObject;
@@ -90,7 +91,7 @@ namespace CarterGames.Cart.Modules.Localization
             }
             else
             {
-                return new GUIContent(EditorGUIUtility.IconContent("AudioListener Icon").image,
+                return new GUIContent(EditorGUIUtility.IconContent("CollabEdit Icon").image,
                     $"Audio localized with loc id: {component.LocId}.");
             }
         }
@@ -105,7 +106,7 @@ namespace CarterGames.Cart.Modules.Localization
             }
             else
             {
-                return new GUIContent(EditorGUIUtility.IconContent("d_SpriteAtlasAsset Icon").image,
+                return new GUIContent(EditorGUIUtility.IconContent("CollabEdit Icon").image,
                     $"Sprite localized with loc id: {component.LocId}.");
             }
         }
@@ -120,7 +121,7 @@ namespace CarterGames.Cart.Modules.Localization
             }
             else
             {
-                return new GUIContent(EditorGUIUtility.IconContent("d_RawImage Icon").image,
+                return new GUIContent(EditorGUIUtility.IconContent("CollabEdit Icon").image,
                     $"Image localized with loc id: {component.LocId}.");
             }
         }

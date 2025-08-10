@@ -22,8 +22,8 @@
  */
 
 using System;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
 namespace CarterGames.Cart.Core.Data.Editor

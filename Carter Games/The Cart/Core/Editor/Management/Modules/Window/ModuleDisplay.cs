@@ -271,7 +271,9 @@ namespace CarterGames.Cart.Modules.Window
         private static bool HasDocs(IModule module, out Dictionary<string, string> paths)
         {
             paths = new Dictionary<string, string>();
+            return false;
             
+            // Temp disabled as new docs pass to come in 0.13.x
             if (!AssetDatabaseHelper.TryGetScriptPath(module.GetType(), out var path)) return false;
             
             var editedPath = path.Replace($"Core/Editor/Management/Modules/Definitions/{module.GetType().Name}.cs", $"Modules/{module.ModuleName}/");

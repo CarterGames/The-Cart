@@ -28,9 +28,7 @@ using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Save;
-using CarterGames.Cart.ThirdParty;
-using UnityEditor;
-using UnityEngine;
+using Newtonsoft.Json.Linq;
 
 namespace CarterGames.Cart.Modules.Currency.Editor
 {
@@ -50,13 +48,13 @@ namespace CarterGames.Cart.Modules.Currency.Editor
             
 			if (!string.IsNullOrEmpty(data))
 			{
-				var jsonData = JSONNode.Parse(data);
+				var jsonData = JArray.Parse(data);
 				
-				if (jsonData.AsArray.Count > 0)
+				if (jsonData.Count > 0)
 				{
 					foreach (var account in jsonData)
 					{
-						list.Add(account.Value["key"]);
+						list.Add(account.Value<string>("key"));
 					}
 				}
 			}

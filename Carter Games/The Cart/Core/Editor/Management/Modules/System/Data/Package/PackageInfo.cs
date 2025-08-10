@@ -23,7 +23,10 @@
 
 namespace CarterGames.Cart.Modules
 {
-    public class PackageInfo
+    /// <summary>
+    /// Handles data for an external package that can be imported.
+    /// </summary>
+    public sealed class PackageInfo
     {
         public string displayName;
         public string packageName;

@@ -72,7 +72,7 @@ namespace CarterGames.Cart.Core
 
             if (!categories.ContainsKey(key))
             {
-                Debug.LogWarning($"Cannot find category of: {key}");
+                CartLogger.LogWarning<LogCategoryCore>($"Cannot find category of: {key}");
                 return false;
             }
             

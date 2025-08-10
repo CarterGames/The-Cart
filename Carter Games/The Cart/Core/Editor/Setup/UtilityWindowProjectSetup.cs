@@ -21,9 +21,10 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.ThirdParty;
+using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -63,7 +64,7 @@ namespace CarterGames.Cart.Core.Editor
 		
 		
 		// The cache for the default structure.
-		private static JSONObject cacheDefaultStructure;
+		private static ProjectSetupTemplate cacheDefaultStructure;
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
@@ -72,24 +73,24 @@ namespace CarterGames.Cart.Core.Editor
 		/// <summary>
 		/// The default structure for the folder generator.
 		/// </summary>
-		private static JSONObject DefaultStructure
+		private static ProjectSetupTemplate DefaultStructure
 		{
 			get
 			{
 				if (cacheDefaultStructure != null) return cacheDefaultStructure;
-				cacheDefaultStructure = new JSONObject
+				cacheDefaultStructure = new ProjectSetupTemplate
 				{
-					["name"] = "Default"
+					name = "Default"
 				};
 
-				var pathsArray = new JSONArray();
+				var list = new List<string>();
 
 				foreach (var path in DefaultFolderStructure)
 				{
-					pathsArray.Add(path);
+					list.Add(path);
 				}
 				
-				cacheDefaultStructure["paths"] = pathsArray;
+				cacheDefaultStructure.paths = list;
 				return cacheDefaultStructure;
 			}
 		}
@@ -114,16 +115,6 @@ namespace CarterGames.Cart.Core.Editor
 			set => PerUserSettings.SetValue<string>(FolderStructureSaveId, SettingType.PlayerPref, value);
 		}
 		
-		
-		/// <summary>
-		/// The JSON node for the folder structure.
-		/// </summary>
-		private static JSONNode FolderStructure
-		{
-			get => string.IsNullOrEmpty(FolderStructureSave) ? DefaultStructure : JSON.Parse(FolderStructureSave);
-			set => FolderStructureSave = value.ToString();
-		}
-		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Menu Item
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -134,6 +125,11 @@ namespace CarterGames.Cart.Core.Editor
 		[MenuItem("Tools/Carter Games/The Cart/Setup Folder Structure", priority = 20)]
 		private static void OpenDisplay()
 		{
+			if (string.IsNullOrEmpty(FolderStructureSave))
+			{
+				FolderStructureSave = JsonUtility.ToJson(DefaultFolderStructure);
+			}
+			
 			Open<UtilityWindowProjectSetup>("Project Setup");
 		}
 
@@ -155,39 +151,41 @@ namespace CarterGames.Cart.Core.Editor
 			EditorGUILayout.BeginVertical("HelpBox");
 			EditorGUILayout.Space(1.5f);
 			
-			var data = FolderStructure;
+			var data = JToken.Parse(FolderStructureSave);
+			var list = JArray.Parse(data["paths"]!.ToString());
 
 			// Draws each path and any new ones.
-			if (data["paths"].Count > 0)
+			if (data["paths"]!.Any())
 			{
 				EditorGUILayout.BeginVertical();
 
 				EditorGUI.BeginChangeCheck();
 				
-				for (var i = 0; i < data["paths"].Count; i++)
+				for (var i = 0; i < list.Count; i++)
 				{
 					EditorGUILayout.BeginHorizontal();
-
+				
 					EditorGUI.BeginDisabledGroup(true);
 					EditorGUILayout.LabelField("Assets/", GUILayout.Width(42.5f));
 					EditorGUI.EndDisabledGroup();
 					
-					data["paths"][i] = EditorGUILayout.TextField(data["paths"][i]);
-
+					list[i] = EditorGUILayout.TextField((string) list[i]);
+				
 					GUI.backgroundColor = Color.red;
 					if (GUILayout.Button("-", GUILayout.Width(22.5f)))
 					{
-						data["paths"].Remove(i);
+						list.RemoveAt(i);
 						break;
 					}
 					GUI.backgroundColor = Color.white;
-
+				
 					EditorGUILayout.EndHorizontal();
 				}
-
+				
 				if (EditorGUI.EndChangeCheck())
 				{
-					FolderStructure = data;
+					data["paths"] = list;
+					FolderStructureSave = data.ToString();
 				}
 
 				EditorGUILayout.EndVertical();
@@ -198,8 +196,9 @@ namespace CarterGames.Cart.Core.Editor
 			GUI.backgroundColor = Color.green;
 			if (GUILayout.Button("+ Add new path"))
 			{
-				data["paths"].Add(string.Empty);
-				FolderStructure = data;
+				list.Add(string.Empty);
+				data["paths"] = list;
+				FolderStructureSave = data.ToString();
 			}
 			GUI.backgroundColor = Color.white;
 
@@ -232,7 +231,7 @@ namespace CarterGames.Cart.Core.Editor
 		
 		private static void CreateAllPaths()
 		{
-			var sortedPaths = FolderStructure["paths"].AsArray.Children.OrderBy(t => t.ToString().Split('/').Length);
+			var sortedPaths = JToken.Parse(FolderStructureSave)["paths"]!.OrderBy(t => t.ToString().Split('/').Length);
 
 			foreach (var path in sortedPaths)
 			{

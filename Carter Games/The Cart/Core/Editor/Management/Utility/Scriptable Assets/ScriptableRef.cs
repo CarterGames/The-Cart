@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
 namespace CarterGames.Cart.Core.Management.Editor

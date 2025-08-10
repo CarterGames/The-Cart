@@ -73,7 +73,7 @@ namespace CarterGames.Cart.Modules
 
         public List<PackageInfo> Packages => new List<PackageInfo>()
         {
-            new PackageInfo("Notion Data", "games.carter.standalone.notiondata", "https://github.com/CarterGames/NotionToUnity.git#pre-release")
+            new PackageInfo("Notion Data (0.6.0)", "games.carter.standalone.notiondata", "https://github.com/CarterGames/NotionToUnity.git#0.6.0")
         };
     }
 }

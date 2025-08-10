@@ -40,7 +40,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		[SerializeField] [ConditionSelectable] private Condition targetConditionObject;
+		[SerializeField] [SelectCondition] private Condition targetConditionObject;
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties

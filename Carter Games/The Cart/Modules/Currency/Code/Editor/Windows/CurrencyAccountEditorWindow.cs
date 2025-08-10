@@ -26,7 +26,6 @@
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 using UnityEngine;
 

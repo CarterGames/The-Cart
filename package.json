@@ -7,6 +7,9 @@
   "unityRelease": "0f1",
   "documentationUrl": "https://carter.games/the-cart",
   "licensesUrl": "https://github.com/CarterGames/The-Cart/blob/main/LICENSE",
+  "dependencies": {
+      "com.unity.nuget.newtonsoft-json": "2.0.0",
+  },
   "author": {
     "name": "Carter Games",
     "email": "hello@carter.games",
