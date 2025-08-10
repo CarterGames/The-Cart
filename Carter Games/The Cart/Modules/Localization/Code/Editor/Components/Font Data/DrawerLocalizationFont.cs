@@ -29,7 +29,7 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization.Editor
 {
-    [CustomPropertyDrawer(typeof(LocalizationFont), true)]
+    [CustomPropertyDrawer(typeof(LocalizationFontDefinition), true)]
     public class DrawerLocalizationFont : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

@@ -84,6 +84,8 @@ namespace CarterGames.Cart.Modules.Currency
 
         private void OnEnable()
         {
+            PreReq.DisallowIfNull(button);
+            
             button.onClick.RemoveListener(InternalOnButtonPressed);
             button.onClick.AddListener(InternalOnButtonPressed);
             
@@ -95,6 +97,9 @@ namespace CarterGames.Cart.Modules.Currency
             ActionType = transactionType;
             UpdateDisplay();
             
+            CurrencyManager.AccountsLoaded.Add(UpdateDisplay);
+            CurrencyManager.GetAccount(accountId).Adjusted.Add(OnAccountAdjusted);
+            
             if (IsSetup) return;
             IsSetup = true;
         }
@@ -102,6 +107,10 @@ namespace CarterGames.Cart.Modules.Currency
 
         private void OnDestroy()
         {
+            CurrencyManager.AccountsLoaded.Remove(UpdateDisplay);
+            CurrencyManager.GetAccount(accountId).Adjusted.Remove(OnAccountAdjusted);
+            
+            if (button == null) return;
             button.onClick.RemoveListener(InternalOnButtonPressed);
             button.onClick.RemoveListener(OnButtonPressed);
         }
@@ -120,6 +129,11 @@ namespace CarterGames.Cart.Modules.Currency
             if (setAmount) return;
             
             PriceForPurchase = value;
+            ActionType = currencyTransactionType;
+            
+            CurrencyManager.AccountsLoaded.Add(UpdateDisplay);
+            CurrencyManager.GetAccount(accountId).Adjusted.Add(OnAccountAdjusted);
+            
             UpdateDisplay();
 
             if (IsSetup) return;
@@ -134,6 +148,15 @@ namespace CarterGames.Cart.Modules.Currency
         {
             button.interactable = CanAfford;
             buttonLabel.SetText(PriceForPurchase.Format<MoneyFormatterGeneric>());
+        }
+
+        
+        /// <summary>
+        /// Updates the display when called based on evt's
+        /// </summary>
+        private void OnAccountAdjusted(AccountTransaction transaction)
+        {
+            UpdateDisplay();
         }
 
 

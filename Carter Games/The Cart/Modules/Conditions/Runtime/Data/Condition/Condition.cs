@@ -88,7 +88,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <summary>
 		/// Initializes the condition when called.
 		/// </summary>
-		public void Initialize()
+		public new void Initialize()
 		{
 			foreach (var criteria in baseAndGroup)
 			{

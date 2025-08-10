@@ -28,14 +28,13 @@ namespace CarterGames.Cart.Core
     /// <summary>
     /// An instance that can be statically referenced for things such as coroutines in static classes etc.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Core/Mono Instance")]
     public class MonoInstance : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private const string MonoName = "Mono Instance (The Cart)";
+        private const string MonoName = "[DND] Mono Instance (The Cart)";
         private static Instance<MonoInstance> instance;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -58,5 +57,22 @@ namespace CarterGames.Cart.Core
                 return instance;
             }
         }
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Mono Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void Initialize()
+        {
+            var obj = new GameObject(MonoName);
+            obj.AddComponent<MonoInstance>();
+            instance = new Instance<MonoInstance>(obj.GetComponent<MonoInstance>(), true);
+        }
+        
+        private void Awake() => MonoEvents.Awake.Raise();
+        private void Start() => MonoEvents.Start.Raise();
+        private void OnDestroy() => MonoEvents.OnDestroy.Raise();
+        private void OnApplicationQuit() => MonoEvents.ApplicationQuit.Raise();
     }
 }

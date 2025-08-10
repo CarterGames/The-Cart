@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core
 {
@@ -78,6 +79,24 @@ namespace CarterGames.Cart.Core
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        private static string GetSuffix(double value)
+        {
+            var n = (int)Math.Log(value, 1000);
+            
+            if (n < StandardUnits.Count)
+            {
+                return StandardUnits[n];
+            }
+            else
+            {
+                var unitInt = n - StandardUnits.Count;
+                var secondUnit = unitInt % 26;
+                var firstUnit = unitInt / 26;
+                return Convert.ToChar(firstUnit + ACharacter) + Convert.ToChar(secondUnit + ACharacter).ToString();
+            }
+        }
+        
         
         /// <summary>
         /// Formats the string into a currency style number...
@@ -86,152 +105,28 @@ namespace CarterGames.Cart.Core
         /// <returns>The currency string.</returns>
         private static string FormatValue(double value)
         {
-            if (value < 1d)
-                return "0";
-
-            var n = (int)Math.Log(value, 1000);
-            var m = value / Math.Pow(1000, n);
-            var unit = "";
-
-            if (n < StandardUnits.Count)
+            if (value < 1) return "0";
+            if (value < 1000) return value.ToString("F0");
+            
+            var valueToFormat = value / Math.Pow(1000, Math.Floor(Math.Log(value, 1000)));
+            var toReadFrom = valueToFormat.ToString("F2").Split('.')[0];
+            
+            if (toReadFrom.Length >= 3)
             {
-                unit = StandardUnits[n];
+                return valueToFormat.ToString("F0") + GetSuffix(value);
             }
-            else
+            
+            if (toReadFrom.Length >= 1)
             {
-                var unitInt = n - StandardUnits.Count;
-                var secondUnit = unitInt % 26;
-                var firstUnit = unitInt / 26;
-                unit = Convert.ToChar(firstUnit + ACharacter) + Convert.ToChar(secondUnit + ACharacter).ToString();
-            }
-
-
-            var result = Math.Floor(m);
-
-            var pre = Math.Floor(result).ToString(CultureInfo.InvariantCulture);
-            var post = Floor(result.ToDecimalOnly(), 2);
-
-            if (value > 999)
-            {
-                switch (pre.Length)
+                if (toReadFrom.Length > 1)
                 {
-                    case 3:
-
-                        Builder.Clear();
-                        Builder.Append(pre);
-                        Builder.Append(unit);
-                        return Builder.ToString();
-
-                    case 2:
-
-                        post = Math.Round(m.ToDecimalOnly(), 2) * 10;
-
-                        if (post > 1 && post < 10)
-                        {
-                            Builder.Clear();
-                            Builder.Append(pre);
-                            Builder.Append(".");
-                            Builder.Append(Math.Floor(post));
-
-                            Builder.Append(unit);
-                        }
-                        else
-                        {
-                            Builder.Clear();
-                            Builder.Append(pre);
-                            Builder.Append(unit);
-                        }
-
-                        return Builder.ToString();
-
-                    case 1:
-
-                        post = Floor(m.ToDecimalOnly(), 2) * 10;
-
-                        if (post.ToString(CultureInfo.InvariantCulture).Length.Equals(1))
-                        {
-                            if (post.Equals(0))
-                            {
-                                Builder.Clear();
-                                Builder.Append(pre);
-                                Builder.Append(unit);
-                            }
-                            else
-                            {
-                                Builder.Clear();
-                                Builder.Append(pre);
-                                Builder.Append(".");
-                                Builder.Append(post);
-                                Builder.Append("0");
-                                Builder.Append(unit);
-                            }
-                        }
-                        else
-                        {
-                            if (post.Equals(0))
-                            {
-                                Builder.Clear();
-                                Builder.Append(pre);
-                                Builder.Append(unit);
-                            }
-                            else
-                            {
-                                Builder.Clear();
-                                Builder.Append(pre);
-                                Builder.Append(".");
-
-                                if (post.ToString(CultureInfo.InvariantCulture).Length.Equals(2))
-                                {
-                                    Builder.Append(post);
-                                }
-                                else
-                                {
-                                    if (post.ToString(CultureInfo.InvariantCulture).Length > 2)
-                                    {
-                                        if (post.ToString(CultureInfo.InvariantCulture).ToCharArray()[0].Equals('0'))
-                                        {
-                                            Builder.Append("0");
-                                        }
-
-                                        Builder.Append(post * 10);
-                                    }
-                                    else
-                                    {
-                                        Builder.Append("0");
-                                        Builder.Append(post * 10);
-                                    }
-                                }
-
-                                Builder.Append(unit);
-                            }
-                        }
-
-                        return Builder.ToString();
-
-                    default:
-                        return string.Empty;
+                    return $"{(valueToFormat.ToString("F1").Split('.')[0])}.{valueToFormat.ToString("F2").SplitAndGetLastElement('.')[0]}{GetSuffix(value)}".Replace(".0", string.Empty);
                 }
+                
+                return (valueToFormat.ToString("F2") + GetSuffix(value)).Replace(".00", string.Empty);
             }
-            else
-            {
-                Builder.Clear();
-                Builder.Append(pre);
-                Builder.Append(unit);
-                return Builder.ToString();
-            }
-        }
-    
-
-        /// <summary>
-        /// Floors a double for the conversion. 
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="decimalPlaces">The amount of decimal places to keep.</param>
-        /// <returns>The converted value.</returns>
-        private static double Floor(double value, int decimalPlaces)
-        {
-            var adjustment = Math.Pow(10, decimalPlaces);
-            return Math.Floor(value * adjustment) / adjustment;
+            
+            return value.ToString("F0");
         }
     }
 }

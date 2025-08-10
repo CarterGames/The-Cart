@@ -134,8 +134,8 @@ namespace CarterGames.Cart.Modules.Conditions.Editor
                     
                     if (entry.Fpr("key").stringValue.Equals(foundAssets[i].VariantId))
                     {
-                        CartLogger.LogWarning<LogCategoryModules>(
-                            $"[Conditions]: Cannot assign {foundAssets[i].VariantId} as it already exists.",
+                        CartLogger.LogWarning<LogCategoryConditions>(
+                            $"Cannot assign {foundAssets[i].VariantId} as it already exists.",
                             typeof(ConditionsIndexHandler));
                         
                         goto AlreadyExists;

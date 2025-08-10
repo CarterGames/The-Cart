@@ -43,10 +43,10 @@ namespace CarterGames.Cart.Core
         {
             if (timeSpan.Hours > 0)
             {
-                return timeSpan.Minutes > 0 ? $"{timeSpan.Hours:##}:{timeSpan.Minutes:##}" : $"{timeSpan.Hours:##}:00";
+                return timeSpan.Minutes > 0 ? $"{timeSpan.Hours:00}:{timeSpan.Minutes:00}" : $"{timeSpan.Hours:00}:00";
             }
 
-            return timeSpan.Minutes > 0 ? $"{timeSpan.Minutes:##}:{timeSpan.Seconds:##}" : $"00:{timeSpan.Seconds:##}";
+            return timeSpan.Minutes > 0 ? $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00}" : $"00:{timeSpan.Seconds:00}";
         }
     }
 }

@@ -61,8 +61,8 @@ namespace CarterGames.Cart.Modules.Conditions
 		
 		public override void OnInitialize(Evt stateChanged)
 		{
-			PanelTracker.PanelTracked.Add(OnPanelTracked);
-			PanelTracker.PanelUnTracked.Add(OnPanelTracked);
+			PanelTracker.PanelTrackedEvt.Add(OnPanelTracked);
+			PanelTracker.PanelUnTrackedEvt.Add(OnPanelTracked);
 			return;
 			
 			void OnPanelTracked(Panel panel)

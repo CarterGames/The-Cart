@@ -26,5 +26,5 @@ namespace CarterGames.Cart.Core.Logs
     /// <summary>
     /// The log category for the core library.
     /// </summary>
-    public sealed class LogCategoryCore : CartLogCategory { }
+    public sealed class LogCategoryCore : LogCategory { }
 }

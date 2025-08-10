@@ -21,11 +21,10 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Cart.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.TheCart.Core.Editor
+namespace CarterGames.Cart.Core.Editor
 {
     /// <summary>
     /// Defines a property drawer to make a field readonly in the editor, but keeping the normal formatting otherwise.

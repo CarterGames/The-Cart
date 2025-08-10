@@ -85,7 +85,7 @@ namespace CarterGames.Cart.Modules.Conditions
 		{
 			if (!CanEnableSystem)
 			{
-				CartLogger.LogWarning<LogCategoryModules>("Cannot initialize conditions as the system is not setup correctly in the editor.", typeof(ConditionManager));
+				CartLogger.LogWarning<LogCategoryConditions>("Cannot initialize conditions as the system is not setup correctly in the editor.", typeof(ConditionManager));
 				return;
 			}
 			

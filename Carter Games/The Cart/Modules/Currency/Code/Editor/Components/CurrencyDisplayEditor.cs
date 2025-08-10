@@ -24,53 +24,27 @@
  */
 
 using CarterGames.Cart.Core.Editor;
+using TMPro;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency.Editor
 {
 	[CustomEditor(typeof(CurrencyDisplay), true)]
-	public class CurrencyDisplayEditor : UnityEditor.Editor
+	public class CurrencyDisplayEditor : CustomInspector
 	{
-		public override void OnInspectorGUI()
-		{
-			EditorGUILayout.Space(5f);
-			
-			GeneralUtilEditor.DrawMonoScriptSection(target as CurrencyDisplay);
-			
-			EditorGUILayout.Space(5f);
+		protected override string[] HideProperties { get; }
+		
 
+		protected override void DrawInspectorGUI()
+		{
 			EditorGUILayout.BeginVertical("HelpBox");
 			
 			EditorGUILayout.Space(1f);
 			
 			EditorGUILayout.PropertyField(serializedObject.Fp("accountId"));
-			
-			// if (string.IsNullOrEmpty(serializedObject.Fp("accountId").stringValue))
-			// {
-			// 	if (GUILayout.Button("Select Account"))
-			// 	{
-			// 		SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
-			// 		SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
-			// 	}
-			// }
-			// else
-			// {
-			// 	EditorGUILayout.BeginHorizontal();
-			// 	
-			// 	EditorGUI.BeginDisabledGroup(true);
-			// 	EditorGUILayout.PropertyField(serializedObject.Fp("accountId"));
-			// 	EditorGUI.EndDisabledGroup();
-			//
-			// 	if (GUILayout.Button("Edit", GUILayout.Width(55)))
-			// 	{
-			// 		SearchProviderAccounts.GetProvider().SelectionMade.Add(OnSelectionMade);
-			// 		SearchProviderAccounts.GetProvider().Open(serializedObject.Fp("accountId").stringValue);
-			// 	}
-			// 	
-			// 	EditorGUILayout.EndHorizontal();
-			// }
+			EditorGUILayout.PropertyField(serializedObject.Fp("formatter"));
+			DisplayStyleEditor.DrawStyleSettings(serializedObject.Fp("displayStyle"));
 
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.PropertyField(serializedObject.Fp("label"));
@@ -82,7 +56,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 				if (GUILayout.Button("Try Get Reference", GUILayout.Width(140)))
 				{
 					serializedObject.Fp("label").objectReferenceValue ??=
-						((CurrencyDisplay) target).GetComponentInChildren<Canvas>();
+						((CurrencyDisplay) target).GetComponentInChildren<TMP_Text>();
 
 					serializedObject.ApplyModifiedProperties();
 					serializedObject.Update();
@@ -96,16 +70,6 @@ namespace CarterGames.Cart.Modules.Currency.Editor
 			EditorGUILayout.Space(1f);
 			
 			EditorGUILayout.EndVertical();
-		}
-
-
-		private void OnSelectionMade(SearchTreeEntry entry)
-		{
-			SearchProviderAccounts.GetProvider().SelectionMade.Remove(OnSelectionMade);
-				
-			serializedObject.Fp("accountId").stringValue = (string) entry.userData;
-			serializedObject.ApplyModifiedProperties();
-			serializedObject.Update();
 		}
 	}
 }

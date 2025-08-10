@@ -62,5 +62,11 @@ namespace CarterGames.Cart.Core
         {
             return input.Any(char.IsUpper) ? string.Join(delimeter, Regex.Split(input, "(?<!^)(?=[A-Z])")) : input;
         }
+
+
+        public static string SplitAndGetLastElement(this string input, char character)
+        {
+            return input.Split(character).Last();
+        }
     }
 }

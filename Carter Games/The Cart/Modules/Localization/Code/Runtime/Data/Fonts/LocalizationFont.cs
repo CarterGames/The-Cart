@@ -24,32 +24,46 @@
  */
 
 using System;
-using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// Defines a font that localization can use.
+    /// </summary>
     [Serializable]
-    public sealed class LocalizationFont
+    public struct LocalizationFont
     {
-        [SerializeField] [LanguageSelectable] private Language language;
-        [SerializeField] private TMP_FontAsset fontAsset;
-        [SerializeField] private bool usesMaterial;
-        [SerializeField] private Material fontMaterial;
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        [SerializeField] private string displayName;
+        [SerializeField] private LocalizationFontDefinition[] data;
 
-
-        public Language Language => language;
-        public TMP_FontAsset Font => fontAsset;
-        public bool UsesMaterial => usesMaterial;
-        public Material FontMaterial => fontMaterial;
-
-
-        public void ApplyToLabel(TMP_Text label)
-        {
-            label.font = Font;
-            if (!UsesMaterial) return;
-            label.fontMaterial = FontMaterial;
-        }
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Gets if the default setup has been assigned.
+        /// </summary>
+        public bool HasDefaultSetup => data.Any(t => t.Language.Code == LocalizationManager.CurrentLanguage.Code);
+		
+        
+        /// <summary>
+        /// Gets the default setup.
+        /// </summary>
+        public LocalizationFontDefinition DefaultLanguageData =>
+            data.FirstOrDefault(t => t.Language.Code == Language.Default.Code);
+        
+        
+        /// <summary>
+        /// Gets the data to read from.
+        /// </summary>
+        public IReadOnlyCollection<LocalizationFontDefinition> Data => data;
     }
 }
 

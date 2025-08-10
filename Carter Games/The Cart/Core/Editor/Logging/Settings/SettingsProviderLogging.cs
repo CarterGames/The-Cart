@@ -22,10 +22,12 @@
  */
 
 using CarterGames.Cart.Core.Editor;
+using CarterGames.Cart.Core.Logs.Editor.Windows;
 using CarterGames.Cart.Core.Management;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.MetaData.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Core.Logs.Editor
 {
@@ -37,6 +39,7 @@ namespace CarterGames.Cart.Core.Logs.Editor
         private static readonly string LoggingExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_Expanded";
         private static readonly string LoggingSettingsExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_SettingsExpanded";
         private static readonly string LoggingCategoriesExpanded = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_CategoriesExpanded";
+        private static readonly string LoggingEditorWindowScrollPos = $"{PerUserSettings.UniqueId}_CarterGames_TheCart_Settings_Core_Logging_ScrollPos";
 
 
         private static bool IsExpanded
@@ -58,6 +61,13 @@ namespace CarterGames.Cart.Core.Logs.Editor
             get => PerUserSettings.GetValue<bool>(LoggingCategoriesExpanded, SettingType.EditorPref, false);
             set => PerUserSettings.SetValue<bool>(LoggingCategoriesExpanded, SettingType.EditorPref, value);
         }
+        
+        
+        public static Vector2 ScrollPos
+        {
+            get => PerUserSettings.GetValue<Vector2>(LoggingEditorWindowScrollPos, SettingType.EditorPref, Vector2.zero);
+            set => PerUserSettings.SetValue<Vector2>(LoggingEditorWindowScrollPos, SettingType.EditorPref, value);
+        }
 
 
         private static SerializedObject ObjectRef =>
@@ -66,15 +76,6 @@ namespace CarterGames.Cart.Core.Logs.Editor
         private static DataAssetCoreRuntimeSettings AssetRef =>
             ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().AssetRef;
         
-        
-        
-
-        public static void ExpandSection(bool showSettings, bool showCategories)
-        {
-            IsExpanded = true;
-            IsSettingsExpanded = showSettings;
-            IsCategoriesExpanded = showCategories;
-        }
         
         
         public void OnInspectorSettingsGUI()
@@ -86,17 +87,19 @@ namespace CarterGames.Cart.Core.Logs.Editor
             
             EditorGUILayout.PropertyField(ObjectRef.Fp("loggingUseCartLogs"), AssetMeta.GetData("CartLogs").Content("useLogs"));
             EditorGUILayout.PropertyField(ObjectRef.Fp("useLogsInProductionBuilds"), AssetMeta.GetData("CartLogs").Content("useInProduction"));
-
+            EditorGUILayout.PropertyField(ObjectRef.Fp("forceShowErrors"), AssetMeta.GetData("CartLogs").Content("forceShowErrors"));
+            
             EditorGUILayout.EndVertical();
         }
-        
+
 
         public void OnProjectSettingsGUI()
         {
             EditorGUI.BeginChangeCheck();
-            
-            IsExpanded = EditorGUILayout.Foldout(IsExpanded, AssetMeta.GetData("CartLogs").Content(AssetMeta.SectionTitle));
-            
+
+            IsExpanded =
+                EditorGUILayout.Foldout(IsExpanded, AssetMeta.GetData("CartLogs").Content(AssetMeta.SectionTitle));
+
             if (!IsExpanded) return;
 
 
@@ -104,37 +107,21 @@ namespace CarterGames.Cart.Core.Logs.Editor
             EditorGUILayout.Space(1.5f);
             EditorGUI.indentLevel++;
             
-            IsSettingsExpanded = EditorGUILayout.Foldout(IsSettingsExpanded, AssetMeta.GetData("CartLogs").Content("sectionSettingsTitle"));
 
-            if (IsSettingsExpanded)
-            {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.BeginVertical("Box");
-                
-                // Draw the provider enum field on the GUI...
-                EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("loggingUseCartLogs"),
-                    AssetMeta.GetData("CartLogs").Content("useLogs"));
-                EditorGUILayout.PropertyField(UtilEditor.SettingsObject.Fp("useLogsInProductionBuilds"),
-                    AssetMeta.GetData("CartLogs").Content("useInProduction"));
-                
-                EditorGUILayout.EndVertical();
-                EditorGUI.indentLevel--;
-            }
-
-            IsCategoriesExpanded = EditorGUILayout.Foldout(IsCategoriesExpanded, AssetMeta.GetData("CartLogs").Content("sectionCategoriesTitle"));
+            // Draw the provider enum field on the GUI...
+            EditorGUILayout.PropertyField(ObjectRef.Fp("loggingUseCartLogs"), AssetMeta.GetData("CartLogs").Content("useLogs"));
+            EditorGUILayout.PropertyField(ObjectRef.Fp("useLogsInProductionBuilds"), AssetMeta.GetData("CartLogs").Content("useInProduction"));
+            EditorGUILayout.PropertyField(ObjectRef.Fp("forceShowErrors"), AssetMeta.GetData("CartLogs").Content("forceShowErrors"));
             
-            if (IsCategoriesExpanded)
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(15f);
+
+            if (GUILayout.Button("Edit Category States"))
             {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.BeginVertical("Box");
-                
-                EditorGUILayout.HelpBox("Toggle categories here to define if logs of that type appear in the console.", MessageType.Info);
-                
-                LogCategoryDrawer.DrawLogCategories();
-                
-                EditorGUILayout.EndVertical();
-                EditorGUI.indentLevel--;
+                UtilityEditorWindow.Open<LogCategoriesEditor>("Log Category Statuses Window");
             }
+
+            EditorGUILayout.EndHorizontal();
 
             EditorGUI.indentLevel--;
             EditorGUILayout.Space(1.5f);

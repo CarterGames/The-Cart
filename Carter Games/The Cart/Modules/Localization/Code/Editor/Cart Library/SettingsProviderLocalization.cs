@@ -28,7 +28,6 @@ using System.Linq;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -98,6 +97,7 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 			
 			EditorGUILayout.EndHorizontal();
 			
+			
 			EditorGUILayout.BeginHorizontal();
 			EditorGUI.BeginChangeCheck();
 
@@ -151,6 +151,14 @@ namespace CarterGames.Cart.Modules.Localization.Editor
 				EditorGUILayout.EndHorizontal();
 			}
 			
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.BeginHorizontal();
+			GUILayout.Space(15f);
+			if (GUILayout.Button("Manage Fonts"))
+			{
+				EditorGUIUtility.PingObject(ScriptableRef.GetAssetDef<DataAssetLocalizationFonts>().AssetRef);
+			}
 			EditorGUILayout.EndHorizontal();
 			
 			EditorGUI.indentLevel--;

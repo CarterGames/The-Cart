@@ -13,19 +13,25 @@ MonoBehaviour:
   m_Name: '[Cart] [Color Folders] Folder Icons'
   m_EditorClassIdentifier: 
   folderGraphics:
+  - id: White
+    large: {fileID: 2800000, guid: b0d904481fa6c3845913808ca1fc03d2, type: 3}
+    small: {fileID: 2800000, guid: 64d06c647126d0246aeaa1e6cbc5afc8, type: 3}
   - id: Default
     large: {fileID: 2800000, guid: 4d6e48e0873cc1842b2c20bb9a873461, type: 3}
     small: {fileID: 2800000, guid: e584cc0cbd708bc48aa7a3d9e1f3493f, type: 3}
+  - id: Black
+    large: {fileID: 2800000, guid: 4899d5aa586a69144bd70c44e14e149e, type: 3}
+    small: {fileID: 2800000, guid: 2ad7655f9165c9a419f2be844e812bca, type: 3}
   - id: Blue
     large: {fileID: 2800000, guid: 6f8aaa41c0a875b469d34f4556c08034, type: 3}
     small: {fileID: 2800000, guid: aea59c8f5dff23f4e8476f89a58128ae, type: 3}
   - id: Cyan
     large: {fileID: 2800000, guid: ea5b5c905a7cee448abe91cb23bafa56, type: 3}
     small: {fileID: 2800000, guid: 50452a8ffb89c494194f69308e70bc7e, type: 3}
-  - id: Green
+  - id: Turquoise
     large: {fileID: 2800000, guid: 11ed87bad6fc9114cbc5a048b193e21d, type: 3}
     small: {fileID: 2800000, guid: 60e418dd2a7e7bc41a85424722998e06, type: 3}
-  - id: Lime
+  - id: Green
     large: {fileID: 2800000, guid: 86de7fb7f5bd79e4d8d57888e8cf7a07, type: 3}
     small: {fileID: 2800000, guid: afe4385582499c749bdc341921054b39, type: 3}
   - id: Yellow

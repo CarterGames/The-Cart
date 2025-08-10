@@ -52,6 +52,7 @@ namespace CarterGames.Cart.Core.Management
         [SerializeField] private bool isLoggingExpanded;
         [SerializeField] private bool loggingUseCartLogs = true;
         [SerializeField] private bool useLogsInProductionBuilds = false;
+        [SerializeField] private bool forceShowErrors = true;
         
         // Basic Save
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -104,6 +105,12 @@ namespace CarterGames.Cart.Core.Management
         /// Gets if the logs should appear in production builds, by default they will not.
         /// </summary>
         public bool UseLogsInProductionBuilds => useLogsInProductionBuilds;
+
+
+        /// <summary>
+        /// Defines if the setup will force error logs to show even if the category is disabled.
+        /// </summary>
+        public bool ForceShowErrors => forceShowErrors;
         
         // Basic Save
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */

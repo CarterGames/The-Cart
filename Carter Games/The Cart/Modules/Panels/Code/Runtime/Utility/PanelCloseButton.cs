@@ -32,7 +32,6 @@ namespace CarterGames.Cart.Modules.Panels
     /// Handles the close logic for a panel using a UI button.
     /// </summary>
     [RequireComponent(typeof(Button))]
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Panel Close Button")]
     public class PanelCloseButton : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

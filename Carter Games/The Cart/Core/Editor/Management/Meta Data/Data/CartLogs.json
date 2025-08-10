@@ -10,7 +10,8 @@
         { "key": "sectionSettingsTitle", "value": { "title": "Settings", "toolTip": "The settings for the 'Cart Logger' system." }},
         { "key": "sectionCategoriesTitle", "value": { "title": "Categories", "toolTip": "The categories the logging system has and their states." }},
         { "key": "useLogs", "value": { "title": "Use logs", "toolTip": "Defines if the logs are shown at all." }},
-        { "key": "useInProduction", "value": { "title": "Production build logs", "toolTip": "Defines if the logs will show in production builds or not." }}
+        { "key": "useInProduction", "value": { "title": "Production build logs", "toolTip": "Defines if the logs will show in production builds or not." }},
+        { "key": "forceShowErrors", "value": { "title": "Force Show Error Logs", "toolTip": "Defines if error logs will always show regardless of other settings." }}
     ]
   }
 }

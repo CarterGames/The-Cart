@@ -28,6 +28,9 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
 {
+    /// <summary>
+    /// Provides a selection attribute for the localization ids in the project.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class LocalizationIdAttribute : PropertyAttribute { }
 }

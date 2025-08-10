@@ -24,12 +24,13 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Save;
-using CarterGames.Cart.ThirdParty;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Currency
@@ -39,11 +40,11 @@ namespace CarterGames.Cart.Modules.Currency
     /// </summary>
     public static class CurrencyManager
     {
-        private const string AccountsSaveKey = "CartSave_Modules_Currency_Accounts";
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
+        private const string AccountsSaveKey = "CartSave_Modules_Currency_Accounts";
         private static readonly Dictionary<string, CurrencyAccount> Accounts = new Dictionary<string, CurrencyAccount>();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -65,7 +66,7 @@ namespace CarterGames.Cart.Modules.Currency
         /// <summary>
         /// Raises when an accounts balance is altered.
         /// </summary>
-        public static readonly Evt<CurrencyAccount> AccountBalanceChanged = new Evt<CurrencyAccount>();
+        public static readonly Evt<CurrencyAccount, AccountTransaction> AccountBalanceChanged = new Evt<CurrencyAccount, AccountTransaction>();
 
 
         /// <summary>
@@ -95,13 +96,13 @@ namespace CarterGames.Cart.Modules.Currency
             
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var jsonData = JSONNode.Parse(data);
+                    var jsonData = JArray.Parse(data);
 
-                    if (jsonData.AsArray.Count > 0)
+                    if (jsonData.Count > 0)
                     {
                         foreach (var account in jsonData)
                         {
-                            keys.Add(account.Value["key"]);
+                            keys.Add(account["key"]!.ToString());
                         }
                     }
                 }
@@ -154,7 +155,7 @@ namespace CarterGames.Cart.Modules.Currency
         {
             if (!HasLoadedAccounts)
             {
-                CartLogger.Log<LogCategoryModules>("Accounts not loaded, returning false", typeof(CurrencyManager));
+                CartLogger.Log<LogCategoryCurrency>("Accounts not loaded, returning false", typeof(CurrencyManager));
                 return false;
             }
             
@@ -220,16 +221,16 @@ namespace CarterGames.Cart.Modules.Currency
         public static void AddAccount(string accountId, double startingBalance = 0d)
         {
             if (Accounts.ContainsKey(accountId)) return;
-            Accounts.Add(accountId, new CurrencyAccount(startingBalance));
+            Accounts.Add(accountId, CurrencyAccount.NewAccount(accountId, startingBalance));
 
             Accounts[accountId].Adjusted.Add(OnAccountAdjusted);
             AccountOpened.Raise();
             return;
             
             
-            void OnAccountAdjusted()
+            void OnAccountAdjusted(AccountTransaction transaction)
             {
-                AccountBalanceChanged.Raise(Accounts[accountId]);
+                AccountBalanceChanged.Raise(Accounts[accountId], transaction);
             }
         }
 
@@ -253,16 +254,24 @@ namespace CarterGames.Cart.Modules.Currency
         {
             var data = CartSaveHandler.Get<string>(AccountsSaveKey);
             Accounts.Clear();
-            
+
             if (!string.IsNullOrEmpty(data))
             {
-                var jsonData = JSONNode.Parse(data);
+                var jsonData = JToken.Parse(data); // Array (account in json)
 
-                if (jsonData.AsArray.Count > 0)
+                foreach (var account in jsonData)
                 {
-                    foreach (var account in jsonData)
+                    if (account["starting"] != null)
                     {
-                        Accounts.Add(account.Value["key"], new CurrencyAccount(account.Value["value"].AsDouble.Round()));
+                        Accounts.Add(account["key"].ToString(),
+                            CurrencyAccount.AccountWithBalance(account["key"].ToString(),
+                                account["value"].Value<double>().Round(), account["starting"].Value<double>().Round()));
+                    }
+                    else
+                    {
+                        Accounts.Add(account["key"].ToString(),
+                            CurrencyAccount.AccountWithBalance(account["key"].ToString(),
+                                account["value"].Value<double>().Round()));
                     }
                 }
             }
@@ -270,7 +279,18 @@ namespace CarterGames.Cart.Modules.Currency
             foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
             {
                 if (Accounts.ContainsKey(defAccount.Key)) continue;
-                Accounts.Add(defAccount.Key, new CurrencyAccount(defAccount.Value.Round()));
+                Accounts.Add(defAccount.Key, CurrencyAccount.NewAccount(defAccount.Key, defAccount.Value.Round()));
+            }
+
+            foreach (var account in Accounts)
+            {
+                account.Value.Adjusted.Add(OnAccountAdjusted);
+                
+                continue;
+                void OnAccountAdjusted(AccountTransaction transaction)
+                {
+                    AccountBalanceChanged.Raise(account.Value, transaction);
+                }
             }
             
             HasLoadedAccounts = true;
@@ -281,31 +301,32 @@ namespace CarterGames.Cart.Modules.Currency
         /// <summary>
         /// Saves the accounts when called.
         /// </summary>
-        private static void SaveAccounts()
+        public static void SaveAccounts()
         {
-            var list = new JSONArray();
+            var list = new Dictionary<string, AccountSaveStructure>();
             
             foreach (var account in Accounts)
             {
                 if (string.IsNullOrEmpty(account.Key)) continue;
                 
-                if (list.HasKey(account.Key))
+                if (list.ContainsKey(account.Key))
                 {
-                    list[account.Key]["value"] = account.Value.Balance.Round();
+                    list[account.Key].balance = account.Value.Balance.Round();
                 }
                 else
                 {
-                    var obj = new JSONObject
+                    var obj = new AccountSaveStructure
                     {
-                        ["key"] = account.Key,
-                        ["value"] = account.Value.Balance.Round()
+                        key = account.Key,
+                        balance = account.Value.Balance.Round(),
+                        starting = account.Value.StartingBalance.Round(),
                     };
 
                     list.Add(account.Key, obj);
                 }
             }
             
-            CartSaveHandler.Set(AccountsSaveKey, list.ToString());
+            CartSaveHandler.Set(AccountsSaveKey, JObject.FromObject(list));
         }
     }
 }

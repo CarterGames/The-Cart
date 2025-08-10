@@ -65,8 +65,8 @@ namespace CarterGames.Cart.Modules.Conditions
 		{
 			panelOpen = false;
 			
-			PanelTracker.GetPanel(panelId).OpenStarted.Add(stateChanged.Raise);
-			PanelTracker.GetPanel(panelId).CloseCompleted.Add(stateChanged.Raise);
+			PanelTracker.GetPanel(panelId).OpenStartedEvt.Add(stateChanged.Raise);
+			PanelTracker.GetPanel(panelId).CloseCompletedEvt.Add(stateChanged.Raise);
 		}
 	}
 }

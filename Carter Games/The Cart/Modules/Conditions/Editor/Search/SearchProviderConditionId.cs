@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Editor;
 
@@ -33,9 +34,13 @@ namespace CarterGames.Cart.Modules.Conditions.Editor.Search
 	public class SearchProviderConditionId : SearchProvider<string>
 	{
 		private static SearchProviderConditionId Instance;
+		private Condition[] conditionsCache;
 
-		protected override string ProviderTitle => "Select Condition";
-		public override bool HasOptions => AssetDatabaseHelper.GetAllInstancesInProject<Condition>().Any();
+		protected override string ProviderTitle => "Select Condition Id";
+		public override bool HasOptions => Conditions.Any();
+		
+		private Condition[] Conditions => CacheRef.GetOrAssign(ref conditionsCache,
+			AssetDatabaseHelper.GetAllInstancesInProject<Condition>());
 
 
 		public override List<SearchGroup<string>> GetEntriesToDisplay()
@@ -43,10 +48,10 @@ namespace CarterGames.Cart.Modules.Conditions.Editor.Search
 			var list = new List<SearchGroup<string>>();
 			var items = new List<SearchItem<string>>();
 			
-			foreach (var asset in AssetDatabaseHelper.GetAllInstancesInProject<Condition>())
+			foreach (var asset in Conditions)
 			{
 				if (ToExclude.Contains(asset.Id)) continue;
-				items.Add(SearchItem<string>.Set(asset.Id, asset.Id));
+				items.Add(SearchItem<string>.Set(asset.Id, asset.VariantId));
 			}
 
 			list.Add(new SearchGroup<string>(items));

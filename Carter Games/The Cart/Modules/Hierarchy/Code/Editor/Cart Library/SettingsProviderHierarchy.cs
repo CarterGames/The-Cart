@@ -94,8 +94,7 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
             EditorGUILayout.BeginHorizontal();
             for (var i = 0; i < OptionLabels.Length; i++)
             {
-                GUI.backgroundColor = EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.white : Color.gray;
-                GUI.color = EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.white : Color.gray;
+                GUI.backgroundColor = EditorSettingsHierarchy.EditorSettingsLastSelected == i ? Color.yellow : Color.white;
                 
                 if (GUILayout.Button(OptionLabels[i]))
                 {
@@ -103,7 +102,6 @@ namespace CarterGames.Cart.Modules.Hierarchy.Editor
                 }
                 
                 GUI.backgroundColor = Color.white;
-                GUI.color = Color.white;
             }
             EditorGUILayout.EndHorizontal();
             

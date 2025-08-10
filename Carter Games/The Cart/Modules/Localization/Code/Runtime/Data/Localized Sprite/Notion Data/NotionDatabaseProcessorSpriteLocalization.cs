@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_CART_MODULE_NOTIONDATA
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Cart.Modules.NotionData;
+using CarterGames.NotionData;
 using UnityEngine;
 
 #if UNITY_EDITOR

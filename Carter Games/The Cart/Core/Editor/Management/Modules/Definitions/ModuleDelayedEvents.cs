@@ -55,7 +55,7 @@ namespace CarterGames.Cart.Modules
         /// <summary>
         /// Any modules that are required for the module to work.
         /// </summary>
-        public IModule[] PreRequisites => new IModule[1] { new ModuleRuntimeTimers() };
+        public IModule[] PreRequisites => Array.Empty<IModule>();
         
         
         /// <summary>

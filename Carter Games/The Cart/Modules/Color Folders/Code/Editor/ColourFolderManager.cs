@@ -93,25 +93,17 @@ namespace CarterGames.Cart.Modules.ColourFolders.Editor
 		/// <param name="texture">The texture to draw.</param>
 		private static void DrawFolderIcon(Rect rect, Texture texture)
 		{
-			var isTreeView = rect.width > rect.height;
-			var isSideView = IsSideView(rect);
-			
-			
-			// Vertical Folder View
-			if (isTreeView)
+			if (rect.height > 20)
 			{
-				rect.width = rect.height = 16f;
-				
-				if (!isSideView)
-				{
-					rect.x += 0f;
-					rect.width += 1f;
-				}
+				rect = new Rect(rect.x - 1, rect.y - 1, rect.width + 1, rect.width + 1);
+			}
+			else if (rect.x > 20)
+			{
+				rect = new Rect(rect.x - 1, rect.y - 1, rect.height + 1, rect.height + 1);
 			}
 			else
 			{
-				rect.height -= 2f;
-				rect.y += 1f;
+				rect = new Rect(rect.x + 2, rect.y - 1, rect.height + 1, rect.height + 1);
 			}
 			
 			GUI.DrawTexture(rect, texture, ScaleMode.ScaleAndCrop);

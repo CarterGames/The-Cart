@@ -110,6 +110,12 @@ namespace CarterGames.Cart.Core.Data.Editor
                 
                 foundAssets.Add((DataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(DataAsset)));
             }
+
+            foreach (var dataAsset in foundAssets)
+            {
+                if (dataAsset == null) continue;
+                dataAsset.Initialize();
+            }
             
             UpdateIndexReferences(foundAssets);
             

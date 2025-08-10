@@ -88,6 +88,48 @@ namespace CarterGames.Cart.Core
         }
         
         /* —————————————————————————————————————————————————————————————————————————————————————————————————————————————
+        |   Constructors
+        ————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
+        
+        public static SerializableDictionary<TKey, TValue> FromDictionary(Dictionary<TKey, TValue> data)
+        {
+            var dic = new SerializableDictionary<TKey, TValue>();
+
+            foreach (var entry in data)
+            {
+                dic.Add(entry.Key, entry.Value);
+            }
+
+            return dic;
+        }
+
+
+        public static SerializableDictionary<TKey, TValue> FromKeyPairValueList(List<KeyValuePair<TKey, TValue>> data)
+        {
+            var dic = new SerializableDictionary<TKey, TValue>();
+
+            foreach (var entry in data)
+            {
+                dic.Add(entry.Key, entry.Value);
+            }
+
+            return dic;
+        }
+        
+        
+        public static SerializableDictionary<TKey, TValue> FromKeyPairValueList(List<SerializableKeyValuePair<TKey, TValue>> data)
+        {
+            var dic = new SerializableDictionary<TKey, TValue>();
+
+            foreach (var entry in data)
+            {
+                dic.Add(entry.Key, entry.Value);
+            }
+
+            return dic;
+        }
+        
+        /* —————————————————————————————————————————————————————————————————————————————————————————————————————————————
         |   Methods
         ————————————————————————————————————————————————————————————————————————————————————————————————————————————— */
         

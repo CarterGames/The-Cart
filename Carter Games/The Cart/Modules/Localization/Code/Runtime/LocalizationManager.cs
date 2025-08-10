@@ -23,9 +23,10 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using CarterGames.Cart.Core;
 using CarterGames.Cart.Core.Data;
 using CarterGames.Cart.Core.Events;
 using CarterGames.Cart.Core.Logs;
@@ -41,10 +42,13 @@ namespace CarterGames.Cart.Modules.Localization
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 		private const string SaveKeyCurrentLanguage = "CarterGames_Cart_Module_Localization_Language";
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		private static Dictionary<string, LocalizationData<string>> textLookupCache;
-		private static Dictionary<string, LocalizationData<Sprite>> spriteLookupCache;
-		private static Dictionary<string, LocalizationData<AudioClip>> audioLookupCache;
+		private static DataAssetLocalizationLookup Lookup =>
+			DataAccess.GetAsset<DataAssetLocalizationLookup>();
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Events
@@ -54,25 +58,18 @@ namespace CarterGames.Cart.Modules.Localization
 		/// Raises when the language is changed by the API.
 		/// </summary>
 		public static readonly Evt LanguageChanged = new Evt();
+		
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		private static List<DataAssetLocalizedText> TextNormalAssets => DataAccess.GetAssets<DataAssetLocalizedText>();
-		private static List<DataAssetLocalizedSprite> SpriteNormalAssets => DataAccess.GetAssets<DataAssetLocalizedSprite>();
-		private static List<DataAssetLocalizedAudio> AudioNormalAssets => DataAccess.GetAssets<DataAssetLocalizedAudio>();
-
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
-		private static List<NotionDataAssetLocalizedText> TextNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedText>();
-		private static List<NotionDataAssetLocalizedSprite> SpriteNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedSprite>();
-		private static List<NotionDataAssetLocalizedAudio> AudioNotionAssets => DataAccess.GetAssets<NotionDataAssetLocalizedAudio>();
-#endif
+		/// <summary>
+		/// Gets if the language has been set.
+		/// </summary>
+		private static bool HasSetLanguage => string.IsNullOrEmpty(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
 		
-		public static Dictionary<string, LocalizationData<string>> TextLookup => CacheRef.GetOrAssign(ref textLookupCache, GetTextAssetsLookup);
-		public static Dictionary<string, LocalizationData<Sprite>> SpriteLookup => CacheRef.GetOrAssign(ref spriteLookupCache, GetSpriteAssetsLookup);
-		public static Dictionary<string, LocalizationData<AudioClip>> AudioLookup => CacheRef.GetOrAssign(ref audioLookupCache, GetAudioAssetsLookup);
-
+		
 		/// <summary>
 		/// The current language assigned.
 		/// </summary>
@@ -80,14 +77,20 @@ namespace CarterGames.Cart.Modules.Localization
 		{
 			get
 			{
-				var data = CartSaveHandler.Get<string>(SaveKeyCurrentLanguage);
-				
-				if (string.IsNullOrEmpty(data))
+				try
 				{
-					SetLanguage(Language.Default);
+					var data = CartSaveHandler.Get<string>(SaveKeyCurrentLanguage);
+					
+					return string.IsNullOrEmpty(data) 
+						? Language.Default 
+						: JsonUtility.FromJson<Language>(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
 				}
-				
-				return JsonUtility.FromJson<Language>(CartSaveHandler.Get<string>(SaveKeyCurrentLanguage));
+#pragma warning disable 0168
+				catch (Exception e)
+#pragma warning restore
+				{
+					return Language.Default;
+				}
 			}
 		}
 
@@ -95,111 +98,25 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <summary>
 		/// Gets the languages in the system.
 		/// </summary>
-		public static List<Language> GetLanguages => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages;
+		public static IReadOnlyCollection<Language> GetLanguages => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Methods
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		private static Dictionary<string, LocalizationData<string>> GetTextAssetsLookup()
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		private static void InitializeAtRuntime()
 		{
-			var dic = new Dictionary<string, LocalizationData<string>>();
-
-			if (TextNormalAssets != null)
-			{
-				foreach (var asset in TextNormalAssets)
-				{
-					foreach (var data in asset.Data)
-					{
-						if (dic.ContainsKey(data.LocId)) continue;
-						dic.Add(data.LocId, data);
-					}
-				}
-			}
+			if (HasSetLanguage) return;
 			
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
-			if (TextNotionAssets != null)
+			if (GetLanguages.Any(t => t.Code == CultureInfo.CurrentCulture.Name))
 			{
-				foreach (var asset in TextNotionAssets)
-				{
-					foreach (var data in asset.Data)
-					{
-						if (dic.ContainsKey(data.LocId)) continue;
-						dic.Add(data.LocId, data);
-					}
-				}
+				SetLanguage(GetLanguages.FirstOrDefault(t => t.Code == CultureInfo.CurrentCulture.Name));
 			}
-#endif
-
-			return dic;
-		}
-		
-		
-		private static Dictionary<string, LocalizationData<Sprite>> GetSpriteAssetsLookup()
-		{
-			var dic = new Dictionary<string, LocalizationData<Sprite>>();
-
-			if (SpriteNormalAssets != null)
+			else
 			{
-				foreach (var asset in SpriteNormalAssets)
-				{
-					foreach (var data in asset.Data)
-					{
-						if (dic.ContainsKey(data.LocId)) continue;
-						dic.Add(data.LocId, data);
-					}
-				}
+				SetLanguage(Language.Default);
 			}
-			
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
-			if (SpriteNotionAssets != null)
-			{
-				foreach (var asset in SpriteNotionAssets)
-				{
-					foreach (var data in asset.Data)
-					{
-						if (dic.ContainsKey(data.LocId)) continue;
-						dic.Add(data.LocId, data);
-					}
-				}
-			}
-#endif
-
-			return dic;
-		}
-		
-		
-		private static Dictionary<string, LocalizationData<AudioClip>> GetAudioAssetsLookup()
-		{
-			var dic = new Dictionary<string, LocalizationData<AudioClip>>();
-
-			if (AudioNormalAssets != null)
-			{
-				foreach (var asset in AudioNormalAssets)
-				{
-					foreach (var data in asset.Data)
-					{
-						if (dic.ContainsKey(data.LocId)) continue;
-						dic.Add(data.LocId, data);
-					}
-				}
-			}
-			
-#if CARTERGAMES_CART_MODULE_NOTIONDATA
-			if (AudioNotionAssets != null)
-			{
-				foreach (var asset in AudioNotionAssets)
-				{
-					foreach (var data in asset.Data)
-					{
-						if (dic.ContainsKey(data.LocId)) continue;
-						dic.Add(data.LocId, data);
-					}
-				}
-			}
-#endif
-
-			return dic;
 		}
 
 
@@ -214,6 +131,34 @@ namespace CarterGames.Cart.Modules.Localization
 		}
 
 
+		private static bool TryGetLanguageFromCode(string languageCode, out Language language)
+		{
+			language = CurrentLanguage;
+			
+			if (!string.IsNullOrEmpty(languageCode))
+			{
+				if (DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages
+				    .Any(t => t.Code == languageCode))
+				{
+					language = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages
+						.First(t => t.Code == languageCode);
+					return true;
+				}
+				else
+				{
+					CartLogger.LogWarning<LogCategoryModuleLocalization>(
+						$"Unable to get override language from code {languageCode}. Using default.",
+						typeof(LocalizationManager));
+					
+					language = Language.Default;
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+
 		/// <summary>
 		/// Gets the data for copy for a particular id.
 		/// </summary>
@@ -221,7 +166,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <returns>The copy for the id.</returns>
 		private static LocalizationData<string> GetTextCopyData(string id)
 		{
-			return TextLookup[id];
+			return Lookup.TextLocalizationLookup[id];
 		}
 		
 		
@@ -232,7 +177,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <returns>The copy for the id.</returns>
 		private static LocalizationData<Sprite> GetSpriteCopyData(string id)
 		{
-			return SpriteLookup[id];
+			return Lookup.SpriteLocalizationLookup[id];
 		}
 		
 		
@@ -243,7 +188,7 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <returns>The copy for the id.</returns>
 		private static LocalizationData<AudioClip> GetAudioCopyData(string id)
 		{
-			return AudioLookup[id];
+			return Lookup.AudioLocalizationLookup[id];
 		}
 
 
@@ -253,17 +198,19 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <param name="id">The id to find.</param>
 		/// <param name="copy">The copy for the id in the current language.</param>
 		/// <returns>If it was successful or not.</returns>
-		public static bool TryGetTextCopy(string id, out string copy)
+		public static bool TryGetTextCopy(string id, out string copy, string overrideLanguageCode = "")
 		{
+			TryGetLanguageFromCode(overrideLanguageCode, out var language);
+			
 			copy = string.Empty;
 			
 			var data = GetTextCopyData(id).Entries
-				.FirstOrDefault(t => t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()));
+				.FirstOrDefault(t => t.LanguageCode.Equals(language.Code));
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryModules>(
-					$"[TryGetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
+				CartLogger.LogError<LogCategoryModuleLocalization>(
+					$"[TryGetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
 				return false;
@@ -280,17 +227,19 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <param name="id">The id to find.</param>
 		/// <param name="copy">The copy for the id in the current language.</param>
 		/// <returns>If it was successful or not.</returns>
-		public static bool TryGetSpriteCopy(string id, out Sprite copy)
+		public static bool TryGetSpriteCopy(string id, out Sprite copy, string overrideLanguageCode = "")
 		{
+			TryGetLanguageFromCode(overrideLanguageCode, out var language);
+			
 			copy = null;
 			
 			var data = GetSpriteCopyData(id).Entries
-				.FirstOrDefault(t => t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()));
+				.FirstOrDefault(t => t.LanguageCode.Equals(language.Code));
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryModules>(
-					$"[TryGetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
+				CartLogger.LogError<LogCategoryModuleLocalization>(
+					$"[TryGetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
 				return false;
@@ -307,16 +256,18 @@ namespace CarterGames.Cart.Modules.Localization
 		/// <param name="id">The id to find.</param>
 		/// <param name="copy">The copy for the id in the current language.</param>
 		/// <returns>If it was successful or not.</returns>
-		public static bool TryGetAudioCopy(string id, out AudioClip copy)
+		public static bool TryGetAudioCopy(string id, out AudioClip copy, string overrideLanguageCode = "")
 		{
+			TryGetLanguageFromCode(overrideLanguageCode, out var language);
+			
 			copy = null;
 			
 			var data = GetAudioCopyData(id).Entries
-				.FirstOrDefault(t => t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()));
+				.FirstOrDefault(t => t.LanguageCode.Equals(language.Code));
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryModules>(
+				CartLogger.LogError<LogCategoryModuleLocalization>(
 					$"[TryGetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
@@ -333,16 +284,18 @@ namespace CarterGames.Cart.Modules.Localization
 		/// </summary>
 		/// <param name="id">The id to find.</param>
 		/// <returns>The copy for the id in the current language.</returns>
-		public static string GetText(string id)
+		public static string GetText(string id, string overrideLanguageCode = "")
 		{
+			TryGetLanguageFromCode(overrideLanguageCode, out var language);
+			
 			var copy = GetTextCopyData(id).Entries.FirstOrDefault(t =>
-				t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()))
+				t.LanguageCode.Equals(language.Code))
 				?.Copy;
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryModules>(
-					$"[GetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
+				CartLogger.LogError<LogCategoryModuleLocalization>(
+					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}
 
@@ -355,16 +308,18 @@ namespace CarterGames.Cart.Modules.Localization
 		/// </summary>
 		/// <param name="id">The id to find.</param>
 		/// <returns>The copy for the id in the current language.</returns>
-		public static Sprite GetSprite(string id)
+		public static Sprite GetSprite(string id, string overrideLanguageCode = "")
 		{
+			TryGetLanguageFromCode(overrideLanguageCode, out var language);
+			
 			var copy = GetSpriteCopyData(id).Entries.FirstOrDefault(t =>
-					t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()))
+					t.LanguageCode.Equals(language.Code))
 				?.Copy;
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryModules>(
-					$"[GetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
+				CartLogger.LogError<LogCategoryModuleLocalization>(
+					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}
 
@@ -377,16 +332,18 @@ namespace CarterGames.Cart.Modules.Localization
 		/// </summary>
 		/// <param name="id">The id to find.</param>
 		/// <returns>The copy for the id in the current language.</returns>
-		public static AudioClip GetAudio(string id)
+		public static AudioClip GetAudio(string id, string overrideLanguageCode = "")
 		{
+			TryGetLanguageFromCode(overrideLanguageCode, out var language);
+			
 			var copy = GetAudioCopyData(id).Entries.FirstOrDefault(t =>
-					t.LanguageCode.ToLowerInvariant().Equals(CurrentLanguage.Code.ToLowerInvariant()))
+					t.LanguageCode.Equals(language.Code))
 				?.Copy;
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryModules>(
-					$"[GetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
+				CartLogger.LogError<LogCategoryModuleLocalization>(
+					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}
 

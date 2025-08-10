@@ -26,9 +26,9 @@
 using System;
 using System.Collections.Generic;
 using CarterGames.Cart.Core;
+using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Management.Editor;
 using CarterGames.Cart.Core.Reflection;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Currency.Editor

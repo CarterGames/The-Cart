@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_CART_MODULE_NOTIONDATA
+﻿#if CARTERGAMES_CART_MODULE_LOCALIZATION && CARTERGAMES_NOTIONDATA
 
 /*
  * Copyright (c) 2025 Carter Games
@@ -24,8 +24,7 @@
  */
 
 using System;
-using CarterGames.Cart.Core.Reflection;
-using CarterGames.Cart.Modules.NotionData;
+using CarterGames.NotionData;
 using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Localization
@@ -38,17 +37,11 @@ namespace CarterGames.Cart.Modules.Localization
 	[Serializable]
 	public sealed class NotionDataAssetLocalizedText : NotionDataAsset<LocalizationData<string>>
 	{
-#if UNITY_EDITOR
 		private void Awake()
 		{
-			var processor = ReflectionHelper.GetField(typeof(NotionDataAsset<LocalizationData<string>>), "processor", false);
-			
-			if (processor.GetValue(this) != null) return;
-			processor.SetValue(this, Core.Management.Editor.ScriptableRef.GetAssetDef<NotionDatabaseProcessorTextLocalization>().AssetRef);
-			UnityEditor.EditorUtility.SetDirty(this);
-			UnityEditor.AssetDatabase.SaveAssets();
+			// Auto-assigns the text processor to the asset when created.
+			processor = typeof(NotionDatabaseProcessorTextLocalization);
 		}
-#endif
 	}
 }
 

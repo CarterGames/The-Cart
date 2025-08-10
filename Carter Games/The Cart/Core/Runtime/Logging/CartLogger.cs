@@ -77,7 +77,7 @@ namespace CarterGames.Cart.Core.Logs
             {
                 if (Application.isEditor) return true;
                 
-                if (IsProductionBuild)
+                if (IsProductionBuild && !UtilRuntime.Settings.ForceShowErrors)
                 {
                     return ShowLogsOnProductionBuild && UtilRuntime.Settings.LoggingUseCartLogs;
                 }
@@ -107,7 +107,10 @@ namespace CarterGames.Cart.Core.Logs
             Builder.Clear();
             
             Builder.Append(TypeColorPrefix);
-            Builder.Append(typeof(T).Name);
+            Builder.Append(typeof(T).Name
+                .Replace("Logs", string.Empty)
+                .Replace("Log", string.Empty)
+                .Replace("Category", string.Empty));
 
             if (additionalContext != null)
             {
@@ -129,7 +132,7 @@ namespace CarterGames.Cart.Core.Logs
         /// <param name="additionalContext">The sub-type for the message if used.</param>
         /// <typeparam name="T">The log category type</typeparam>
         /// <returns>The formatted log message.</returns>
-        private static string CreateLogMessage<T>(string msg, Type additionalContext = null) where T : CartLogCategory
+        private static string CreateLogMessage<T>(string msg, Type additionalContext = null) where T : LogCategory
         {
             MessageBuilder.Clear();
             MessageBuilder.Append(GetCategoryPrefix<T>(additionalContext));
@@ -154,15 +157,15 @@ namespace CarterGames.Cart.Core.Logs
         /// <param name="message">The message to write.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void Log<T>(string message, bool editorOnlyLog = false) where T : CartLogCategory
+        public static void Log<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
 
             var formattedLog = CreateLogMessage<T>(message);
             
-            Debug.Log(formattedLog);
+            Debug.Log(formattedLog, ctx);
             Logged.Raise(LogType.Log, formattedLog);
         }
         
@@ -174,10 +177,10 @@ namespace CarterGames.Cart.Core.Logs
         /// <param name="additionalContext">The additional type context for the log. Such as system/class.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void Log<T>(string message, Type additionalContext, bool editorOnlyLog = false) where T : CartLogCategory
+        public static void Log<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
@@ -197,10 +200,10 @@ namespace CarterGames.Cart.Core.Logs
         /// <param name="message">The message to write.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogWarning<T>(string message, bool editorOnlyLog = false) where T : CartLogCategory
+        public static void LogWarning<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message);
@@ -217,10 +220,10 @@ namespace CarterGames.Cart.Core.Logs
         /// <param name="additionalContext">The additional type context for the log. Such as system/class.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogWarning<T>(string message, Type additionalContext, bool editorOnlyLog = false) where T : CartLogCategory
+        public static void LogWarning<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
+            if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
             if (!Application.isEditor && editorOnlyLog) return;
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
@@ -240,11 +243,14 @@ namespace CarterGames.Cart.Core.Logs
         /// <param name="message">The message to write.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogError<T>(string message, bool editorOnlyLog = false) where T : CartLogCategory
+        public static void LogError<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
-            if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
-            if (!Application.isEditor && editorOnlyLog) return;
+            if (!UtilRuntime.Settings.ForceShowErrors)
+            {
+                if (!CanShowLogs) return;
+                if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
+                if (!Application.isEditor && editorOnlyLog) return;
+            }
             
             var formattedLog = CreateLogMessage<T>(message);
             
@@ -260,11 +266,14 @@ namespace CarterGames.Cart.Core.Logs
         /// <param name="additionalContext">The additional type context for the log. Such as system/class.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogError<T>(string message, Type additionalContext, bool editorOnlyLog = false) where T : CartLogCategory
+        public static void LogError<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
-            if (!CanShowLogs) return;
-            if (!DataAccess.GetAsset<DataAssetCartLogCategories>().IsEnabled<T>()) return;
-            if (!Application.isEditor && editorOnlyLog) return;
+            if (!UtilRuntime.Settings.ForceShowErrors)
+            {
+                if (!CanShowLogs) return;
+                if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
+                if (!Application.isEditor && editorOnlyLog) return;
+            }
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
             

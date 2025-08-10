@@ -26,7 +26,6 @@
 using CarterGames.Cart.Core.Editor;
 using CarterGames.Cart.Core.Logs;
 using CarterGames.Cart.Core.Management.Editor;
-using CarterGames.Cart.Modules.Settings;
 using UnityEditor;
 using UnityEngine;
 
@@ -128,7 +127,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
         {
             if (string.IsNullOrEmpty(key))
             {
-                CartLogger.Log<LogCategoryModules>($"[Editor/TryAddDefaultAccount]: Cannot add account with a empty id.", typeof(CurrencyAccountEditorWindow));
+                CartLogger.Log<LogCategoryCurrency>($"[Editor/TryAddDefaultAccount]: Cannot add account with a empty id.", typeof(CurrencyAccountEditorWindow));
                 return;
             }
             
@@ -136,7 +135,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
             {
                 if (DefAccountsProp.GetIndex(i).Fpr("key").stringValue == key)
                 {
-                    CartLogger.Log<LogCategoryModules>($"[Editor/TryAddDefaultAccount]: Cannot add account of id {key} as it is already defined.", typeof(CurrencyAccountEditorWindow));
+                    CartLogger.Log<LogCategoryCurrency>($"[Editor/TryAddDefaultAccount]: Cannot add account of id {key} as it is already defined.", typeof(CurrencyAccountEditorWindow));
                     return;
                 }
             }
@@ -147,6 +146,8 @@ namespace CarterGames.Cart.Modules.Currency.Editor
                 
             DefAccountsProp.serializedObject.ApplyModifiedProperties();
             DefAccountsProp.serializedObject.Update();
+            
+            CurrencyManager.SaveAccounts();
             
             GUI.FocusControl(null);
         }
@@ -168,6 +169,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
                 {
                     DefAccountsProp.serializedObject.ApplyModifiedProperties();
                     DefAccountsProp.serializedObject.Update();
+                    CurrencyManager.SaveAccounts();
                 }
 
                 GUI.backgroundColor = Color.red;
@@ -177,6 +179,7 @@ namespace CarterGames.Cart.Modules.Currency.Editor
                     DefAccountsProp.DeleteIndex(i);
                     DefAccountsProp.serializedObject.ApplyModifiedProperties();
                     DefAccountsProp.serializedObject.Update();
+                    CurrencyManager.SaveAccounts();
                     return;
                 }
 

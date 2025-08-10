@@ -29,7 +29,7 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Modules.Conditions.Editor
 {
-	[CustomPropertyDrawer(typeof(ConditionSelectableAttribute))]
+	[CustomPropertyDrawer(typeof(SelectConditionAttribute))]
 	public sealed class PropertyDrawerConditionSelectableAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderConditionAsset, Condition>
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

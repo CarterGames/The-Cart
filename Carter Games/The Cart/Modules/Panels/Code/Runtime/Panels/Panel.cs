@@ -34,7 +34,6 @@ namespace CarterGames.Cart.Modules.Panels
     /// <summary>
     /// A script to manage a UI panel to appear and disappear at will.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Panel")]
     public class Panel : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -51,41 +50,8 @@ namespace CarterGames.Cart.Modules.Panels
         [SerializeField] protected Canvas canvas;
         [SerializeField] protected GraphicRaycaster graphicRaycaster;
 
-
-        /// <summary>
-        /// Runs when the panel has closed.
-        /// </summary>
-        public readonly Evt CloseCompleted = new Evt();
-
-
-        /// <summary>
-        /// Runs when the panel begins to close.
-        /// </summary>
-        public readonly Evt CloseStarted = new Evt();
-
-
-        /// <summary>
-        /// Runs when the panel has opened.
-        /// </summary>
-        public readonly Evt OpenCompleted = new Evt();
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Runs when the panel begins to open.
-        /// </summary>
-        public readonly Evt OpenStarted = new Evt();
-
-
-        /// <summary>
-        /// Raises when the transitions are completed.
-        /// </summary>
-        private readonly Evt TransitionsCompleted = new Evt();
-
         private int completedTransitions;
-
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -112,6 +78,39 @@ namespace CarterGames.Cart.Modules.Panels
         /// Gets if the panel is transitioning or not.
         /// </summary>
         public bool IsTransitioning { get; private set; }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Runs when the panel begins to open.
+        /// </summary>
+        public readonly Evt OpenStartedEvt = new Evt();
+        
+        
+        /// <summary>
+        /// Runs when the panel has opened.
+        /// </summary>
+        public readonly Evt OpenCompletedEvt = new Evt();
+        
+        
+        /// <summary>
+        /// Runs when the panel begins to close.
+        /// </summary>
+        public readonly Evt CloseStartedEvt = new Evt();
+        
+        
+        /// <summary>
+        /// Runs when the panel has closed.
+        /// </summary>
+        public readonly Evt CloseCompletedEvt = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when the transitions are completed.
+        /// </summary>
+        private readonly Evt TransitionsCompletedEvt = new Evt();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Methods
@@ -142,7 +141,7 @@ namespace CarterGames.Cart.Modules.Panels
 
             if (!IsValid())
             {
-                CartLogger.LogError<LogCategoryModules>($"[Panels]: Panel on {gameObject.name} is not setup correctly", typeof(Panel));
+                CartLogger.LogError<LogCategoryPanels>($"Panel on {gameObject.name} is not setup correctly", typeof(Panel));
                 return;
             }
             
@@ -179,12 +178,12 @@ namespace CarterGames.Cart.Modules.Panels
             IsTransitioning = true;
             PanelOpenStarted();
 
-            TransitionsCompleted.Add(PanelOpenComplete);
+            TransitionsCompletedEvt.Add(PanelOpenComplete);
             
             foreach (var transition in transitions)
             {
-                transition.Completed.Remove(OnTransitionCompleted);
-                transition.Completed.Add(OnTransitionCompleted);
+                transition.CompletedEvt.Remove(OnTransitionCompleted);
+                transition.CompletedEvt.Add(OnTransitionCompleted);
                 
                 transition.TransitionIn();
             }
@@ -201,12 +200,12 @@ namespace CarterGames.Cart.Modules.Panels
             IsTransitioning = true;
             PanelCloseStarted();
             
-            TransitionsCompleted.Add(PanelCloseComplete);
+            TransitionsCompletedEvt.Add(PanelCloseComplete);
             
             foreach (var transition in transitions)
             {
-                transition.Completed.Remove(OnTransitionCompleted);
-                transition.Completed.Add(OnTransitionCompleted);
+                transition.CompletedEvt.Remove(OnTransitionCompleted);
+                transition.CompletedEvt.Add(OnTransitionCompleted);
                 
                 transition.TransitionOut();
             }
@@ -226,7 +225,7 @@ namespace CarterGames.Cart.Modules.Panels
                 canvas.enabled = true;
             }
             
-            OpenStarted.Raise();
+            OpenStartedEvt.Raise();
         }
 
 
@@ -240,7 +239,7 @@ namespace CarterGames.Cart.Modules.Panels
                 graphicRaycaster.enabled = true;
             }
             
-            OpenCompleted.Raise();
+            OpenCompletedEvt.Raise();
         }
 
 
@@ -251,7 +250,7 @@ namespace CarterGames.Cart.Modules.Panels
         {
             if (graphicRaycaster == null) return;
             graphicRaycaster.enabled = false;
-            CloseStarted.Raise();
+            CloseStartedEvt.Raise();
         }
 
 
@@ -262,7 +261,7 @@ namespace CarterGames.Cart.Modules.Panels
         {
             if (canvas == null) return;
             canvas.enabled = false;
-            CloseCompleted.Raise();
+            CloseCompletedEvt.Raise();
         }
 
 
@@ -275,8 +274,8 @@ namespace CarterGames.Cart.Modules.Panels
 
             if (!completedTransitions.Equals(transitions.Count)) return;
             
-            TransitionsCompleted.Raise();
-            TransitionsCompleted.Clear();
+            TransitionsCompletedEvt.Raise();
+            TransitionsCompletedEvt.Clear();
 
             completedTransitions = 0;
             IsTransitioning = false;

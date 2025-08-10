@@ -55,7 +55,13 @@ namespace CarterGames.Cart.Modules.Conditions
         
         public override void OnInitialize(Evt stateChanged)
         {
-            CurrencyManager.GetAccount(accountId).Adjusted.Add(stateChanged.Raise);
+            CurrencyManager.GetAccount(accountId).Adjusted.Add(OnAccountAdjusted);
+            return;
+
+            void OnAccountAdjusted(AccountTransaction transaction)
+            {
+                stateChanged.Raise();
+            }
         }
     }
 }

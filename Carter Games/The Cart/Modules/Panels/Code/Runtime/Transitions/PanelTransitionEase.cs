@@ -29,14 +29,27 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Panels
 {
-    [AddComponentMenu("Carter Games/The Cart/Modules/Panels/Transitions/Ease")]
+    /// <summary>
+    /// A easing transition for panels
+    /// </summary>
     public class PanelTransitionEase : PanelTransition
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
         [SerializeField] private Transform target;
         [SerializeField] private OutEaseData outEase;
         [SerializeField] private InEaseData inEase;
 
-
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Coroutines
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Runs the transition.
+        /// </summary>
+        /// <param name="fadeIn">Is it a fade in?</param>
         protected override IEnumerator Co_Transition(bool fadeIn)
         {
             var elapsedTime = 0d;
@@ -52,7 +65,7 @@ namespace CarterGames.Cart.Modules.Panels
                     yield return null;
                 }
                 
-                Completed.Raise();
+                CompletedEvt.Raise();
                 target.transform.localScale = Vector3.one;
                 TransitionRoutine = null;
             }
@@ -67,7 +80,7 @@ namespace CarterGames.Cart.Modules.Panels
                     yield return null;
                 }
                 
-                Completed.Raise();
+                CompletedEvt.Raise();
                 target.transform.localScale = Vector3.zero;
                 TransitionRoutine = null;
             }

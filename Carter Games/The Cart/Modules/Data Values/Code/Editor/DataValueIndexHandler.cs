@@ -137,7 +137,7 @@ namespace CarterGames.Cart.Modules.DataValues.Editor
                     
                     if (entry.Fpr("key").stringValue.Equals(foundAssets[i].Key))
                     {
-                        CartLogger.LogWarning<LogCategoryModules>(
+                        CartLogger.LogWarning<LogCategoryDataValues>(
                             $"[Data Values]: Cannot assign {foundAssets[i].Key} as it already exists.",
                             typeof(DataValueIndexHandler));
                         

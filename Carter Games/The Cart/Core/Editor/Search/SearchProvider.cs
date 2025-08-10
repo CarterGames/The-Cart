@@ -188,5 +188,10 @@ namespace CarterGames.Cart.Core.Editor
         /// </summary>
         /// <returns>A list of entries to show.</returns>
         public abstract List<SearchGroup<T>> GetEntriesToDisplay();
+
+        public virtual List<T> GetValidValues()
+        {
+            return null;
+        }
     }
 }

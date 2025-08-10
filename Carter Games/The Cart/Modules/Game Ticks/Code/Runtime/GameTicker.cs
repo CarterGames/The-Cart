@@ -32,7 +32,6 @@ namespace CarterGames.Cart.Modules.GameTicks
     /// <summary>
     /// Handles a tick system with the ticks defined locally.
     /// </summary>
-    [AddComponentMenu("Carter Games/The Cart/Modules/Game Ticks/Game Ticker")]
     public class GameTicker : MonoBehaviour
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -40,7 +39,7 @@ namespace CarterGames.Cart.Modules.GameTicks
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         [SerializeField] private GameTickSyncState syncState;
-        [SerializeField] private int ticksPerSecond;
+        [SerializeField] private float ticksPerSecond = 30;
 
         private bool hasTimescaleOverride;
         private bool tickerEnabled = true;
@@ -54,10 +53,10 @@ namespace CarterGames.Cart.Modules.GameTicks
         /// <summary>
         /// Gets if the system is toggled on or off.
         /// </summary>
-        private bool Enabled
+        public bool Enabled
         {
             get => tickerEnabled;
-            set => tickerEnabled = value;
+            private set => tickerEnabled = value;
         }
 
 
@@ -70,7 +69,7 @@ namespace CarterGames.Cart.Modules.GameTicks
         /// <summary>
         /// Gets the tick rate of the ticker based on the sync state defined.
         /// </summary>
-        private int TickRate => syncState == GameTickSyncState.ApplicationTargetFrameRate ? Application.targetFrameRate : ticksPerSecond;
+        private float TickRate => syncState == GameTickSyncState.ApplicationTargetFrameRate ? Application.targetFrameRate : ticksPerSecond;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
@@ -134,7 +133,7 @@ namespace CarterGames.Cart.Modules.GameTicks
         /// Sets the ticks per second to the value provided.
         /// </summary>
         /// <param name="value">The value to set to.</param>
-        public void SetTicksPerSecond(int value)
+        public void SetTicksPerSecond(float value)
         {
             ticksPerSecond = value;
         }
@@ -148,6 +147,15 @@ namespace CarterGames.Cart.Modules.GameTicks
         {
             hasTimescaleOverride = true;
             timescaleOverride = useUnscaled;
+        }
+
+
+        /// <summary>
+        /// Resets the tick position back to 0.
+        /// </summary>
+        public void ResetTickPosition()
+        {
+            tickTimer = 0;
         }
     }
 }

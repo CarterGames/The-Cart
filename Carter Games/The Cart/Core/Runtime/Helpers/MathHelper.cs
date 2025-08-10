@@ -21,6 +21,8 @@
  * THE SOFTWARE.
  */
 
+using UnityEngine;
+
 namespace CarterGames.Cart.Core
 {
     /// <summary>
@@ -61,6 +63,19 @@ namespace CarterGames.Cart.Core
         public static float GetTime(float distance, float speed)
         {
             return distance / speed;
+        }
+        
+        
+        /// <summary>
+        /// Lerp functionally but with double. Clamped between 0-1.
+        /// </summary>
+        /// <param name="a">Value A</param>
+        /// <param name="b">Value B</param>
+        /// <param name="t">Time</param>
+        /// <returns>The progress in the lerp.</returns>
+        public static double Lerp(double a, double b, float t)
+        {
+            return a + (b - a) * Mathf.Clamp01(t);
         }
     }
 }
