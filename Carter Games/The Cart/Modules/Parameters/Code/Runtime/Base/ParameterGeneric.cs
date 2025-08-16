@@ -25,9 +25,28 @@
 
 namespace CarterGames.Cart.Modules.Parameters
 {
+	/// <summary>
+	/// A generic wrapper class for parameters.
+	/// </summary>
+	/// <typeparam name="T">The type for the parameter value.</typeparam>
 	public abstract class ParameterGeneric<T> : Parameter
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Property Overrides
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Gets the value in object form.
+		/// </summary>
 		public override object ValueObject => Value;
+		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Property Abstract
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// The value of the parameter.
+		/// </summary>
 		public abstract T Value { get; }
 	}
 }

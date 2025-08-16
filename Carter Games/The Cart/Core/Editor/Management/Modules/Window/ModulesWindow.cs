@@ -209,9 +209,15 @@ namespace CarterGames.Cart.Modules.Window
                         selectedModule = ModuleManager.AllModules.First(t => t.ModuleName.Equals(EditorSettingsModuleWindow.SelectedModuleName));
                     }
                 }
-                
+
+#if UNITY_EDITOR_LINUX
+                GUI.backgroundColor = ModuleManager.IsEnabled(module) ? Color.green : Color.red;
+                EditorGUILayout.LabelField("", new GUIStyle("minibutton"), GUILayout.MaxWidth(17.5f));
+                GUI.backgroundColor = Color.white;
+#else
                 EditorGUILayout.LabelField(ModuleManager.GetModuleStatusIcon(module), labelStyle, GUILayout.Width(17.5f));
-                
+#endif                
+
                 EditorGUILayout.EndHorizontal();
                 
                 GUI.backgroundColor = Color.white;

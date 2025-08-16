@@ -33,16 +33,43 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Parameters
 {
+	/// <summary>
+	/// The main manager class for the parameters' system.
+	/// </summary>
 	public static class ParametersManager
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Fields
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
 		private static Dictionary<string, Parameter> AllParamsLookup;
 		private static List<Parameter> AllParams;
 		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Gets if the parameters manager is initialized.
+		/// </summary>
 		public static bool IsInitialized { get; private set; }
 
-		public static Evt Initialized = new Evt();
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Events
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
+		/// <summary>
+		/// Raises when the parameters manager is initialized.
+		/// </summary>
+		public static Evt InitializedEvt = new Evt();
 		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Methods (Internal)
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Initializes the parameters system for use.
+		/// </summary>
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		private static void InitializeParameters()
 		{
@@ -61,31 +88,15 @@ namespace CarterGames.Cart.Modules.Parameters
 			MonoEvents.OnDestroy.Add(DisposeOfParameters);
 
 			IsInitialized = true;
-			Initialized.Raise();
+			InitializedEvt.Raise();
 			
 			CartLogger.Log<LogCategoryParameters>("Parameters initialized.");
 		}
-
-
-		public static bool TryGetParameter(string key, out Parameter parameter)
-		{
-			parameter = GetParameter(key);
-			return parameter != null;
-		}
 		
-
-		public static Parameter GetParameter(string key)
-		{
-			if (!AllParamsLookup.TryGetValue(key, out var value))
-			{
-				CartLogger.LogWarning<LogCategoryParameters>($"Unable to find parameter with the key {key}.");
-				return null;
-			}
-			
-			return value;
-		}
-
-
+		
+		/// <summary>
+		/// Disposes of the system when closing the game.
+		/// </summary>
 		private static void DisposeOfParameters()
 		{
 			MonoEvents.OnDestroy.Remove(DisposeOfParameters);
@@ -99,6 +110,42 @@ namespace CarterGames.Cart.Modules.Parameters
 			AllParams.Clear();
 			
 			CartLogger.Log<LogCategoryParameters>("Parameters disposed of.");
+		}
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Methods (Public API)
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Tries to get a parameter by its key.
+		/// </summary>
+		/// <param name="key">The key to look for.</param>
+		/// <param name="parameter">The found parameter or null if none found.</param>
+		/// <returns>If the process was successful.</returns>
+		public static bool TryGetParameter(string key, out Parameter parameter)
+		{
+			parameter = GetParameter(key);
+			return parameter != null;
+		}
+		
+
+		/// <summary>
+		/// Gets A parameter by its key.
+		/// </summary>
+		/// <remarks>
+		///	If uncertain of the key existing, use TryGetParameter() instead.
+		/// </remarks>
+		/// <param name="key">The key to look for.</param>
+		/// <returns>The found parameter or null if none found.</returns>
+		public static Parameter GetParameter(string key)
+		{
+			if (!AllParamsLookup.TryGetValue(key, out var value))
+			{
+				CartLogger.LogWarning<LogCategoryParameters>($"Unable to find parameter with the key {key}.");
+				return null;
+			}
+			
+			return value;
 		}
 	}
 }

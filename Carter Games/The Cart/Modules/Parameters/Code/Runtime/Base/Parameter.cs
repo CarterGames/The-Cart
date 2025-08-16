@@ -27,28 +27,77 @@ using CarterGames.Cart.Core.Events;
 
 namespace CarterGames.Cart.Modules.Parameters
 {
+	/// <summary>
+	/// The base class for a parameter in the parameters setup.
+	/// </summary>
 	public abstract class Parameter
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Properties
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// The key for the parameter.
+		/// </summary>
 		public virtual string Key => GetType().FullName;
 		
+		
+		/// <summary>
+		/// Gets if the value is populated.
+		/// </summary>
 		public abstract bool HasValue { get; }
 		
+		
+		/// <summary>
+		/// Gets the value in object form.
+		/// </summary>
 		public abstract object ValueObject { get; }
 		
 		
+		/// <summary>
+		/// Gets the value in string form.
+		/// </summary>
 		public string ValueString => HasValue 
 			? ValueObject.ToString() 
 			: string.Empty;
 		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Events
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
+		/// <summary>
+		/// Raises when the parameter value is updated.
+		/// </summary>
 		public readonly Evt UpdatedEvt = new Evt();
 
-
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Methods
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Initializes the parameter when called.
+		/// </summary>
 		public void Initialize() => OnInitialize();
+		
+		
+		/// <summary>
+		/// Disposes of the parameter when called.
+		/// </summary>
+		public void Dispose() => OnDisposedOf();
+		
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Methods (Overridable)
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Override to add logic on initializing the parameter.
+		/// </summary>
 		protected virtual void OnInitialize() {}
 		
 		
-		public void Dispose() => OnDisposedOf();
+		/// <summary>
+		/// Override to add logic on disposing the parameter.
+		/// </summary>
 		protected virtual void OnDisposedOf() {}
 	}
 }

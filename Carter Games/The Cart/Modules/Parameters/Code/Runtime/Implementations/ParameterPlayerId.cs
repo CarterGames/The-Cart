@@ -32,7 +32,19 @@ namespace CarterGames.Cart.Modules.Parameters
 	/// </summary>
 	public class ParameterPlayerId : ParameterGeneric<string>
 	{
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Property Overrides
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Gets if the value is populated.
+		/// </summary>
 		public override bool HasValue => PlayerInfo.HasPlayerId;
+		
+		
+		/// <summary>
+		/// Gets the value.
+		/// </summary>
 		public override string Value => PlayerInfo.PlayerId;
 	}
 }
