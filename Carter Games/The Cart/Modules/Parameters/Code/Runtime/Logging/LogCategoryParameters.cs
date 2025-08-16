@@ -27,6 +27,9 @@ using CarterGames.Cart.Core.Logs;
 
 namespace CarterGames.Cart.Modules.Parameters
 {
+    /// <summary>
+    /// The log category for the parameters module.
+    /// </summary>
 	public sealed class LogCategoryParameters : LogCategory { }
 }
 

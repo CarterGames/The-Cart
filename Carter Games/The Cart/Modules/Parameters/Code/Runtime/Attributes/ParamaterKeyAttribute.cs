@@ -28,6 +28,9 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Modules.Parameters
 {
+	/// <summary>
+	/// An attribute to select a parameter key from a search provider.
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Field)]
 	public sealed class ParameterKeyAttribute : PropertyAttribute { }
 }

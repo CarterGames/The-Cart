@@ -125,7 +125,11 @@ namespace CarterGames.Cart.Modules.Window
                 {
                     EditorGUILayout.BeginHorizontal();
                     
+#if UNITY_EDITOR_LINUX
+                    EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsEnabled(preRequisite) ? "[Enabled]" : "[Disabled]"), labelStyle);
+#else
                     EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsEnabled(preRequisite) ? "<color=#71ff50>\u2714</color>" : "<color=#ff9494>\u2718</color>"), labelStyle);
+#endif
                     
                     EditorGUILayout.EndHorizontal();
                 }
@@ -144,7 +148,11 @@ namespace CarterGames.Cart.Modules.Window
                 {
                     EditorGUILayout.BeginHorizontal();
                     
+#if UNITY_EDITOR_LINUX
+                    EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsEnabled(preRequisite) ? "[Enabled]" : "[Disabled]"), labelStyle);
+#else
                     EditorGUILayout.LabelField("- " + preRequisite.ModuleName + " " + (ModuleManager.IsEnabled(preRequisite) ? "<color=#71ff50>\u2714</color>" : "<color=#ff9494>\u2718</color>"), labelStyle);
+#endif                    
                     
                     EditorGUILayout.EndHorizontal();
                 }

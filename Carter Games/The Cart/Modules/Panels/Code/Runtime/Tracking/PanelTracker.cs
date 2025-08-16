@@ -109,7 +109,7 @@ namespace CarterGames.Cart.Modules.Panels
         /// Checks to see if any panel is opened.
         /// </summary>
         /// <returns>If there is any panel is open.</returns>
-        public static bool AnyOtherPanelOpen()
+        public static bool AnyPanelOpen()
         {
             return ActivePanels.Count > 0;
         }
