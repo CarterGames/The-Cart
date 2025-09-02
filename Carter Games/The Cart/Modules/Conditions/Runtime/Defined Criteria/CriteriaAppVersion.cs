@@ -42,9 +42,10 @@ namespace CarterGames.Cart.Modules.Conditions
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
 		[SerializeField] private NumericalComparisonType comparisonType;
-		[SerializeField] private VersionNumber version;
+		[SerializeField] private string version;
 
-		[NonSerialized] private VersionNumber cachedAppVersionNumber;
+		[NonSerialized] private Version cachedAppVersionNumber;
+		[NonSerialized] private Version cachedCheckVersionNumber;
 		[NonSerialized] private bool isValid;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -54,13 +55,24 @@ namespace CarterGames.Cart.Modules.Conditions
 		/// <summary>
 		/// Gets the converted app version to the AppVersion class type for comparison.
 		/// </summary>
-		private VersionNumber AppVersionNumber
+		private Version AppVersionNumber
 		{
 			get
 			{
 				if (cachedAppVersionNumber != null) return cachedAppVersionNumber;
-				cachedAppVersionNumber = new VersionNumber(Application.version);
+				cachedAppVersionNumber = new Version(Application.version);
 				return cachedAppVersionNumber;
+			}
+		}
+		
+		
+		private Version CheckVersion
+		{
+			get
+			{
+				if (cachedCheckVersionNumber != null) return cachedCheckVersionNumber;
+				cachedCheckVersionNumber = new Version(version);
+				return cachedCheckVersionNumber;
 			}
 		}
 
@@ -75,11 +87,11 @@ namespace CarterGames.Cart.Modules.Conditions
 		{
 			isValid = comparisonType switch
 			{
-				NumericalComparisonType.LessThan => version < AppVersionNumber,
-				NumericalComparisonType.LessThanOrEqual => version < AppVersionNumber || AppVersionNumber.Equals(version),
-				NumericalComparisonType.Equals => AppVersionNumber.Equals(version),
-				NumericalComparisonType.GreaterThanOrEqual => version > AppVersionNumber || AppVersionNumber.Equals(version),
-				NumericalComparisonType.GreaterThan => version > AppVersionNumber,
+				NumericalComparisonType.LessThan => CheckVersion.CompareTo(AppVersionNumber) < 0,
+				NumericalComparisonType.LessThanOrEqual => CheckVersion.CompareTo(AppVersionNumber) < 0 || AppVersionNumber.Equals(CheckVersion),
+				NumericalComparisonType.Equals => AppVersionNumber.Equals(CheckVersion),
+				NumericalComparisonType.GreaterThanOrEqual => CheckVersion.CompareTo(AppVersionNumber) > 0 || AppVersionNumber.Equals(CheckVersion),
+				NumericalComparisonType.GreaterThan => CheckVersion.CompareTo(AppVersionNumber) > 0,
 				NumericalComparisonType.Unassigned => false,
 				_ => false
 			};

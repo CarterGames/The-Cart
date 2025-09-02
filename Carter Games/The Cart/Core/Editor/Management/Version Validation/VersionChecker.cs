@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Cart.Core.Events;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -45,13 +46,13 @@ namespace CarterGames.Cart.Core.Management.Editor
         /// <summary>
         /// Gets if the latest version is this version.
         /// </summary>
-        public static bool IsLatestVersion => Versions.Data.VersionNumber.Equals(new VersionNumber(VersionInfo.ProjectVersionNumber));
+        public static bool IsLatestVersion => Versions.Data.VersionNumber.Equals(new Version(VersionInfo.ProjectVersionNumber));
         
         
         /// <summary>
         /// Gets if the version here is higher that the latest version.
         /// </summary>
-        public static bool IsNewerVersion => Versions.Data.VersionNumber < new VersionNumber(VersionInfo.ProjectVersionNumber);
+        public static bool IsNewerVersion => new Version(VersionInfo.ProjectVersionNumber).CompareTo(Versions.Data.VersionNumber) > 0;
         
         
         /// <summary>
