@@ -1,6 +1,6 @@
 {
     "name": "games.carter.thecart",
-    "version": "0.12.1",
+    "version": "0.12.2",
     "displayName": "The Cart",
     "description": "A code library of useful tools, classes & systems for game development in Unity.",
     "unity": "2020.3",
@@ -16,3 +16,4 @@
         "url": "https://carter.games"
     }
 }
+
