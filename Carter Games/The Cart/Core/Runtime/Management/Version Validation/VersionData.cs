@@ -77,6 +77,6 @@ namespace CarterGames.Cart.Core.Management
         /// <summary>
         /// The version number for the entry.
         /// </summary>
-        public VersionNumber VersionNumber => new VersionNumber(Version);
+        public Version VersionNumber => new Version(Version);
     }
 }

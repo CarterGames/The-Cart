@@ -127,7 +127,7 @@ namespace CarterGames.Cart.Core.Editor
 		{
 			if (string.IsNullOrEmpty(FolderStructureSave))
 			{
-				FolderStructureSave = JsonUtility.ToJson(DefaultFolderStructure);
+				FolderStructureSave = JsonUtility.ToJson(DefaultStructure);
 			}
 			
 			Open<UtilityWindowProjectSetup>("Project Setup");
