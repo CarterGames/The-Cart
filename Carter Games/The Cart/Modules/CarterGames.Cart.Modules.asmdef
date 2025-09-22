@@ -19,8 +19,8 @@
     "defineConstraints": [],
     "versionDefines": [
         {
-            "name": "games.carter.standalone.notiondata",
-            "expression": "0.6.0",
+            "name": "games.carter.notiondata",
+            "expression": "0.7.0",
             "define": "CARTERGAMES_NOTIONDATA"
         }
     ],
