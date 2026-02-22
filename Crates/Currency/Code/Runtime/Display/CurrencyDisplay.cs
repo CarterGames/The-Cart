@@ -1,0 +1,120 @@
+﻿#if CARTERGAMES_CART_CRATE_CURRENCY
+
+/*
+ * Copyright (c) 2025 Carter Games
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+using CarterGames.Cart;
+using CarterGames.Cart.Management;
+using TMPro;
+using UnityEngine;
+
+namespace CarterGames.Cart.Crates.Currency
+{
+    /// <summary>
+    /// A display class for a currency.
+    /// </summary>
+    public class CurrencyDisplay : MonoBehaviour
+    {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        [SerializeField] [SelectAccount] private string accountId;
+        [SerializeField] [SelectMoneyFormatter] private AssemblyClassDef formatter;
+        [SerializeField] private DisplayStyleHandler displayStyle;
+        [SerializeField] private TMP_Text label;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Confirms if the display is in-sync or not.
+        /// </summary>
+        public bool InSync => CurrencyManager.GetBalance(accountId).DoubleEquals(LastBalanceShown);
+
+
+        /// <summary>
+        /// The last balance shown.
+        /// </summary>
+        private double LastBalanceShown { get; set; }
+
+
+        private IMoneyFormatter Formatter => formatter.GetDefinedType<IMoneyFormatter>();
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Unity Events
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        private void OnEnable()
+        {
+            CurrencyManager.AccountBalanceChanged.Add(UpdateDisplay);
+            displayStyle.DisplayedValue.Add(UpdateDisplayManually);
+            
+            UpdateDisplayManually(CurrencyManager.GetAccount(accountId).Balance);
+        }
+
+
+        private void OnDestroy()
+        {
+            CurrencyManager.AccountBalanceChanged.Remove(UpdateDisplay);
+            displayStyle.DisplayedValue.Remove(UpdateDisplayManually);
+        }
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Updates the display when called.
+        /// </summary>
+        /// <param name="account">The account to read.</param>
+        private void UpdateDisplay(CurrencyAccount account, AccountTransaction transaction)
+        {
+            if (!account.Id.Equals(accountId)) return;
+            displayStyle.ProcessDisplayEffect(this, transaction);
+        }
+
+
+        /// <summary>
+        /// Updates the display to a manual value.
+        /// </summary>
+        /// <param name="valueToDisplay">The value to display.</param>
+        public void UpdateDisplayManually(double valueToDisplay)
+        {
+            label.SetText(Formatter.Format(valueToDisplay));
+        }
+
+
+        /// <summary>
+        /// Forces the display to update if possible.
+        /// </summary>
+        public void ForceUpdateDisplay()
+        {
+            if (CurrencyManager.AccountExists(accountId)) return;
+            label.SetText(Formatter.Format(CurrencyManager.GetAccount(accountId).Balance));
+        }
+    }
+}
+
+#endif
