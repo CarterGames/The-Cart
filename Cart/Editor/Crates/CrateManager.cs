@@ -114,7 +114,7 @@ namespace CarterGames.Cart.Crates
         private static IReadOnlyDictionary<string, List<ExternalCrate>> ExternalCratesLookupByAuthor =>
             CacheRef.GetOrAssign(ref externalCratesByAuthorLookupCache, GenerateExternalCrateLookupByAuthor);
         
-        public static bool AnyCratesInProject => cratesByNameLookupCache.Count > 0;
+        public static bool AnyCratesInProject => CratesLookupByName.Count > 0;
         
         
         /// <summary>
