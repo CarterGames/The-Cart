@@ -20,7 +20,7 @@ namespace CarterGames.Cart.Crates.NotionData.Editor
             
             if (GUILayout.Button("Open Settings"))
             {
-                SettingsService.OpenProjectSettings("Carter Games/Standalone/Notion Data");
+                SettingsService.OpenProjectSettings("Carter Games/Assets/Notion Data");
             }
             
             EditorGUILayout.EndHorizontal();
