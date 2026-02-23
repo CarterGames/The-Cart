@@ -10,9 +10,11 @@ namespace CarterGames.Cart.Editor
 	public class SettingsProviderSave : ISettingsProvider
 	{
 		private static SerializedObject ObjectRef =>
-			ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().ObjectRef;
+			AutoMakeDataAssetManager.GetDefine<DataAssetCoreRuntimeSettings>().ObjectRef;
 
-		
+
+		public string MenuName => "Save";
+
 		public void OnProjectSettingsGUI()
 		{
 			EditorGUILayout.BeginVertical();
@@ -27,7 +29,7 @@ namespace CarterGames.Cart.Editor
 					if (!string.IsNullOrEmpty(ObjectRef.Fp("saveMethodTypeDef").Fpr("assembly").stringValue))
 					{
 						SearchProviderSaveMethod.GetProvider().SelectionMade.Add(HandleSelection);
-						SearchProviderSaveMethod.GetProvider().Open(ScriptableRef.GetAssetDef<DataAssetCoreRuntimeSettings>().AssetRef.SaveMethodType);
+						SearchProviderSaveMethod.GetProvider().Open(AutoMakeDataAssetManager.GetDefine<DataAssetCoreRuntimeSettings>().AssetRef.SaveMethodType);
 					}
 					else
 					{

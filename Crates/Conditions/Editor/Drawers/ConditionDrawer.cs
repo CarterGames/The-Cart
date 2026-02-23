@@ -144,9 +144,9 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
         {
             var index = 0;
 				
-            for (var i = 0; i < ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").arraySize; i++)
+            for (var i = 0; i < AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").arraySize; i++)
             {
-                if (ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").GetIndex(i)
+                if (AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").GetIndex(i)
                         .Fpr("value").objectReferenceValue == serializedObject.targetObject)
                 {
                     index = i;
@@ -154,9 +154,9 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
                 }
             }
 				
-            ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").DeleteIndex(index);
-            ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.ApplyModifiedProperties();
-            ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Update();
+            AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").DeleteIndex(index);
+            AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.ApplyModifiedProperties();
+            AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.Update();
 
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(serializedObject.targetObject));
             AssetDatabase.SaveAssets();

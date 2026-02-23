@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Cart;
 using CarterGames.Cart.Data;
 using CarterGames.Cart.Editor;
 using CarterGames.Cart.Management.Editor;
@@ -104,7 +103,7 @@ namespace CarterGames.Cart.Crates.MultiScene.Editor
                 }
             }
 
-            ScriptableRef.GetAssetDef<MultiSceneSettings>().AssetRef.LastGroup = group;
+            AutoMakeDataAssetManager.GetDefine<MultiSceneSettings>().AssetRef.LastGroup = group;
             MultiSceneEditorEvents.SceneGroups.OnSceneGroupLoadedInEditor.Raise();
         }
         
@@ -142,7 +141,7 @@ namespace CarterGames.Cart.Crates.MultiScene.Editor
         
         public void OnRightGUI()
         {
-            if (!ScriptableRef.GetAssetDef<MultiSceneSettings>().ObjectRef.Fp("showToolbar").boolValue) return;
+            if (!AutoMakeDataAssetManager.GetDefine<MultiSceneSettings>().ObjectRef.Fp("showToolbar").boolValue) return;
             if (DataAccess.GetAssets<SceneGroup>() == null) return;
             
             EditorGUI.BeginDisabledGroup(EditorApplication.isCompiling || EditorApplication.isPlaying);

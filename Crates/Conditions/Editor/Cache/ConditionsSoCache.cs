@@ -1,32 +1,23 @@
 ﻿#if CARTERGAMES_CART_CRATE_CONDITIONS && UNITY_EDITOR
 
 /*
- * Copyright (c) 2025 Carter Games
+ * The Cart
+ * Copyright (c) 2026 Carter Games
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * This program is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version. 
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
  *
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>. 
  */
 
 using System.Collections.Generic;
-using CarterGames.Cart;
 using CarterGames.Cart.Editor;
-using CarterGames.Cart.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -80,18 +71,18 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
 				if (!conditionsSoLookup.IsEmptyOrNull()) return conditionsSoLookup;
 				conditionsSoLookup = new List<SerializedObject>();
 
-				if (ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").arraySize <= 0)
+				if (AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").arraySize <= 0)
 					return conditionsSoLookup;
 				
-				for (var i = 0; i < ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").arraySize; i++)
+				for (var i = 0; i < AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list").arraySize; i++)
 				{
-					if (ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef
+					if (AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef
 					    .Fp("assets").Fpr("list").GetIndex(i) == null) continue; 
 					
-					if (ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef
+					if (AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef
 						    .Fp("assets").Fpr("list").GetIndex(i).Fpr("value").objectReferenceValue == null) continue; 
 					
-					conditionsSoLookup.Add(new SerializedObject(ScriptableRef.GetAssetDef<ConditionsIndex>().ObjectRef
+					conditionsSoLookup.Add(new SerializedObject(AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef
 						.Fp("assets").Fpr("list").GetIndex(i).Fpr("value").objectReferenceValue));
 				}
 

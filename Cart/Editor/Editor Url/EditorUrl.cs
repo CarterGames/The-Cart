@@ -20,7 +20,7 @@ namespace CarterGames.Cart.Editor
             {
                 DisplayName = displayName,
                 UrlType = EditorUrlType.LocalFile,
-                Target = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets($"t:{fileName}").FirstOrDefault()),
+                Target = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets($"{fileName}").FirstOrDefault()),
             };
         }
         
@@ -49,6 +49,8 @@ namespace CarterGames.Cart.Editor
 
         public void OpenLink()
         {
+            Debug.Log(Target);
+            
             switch (UrlType)
             {
                 case EditorUrlType.Webpage:

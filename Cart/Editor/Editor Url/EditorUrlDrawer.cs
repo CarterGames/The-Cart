@@ -25,7 +25,7 @@ namespace CarterGames.Cart.Editor
             
             EditorGUILayout.TextField(editorUrl.DisplayName, editorUrl.Target);
 
-            if (GUILayout.Button("Open Link", GUILayout.Width(100)))
+            if (GUILayout.Button("Open Link", GUILayout.Width(90)))
             {
                 editorUrl.OpenLink();
             }
