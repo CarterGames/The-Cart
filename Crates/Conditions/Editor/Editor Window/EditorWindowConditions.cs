@@ -129,15 +129,15 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
 		}
 		
 		
-		public static void AddNewCondition()
+		private static void AddNewCondition()
 		{
 			var list = AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().ObjectRef.Fp("assets").Fpr("list");
 			list.InsertIndex(list.arraySize);
 			
-			var condition = ScriptableObject.CreateInstance<Condition>();
+			var condition = CreateInstance<Condition>();
 			condition.name = $"{condition.GetType().Name}_{condition.VariantId}";
 			
-			var path = AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().DataAssetPath.Replace(AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().DataAssetPath.Split('/').Last(), string.Empty) + "Conditions/";
+			var path = AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().CompleteDataAssetPath.Replace(AutoMakeDataAssetManager.GetDefine<ConditionsIndex>().CompleteDataAssetPath.Split('/').Last(), string.Empty) + "Conditions/";
 
 			if (!AssetDatabase.IsValidFolder(path))
 			{
