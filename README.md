@@ -1,6 +1,6 @@
-![Cart Banner](https://github.com/CarterGames/The-Cart/assets/33253710/574a6d48-08f3-4ed6-aef6-9788b08b1d53)
+![3x-Template-Logo-160](https://github.com/user-attachments/assets/b90480f8-4947-49b4-a25e-88ef1229f800)
 
-<p align="center">A code library of tools that I use in conjunction with game-specific code to make my game projects.</p>
+A code library of tools that I use in conjunction with game-specific code to make my game projects.
 
 ## Badges
 ![CodeFactor](https://www.codefactor.io/repository/github/cartergames/the-cart/badge?style=for-the-badge)
@@ -33,3 +33,4 @@ In the future, any major system that isn't needed all the time will go into this
 
 ## Licence
 MIT Licence
+
