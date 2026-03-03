@@ -36,25 +36,34 @@ https://github.com/CarterGames/The-Cart.git#[BRANCH NAME HERE]
 <br><br>
 
 ## Docs
-The docs for the project are still a work in progress. Each script is fairly well commented as is but it will all be documented over time before a full 1.x release.
+The docs for the project are still a work in progress. Each script is fairly well commented as is but it will all be documented over time before a full 1.x release. More info on how documentation will be handled coming soon (0.14.x most likely). 
 
 ## Crates
 Crates are scripts or systems that are optional. 
 These may not be needed for every project and therefore can be toggled at will. 
-Crates can be managed from the crate window under: ```Tools/Carter Games/The Cart/Crates Window```
+Crates can be managed from the crate window under: ```Tools/Carter Games/The Cart/Crate Manager```
 <br><br>
 
+![Screenshot_20260303_082439](https://github.com/user-attachments/assets/86f5701b-25db-427f-ab9b-8bd9687c099d)
 
-![image](https://github.com/CarterGames/The-Cart/assets/33253710/e6755f9b-5fbb-4f7c-84bc-2233bb00d8e6)
-<br>
-An example of the modules window with some modules enabled.
+The crate management window looks like the above image. All crates are displayed by auther and then by name. You can see the toggle status of a crate from small icon next to its button. Pressing the button for any crate will show its details on the right hand side. 
 
-In the future, any major system that isn't needed all the time will go into this module's system. Any setups you'd need for every project will be added to the core library. A guide on how to make your own modules will be coming in a future 0.6.x update along with full docs for all modules in the system.
+Crates can be internal or external. Internal crates are crates that have their contents in the repo under the ```Crates/``` directory. While external crates are imported from other repositories at the users own risk. Some of these include older crates that became standalone projects. All Carter Games authored crates are safe and heavily reviewed. User generated crates are managed by their authors outside of this repo. 
+
+### Can I make my own crate?
+Of-course, the library is intended that users can add their own logic to it. Please see the crate template repo for a base to make your crates from. That repo also has tools to generate the required setups for a new crate per minor release version. 
+```
+https://github.com/CarterGames/Cart_Crate_Template
+```
+
+## Contributing
+See the CONTRIBUTING tab for more details. 
+```
+https://github.com/CarterGames/The-Cart?tab=contributing-ov-file
+```
 
 ## Authors
 - Jonathan Carter
 
 ## Licence
-MIT Licence
-
-
+GNU V3
