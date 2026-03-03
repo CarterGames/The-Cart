@@ -30,14 +30,15 @@ namespace CarterGames.Cart.Crates.DataValues.Editor.Window
 	/// </summary>
 	public sealed class DataValuesCreatorTool : EditorWindow
 	{
-		private const string KeyId = "dataValueCreator_newKey";
-		private const string TypeId = "dataValueCreator_newType";
-
-		private const string LocationId = "dataValueCreator_newLocation";
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+		private const string KeyId = "dataValueCreator_newKey";
+		private const string TypeId = "dataValueCreator_newType";
+
+		private const string LocationId = "dataValueCreator_newLocation";
+		
 		private DataValuesSearchProvider search;
 		private SearchTreeEntry selectedEntry;
 

@@ -14,8 +14,6 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using CarterGames.Cart.Management.Editor;
-
 namespace CarterGames.Cart.Crates.MultiScene.Editor
 {
     public class CrateMultiScene : Crate

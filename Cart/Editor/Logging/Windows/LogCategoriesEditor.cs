@@ -23,7 +23,7 @@ namespace CarterGames.Cart.Logs.Editor.Windows
 {
     public class LogCategoriesEditor : UtilityEditorWindow
     {
-        [MenuItem("Tools/Carter Games/The Cart/[Logging] Category Window")]
+        [MenuItem("Tools/Carter Games/The Cart/[Logging] Category Window", priority = 201)]
         private static void OpenEditor()
         {
             Open<LogCategoriesEditor>("Log Category Statuses Window");

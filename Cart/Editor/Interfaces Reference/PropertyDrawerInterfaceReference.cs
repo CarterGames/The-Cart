@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Editor
                                 goto Skip;
                             }
                 
-                            CartLogger.LogError<LogCategoryCore>($"Unable to assign: {property.FindPropertyRelative("target").objectReferenceValue.name} as interface {fieldInfo.FieldType.GenericTypeArguments[0].Name}.", typeof(PropertyDrawerInterfaceReference));
+                            CartLogger.LogError<LogCategoryCart>($"Unable to assign: {property.FindPropertyRelative("target").objectReferenceValue.name} as interface {fieldInfo.FieldType.GenericTypeArguments[0].Name}.", typeof(PropertyDrawerInterfaceReference));
                             property.FindPropertyRelative("target").objectReferenceValue = null;
                             Skip: ;
                         }

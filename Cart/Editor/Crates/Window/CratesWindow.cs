@@ -311,7 +311,7 @@ namespace CarterGames.Cart.Crates.Window
             EditorGUILayout.BeginVertical();
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("crate", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Crate", EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Status", EditorStyles.boldLabel, GUILayout.Width(40f));
             EditorGUILayout.EndHorizontal();
 

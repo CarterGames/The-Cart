@@ -167,7 +167,7 @@ namespace CarterGames.Cart
                 last = nearest;
             }
 
-            CartLogger.Log<LogCategoryCore>("Hit max iterations, returning -1", typeof(MathExtensions));
+            CartLogger.Log<LogCategoryCart>("Hit max iterations, returning -1", typeof(MathExtensions));
             return -1;
         }
         
@@ -202,7 +202,7 @@ namespace CarterGames.Cart
                 last = nearest;
             }
 
-            CartLogger.Log<LogCategoryCore>("Hit max iterations, returning -1", typeof(MathExtensions));
+            CartLogger.Log<LogCategoryCart>("Hit max iterations, returning -1", typeof(MathExtensions));
             return -1;
         }
         
@@ -230,7 +230,7 @@ namespace CarterGames.Cart
                 last = nearest;
             }
 
-            CartLogger.Log<LogCategoryCore>("Hit max iterations, returning -1", typeof(MathExtensions));
+            CartLogger.Log<LogCategoryCart>("Hit max iterations, returning -1", typeof(MathExtensions));
             return -1;
         }
         

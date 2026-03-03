@@ -97,7 +97,7 @@ namespace CarterGames.Cart.Management
 		{
 			if (!IsValid)
 			{
-				CartLogger.LogError<LogCategoryCore>(
+				CartLogger.LogError<LogCategoryCart>(
 					"[GetDefinedType]: Data not valid to generate the defined type", typeof(AssemblyClassDef));
 				return default;
 			}
@@ -110,7 +110,7 @@ namespace CarterGames.Cart.Management
 #pragma warning disable 0168
 			catch (Exception e)
 			{
-				CartLogger.LogError<LogCategoryCore>(
+				CartLogger.LogError<LogCategoryCart>(
 					"[GetDefinedType]: Failed to generate type from stored data. If you have refactored the class selected, please reselect it to update the record.", typeof(AssemblyClassDef));
 
 				return default;

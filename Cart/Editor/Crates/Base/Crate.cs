@@ -61,13 +61,13 @@ namespace CarterGames.Cart.Crates
         /// <summary>
         /// Any crates that are required for the crate to work.
         /// </summary>
-        public virtual Crate[] PreRequisites => Array.Empty<Crate>();
-        
-        
+        public virtual string[] PreRequisites => Array.Empty<string>();
+
+
         /// <summary>
         /// Any crates that are required for the crate to work.
         /// </summary>
-        public virtual Crate[] OptionalPreRequisites => Array.Empty<Crate>();
+        public virtual string[] OptionalPreRequisites => Array.Empty<string>();
 
 
         /// <summary>

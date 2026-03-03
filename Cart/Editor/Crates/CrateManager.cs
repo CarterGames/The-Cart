@@ -14,14 +14,11 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CarterGames.Cart.Management;
 using CarterGames.Cart.Management.Editor;
 using UnityEditor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Crates
 {
@@ -253,6 +250,17 @@ namespace CarterGames.Cart.Crates
         /// <summary>
         /// Gets if the crate is installed.
         /// </summary>
+        /// <param name="crateTechName">The crate to check.</param>
+        /// <returns>Bool</returns>
+        public static bool IsEnabledByTechName(string crateTechName)
+        {
+            return CscFileHandler.HasDefine(GetCrateByTechnicalName(crateTechName));
+        }
+        
+        
+        /// <summary>
+        /// Gets if the crate is installed.
+        /// </summary>
         /// <param name="crate">The crate to check.</param>
         /// <returns>Bool</returns>
         public static bool IsEnabled(Crate crate)
@@ -272,11 +280,17 @@ namespace CarterGames.Cart.Crates
         }
 
 
+        /// <summary>
+        /// Gets a crate as an external crate class type.
+        /// </summary>
+        /// <param name="crate">The crate get as extenral.</param>
+        /// <returns>ExternalCrate</returns>
         public static ExternalCrate GetAsExternal(Crate crate)
         {
             if (!IsExternal(crate)) return null;
             return ExternalCratesLookupByTechnicalName[crate.CrateTechnicalName];
         }
+        
         
 
         /// <summary>
@@ -300,6 +314,22 @@ namespace CarterGames.Cart.Crates
             }
 
             return null;
+        }
+        
+        
+        /// <summary>
+        /// Try get a crate class instance from its name.
+        /// </summary>
+        /// <remarks>
+        /// If multiple exist it'll return the first it finds.
+        /// </remarks>
+        /// <param name="crateName">The name to look for.</param>
+        /// <param name="crate">The crate found.</param>
+        /// <returns>Success?</returns>
+        public static bool TryGetCrateByName(string crateName, out Crate crate)
+        {
+            crate = GetCrateByName(crateName);
+            return crate != null;
         }
         
         
@@ -328,6 +358,22 @@ namespace CarterGames.Cart.Crates
         
         
         /// <summary>
+        /// Tries to get a crate class instance from its tech name.
+        /// </summary>
+        /// <remarks>
+        /// If multiple exist it'll return the first it finds.
+        /// </remarks>
+        /// <param name="crateTechnicalName">The tech name to look for.</param>
+        /// <param name="crate">The crate found.</param>
+        /// <returns>Success?</returns>
+        public static bool TryGetCrateByTechnicalName(string crateTechnicalName, out Crate crate)
+        {
+            crate = GetCrateByTechnicalName(crateTechnicalName);
+            return crate != null;
+        }
+        
+        
+        /// <summary>
         /// Gets all the crates by a particular author.
         /// </summary>
         /// <remarks>
@@ -350,7 +396,27 @@ namespace CarterGames.Cart.Crates
             return null;
         }
 
+        
+        /// <summary>
+        /// Tries to get all the crates by a particular author.
+        /// </summary>
+        /// <remarks>
+        /// Is just a sting check, so make sure you enter the author field the same each time. 
+        /// </remarks>
+        /// <param name="crateAuthor">The author to search for.</param>
+        /// <param name="crates">The crates by this author.</param>
+        /// <returns>Success?</returns>
+        public static bool TryGetAllCratesFromAuthor(string crateAuthor, out IEnumerable<Crate> crates)
+        {
+            crates = GetAllCratesFromAuthor(crateAuthor);
+            return crates != null;
+        }
+        
 
+        /// <summary>
+        /// Gets all the crates in the project by its author as a lookup.
+        /// </summary>
+        /// <returns>IReadOnlyDictionary [string, List[Crate]]</returns>
         public static IReadOnlyDictionary<string, List<Crate>> GetAllCratesInProjectByAuthor()
         {
             return AllCratesLookupByAuthor;
@@ -369,8 +435,11 @@ namespace CarterGames.Cart.Crates
             {
                 foreach (var preReq in crate.PreRequisites)
                 {
-                    if (IsEnabled(preReq)) continue;
-                    toInstall.Add(preReq);
+                    if (CratesLookupByTechnicalName.ContainsKey(preReq))
+                    {
+                        if (IsEnabled(GetCrateByTechnicalName(preReq))) continue;
+                        toInstall.Add(GetCrateByTechnicalName(preReq));
+                    }
                 }
             }
             

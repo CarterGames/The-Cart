@@ -14,10 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System;
-using System.Linq;
 using CarterGames.Cart.Editor;
-using CarterGames.Cart.Management;
 using UnityEditor;
 using UnityEngine;
 
@@ -114,14 +111,16 @@ namespace CarterGames.Cart.Crates.Window
                 
                 foreach (var preRequisite in crate.PreRequisites)
                 {
+                    if (!CrateManager.TryGetCrateByTechnicalName(preRequisite, out var result)) continue;
+                    
                     EditorGUILayout.BeginHorizontal();
                     
-                    if (GUILayout.Button(preRequisite.CrateName))
+                    if (GUILayout.Button(result.CrateName))
                     {
-                        CratesWindow.ForceSelectCrate(preRequisite);
+                        CratesWindow.ForceSelectCrate(result);
                     }
                     
-                    CrateDisplayCommon.GetCrateStatusButton(preRequisite, false);
+                    CrateDisplayCommon.GetCrateStatusButton(result, false);
                     
                     EditorGUILayout.EndHorizontal();
                 }
@@ -135,14 +134,16 @@ namespace CarterGames.Cart.Crates.Window
                 
                 foreach (var preRequisite in crate.OptionalPreRequisites)
                 {
+                    if (!CrateManager.TryGetCrateByTechnicalName(preRequisite, out var result)) continue;
+                    
                     EditorGUILayout.BeginHorizontal();
                     
-                    if (GUILayout.Button(preRequisite.CrateName))
+                    if (GUILayout.Button(result.CrateName))
                     {
-                        CratesWindow.ForceSelectCrate(preRequisite);
+                        CratesWindow.ForceSelectCrate(result);
                     }
                     
-                    CrateDisplayCommon.GetCrateStatusButton(preRequisite, false);
+                    CrateDisplayCommon.GetCrateStatusButton(result, false);
                     
                     EditorGUILayout.EndHorizontal();
                 }
@@ -226,23 +227,6 @@ namespace CarterGames.Cart.Crates.Window
             
             
             EditorGUILayout.EndVertical();
-        }
-
-        
-        private static bool HasPackagesForCrate(Crate crate, out IPackageDependency package)
-        {
-            try
-            {
-                package = AssemblyHelper.GetClassesOfType<IPackageDependency>().First(t => t.GetType() == crate.GetType());
-                return package != null;
-            }
-#pragma warning disable 0168
-            catch (Exception e)
-#pragma warning restore
-            {
-                package = null;
-                return false;
-            }
         }
     }
 }

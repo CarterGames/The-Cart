@@ -205,7 +205,7 @@ namespace CarterGames.Cart.Editor
         {
             if (!property.isArray)
             {
-                CartLogger.LogError<LogCategoryCore>($"Not an array... {property.type} {property.arraySize}", typeof(SerializedPropertyHelper));
+                CartLogger.LogError<LogCategoryCart>($"Not an array... {property.type} {property.arraySize}", typeof(SerializedPropertyHelper));
                 return false;
             }
             

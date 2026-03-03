@@ -22,7 +22,6 @@ using CarterGames.Cart.Editor;
 using CarterGames.Cart.Logs;
 using CarterGames.Cart.Management.Editor;
 using UnityEditor;
-using UnityEngine;
 
 namespace CarterGames.Cart.Crates
 {
@@ -150,7 +149,7 @@ namespace CarterGames.Cart.Crates
             {
                 if (HasDefine(crate)) return;
                 Append($"-define:{crate.CrateDefine}");
-                CartLogger.Log<LogCategoryCrates>($"Enabled: {crate.CrateName}");
+                CartLogger.Log<LogCategoryCart>($"Enabled: {crate.CrateName}");
             }
         }
         
@@ -188,7 +187,7 @@ namespace CarterGames.Cart.Crates
 
                 foreach (var crate in crates)
                 {
-                    CartLogger.Log<LogCategoryCrates>($"Enabled: {crate.CrateName}");
+                    CartLogger.Log<LogCategoryCart>($"Enabled: {crate.CrateName}");
                 }
             }
         }
@@ -210,7 +209,7 @@ namespace CarterGames.Cart.Crates
             {
                 if (!HasDefine(crate)) return;
                 Remove($"-define:{crate.CrateDefine}");
-                CartLogger.Log<LogCategoryCrates>($"Disabled: {crate.CrateName}");
+                CartLogger.Log<LogCategoryCart>($"Disabled: {crate.CrateName}");
             }
         }
         
@@ -246,7 +245,7 @@ namespace CarterGames.Cart.Crates
             
             foreach (var crate in crates)
             {
-                CartLogger.Log<LogCategoryCrates>($"Disabled: {crate.CrateName}");
+                CartLogger.Log<LogCategoryCart>($"Disabled: {crate.CrateName}");
             }
         }
 
