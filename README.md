@@ -55,14 +55,14 @@ Of-course, the library is intended that users can add their own logic to it.
 
 Quick-guide:
 - To define a crate that the system will pick up by making a class that inherits from the ``Crate`` class. Crates that are a wrapper for a package such as Notion Data is in the library should inherit from the ``ExternalCrate`` class.
-  - Crate technical names are auto generated and follow the style of ``crate.author.name``
+  - Crate technical names are auto generated and follow the style of ``crate.{CrateAuthor}.{CrateName}``
   - You will need to define the crates name, description and author before it'll appear in the ``Crate Manager`` for use.
   - You can choose to have other crates be required or optional to your crate. Just override and add their technical names to their respective arrays from the base class.
   - You can add links for docs etc. by overriding the ``CrateLinks`` property with entries.
   - If making an ``ExternalCrate`` you will need to provide the git url package info as well for it to function.
 - To define a settings provider for the crate by making a class that implements the ``ISettingsProvider`` interface.
 - If you need to store data, use ``DataAsset`` or ``CartSaveHandler`` API. If using ``DataAsset`` you implement classes to auto-make them by inheriting from the ``AutoMakeDataAssetDefineBase`` class. Auto-make classes should be in editor space only.
-- All code in your crate, with the exception of the class that inherits from the ``Crate`` class, should have a script define around the entire class matching the crate itself. This will automatically set to ``{CRATEAUTHOR}_CART_CRATE_{CRATENAME}``. 
+- All code in your crate, with the exception of the class that inherits from the ``Crate`` class, should have a script define around the entire class matching the crate itself. Your crates define will automatically set to follow this structure: ``{CRATEAUTHOR}_CART_CRATE_{CRATENAME}``. 
 - Crates should be self contained with a folder structure similar to this (obmit folders that are not used):
 ```
 /Crate Name
@@ -88,4 +88,5 @@ https://github.com/CarterGames/The-Cart?tab=contributing-ov-file
 
 ## Licence
 GNU V3
+
 
