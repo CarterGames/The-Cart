@@ -48,13 +48,34 @@ Crates can be managed from the crate window under: ```Tools/Carter Games/The Car
 
 The crate management window looks like the above image. All crates are displayed by auther and then by name. You can see the toggle status of a crate from small icon next to its button. Pressing the button for any crate will show its details on the right hand side. 
 
-Crates can be internal or external. Internal crates are crates that have their contents in the repo under the ```Crates/``` directory. While external crates are imported from other repositories at the users own risk. Some of these include older crates that became standalone projects. All Carter Games authored crates are safe and heavily reviewed. User generated crates are managed by their authors outside of this repo. 
-
+Crates can be internal or external. Internal crates are crates that have their contents in the repo under the ```Crates/``` directory. While external crates are imported from other repositories at the users own risk. Some of these include older crates that became standalone projects. All Carter Games authored crates are safe and heavily reviewed, though bugs may still be present. User generated crates are managed by their authors outside of this repo and are their responsibility. Use at your own risk.
+<br><br>
 ### Can I make my own crate?
-Of-course, the library is intended that users can add their own logic to it. Please see the crate template repo for a base to make your crates from. That repo also has tools to generate the required setups for a new crate per minor release version. 
+Of-course, the library is intended that users can add their own logic to it.
+
+Quick-guide:
+- To define a crate that the system will pick up by making a class that inherits from the ``Crate`` class. Crates that are a wrapper for a package such as Notion Data is in the library should inherit from the ``ExternalCrate`` class.
+  - Crate technical names are auto generated and follow the style of ``crate.author.name``
+  - You will need to define the crates name, description and author before it'll appear in the ``Crate Manager`` for use.
+  - You can choose to have other crates be required or optional to your crate. Just override and add their technical names to their respective arrays from the base class.
+  - You can add links for docs etc. by overriding the ``CrateLinks`` property with entries.
+  - If making an ``ExternalCrate`` you will need to provide the git url package info as well for it to function.
+- To define a settings provider for the crate by making a class that implements the ``ISettingsProvider`` interface.
+- If you need to store data, use ``DataAsset`` or ``CartSaveHandler`` API. If using ``DataAsset`` you implement classes to auto-make them by inheriting from the ``AutoMakeDataAssetDefineBase`` class. Auto-make classes should be in editor space only.
+- All code in your crate, with the exception of the class that inherits from the ``Crate`` class, should have a script define around the entire class matching the crate itself. This will automatically set to ``{CRATEAUTHOR}_CART_CRATE_{CRATENAME}``. 
+- Crates should be self contained with a folder structure similar to this (obmit folders that are not used):
 ```
-https://github.com/CarterGames/Cart_Crate_Template
+/Crate Name
+-- /Art
+-- /Code/Editor
+-- /Code/Runtime
+-- /Data
+-- /Prefabs
+-- /Scenes
+-- /~Documentation
+-- /~Samples
 ```
+
 
 ## Contributing
 See the CONTRIBUTING tab for more details. 
@@ -67,3 +88,4 @@ https://github.com/CarterGames/The-Cart?tab=contributing-ov-file
 
 ## Licence
 GNU V3
+
