@@ -34,7 +34,7 @@ namespace CarterGames.Cart.Editor
 
         public override bool OnPreBuild()
         {
-            var checks = AssemblyHelper.GetClassesOfType<PreBuildCheckBase>(false).OrderBy(t => t.Priority);
+            var checks = AssemblyHelper.GetClassesOfType<PreBuildCheckBase>().OrderBy(t => t.Priority);
 
             foreach (var buildCheck in checks)
             {

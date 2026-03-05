@@ -68,7 +68,7 @@ namespace CarterGames.Cart.Crates
             {
                 if (!allCratesCache.IsEmptyOrNull()) return allCratesCache;
                 
-                allCratesCache = AssemblyHelper.GetClassesOfType<Crate>(false)
+                allCratesCache = AssemblyHelper.GetClassesOfType<Crate>()
                     .OrderBy(t => t.CrateAuthor)
                     .ThenBy(t => t.CrateName)
                     .ToArray();
@@ -96,7 +96,7 @@ namespace CarterGames.Cart.Crates
             get
             {
                 if (!allPackagedCratesCache.IsEmptyOrNull()) return allPackagedCratesCache;
-                allPackagedCratesCache = AssemblyHelper.GetClassesOfType<ExternalCrate>(false).ToArray();
+                allPackagedCratesCache = AssemblyHelper.GetClassesOfType<ExternalCrate>().ToArray();
                 return allPackagedCratesCache;
             }
         }

@@ -39,7 +39,7 @@ namespace CarterGames.Cart.Crates.Parameters.Editor
 			get
 			{
 				if (hasSetCache) return cacheHasOptions;
-				cacheHasOptions = AssemblyHelper.CountClassesOfType<Parameter>(false) > 2;
+				cacheHasOptions = AssemblyHelper.CountClassesOfType<Parameter>() > 2;
 				hasSetCache = true;
 				return true;
 			}
@@ -51,7 +51,7 @@ namespace CarterGames.Cart.Crates.Parameters.Editor
 			var list = new List<SearchGroup<string>>();
 			var items = new List<SearchItem<string>>();
 			
-			foreach (var type in AssemblyHelper.GetClassesNamesOfType<Parameter>(false))
+			foreach (var type in AssemblyHelper.GetClassesNamesOfType<Parameter>())
 			{
 				if (IgnoreTypes.Contains(type.FullName)) continue;
 				items.Add(SearchItem<string>.Set(type.Name, type.FullName));

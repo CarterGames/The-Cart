@@ -67,7 +67,7 @@ namespace CarterGames.Cart.Editor
                 if (!cacheLookup.IsEmptyOrNull()) return cacheLookup;
                 cacheLookup = new Dictionary<Type, IAutoMakeDataAssetDefine<DataAsset>>();
                 
-                foreach (var elly in AssemblyHelper.GetClassesOfType<IAutoMakeDataAssetDefine<DataAsset>>(false))
+                foreach (var elly in AssemblyHelper.GetClassesOfType<IAutoMakeDataAssetDefine<DataAsset>>())
                 {
                     cacheLookup.Add(elly.AssetType, elly);
                 }

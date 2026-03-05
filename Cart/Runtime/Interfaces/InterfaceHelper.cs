@@ -30,7 +30,7 @@ namespace CarterGames.Cart
         /// <returns>An Array of the interface type</returns>
         public static T[] GetAllInterfacesInstancesOfType<T>()
         {
-            return AssemblyHelper.GetClassesOfType<T>(false).ToArray();
+            return AssemblyHelper.GetClassesOfType<T>().ToArray();
         }
     }
 }

@@ -22,8 +22,8 @@ namespace CarterGames.Cart.Crates.MultiScene.Editor
 {
     public sealed class EditorArtMultiSceneIcon : IEditorArtDefine
     {
-        public string Uid => "crate_multiscene_icon";
-        public string InternalPath => "Crates/Multi Scene/Art/File Icons/T_MultiScene_Transparent_Logo.png";
+        public string Uid => "crate_multi_scene_icon";
+        public string InternalPath => "Crates/Multi Scene/Art/T_PNG_MS_Logo.png";
     }
 }
 

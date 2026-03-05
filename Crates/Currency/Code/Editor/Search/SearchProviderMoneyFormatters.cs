@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Crates.Currency.Editor
         
         protected override string ProviderTitle => "Select Money Formatter";
 
-        public override bool HasOptions => AssemblyHelper.GetClassesNamesOfType<IMoneyFormatter>(false).Any();
+        public override bool HasOptions => AssemblyHelper.GetClassesNamesOfType<IMoneyFormatter>().Any();
         
         
         public override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
@@ -49,7 +49,7 @@ namespace CarterGames.Cart.Crates.Currency.Editor
             
             var group = new List<SearchGroup<AssemblyClassDef>>();
             var entries = new List<SearchItem<AssemblyClassDef>>();
-            var instances = AssemblyHelper.GetClassesOfType<IMoneyFormatter>(false);
+            var instances = AssemblyHelper.GetClassesOfType<IMoneyFormatter>();
 			
             foreach (var entry in instances)
             {

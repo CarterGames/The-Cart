@@ -68,7 +68,7 @@ namespace CarterGames.Cart.Crates.Parameters
 		{
 			if (IsInitialized) return;
 			
-			AllParams = AssemblyHelper.GetClassesOfType<Parameter>(false).ToList();
+			AllParams = AssemblyHelper.GetClassesOfType<Parameter>().ToList();
 			AllParamsLookup = new Dictionary<string, Parameter>();
 			
 			foreach (var parameter in AllParams) 

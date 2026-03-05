@@ -18,14 +18,32 @@ namespace CarterGames.Cart.Crates.NotionData.Editor
 {
     public class CrateNotionData : ExternalCrate
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The name of the crate.
+        /// </summary>
         public override string CrateName => "Notion Data";
+        
+        
+        /// <summary>
+        /// A description of what the crate does.
+        /// </summary>
         public override string CrateDescription =>
             "A tool to download Notion databases into a Unity scriptable object for use in Unity projects. Handy for game data such as items, localization, skills and more!";
         
-        public override string CrateAuthor => CrateConstants.CarterGamesAuthor;
-
-        public override string CrateDefine => "CARTERGAMES_CART_CRATE_NOTIONDATA";
         
+        /// <summary>
+        /// The author of the crate.
+        /// </summary>
+        public override string CrateAuthor => CrateConstants.CarterGamesAuthor;
+        
+        
+        /// <summary>
+        /// The package the crate imports
+        /// </summary>
         public override GitPackageInfo PackageInfo => new GitPackageInfo("Notion Data", "games.carter.notiondata",
             "https://github.com/CarterGames/NotionToUnity.git");
     }

@@ -26,7 +26,7 @@ namespace CarterGames.Cart.Editor
 		private static SearchProviderRandom Instance;
 
 		protected override string ProviderTitle => "Select Random Provider";
-		public override bool HasOptions => AssemblyHelper.GetClassesOfType<IRngProvider>(false)?.Count() > 0;
+		public override bool HasOptions => AssemblyHelper.GetClassesOfType<IRngProvider>()?.Count() > 0;
 
 
 		public override List<SearchGroup<IRngProvider>> GetEntriesToDisplay()
@@ -34,8 +34,8 @@ namespace CarterGames.Cart.Editor
 			var list = new List<SearchGroup<IRngProvider>>();
 			var entries = new List<SearchItem<IRngProvider>>();
 			var seededEntries = new List<SearchItem<IRngProvider>>();
-			var options = AssemblyHelper.GetClassesOfType<IRngProvider>(false).Where(t => !ToExclude.Contains(t));
-			var seededRandomOptions = AssemblyHelper.GetClassesOfType<ISeededRngProvider>(false).Where(t => !ToExclude.Contains(t)).ToList();
+			var options = AssemblyHelper.GetClassesOfType<IRngProvider>().Where(t => !ToExclude.Contains(t));
+			var seededRandomOptions = AssemblyHelper.GetClassesOfType<ISeededRngProvider>().Where(t => !ToExclude.Contains(t)).ToList();
 			
 			foreach (var entry in options)
 			{

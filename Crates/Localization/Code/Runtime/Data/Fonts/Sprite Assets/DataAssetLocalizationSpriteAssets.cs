@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Crates.Localization
             {
                 if (!entry.HasDefaultSetup)
                 {
-                    CartLogger.LogWarning<LogCategoryCrateLocalization>($"Unable to set the entry for {entry} as it doesn't have a default language setup.");
+                    CartLogger.LogWarning<LogCategoryLocalization>($"Unable to set the entry for {entry} as it doesn't have a default language setup.");
                     continue;
                 }
 				
@@ -81,13 +81,13 @@ namespace CarterGames.Cart.Crates.Localization
 		{
 			if (spriteAsset == null)
 			{
-				CartLogger.LogWarning<LogCategoryCrateLocalization>($"Sprite asset ref is null!");
+				CartLogger.LogWarning<LogCategoryLocalization>($"Sprite asset ref is null!");
 				return null;
 			}
 
 			if (!spritesLookup.ContainsKey(spriteAsset))
 			{
-				CartLogger.LogWarning<LogCategoryCrateLocalization>($"Couldn't find entry for {spriteAsset.name} in setup!");
+				CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find entry for {spriteAsset.name} in setup!");
 				return null;
 			}
 
@@ -138,7 +138,7 @@ namespace CarterGames.Cart.Crates.Localization
 			
 			if (foundSpriteData.ContainsKey(targetLanguageCode))
 			{
-				CartLogger.LogWarning<LogCategoryCrateLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
+				CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
 				return;
 			}
 			

@@ -74,7 +74,7 @@ namespace CarterGames.Cart.Management
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <typeparam name="T">The type to find.</typeparam>
         /// <returns>The total in the project.</returns>
-        public static int CountClassesOfType<T>(bool internalCheckOnly = true)
+        public static int CountClassesOfType<T>(bool internalCheckOnly = false)
         {
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
                 
@@ -102,7 +102,7 @@ namespace CarterGames.Cart.Management
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <typeparam name="T">The type to find.</typeparam>
         /// <returns>All the implementations of the entered class.</returns>
-        public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = true)
+        public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = false)
         {
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
             
@@ -118,7 +118,7 @@ namespace CarterGames.Cart.Management
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <typeparam name="T">The type to find.</typeparam>
         /// <returns>All the implementations of the entered class.</returns>
-        public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = true)
+        public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = false)
         {
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
 
@@ -147,7 +147,7 @@ namespace CarterGames.Cart.Management
         /// <param name="baseType">The base tye to get from.</param>
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType, bool internalCheckOnly = true)
+        public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType, bool internalCheckOnly = false)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             

@@ -31,14 +31,14 @@ namespace CarterGames.Cart.Crates.Conditions
 		private static SearchProviderCriteria Instance;
 
 		protected override string ProviderTitle => "Select Criteria";
-		public override bool HasOptions => AssemblyHelper.CountClassesOfType<Criteria>(false) > 0;
+		public override bool HasOptions => AssemblyHelper.CountClassesOfType<Criteria>() > 0;
 
 
 		public override List<SearchGroup<Type>> GetEntriesToDisplay()
 		{
 			var group = new List<SearchGroup<Type>>();
 			var entries = new List<SearchItem<Type>>();
-			var instances = AssemblyHelper.GetClassesNamesOfType<Criteria>(false);
+			var instances = AssemblyHelper.GetClassesNamesOfType<Criteria>();
 
 			foreach (var entry in instances)
 			{

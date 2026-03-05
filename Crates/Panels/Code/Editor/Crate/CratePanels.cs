@@ -44,12 +44,6 @@ namespace CarterGames.Cart.Crates
         
         
         /// <summary>
-        /// The scripting define the crate uses.
-        /// </summary>
-        public override string CrateDefine => "CARTERGAMES_CART_CRATE_PANELS";
-        
-        
-        /// <summary>
         /// Any optional crates that the crate can use.
         /// </summary>
         public override string[] OptionalPreRequisites => new string[] { new CrateEasing().CrateTechnicalName };

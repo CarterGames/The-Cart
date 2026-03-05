@@ -29,10 +29,10 @@ namespace CarterGames.Cart.Logs.Editor.Assets
         public override void OnCreated()
         {
             var categories = AssemblyHelper
-                .GetClassesOfType<LogCategory>(false)
+                .GetClassesOfType<LogCategory>()
                 .OrderBy(t => t.GetType().FullName);
 
-            var internalCategories = AssemblyHelper.GetClassesOfType<LogCategory>().OrderBy(t => t.GetType().Name).Select(t => t.GetType().FullName).ToList();
+            var internalCategories = AssemblyHelper.GetClassesOfType<LogCategory>(true).OrderBy(t => t.GetType().Name).Select(t => t.GetType().FullName).ToList();
 
             var lookup = new List<string>();
             var currentSetup = SerializableDictionary<string, bool>.FromDictionary(AssetRef.Categories);

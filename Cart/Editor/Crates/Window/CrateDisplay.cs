@@ -78,7 +78,7 @@ namespace CarterGames.Cart.Crates.Window
 
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            EditorGUILayout.LabelField(crate.CrateTechnicalName, new GUIStyle("Badge"));
+            EditorGUILayout.TextField(crate.CrateTechnicalName);
             
             GeneralUtilEditor.DrawHorizontalGUILine();
 

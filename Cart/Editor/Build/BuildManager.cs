@@ -33,7 +33,7 @@ namespace CarterGames.Cart.Editor
 
         private static void CartBuildHandler(BuildPlayerOptions options)
         {
-            var handlers = AssemblyHelper.GetClassesOfType<BuildHandler>(false)
+            var handlers = AssemblyHelper.GetClassesOfType<BuildHandler>()
                 .OrderBy(t => t.Priority)
                 .ToArray();
 
@@ -67,7 +67,7 @@ namespace CarterGames.Cart.Editor
         
         public void OnPostprocessBuild(BuildReport report)
         {
-            var handlers = AssemblyHelper.GetClassesOfType<BuildHandler>(false)
+            var handlers = AssemblyHelper.GetClassesOfType<BuildHandler>()
                 .OrderBy(t => t.Priority)
                 .ToArray();
             

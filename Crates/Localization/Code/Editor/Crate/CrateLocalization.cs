@@ -47,12 +47,6 @@ namespace CarterGames.Cart.Crates
         
         
         /// <summary>
-        /// The scripting define the crate uses.
-        /// </summary>
-        public override string CrateDefine => "CARTERGAMES_CART_CRATE_LOCALIZATION";
-        
-        
-        /// <summary>
         /// Any optional crates that the crate can use.
         /// </summary>
         public override string[] OptionalPreRequisites => new string[] { new CrateHierarchy().CrateTechnicalName, new CrateNotionData().CrateTechnicalName };

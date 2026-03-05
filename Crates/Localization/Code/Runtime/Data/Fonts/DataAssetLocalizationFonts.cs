@@ -53,7 +53,7 @@ namespace CarterGames.Cart.Crates.Localization
 	        {
 		        if (!entry.HasDefaultSetup)
 		        {
-			        CartLogger.LogWarning<LogCategoryCrateLocalization>(
+			        CartLogger.LogWarning<LogCategoryLocalization>(
 				        $"Unable to set the entry for {entry} as it doesn't have a default language setup.");
 			        continue;
 		        }
@@ -103,7 +103,7 @@ namespace CarterGames.Cart.Crates.Localization
 		        return fontData;
 	        }
 	        
-	        CartLogger.LogError<LogCategoryCrateLocalization>($"Couldn't find default font setup for {fontAsset.name} | {fontMaterial}, using fallback!");
+	        CartLogger.LogError<LogCategoryLocalization>($"Couldn't find default font setup for {fontAsset.name} | {fontMaterial}, using fallback!");
 	        return fallbackFont;
         }
 
@@ -165,7 +165,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 	        if (!GetFontData(label).ContainsKey(targetLanguageCode))
 	        {
-		        CartLogger.LogWarning<LogCategoryCrateLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
+		        CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
 		        return;
 	        }
 	        
@@ -203,7 +203,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 	        if (!GetFontData(fontAsset, material).ContainsKey(targetLanguageCode))
 	        {
-		        CartLogger.LogWarning<LogCategoryCrateLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
+		        CartLogger.LogWarning<LogCategoryLocalization>($"Couldn't find an entry for the language code {targetLanguageCode}.");
 		        return;
 	        }
 	        

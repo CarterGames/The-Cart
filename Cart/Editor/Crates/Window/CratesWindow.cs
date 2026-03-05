@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Editor;
 using CarterGames.Cart.Management.Editor;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,6 +43,8 @@ namespace CarterGames.Cart.Crates.Window
         private static bool IsCtrlPressed { get; set; }
 
         private static GUIStyle multiSelectStyle;
+
+        private static IEnumerable<KeyValuePair<string, List<Crate>>> userCratesCache;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -160,11 +163,16 @@ namespace CarterGames.Cart.Crates.Window
             
             // User Crates
             /* ────────────────────────────────────────────────────────────────────────────────────────────────────── */
-            foreach (var collection in CrateManager.GetAllCratesInProjectByAuthor())
+            if (userCratesCache == null)
             {
-                // Skip Carter Games as we're already showing those.
-                if (collection.Key == CrateConstants.CarterGamesAuthor) continue;
-
+                // Crates from Carter Games are skipped along with any that are not valid.
+                userCratesCache = CrateManager.GetAllCratesInProjectByAuthor()
+                    .Where(t => t.Key != CrateConstants.CarterGamesAuthor)
+                    .Where(t => t.Value.Any(x => !CrateValidator.IsCrateSetupValid(x.CrateTechnicalName, out _)));
+            }
+            
+            foreach (var collection in userCratesCache)
+            {
                 EditorGUILayout.BeginVertical("HelpBox");
                 EditorGUILayout.LabelField($"By {collection.Key}", EditorStyles.boldLabel);
 

@@ -41,11 +41,5 @@ namespace CarterGames.Cart.Crates
         /// The author of the crate.
         /// </summary>
         public override string CrateAuthor => CrateConstants.CarterGamesAuthor;
-        
-        
-        /// <summary>
-        /// The scripting define the crate uses.
-        /// </summary>
-        public override string CrateDefine => "CARTERGAMES_CART_CRATE_DEVENVIRONMENTS";
     }
 }

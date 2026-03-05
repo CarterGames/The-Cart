@@ -34,6 +34,7 @@ namespace CarterGames.Cart.Management.Editor
 
         private static readonly Dictionary<string, string> DefinesLookup = new Dictionary<string, string>();
         private static readonly Dictionary<string, Texture2D> CacheLookup = new Dictionary<string, Texture2D>();
+        private static readonly Dictionary<Type, string> InterfaceLookup = new Dictionary<Type, string>();
         private static IEditorArtDefine[] CacheDefines = null;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -81,7 +82,7 @@ namespace CarterGames.Cart.Management.Editor
         {
             if (CacheDefines == null)
             {
-                CacheDefines = AssemblyHelper.GetClassesOfType<IEditorArtDefine>(false).ToArray();
+                CacheDefines = AssemblyHelper.GetClassesOfType<IEditorArtDefine>().ToArray();
 
                 foreach (var entry in CacheDefines)
                 {
@@ -102,6 +103,35 @@ namespace CarterGames.Cart.Management.Editor
             if (!DefinesLookup.ContainsKey(id)) return null;
             CacheLookup.Add(id, AssetDatabase.LoadAssetAtPath<Texture2D>(GetPathToAsset(DefinesLookup[id])));
             return CacheLookup[id];
+        }
+
+
+        /// <summary>
+        /// Gets an art icon from its constant id.
+        /// </summary>
+        /// <typeparam name="T">The interface to get from (of IEditorArtDefine)</typeparam>
+        /// <returns>Texture2D</returns>
+        public static Texture2D GetIcon<T>() where T : IEditorArtDefine
+        {
+            if (CacheDefines == null)
+            {
+                CacheDefines = AssemblyHelper.GetClassesOfType<IEditorArtDefine>().ToArray();
+
+                foreach (var entry in CacheDefines)
+                {
+                    DefinesLookup.Add(entry.Uid, entry.InternalPath);
+                }
+            }
+            
+            if (InterfaceLookup.IsEmptyOrNull())
+            {
+                foreach (var entry in CacheDefines)
+                {
+                    InterfaceLookup.Add(entry.GetType(), entry.Uid);
+                }
+            }
+
+            return GetIcon(InterfaceLookup[typeof(T)]);
         }
     }
 }

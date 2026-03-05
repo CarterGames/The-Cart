@@ -43,13 +43,12 @@ namespace CarterGames.Cart.Crates.MultiScene.Editor
         /// Gets the settings asset in the project as a SerializedObject.
         /// </summary>
         private static SerializedObject SettingsAssetObject => AutoMakeDataAssetManager.GetDefine<MultiSceneSettings>().ObjectRef;
-        
-        
-        private static bool SettingsSceneManagementDropdown
-        {
-            get => (bool) PerUserSettings.GetOrCreateValue<bool>("cart_crate_multiscene_managementDropdownExpanded", SettingType.EditorPref);
-            set => PerUserSettings.SetValue<bool>("cart_crate_multiscene_managementDropdownExpanded", SettingType.EditorPref, value);
-        }
+
+
+        /// <summary>
+        /// The icon for Multi-Scene
+        /// </summary>
+        private static Texture2D Icon => EditorArtHandler.GetIcon<EditorArtMultiSceneIcon>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
@@ -67,8 +66,10 @@ namespace CarterGames.Cart.Crates.MultiScene.Editor
         private static void DrawSceneManagementOptions()
         {
             EditorGUILayout.BeginVertical();
+            
+            EditorGUILayout.LabelField(new GUIContent(Icon), GUILayout.Height(50));
 
-            GUILayout.Space(1.5f);
+            GUILayout.Space(5f);
 
             // Toolbar Menu...
             EditorGUI.BeginChangeCheck();

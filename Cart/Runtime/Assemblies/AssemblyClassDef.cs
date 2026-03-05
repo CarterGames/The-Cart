@@ -104,7 +104,7 @@ namespace CarterGames.Cart.Management
 			
 			try
 			{
-				return AssemblyHelper.GetClassesOfType<T>(false).FirstOrDefault(t =>
+				return AssemblyHelper.GetClassesOfType<T>().FirstOrDefault(t =>
 					t.GetType().Assembly.FullName == Assembly && t.GetType().FullName == Type);
 			}
 #pragma warning disable 0168

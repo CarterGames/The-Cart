@@ -55,7 +55,7 @@ namespace CarterGames.Cart.Crates
         /// <summary>
         /// The scripting define for the crate.
         /// </summary>
-        public abstract string CrateDefine { get; }
+        public string CrateDefine => $"{CrateAuthor.TrimSpaces().ToUpper()}_CART_CRATE_{CrateName.TrimSpaces().ToUpper()}";
 
 
         /// <summary>
