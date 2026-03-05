@@ -75,7 +75,7 @@ namespace CarterGames.Cart.Management.Editor
         /// Handles the settings window in the engine.
         /// </summary>
         [SettingsProvider]
-        public static SettingsProvider ScarletLibraryProvider()
+        public static SettingsProvider GetSettingsProvider()
         {
             var provider = new SettingsProvider(UtilEditor.SettingsWindowPath, SettingsScope.Project)
             {

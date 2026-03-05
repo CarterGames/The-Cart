@@ -167,8 +167,7 @@ namespace CarterGames.Cart.Crates.Window
             {
                 // Crates from Carter Games are skipped along with any that are not valid.
                 userCratesCache = CrateManager.GetAllCratesInProjectByAuthor()
-                    .Where(t => t.Key != CrateConstants.CarterGamesAuthor)
-                    .Where(t => t.Value.Any(x => !CrateValidator.IsCrateSetupValid(x.CrateTechnicalName, out _)));
+                    .Where(t => t.Key != CrateConstants.CarterGamesAuthor);
             }
             
             foreach (var collection in userCratesCache)
@@ -269,26 +268,33 @@ namespace CarterGames.Cart.Crates.Window
             /* ────────────────────────────────────────────────────────────────────────────────────────────────────── */
             if (IsSingleSelection)
             {
-                if (selectedCrate != null)
+                if (!CrateValidator.IsCrateSetupValid(selectedCrate.CrateTechnicalName, out var failReason))
                 {
-                    EditorGUILayout.BeginVertical();
-
-                    CrateDisplay.DrawCrate(selectedCrate);
-
-                    GUILayout.FlexibleSpace();
-
-                    EditorGUILayout.HelpBox("Ctrl-click to select multiple crates at once to perform group actions.", MessageType.Info);
-                    GUILayout.Space(1.5f);
-
-                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.HelpBox($"CRATE INVALID: {failReason}", MessageType.Warning);
                 }
-                else if (selectedPackagedCrate != null)
+                else
                 {
-                    EditorGUILayout.BeginVertical();
+                    if (selectedCrate != null)
+                    {
+                        EditorGUILayout.BeginVertical();
 
-                    // DrawPackagedCrate(selectedPackagedCrate);
+                        CrateDisplay.DrawCrate(selectedCrate);
 
-                    EditorGUILayout.EndVertical();
+                        GUILayout.FlexibleSpace();
+
+                        EditorGUILayout.HelpBox("Ctrl-click to select multiple crates at once to perform group actions.", MessageType.Info);
+                        GUILayout.Space(1.5f);
+
+                        EditorGUILayout.EndVertical();
+                    }
+                    else if (selectedPackagedCrate != null)
+                    {
+                        EditorGUILayout.BeginVertical();
+
+                        // DrawPackagedCrate(selectedPackagedCrate);
+
+                        EditorGUILayout.EndVertical();
+                    }
                 }
             }
             // Multi Crate

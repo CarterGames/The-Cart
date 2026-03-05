@@ -31,14 +31,23 @@ namespace CarterGames.Cart.Editor
 
 		public string MenuName => "Save";
 
+		private static int ProvidersFoundSinceLastCompile { get; set; } = -1;
+		
+		
+		
 		public void OnProjectSettingsGUI()
 		{
+			if (ProvidersFoundSinceLastCompile <= -1)
+			{
+				ProvidersFoundSinceLastCompile = AssemblyHelper.CountClassesOfType<ISaveMethod>();
+			}
+			
 			EditorGUILayout.BeginVertical();
 			EditorGUILayout.Space(1.5f);
 			
 			EditorGUILayout.LabelField("Save", EditorStyles.boldLabel);
 			
-			if (AssemblyHelper.CountClassesOfType<ISaveMethod>() > 1)
+			if (ProvidersFoundSinceLastCompile > 1)
 			{
 				if (GUILayout.Button("Select Save Method"))
 				{
