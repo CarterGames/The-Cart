@@ -8,7 +8,7 @@ A code library of tools that I use in conjunction with game-specific code to mak
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/cartergames/the-cart?style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/cartergames/the-cart?style=for-the-badge)
 ![Unity](https://img.shields.io/badge/Unity-2020.3.x_or_higher-critical?style=for-the-badge)
-
+<br><br>
 
 ## How To Install
 
@@ -37,6 +37,20 @@ https://github.com/CarterGames/The-Cart.git#[BRANCH NAME HERE]
 
 ## Docs
 The docs for the project are still a work in progress. Each script is fairly well commented as is but it will all be documented over time before a full 1.x release. More info on how documentation will be handled coming soon (0.14.x most likely). 
+<br><br>
+
+## Base Library
+The ``Cart`` is the base of the library. This includes a load of core systems for the library to function and common API you'll find useful in any project. Some notable systems include:
+| System | Description |
+|-|-|
+| ``DataAsset`` | A scriptable object system that gives you an easy to access API for runtime to access data without hard referencing in the inspector. You can choose to have assets that are editor only as well as manually choose to have some assets not included in the referencing system if not needed. |
+| ``Evt`` | A custom wrapper for an ``Action`` event. Its commonly used for any events in the library. It adds a method based API for subscribing to events as well as a way to subscribe based on a boolean value. |
+| ``Extensions`` | The library has a host of extension methods provided for both editor and runtime space. |
+| ``Formatters`` | A setup to format strings in different ways, such as currency, position & time. |
+| ``Referencing`` | Setups provided for getting a component in scenes, referencing interfaces in the inspector, singletons and more |
+| ``Timers`` | A setup to run logic after some time has passed without needing to write coroutines. |
+
+<br><br>
 
 ## Crates
 Crates are scripts or systems that are optional. 
@@ -50,8 +64,9 @@ The crate management window looks like the above image. All crates are displayed
 
 Crates can be internal or external. Internal crates are crates that have their contents in the repo under the ```Crates/``` directory. While external crates are imported from other repositories at the users own risk. Some of these include older crates that became standalone projects. All Carter Games authored crates are safe and heavily reviewed, though bugs may still be present. User generated crates are managed by their authors outside of this repo and are their responsibility. Use at your own risk.
 <br><br>
+
 ### Can I make my own crate?
-Of-course, the library is intended that users can add their own logic to it.
+Of-course, the library is intended that users can add their own logic to it. All crates require the core ``Cart`` part of the library to function. 
 
 Quick-guide:
 - To define a crate that the system will pick up by making a class that inherits from the ``Crate`` class. Crates that are a wrapper for a package such as Notion Data is in the library should inherit from the ``ExternalCrate`` class.
@@ -75,18 +90,18 @@ Quick-guide:
 -- /~Documentation
 -- /~Samples
 ```
-
+<br><br>
 
 ## Contributing
 See the CONTRIBUTING tab for more details. 
 ```
 https://github.com/CarterGames/The-Cart?tab=contributing-ov-file
 ```
+<br><br>
 
 ## Authors
 - Jonathan Carter
+<br><br>
 
 ## Licence
 GNU V3
-
-
