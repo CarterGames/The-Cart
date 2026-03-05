@@ -58,7 +58,8 @@ These may not be needed for every project and therefore can be toggled at will.
 Crates can be managed from the crate window under: ```Tools/Carter Games/The Cart/Crate Manager```
 <br><br>
 
-![Screenshot_20260303_082439](https://github.com/user-attachments/assets/86f5701b-25db-427f-ab9b-8bd9687c099d)
+![Screenshot_20260303_082439](https://github.com/user-attachments/assets/e45009be-b260-45d1-aba1-8bb7dcbe2258)
+
 
 The crate management window looks like the above image. All crates are displayed by auther and then by name. You can see the toggle status of a crate from small icon next to its button. Pressing the button for any crate will show its details on the right hand side. 
 
@@ -105,3 +106,4 @@ https://github.com/CarterGames/The-Cart?tab=contributing-ov-file
 
 ## Licence
 GNU V3
+
