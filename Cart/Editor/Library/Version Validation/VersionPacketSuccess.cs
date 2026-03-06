@@ -15,30 +15,50 @@
  */
 
 using System;
-using System.Linq;
 using UnityEngine;
 
 namespace CarterGames.Cart.Management.Editor
 {
     /// <summary>
-    /// A data class to hold the data downloaded from the server when requested.
+    /// A copy of the Json data for each entry stored on the server.
     /// </summary>
     [Serializable]
-    public sealed class VersionPacket
+    public sealed class VersionPacketSuccess
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [SerializeField] private VersionData[] data;
+        [SerializeField] private string date;
+        [SerializeField] private string version;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The release date for the entry.
+        /// </summary>
+        public string Date
+        {
+            get => date;
+            set => date = value;
+        }
+        
+        
+        /// <summary>
+        /// The version for the entry.
+        /// </summary>
+        public string Version
+        {
+            get => version;
+            set => version = value;
+        }        
+        
 
         /// <summary>
-        /// The data received for this package.
+        /// The version number for the entry.
         /// </summary>
-        public VersionData Data => data.First(t => t.Key.Equals(VersionInfo.Key));
+        public Version VersionNumber => new Version(Version);
     }
 }

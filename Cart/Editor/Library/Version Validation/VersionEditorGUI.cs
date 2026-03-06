@@ -25,6 +25,15 @@ namespace CarterGames.Cart.Management.Editor
     public static class VersionEditorGUI
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Defines if a request is currently running.
+        /// </summary>
+        private static bool RequestInProgress { get; set; }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
@@ -33,11 +42,21 @@ namespace CarterGames.Cart.Management.Editor
         /// </summary>
         public static void DrawCheckForUpdatesButton()
         {
-            if (!GUILayout.Button("Check For Updates")) return;
+            EditorGUI.BeginDisabledGroup(RequestInProgress);
             
+            if (!GUILayout.Button("Check For Updates"))
+            {
+                EditorGUI.EndDisabledGroup();
+                return;
+            }
+            
+            EditorGUI.EndDisabledGroup();
+
+            RequestInProgress = true;
             VersionChecker.GetLatestVersions();
             
             VersionChecker.ResponseReceived.AddAnonymous("versionCheckManual", () => ShowResponseDialogue());
+            VersionChecker.ErrorReceived.Add(ShowErrorDialogue);
         }
         
         
@@ -48,6 +67,9 @@ namespace CarterGames.Cart.Management.Editor
         public static void ShowResponseDialogue(bool showIfUptoDate = true)
         {
             VersionChecker.ResponseReceived.RemoveAnonymous("versionCheckManual");
+            VersionChecker.ErrorReceived.Remove(ShowErrorDialogue);
+
+            RequestInProgress = false;
             
             if (VersionChecker.IsNewerVersion)
             {
@@ -82,6 +104,19 @@ namespace CarterGames.Cart.Management.Editor
                     "You are using the latest version!",
                     "Continue");
             }
+        }
+
+
+        private static void ShowErrorDialogue(VersionPacketError errorPacket)
+        {
+            VersionChecker.ResponseReceived.RemoveAnonymous("versionCheckManual");
+            VersionChecker.ErrorReceived.Remove(ShowErrorDialogue);
+            
+            RequestInProgress = false;
+            
+            EditorUtility.DisplayDialog("Update Checker [ERROR]",
+                errorPacket.Error,
+                "Continue");
         }
     }
 }

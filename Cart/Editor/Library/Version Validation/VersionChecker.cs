@@ -16,8 +16,6 @@
 
 using System;
 using CarterGames.Cart.Events;
-using UnityEngine;
-using UnityEngine.Networking;
 
 namespace CarterGames.Cart.Management.Editor
 {
@@ -33,31 +31,31 @@ namespace CarterGames.Cart.Management.Editor
         /// <summary>
         /// The download URL for the latest version.
         /// </summary>
-        public static string DownloadURL => VersionInfo.DownloadBaseUrl + Versions.Data.Version;
+        public static string DownloadURL => VersionInfo.DownloadBaseUrl + VersionsPacket.Version;
         
 
         /// <summary>
         /// Gets if the latest version is this version.
         /// </summary>
-        public static bool IsLatestVersion => Versions.Data.VersionNumber.Equals(new Version(VersionInfo.ProjectVersionNumber));
+        public static bool IsLatestVersion => VersionsPacket.VersionNumber.Equals(new Version(VersionInfo.ProjectVersionNumber));
         
         
         /// <summary>
         /// Gets if the version here is higher that the latest version.
         /// </summary>
-        public static bool IsNewerVersion => new Version(VersionInfo.ProjectVersionNumber).CompareTo(Versions.Data.VersionNumber) > 0;
+        public static bool IsNewerVersion => new Version(VersionInfo.ProjectVersionNumber).CompareTo(VersionsPacket.VersionNumber) > 0;
         
         
         /// <summary>
         /// Gets the version data downloaded.
         /// </summary>
-        public static VersionPacket Versions { get; private set; }
+        public static VersionPacketSuccess VersionsPacket { get; private set; }
 
         
         /// <summary>
         /// The latest version string.
         /// </summary>
-        public static string LatestVersionNumberString => Versions.Data.Version;
+        public static string LatestVersionNumberString => VersionsPacket.Version;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events
@@ -67,6 +65,12 @@ namespace CarterGames.Cart.Management.Editor
         /// Raises when the data has been downloaded.
         /// </summary>
         public static Evt ResponseReceived { get; private set; } = new Evt();
+        
+        
+        /// <summary>
+        /// Raises when the request failed for some reason.
+        /// </summary>
+        public static Evt<VersionPacketError> ErrorReceived { get; private set; } = new Evt<VersionPacketError>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -86,16 +90,19 @@ namespace CarterGames.Cart.Management.Editor
         /// </summary>
         private static void RequestLatestVersionData()
         {
-            var request = UnityWebRequest.Get(VersionInfo.ValidationUrl);
-            var async = request.SendWebRequest();
-
-            async.completed += (a) =>
+            VersioningAPI.Query(OnSuccess, OnFailed);
+            return;
+            
+            void OnSuccess(VersionPacketSuccess data)
             {
-                if (request.result != UnityWebRequest.Result.Success) return;
-
-                Versions = JsonUtility.FromJson<VersionPacket>(request.downloadHandler.text);
+                VersionsPacket = data;
                 ResponseReceived.Raise();
-            };
+            }
+
+            void OnFailed(VersionPacketError errorPacket)
+            {
+                ErrorReceived.Raise(errorPacket);
+            }
         }
     }
 }

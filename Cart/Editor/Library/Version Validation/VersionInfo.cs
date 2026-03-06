@@ -26,12 +26,6 @@ namespace CarterGames.Cart.Management.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// The Url to request the versions from.
-        /// </summary>
-        public const string ValidationUrl = "https://carter.games/validation/versions.json";
-        
-        
-        /// <summary>
         /// The download Url for the latest version of this package.
         /// </summary>
         public const string DownloadBaseUrl = "https://github.com/CarterGames/The-Cart/releases/tag/";
@@ -40,7 +34,7 @@ namespace CarterGames.Cart.Management.Editor
         /// <summary>
         /// The key of the package to get from the JSON blob.
         /// </summary>
-        public const string Key = "The Cart";
+        public const string Key = "cart";
 
 
         /// <summary>
