@@ -334,8 +334,6 @@ namespace CarterGames.Cart.Management.Editor
                 
                 Directory.CreateDirectory(currentPath);
             }
-
-            Debug.Log($"Creating to {path}");
         }
         
         

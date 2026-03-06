@@ -65,8 +65,6 @@ namespace CarterGames.Cart.Editor
 
         public void OpenLink()
         {
-            Debug.Log(Target);
-            
             switch (UrlType)
             {
                 case EditorUrlType.Webpage:

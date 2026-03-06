@@ -6,6 +6,7 @@ using System.Reflection;
 using CarterGames.Cart;
 using CarterGames.Cart.Editor;
 using CarterGames.Cart.Events;
+using CarterGames.Cart.Logs;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -146,7 +147,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
                     if (!ConditionsSoCache.TryGetSerializedObjectForCriteria(
                             criteriaGroup.Group.Fpr("criteria").GetIndex(i), out var criteriaSo))
                     {
-                        Debug.Log(
+                        CartLogger.Log<LogCategoryConditions>(
                             $"Unable to find criteria for entry\n{criteriaGroup.Group.Fpr("criteria").GetIndex(i).objectReferenceValue.name}");
                         continue;
                     }
@@ -212,7 +213,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
             GroupRemovedEvt.Raise(criteriaGroup);
         
             #if !UNITY_2022_2_OR_NEWER
-            Debug.Log("Known issue with Unity (Fixed in 2022.x.x or newer). Please ignore the 2 errors below.");
+            CartLogger.Log<LogCategoryConditions>("Known issue with Unity (Fixed in 2022.x.x or newer). Please ignore the 2 errors below.");
             #endif
         }
     }
