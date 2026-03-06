@@ -268,33 +268,32 @@ namespace CarterGames.Cart.Crates.Window
             /* ────────────────────────────────────────────────────────────────────────────────────────────────────── */
             if (IsSingleSelection)
             {
-                if (!CrateValidator.IsCrateSetupValid(selectedCrate.CrateTechnicalName, out var failReason))
+                if (selectedCrate != null)
                 {
-                    EditorGUILayout.HelpBox($"CRATE INVALID: {failReason}", MessageType.Warning);
+                    if (!CrateValidator.IsCrateSetupValid(selectedCrate.CrateTechnicalName, out var failReason))
+                    {
+                        EditorGUILayout.HelpBox($"CRATE INVALID: {failReason}", MessageType.Warning);
+                    }
+
+                    EditorGUILayout.BeginVertical();
+
+                    CrateDisplay.DrawCrate(selectedCrate);
+
+                    GUILayout.FlexibleSpace();
+
+                    EditorGUILayout.HelpBox("Ctrl-click to select multiple crates at once to perform group actions.",
+                        MessageType.Info);
+                    GUILayout.Space(1.5f);
+
+                    EditorGUILayout.EndVertical();
                 }
-                else
+                else if (selectedPackagedCrate != null)
                 {
-                    if (selectedCrate != null)
-                    {
-                        EditorGUILayout.BeginVertical();
+                    EditorGUILayout.BeginVertical();
 
-                        CrateDisplay.DrawCrate(selectedCrate);
+                    // DrawPackagedCrate(selectedPackagedCrate);
 
-                        GUILayout.FlexibleSpace();
-
-                        EditorGUILayout.HelpBox("Ctrl-click to select multiple crates at once to perform group actions.", MessageType.Info);
-                        GUILayout.Space(1.5f);
-
-                        EditorGUILayout.EndVertical();
-                    }
-                    else if (selectedPackagedCrate != null)
-                    {
-                        EditorGUILayout.BeginVertical();
-
-                        // DrawPackagedCrate(selectedPackagedCrate);
-
-                        EditorGUILayout.EndVertical();
-                    }
+                    EditorGUILayout.EndVertical();
                 }
             }
             // Multi Crate
