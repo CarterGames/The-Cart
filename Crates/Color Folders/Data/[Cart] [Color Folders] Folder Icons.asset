@@ -9,43 +9,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0255a1cb9367a4341aa273021dd9643f, type: 3}
+  m_Script: {fileID: 11500000, guid: 75d10fc69223cfebebe401cc155113e0, type: 3}
   m_Name: '[Cart] [Color Folders] Folder Icons'
   m_EditorClassIdentifier: 
   folderGraphics:
   - id: White
-    large: {fileID: 2800000, guid: b0d904481fa6c3845913808ca1fc03d2, type: 3}
-    small: {fileID: 2800000, guid: 64d06c647126d0246aeaa1e6cbc5afc8, type: 3}
+    large: {fileID: 2800000, guid: 77134cded0f013747ac7e16c4b3e9280, type: 3}
+    small: {fileID: 2800000, guid: f442aa4c0b21c2b06baa4ee3ddad7997, type: 3}
   - id: Default
-    large: {fileID: 2800000, guid: 4d6e48e0873cc1842b2c20bb9a873461, type: 3}
-    small: {fileID: 2800000, guid: e584cc0cbd708bc48aa7a3d9e1f3493f, type: 3}
+    large: {fileID: 2800000, guid: 50d292264fcceed83bd827dbb5041bca, type: 3}
+    small: {fileID: 2800000, guid: dc11bd78ea4e9ac7d95eb955d64ce037, type: 3}
   - id: Black
-    large: {fileID: 2800000, guid: 4899d5aa586a69144bd70c44e14e149e, type: 3}
-    small: {fileID: 2800000, guid: 2ad7655f9165c9a419f2be844e812bca, type: 3}
+    large: {fileID: 2800000, guid: 2c21e1d6ee963a3ec93007b9205fc7dd, type: 3}
+    small: {fileID: 2800000, guid: d64696047999d78b7a10a03a16424e99, type: 3}
   - id: Blue
-    large: {fileID: 2800000, guid: 6f8aaa41c0a875b469d34f4556c08034, type: 3}
-    small: {fileID: 2800000, guid: aea59c8f5dff23f4e8476f89a58128ae, type: 3}
+    large: {fileID: 2800000, guid: c3175a29ed3f046c887d6b5333a39cd8, type: 3}
+    small: {fileID: 2800000, guid: 7269c54317d4345f68cc8c67ec87412b, type: 3}
   - id: Cyan
-    large: {fileID: 2800000, guid: ea5b5c905a7cee448abe91cb23bafa56, type: 3}
-    small: {fileID: 2800000, guid: 50452a8ffb89c494194f69308e70bc7e, type: 3}
+    large: {fileID: 2800000, guid: 8b6e40c220bfbbf15a642859495daa09, type: 3}
+    small: {fileID: 2800000, guid: f10d09b948b433b59ab910cd803f1ca1, type: 3}
   - id: Turquoise
-    large: {fileID: 2800000, guid: 11ed87bad6fc9114cbc5a048b193e21d, type: 3}
-    small: {fileID: 2800000, guid: 60e418dd2a7e7bc41a85424722998e06, type: 3}
+    large: {fileID: 2800000, guid: 40452b57bca4c01ff97c99119eeb60a0, type: 3}
+    small: {fileID: 2800000, guid: 9d9d3fdeebc8a3e799d1441ae6e0a8e9, type: 3}
   - id: Green
-    large: {fileID: 2800000, guid: 86de7fb7f5bd79e4d8d57888e8cf7a07, type: 3}
-    small: {fileID: 2800000, guid: afe4385582499c749bdc341921054b39, type: 3}
+    large: {fileID: 2800000, guid: 768ccc7017cc266c78dd866117534230, type: 3}
+    small: {fileID: 2800000, guid: 28a4ac26ee30b12bf807bc2eade5660c, type: 3}
   - id: Yellow
-    large: {fileID: 2800000, guid: 94ed8e21f888ba44b94aec1aec59d33c, type: 3}
-    small: {fileID: 2800000, guid: b64724a165be58b4593a5aab99a5302f, type: 3}
+    large: {fileID: 2800000, guid: cf10a8cef473857888e80fc993ee67b5, type: 3}
+    small: {fileID: 2800000, guid: a418f47e3a03be1a8986179b92e5a955, type: 3}
   - id: Orange
-    large: {fileID: 2800000, guid: 5103d147a907c57478044336b388172f, type: 3}
-    small: {fileID: 2800000, guid: 16d7af6abc3a8284ab695756162a065a, type: 3}
+    large: {fileID: 2800000, guid: e0288c0fa8be6aa9999b65327a3a431d, type: 3}
+    small: {fileID: 2800000, guid: d73985567eedf08ce8c230e52f59e5a2, type: 3}
   - id: Red
-    large: {fileID: 2800000, guid: 722fd5d2cbbd4634ba41ec881d8e1f43, type: 3}
-    small: {fileID: 2800000, guid: ec6ae353f04012b48a3d5610a35a6df9, type: 3}
+    large: {fileID: 2800000, guid: c0151fe5cb7f3cf6683cb34d0598b056, type: 3}
+    small: {fileID: 2800000, guid: ccdc6a1b352b8a1c39e758bca3f2df2f, type: 3}
   - id: Purple
-    large: {fileID: 2800000, guid: c03db281afcdcbc43a4976ffadb374dd, type: 3}
-    small: {fileID: 2800000, guid: 281788959f8caf44dae9d996c6367da3, type: 3}
+    large: {fileID: 2800000, guid: bfb34ef5f7d574a608675c9bac07cc2b, type: 3}
+    small: {fileID: 2800000, guid: b8eb98cc0cea57c98bab69e0081dd0fd, type: 3}
   - id: Pink
-    large: {fileID: 2800000, guid: 3733c9b7503cef54e83b9069c837c9dd, type: 3}
-    small: {fileID: 2800000, guid: 187045c8f17066a4eb5be4e047988d07, type: 3}
+    large: {fileID: 2800000, guid: fb82c3b89d7227d35af165a7894e974a, type: 3}
+    small: {fileID: 2800000, guid: 8795a6ec383ea8260877fe8a16b19d3c, type: 3}

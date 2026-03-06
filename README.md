@@ -61,7 +61,7 @@ Crates can be managed from the crate window under: ```Tools/Carter Games/The Car
 ![Screenshot_20260303_082439](https://github.com/user-attachments/assets/e45009be-b260-45d1-aba1-8bb7dcbe2258)
 
 
-The crate management window looks like the above image. All crates are displayed by auther and then by name. You can see the toggle status of a crate from small icon next to its button. Pressing the button for any crate will show its details on the right hand side. 
+The crate management window looks like the above image. All crates are displayed by author and then by name. You can see the toggle status of a crate from small icon next to its button. Pressing the button for any crate will show its details on the right hand side. 
 
 Crates can be internal or external. Internal crates are crates that have their contents in the repo under the ```Crates/``` directory. While external crates are imported from other repositories at the users own risk. Some of these include older crates that became standalone projects. All Carter Games authored crates are safe and heavily reviewed, though bugs may still be present. User generated crates are managed by their authors outside of this repo and are their responsibility. Use at your own risk.
 <br><br>
@@ -106,4 +106,5 @@ https://github.com/CarterGames/The-Cart?tab=contributing-ov-file
 
 ## Licence
 GNU V3
+
 
