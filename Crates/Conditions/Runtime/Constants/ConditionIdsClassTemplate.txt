@@ -1,0 +1,10 @@
+﻿#if CARTERGAMES_CART_CRATE_CONDITIONS
+
+namespace CarterGames.Cart.Crates.Conditions
+{
+    public struct ConditionIds
+    {
+    }
+}
+
+#endif

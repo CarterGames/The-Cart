@@ -1,0 +1,19 @@
+{
+    "name": "CarterGames.Cart.Editor",
+    "rootNamespace": "CarterGames.Cart.Editor",
+    "references": [
+        "GUID:f9eb8297e33d3b14ea4786f5a0c2ac04",
+        "GUID:6d41763603f56404492cef226e63cb07"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

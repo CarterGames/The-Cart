@@ -1,0 +1,159 @@
+﻿/*
+ * The Cart
+ * Copyright (c) 2026 Carter Games
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>. 
+ */
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+namespace CarterGames.Cart.Management
+{
+    /// <summary>
+    /// A helper class for assembly related logic.
+    /// </summary>
+    public static class AssemblyHelper
+    {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        private static Assembly[] cartAssembliesCache;
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// Gets all the cart assemblies to use when checking in internally only.
+        /// </summary>
+        private static Assembly[] CartAssemblies => CacheRef.GetOrAssign(ref cartAssembliesCache, GetCartAssemblies);
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        /// <summary>
+        /// The assemblies for the library.
+        /// </summary>
+        /// <returns>Returns all the assemblies for the cart.</returns>
+        private static Assembly[] GetCartAssemblies()
+        {
+#if UNITY_EDITOR
+            return new Assembly[3]
+            {
+                Assembly.Load("CarterGames.Cart.Crates"),
+                Assembly.Load("CarterGames.Cart.Editor"),
+                Assembly.Load("CarterGames.Cart.Runtime"),
+            };
+#else
+            return new Assembly[2]
+            {
+                Assembly.Load("CarterGames.Cart.Crates"),
+                Assembly.Load("CarterGames.Cart.Runtime"),
+            };
+#endif
+        }
+
+
+        /// <summary>
+        /// Gets the number of classes of the requested type in the project.
+        /// </summary>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>The total in the project.</returns>
+        public static int CountClassesOfType<T>(bool internalCheckOnly = false)
+        {
+            var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+                
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Count(x => x.IsClass && typeof(T).IsAssignableFrom(x));
+        }
+        
+        
+        /// <summary>
+        /// Gets the number of classes of the requested type in the project.
+        /// </summary>
+        /// <param name="assemblies">The assemblies to check through.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>The total in the project.</returns>
+        public static int CountClassesOfType<T>(params Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Count(x => x.IsClass && typeof(T).IsAssignableFrom(x));
+        }
+        
+        
+        /// <summary>
+        /// Gets all the classes of the entered type in the project.
+        /// </summary>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = false)
+        {
+            var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+            
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName && !x.IsAbstract)
+                .Select(type => (T)Activator.CreateInstance(type));
+        }
+        
+        
+        /// <summary>
+        /// Gets all the classes of the entered type in the project.
+        /// </summary>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = false)
+        {
+            var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName);
+        }
+        
+        
+        /// <summary>
+        /// Gets all the classes of the entered type in the project.
+        /// </summary>
+        /// <param name="assemblies">The assemblies to check through.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<T> GetClassesOfType<T>(params Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
+                .Select(type => (T)Activator.CreateInstance(type));
+        }
+        
+        
+        /// <summary>
+        /// Gets all the class names of the entered type in the project that use the base type.
+        /// </summary>
+        /// <param name="baseType">The base tye to get from.</param>
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType, bool internalCheckOnly = false)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && x.BaseType is {IsConstructedGenericType: true} && x.FullName != baseType.FullName)
+                .Where(t => baseType == t.BaseType.GetGenericTypeDefinition());
+        }
+    }
+}

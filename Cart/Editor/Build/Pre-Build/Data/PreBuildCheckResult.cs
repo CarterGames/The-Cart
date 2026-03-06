@@ -1,0 +1,70 @@
+﻿/*
+ * The Cart
+ * Copyright (c) 2026 Carter Games
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>. 
+ */
+
+using System;
+
+namespace CarterGames.Cart.Editor
+{
+    public class PreBuildCheckResult
+    {
+        public bool PassedCheck { get; private set; }
+        public string ErrorMessage { get; private set; }
+        
+        public Action FixProblemAction { get; private set; }
+        public Action GuideToIssueAction { get; private set; }
+
+
+        public static PreBuildCheckResult Succeed()
+        {
+            return new PreBuildCheckResult()
+            {
+                PassedCheck = true,
+            };
+        }
+        
+        
+        public static PreBuildCheckResult Failed(string errorMessage)
+        {
+            return new PreBuildCheckResult()
+            {
+                PassedCheck = false,
+                ErrorMessage = errorMessage
+            };
+        }
+        
+        
+        public static PreBuildCheckResult FailedWithFix(string errorMessage, Action fixAction)
+        {
+            return new PreBuildCheckResult()
+            {
+                PassedCheck = false,
+                ErrorMessage = errorMessage,
+                FixProblemAction = fixAction
+            };
+        }
+        
+        
+        public static PreBuildCheckResult FailedWithGuide(string errorMessage, Action guideAction)
+        {
+            return new PreBuildCheckResult()
+            {
+                PassedCheck = false,
+                ErrorMessage = errorMessage,
+                GuideToIssueAction = guideAction
+            };
+        }
+    }
+}
