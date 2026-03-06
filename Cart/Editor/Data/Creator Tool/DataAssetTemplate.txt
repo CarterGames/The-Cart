@@ -1,0 +1,12 @@
+﻿using CarterGames.Cart.Data;
+using UnityEngine;
+
+
+namespace Data
+{
+    [CreateAssetMenu(fileName = "%DataAssetName%")]
+    public class %DataAssetName% : DataAsset
+    {
+        
+    }
+}
