@@ -1,6 +1,6 @@
 {
     "name": "games.carter.thecart",
-    "version": "0.13.1",
+    "version": "0.13.0",
     "displayName": "The Cart",
     "description": "A code library of useful tools, classes & systems for game development in Unity.",
     "unity": "2020.3",
@@ -8,7 +8,7 @@
     "documentationUrl": "https://carter.games/the-cart",
     "licensesUrl": "https://github.com/CarterGames/The-Cart/blob/main/LICENSE",
     "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.2.2"
+        "com.unity.nuget.newtonsoft-json": "2.0.0"
     },
     "author": {
         "name": "Carter Games",
