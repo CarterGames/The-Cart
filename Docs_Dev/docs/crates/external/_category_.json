@@ -1,0 +1,8 @@
+{
+  "label": "Extneral",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Any built-in crates that are imported via external means."
+  }
+}

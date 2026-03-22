@@ -1,0 +1,8 @@
+{
+  "label": "Crates",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Any crates the cart has built-in to its library."
+  }
+}
