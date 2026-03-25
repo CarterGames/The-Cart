@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkthe_cart_documentation=globalThis.webpackChunkthe_cart_documentation||[]).push([[5742],{7093(t){t.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"default"}')}}]);
