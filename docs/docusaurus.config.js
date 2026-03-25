@@ -11,7 +11,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'The Cart',
-  tagline: 'Dinosaurs are cool',
+  tagline: '',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -23,13 +23,14 @@ const config = {
   url: 'https://cartergames.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/The-Cart/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'CarterGames', // Usually your GitHub org/user name.
   projectName: 'The-Cart', // Usually your repo name.
-
+  deploymentBranch: "feature/docs",
+  trailingSlash: false,
   onBrokenLinks: 'throw',
 
   // Even if you don't use internationalization, you can use this field to set
