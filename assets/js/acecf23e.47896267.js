@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkthe_cart=globalThis.webpackChunkthe_cart||[]).push([[1903],{1912(t){t.exports=JSON.parse('{"blogBasePath":"/The-Cart/blog","blogTitle":"Blog","authorsListPath":"/The-Cart/blog/authors"}')}}]);
