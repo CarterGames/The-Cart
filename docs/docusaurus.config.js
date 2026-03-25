@@ -23,12 +23,12 @@ const config = {
   url: 'https://cartergames.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/TheCart/',
+  baseUrl: '/The-Cart/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'CarterGames', // Usually your GitHub org/user name.
-  projectName: 'TheCart', // Usually your repo name.
+  projectName: 'The-Cart', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
