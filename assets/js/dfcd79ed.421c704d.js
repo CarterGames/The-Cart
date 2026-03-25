@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkthe_cart=globalThis.webpackChunkthe_cart||[]).push([[2028],{9218(t){t.exports=JSON.parse('{"metadata":{"permalink":"/The-Cart/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
