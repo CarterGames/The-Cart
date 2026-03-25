@@ -29,7 +29,7 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'CarterGames', // Usually your GitHub org/user name.
   projectName: 'The-Cart', // Usually your repo name.
-  deploymentBranch: "feature/docs",
+  deploymentBranch: "gh-pages",
   trailingSlash: false,
   onBrokenLinks: 'throw',
 
