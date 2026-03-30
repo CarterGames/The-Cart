@@ -1,14 +1,3 @@
----
-id: cart_runtime_evt
-displayed_sidebar: cart
-sidebar_position: 2
-sidebar_label: 'Events System (Evt)'
-tags:
-  - Events
-  - Actions
-  - Delegates
----
-
 # Events System
 
 The events system is a extension to system actions that makes sure no method is over-subscribed to. It also supports anonymous subscriptions which you can unsubscribe just like a normal subscription. 
@@ -17,7 +6,6 @@ The events system is a extension to system actions that makes sure no method is 
 ## Usage
 
 ### Event creation
----
 To get started with the events system you'll need to first create an event. It's recommended to use a static class or make the event itself static where possible for ease of access. To define an event, write something like the example below:
 
 ```csharp
@@ -32,8 +20,8 @@ For events with parameters there are 8 extra classes in the `Evt.cs` file that
 public static readonly Evt<int> OnMoneyCollected = new Evt<int>();
 ```
 <br/>
+
 ### Event subscribing
----
 Subscribing to events is as easy as it is to do with actions. Instead of using `+=` or `-=` to subscribe, the events system has 2 simple methods, being `Add()` & `Remove()`. Note that any method subscribing to an event will need to have the same number of parameters of the same type to subscribe correctly. Some examples:
 
 ```csharp
@@ -70,8 +58,8 @@ private void MyIntMethod(int amount)
 }
 ```
 <br/>
+
 ### Anonymous subscriptions
----
 You can also subscribe to events without matching the parameters required using the anonymous setup. This setup has the same add and remove methods but taking in a string key for the anonymous subscription to be identified as. On removal we just pass in the key we assigned on creation. Some examples: 
 
 ```csharp
@@ -91,8 +79,8 @@ private void MyIntMethod(int amount)
 }
 ```
 <br/>
+
 ### Event raising/invoking
----
 Raising events is essentially invoking the action. It is done by just calling the `Raise()` method on the event you want to call. You pass in any params the event requires in the call to pass them to all listeners. 
 
 ```csharp
@@ -104,25 +92,20 @@ private void OnSomeGameStateChange()
 ```
 
 <br/>
-## Evt Listener
 
+## Evt Listener
 The event listener class provides a method to listen to events based on if a boolean state at the time of executing. If false it subscribes to the event, if true it instantly continues the desired action. There is an extension method for the evt class itself or static methods to be called without the event itself.
 
-
-
 <br/>
+
 ## Scripting API
 
----
-
 Assembly: ```CarterGames.Cart.Runtime```
-
 Namespace: ```CarterGames.Cart.Events```
 
 <br/>
-### Definition
 
----
+### Definition
 
 ```csharp
 private readonly Evt MyEvent = new Evt();
@@ -132,15 +115,8 @@ As Evt is a class you’ll need to create an instance of it for use, otherwise i
 
 <br/>
 
----
-
 ### Add()
-
----
-
 Adds an listener to the evt instance. Note that it must have matching parameters to correctly subscribe. 
-
----
 
 ```csharp
 public void Add(Action listener);
@@ -153,8 +129,6 @@ public void Add(Action<T1,T2,T3,T4,T5,T6> listener);
 public void Add(Action<T1,T2,T3,T4,T5,T6,T7> listener);
 public void Add(Action<T1,T2,T3,T4,T5,T6,T7,T8> listener);
 ```
-
----
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -170,13 +144,10 @@ private void MyMethod()
 }
 ```
 
+---
+
 ### AddAnonymous()
-
----
-
 Adds an anonymous listener to the evt instance. The parameters do not need to match when adding anonymous actions to run on an event. Though it is still advised to match them where possible. 
-
----
 
 ```csharp
 public void AddAnonymous(string id, Action listener);
@@ -189,8 +160,6 @@ public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6> listener);
 public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6,T7> listener);
 public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6,T7,T8> listener);
 ```
-
----
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -206,13 +175,10 @@ private void MyMisMatchedMethod(int health)
 }
 ```
 
+---
+
 ### Remove()
-
----
-
 Removes a listener to the evt instance. Note that it must have matching parameters to correctly unsubscribe. 
-
----
 
 ```csharp
 public void Remove(Action listener);
@@ -225,8 +191,6 @@ public void Remove(Action<T1,T2,T3,T4,T5,T6> listener);
 public void Remove(Action<T1,T2,T3,T4,T5,T6,T7> listener);
 public void Remove(Action<T1,T2,T3,T4,T5,T6,T7,T8> listener);
 ```
-
----
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -242,19 +206,14 @@ private void MyMethod()
 }
 ```
 
+---
+
 ### RemoveAnonymous()
-
----
-
 Removes an anonymous listener to the evt instance. You only need to pass the key you assigned to the anonymous event listener to remove it.
-
----
 
 ```csharp
 public void RemoveAnonymous(string id);
 ```
-
----
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -265,13 +224,10 @@ private void OnEnable()
 }
 ```
 
+---
+
 ### Raise()
-
----
-
 Raises/Invokes the evt which will run all the listeners currently subscribed to it. If your event takes parameters you’ll need to pass through their values here.
-
----
 
 ```csharp
 public void Raise();
@@ -285,8 +241,6 @@ public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 para
 public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
 ```
 
----
-
 ```csharp
 Evt MyEvent = new Evt();
 
@@ -296,19 +250,14 @@ private void OnEnable()
 }
 ```
 
+---
+
 ### Clear()
-
----
-
 Clears all the listeners from this evt. 
-
----
 
 ```csharp
 public void Clear();
 ```
-
----
 
 ```csharp
 Evt MyEvent = new Evt();
