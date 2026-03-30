@@ -1,65 +1,75 @@
-# Events System
+# Random
+| [Usage](Docs_RNG.md) | [API](../../../../Docs/API/Cart%20(Core)/Runtime/API_RNG.md) |
 
-The events system is a extension to system actions that makes sure no method is over-subscribed to. It also supports anonymous subscriptions which you can unsubscribe just like a normal subscription. 
+Rng is one of the many core systems which handles generating random numbers, string etc. The set-up lets you choose which provider is used to produce the random results. Some are true random while others are seeded random (where a seed can produce the same result each time run). 
 
+## Providers
 
+### Settings
+You can edit the random system settings in the library settings provider. This can be found under:
+```
+Edit/Project Settings/Carter Games/The Cart
+```
+
+There is currently only the option to choose your provider in the settings. To select a provider, just press the select provider button and choose the option you want from the search box that opens. Once you select an option the setting will update to use that provider.
+
+![random_settings](img/random_settings.png)
+
+If you choose a provider that uses a seed. The option to change the seed will be shown under the provider.
+
+<br/>
+### Types
+There are two main random types supported. ``Seeded``, where the random result is consistent based on a seed input or ``True`` which is random each time and does not have a seed to re-produce results with. You can set the random provider used in the settings provider for the library.
+
+<br/>
+### Built-in
+The default providers in the project are:
+
+| Provider | Type | Description |
+| ----- | ----- | :----- |
+| Unity | True | Uses the Unity API ``Random.Range`` to produce random results.
+| System | Seeded | Uses C# system namespace random setup to generate random results.
+| Alea | Seeded | A Unity C# clone of Alea (PRNG) which can be produced in other code languages as well. 
+
+<br/>
+### Custom
+If you want to implement your own provider of random you can make a non-static class implementing the `IRngProvider` interface and implement its methods.
+
+If your random provider is a seeded one, please use the `ISeededRngProvider` interface instead.
+
+You’ll be able to select your new provider in the asset settings provider when you implement the interface. The interface only has a couple of methods to implement, the rest of the Rng API is made from these methods:
+
+Common:
+
+| Property | Description |
+| --- | :--- |
+| ``Bool {get}`` | Should return a random bool result. |
+
+| Method | Description |
+| --- | :--- |
+| ``Int()`` | Should return a random int between the min and max values inclusive.. |
+| ``Float()`` | Should return a random float between the min and max values inclusive. |
+| ``Double()`` | Should return a random double between the min and max values inclusive. |
+
+Seeded Only:
+
+| Method | Description |
+| --- | :--- |
+| ``GenerateSeed()`` | Should return a new seed for the provider to use. |
+<br/>
 ## Usage
-
-### Event creation
-To get started with the events system you'll need to first create an event. It's recommended to use a static class or make the event itself static where possible for ease of access. To define an event, write something like the example below:
-
-```csharp
-public static readonly Evt OnGameOver = new Evt();
-```
-
-Note that the Evt class is a class for you’ll need to make an instance of it before using it, this is the only main difference between this setup and the normal system action flow. Making the event read-only just helps us not edit it accidentally and defining it as a new event is just cleaner as it won't need to be initialized anywhere else before use.
-
-For events with parameters there are 8 extra classes in the `Evt.cs` file that allow for it. If you need more parameters, you can make additional ones as they all follow the same setup, just with an extra generic field to use in the class. To define a parameter event, use something like the following:
-
-```csharp
-public static readonly Evt<int> OnMoneyCollected = new Evt<int>();
-```
-<br/>
-
-### Event subscribing
-Subscribing to events is as easy as it is to do with actions. Instead of using `+=` or `-=` to subscribe, the events system has 2 simple methods, being `Add()` & `Remove()`. Note that any method subscribing to an event will need to have the same number of parameters of the same type to subscribe correctly. Some examples:
+The ``Rng`` class is the static class intended to be used to access the random provider in use. This should be used when interacting with this system of the library.
 
 ```csharp
 private void OnEnable()
 {
-    OnGameOver.Add(MyVoidMethod);
-}
-
-private void OnDisable()
-{
-    OnGameOver.Remove(MyVoidMethod);
-}
-
-private void MyVoidMethod()
-{
-    // Some code here...
-}
-```
-
-```csharp
-private void OnEnable()
-{
-    OnMoneyCollect.Add(MyIntMethod);
-}
-
-private void OnDisable()
-{
-    OnMoneyCollected.Remove(MyIntMethod);
-}
-
-private void MyIntMethod(int amount)
-{
-    // Some Code Here...
+    Debug.Log(Rng.String(16)); // Generates a random string of 16 characters in lenght.
+    Debug.Log(Rng.Int(1, 10)); // Generates a random number between 1 - 10.
 }
 ```
 <br/>
-
 ### Anonymous subscriptions
+---
 You can also subscribe to events without matching the parameters required using the anonymous setup. This setup has the same add and remove methods but taking in a string key for the anonymous subscription to be identified as. On removal we just pass in the key we assigned on creation. Some examples: 
 
 ```csharp
@@ -79,8 +89,8 @@ private void MyIntMethod(int amount)
 }
 ```
 <br/>
-
 ### Event raising/invoking
+---
 Raising events is essentially invoking the action. It is done by just calling the `Raise()` method on the event you want to call. You pass in any params the event requires in the call to pass them to all listeners. 
 
 ```csharp
@@ -92,20 +102,25 @@ private void OnSomeGameStateChange()
 ```
 
 <br/>
-
 ## Evt Listener
+
 The event listener class provides a method to listen to events based on if a boolean state at the time of executing. If false it subscribes to the event, if true it instantly continues the desired action. There is an extension method for the evt class itself or static methods to be called without the event itself.
 
-<br/>
 
+
+<br/>
 ## Scripting API
 
+---
+
 Assembly: ```CarterGames.Cart.Runtime```
+
 Namespace: ```CarterGames.Cart.Events```
 
 <br/>
-
 ### Definition
+
+---
 
 ```csharp
 private readonly Evt MyEvent = new Evt();
@@ -115,8 +130,15 @@ As Evt is a class you’ll need to create an instance of it for use, otherwise i
 
 <br/>
 
+---
+
 ### Add()
+
+---
+
 Adds an listener to the evt instance. Note that it must have matching parameters to correctly subscribe. 
+
+---
 
 ```csharp
 public void Add(Action listener);
@@ -129,6 +151,8 @@ public void Add(Action<T1,T2,T3,T4,T5,T6> listener);
 public void Add(Action<T1,T2,T3,T4,T5,T6,T7> listener);
 public void Add(Action<T1,T2,T3,T4,T5,T6,T7,T8> listener);
 ```
+
+---
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -144,10 +168,13 @@ private void MyMethod()
 }
 ```
 
+### AddAnonymous()
+
 ---
 
-### AddAnonymous()
 Adds an anonymous listener to the evt instance. The parameters do not need to match when adding anonymous actions to run on an event. Though it is still advised to match them where possible. 
+
+---
 
 ```csharp
 public void AddAnonymous(string id, Action listener);
@@ -160,6 +187,8 @@ public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6> listener);
 public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6,T7> listener);
 public void AddAnonymous(string id, Action<T1,T2,T3,T4,T5,T6,T7,T8> listener);
 ```
+
+---
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -175,10 +204,13 @@ private void MyMisMatchedMethod(int health)
 }
 ```
 
+### Remove()
+
 ---
 
-### Remove()
 Removes a listener to the evt instance. Note that it must have matching parameters to correctly unsubscribe. 
+
+---
 
 ```csharp
 public void Remove(Action listener);
@@ -191,6 +223,8 @@ public void Remove(Action<T1,T2,T3,T4,T5,T6> listener);
 public void Remove(Action<T1,T2,T3,T4,T5,T6,T7> listener);
 public void Remove(Action<T1,T2,T3,T4,T5,T6,T7,T8> listener);
 ```
+
+---
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -206,14 +240,19 @@ private void MyMethod()
 }
 ```
 
+### RemoveAnonymous()
+
 ---
 
-### RemoveAnonymous()
 Removes an anonymous listener to the evt instance. You only need to pass the key you assigned to the anonymous event listener to remove it.
+
+---
 
 ```csharp
 public void RemoveAnonymous(string id);
 ```
+
+---
 
 ```csharp
 Evt MyEvent = new Evt();
@@ -224,10 +263,13 @@ private void OnEnable()
 }
 ```
 
+### Raise()
+
 ---
 
-### Raise()
 Raises/Invokes the evt which will run all the listeners currently subscribed to it. If your event takes parameters you’ll need to pass through their values here.
+
+---
 
 ```csharp
 public void Raise();
@@ -241,6 +283,8 @@ public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 para
 public void Raise(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
 ```
 
+---
+
 ```csharp
 Evt MyEvent = new Evt();
 
@@ -250,14 +294,19 @@ private void OnEnable()
 }
 ```
 
+### Clear()
+
 ---
 
-### Clear()
 Clears all the listeners from this evt. 
+
+---
 
 ```csharp
 public void Clear();
 ```
+
+---
 
 ```csharp
 Evt MyEvent = new Evt();
