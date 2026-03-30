@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 /*
  * The Cart
  * Copyright (c) 2026 Carter Games
@@ -41,3 +43,5 @@ namespace CarterGames.Cart.Crates.MultiScene.Editor
         public override string CrateAuthor => CrateConstants.CarterGamesAuthor;
     }
 }
+
+#endif
