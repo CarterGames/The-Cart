@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 /*
  * The Cart
  * Copyright (c) 2026 Carter Games
@@ -48,3 +50,5 @@ namespace CarterGames.Cart.Crates.NotionData.Editor
             "https://github.com/CarterGames/NotionToUnity.git");
     }
 }
+
+#endif

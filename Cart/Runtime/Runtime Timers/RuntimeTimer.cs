@@ -344,6 +344,26 @@ namespace CarterGames.Cart
             ResumeTimer();
         }
 
+
+        /// <summary>
+        /// Sets the time remaining when called.
+        /// </summary>
+        /// <param name="value">The new value to set to.</param>
+        public void SetTimeRemaining(float value)
+        {
+            TimeRemaining = Mathf.Clamp(value, 0, float.MaxValue);
+        }
+        
+        
+        /// <summary>
+        /// Sets the timers duration when called.
+        /// </summary>
+        /// <param name="value">The new value to set to.</param>
+        public void SetTimerDuration(float value)
+        {
+            TimerDuration = value;
+        }
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Coroutines
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
