@@ -1,6 +1,6 @@
 # Assemblies
 
-| [Usage](Docs_Assemblies.md) | [API](../../../../Docs/API/Cart%20(Core)/Runtime/API_Assemblies.md) |
+| [Usage](Docs_Assemblies.md) | [API](../../../../Docs/API/Cart/Runtime/API_Assemblies.md) |
 
 Mainly adds a load of API to make accessing classes through assemblies a tad easier. Results of using this API should be cached to avoid massive performance hits.
 

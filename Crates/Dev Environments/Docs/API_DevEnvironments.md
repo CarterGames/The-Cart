@@ -21,14 +21,14 @@ Dev environments is designed to give you a way to define different build types i
 
 <br/>
 
-### `Environment detection.cs`
+### `EnvironmentDetection.cs`
 Use the static ```EnvironmentDetection``` class to get which environment is currently in use in code.
 
 <br/>
 
 ### Properties
 
-#### `CurrentEnvironment {get}`
+#### `CurrentEnvironment`
 Gets the environment the project is currently targeting.
 
 ```csharp

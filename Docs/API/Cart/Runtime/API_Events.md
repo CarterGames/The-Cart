@@ -1,6 +1,6 @@
 # Events System (API)
 
-| [Usage](../../../../Docs/Usage/Cart%20(Core)/Runtime/Docs_Events.md) | [API](API_Events.md) |
+| [Usage](../../../../Docs/Usage/Cart/Runtime/Docs_Events.md) | [API](API_Events.md) |
 
 The events system is a extension to system actions that makes sure no method is over-subscribed to. It also supports anonymous subscriptions which you can unsubscribe just like a normal subscription.
 

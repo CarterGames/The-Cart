@@ -19,7 +19,7 @@ using System.Linq;
 using CarterGames.Cart.Logs;
 using UnityEngine;
 
-namespace CarterGames.Cart.Management
+namespace CarterGames.Cart
 {
 	/// <summary>
 	/// A class for storing info about a class so it can be referenced from its assembly & type names.

@@ -1,6 +1,6 @@
 # Assemblies (API)
 
-| [Usage](../../../../Docs/Usage/Cart%20(Core)/Runtime/Docs_Assemblies.md) | [API](API_Assemblies.md) |
+| [Usage](../../../../Docs/Usage/Cart/Runtime/Docs_Assemblies.md) | [API](API_Assemblies.md) |
 
 Mainly adds a load of API to make accessing classes through assemblies a tad easier. Results of using this API should be cached to avoid massive performance hits.
 
@@ -100,43 +100,3 @@ private void OnEnable()
 The event listener can be used to listen to events if a boolean is not true. Either through the `Evt` instance itself of via the `EvtListener` class.
 
 <br/>
-
-### Methods
-
-#### `ListenIfFalse()`
-Listens to the evt calling the method if the boolean entered is false. Runs the action passed on when either the bool is true when called or when the event is raised.
-
-```csharp
-Evt MyEvent = new Evt();
-
-private void OnEnable()
-{
-    MyEvent.ListenIfFalse(MyBool, () => 
-    {
-        // Logic to run on evt raised or bool true at the time of calling.
-    });
-}
-```
-
-<br/>
-
-#### `RunWhenEither()`
-Is the exact same as `ListIfFalse()` but is not restricted to an extension method on the `Evt` class. So you can call this outside of the `Evt` class setup for normal `Actions` if you need it.
-
-```csharp
-Evt MyEvent = new Evt();
-Action MyAction;
-
-private void OnEnable()
-{
-    EvtListener.RunWhenEither(MyBool, MyEvent, () => 
-    {
-        // Logic to run on evt raised or bool true at the time of calling.
-    });
-    
-    EvtListener.RunWhenEither(MyBool, MyAction, () => 
-    {
-        // Logic to run on evt raised or bool true at the time of calling.
-    });
-}
-```
