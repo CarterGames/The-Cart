@@ -1,11 +1,16 @@
 # Events System
 
----
 | [Usage](Docs_Events.md) | [API](../../../../Docs/API/Cart%20(Core)/Runtime/API_Events.md) |
 
 The events system is a extension to system actions that makes sure no method is over-subscribed to. It also supports anonymous subscriptions which you can unsubscribe just like a normal subscription.
 
----
+|             |                     |
+|-------------|:--------------------|
+| Author      | `J, (Carter Games)` |
+| Revision    | `5`                 |
+| Last update | `2026-03-06`        |
+
+<br/>
 
 ### Event creation
 To get started with the events system you'll need to first create an event. It's recommended to use a static class or make the event itself static where possible for ease of access. To define an event, write something like the example below:

@@ -1,16 +1,16 @@
 # Color Folders
 
----
+| [Usage](Docs_ColorFolders.md) | [API](API_ColorFolders.md) |
+
+An editor enhancement to add colored folders to your projects folder structure for ease of navigation when deep in a folder structure.
+
 |             |                        |
 |-------------|:-----------------------|
 | Author      | `J, (Carter Games)`    |
 | Revision    | `2`                    |
 | Last update | `2025-08-10`           |
 
----
 <br/>
-
----
 
 ### Limitations
 - This crate removes the differing icons based on if a folder is open or empty to apply the color effects. 
