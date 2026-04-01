@@ -100,3 +100,115 @@ private void OnEnable()
 The event listener can be used to listen to events if a boolean is not true. Either through the `Evt` instance itself of via the `EvtListener` class.
 
 <br/>
+
+### Constructor
+
+Creates a new definition when called.
+
+```csharp
+public AssemblyClassDef(string assembly, string type)
+```
+
+```csharp
+private void OnEnable()
+{
+    AssemblyClassDef classDef = new AssemblyClassDef(myType.Assembly.FullName, myType.FullName)); // Makes a new define.
+}
+```
+
+<br/>
+
+### Properties
+
+#### `IsValid`
+Gets if the class in the define is valid or not.
+
+```csharp
+public bool IsValid { get; }
+```
+
+```csharp
+[SerializeField] private AssemblyClassDef classDef;
+
+private void OnEnable()
+{
+    Debug.Log(classDef.IsValid); // Logs out if the define is valid.
+}
+```
+
+<br/>
+
+#### `Assembly`
+Gets the assembly string stored in the define.
+
+```csharp
+public string Assembly { get; }
+```
+
+```csharp
+[SerializeField] private AssemblyClassDef classDef;
+
+private void OnEnable()
+{
+    Debug.Log(classDef.Assembly); // Logs out if the assembly in the define.
+}
+```
+
+<br/>
+
+#### `Type`
+Gets the type string stored in the define.
+
+```csharp
+public string Type { get; }
+```
+
+```csharp
+[SerializeField] private AssemblyClassDef classDef;
+
+private void OnEnable()
+{
+    Debug.Log(classDef.Type); // Logs out if the type in the define.
+}
+```
+
+<br/>
+
+### Methods
+
+#### `GetDefinedType<T>()`
+Gets the type stored in the define for use.
+
+```csharp
+public T GetDefinedType<T>()
+```
+
+```csharp
+private void OnEnable()
+{
+    AssemblyClassDef classDef = new AssemblyClassDef(myType.Assembly.FullName, myType.FullName));
+    MyType typeFromDefine = classDef.GetDefinedType<MyType>();
+}
+```
+
+<br/>
+
+
+### Operators
+
+#### `AssemblyClassDef(Type type)`
+Gets a class define from the type entered.
+
+```csharp
+public static implicit operator AssemblyClassDef(Type type)
+```
+
+```csharp
+private void OnEnable()
+{
+    Type myType;
+    AssemblyClassDef classDef = myType;
+}
+```
+
+<br/>
