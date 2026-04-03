@@ -38,7 +38,7 @@ public class DataAssetLevels : DataAsset
 
 <br/>
 
-### Referencing data assets {#reference}
+### Referencing data assets
 You can reference data assets in two main ways. Either a direct reference in the inspector like you normally would with any field. Or by getting the asset from the `DataAccess` class. The data access class.
 
 ```csharp
@@ -57,10 +57,10 @@ private void OnEnable()
 
 <br/>
 
-### Data asset index {#asset-index}
+### Data asset index
 The data asset index is a scriptable object that stores a reference to all the data assets. This is used to performantly allow referencing to the assets through the DataAccess class. Avoiding expensive operations like `Resources.Load()`. The system will automatically make the data asset index if it doesn’t exist and update it with any new assets when entering play mode or before a build is made to ensure it is up to date. Should you need to update it manually, you can do so from the following menu item: `Tools/Carter Games/The Cart/[Data] Update Data Asset Index`
 
 <br/>
 
-### Editor only data {#editor-only-data-assets}
+### Editor only data
 You can use the data setup in an editor only context as well. This uses the `EditorOnlyDataAsset` instead of the standard `DataAsset` class. The only difference is that the editor only ones are always excluded from the asset index setup, so cannot be referenced from the `DataAccess` class API. See editor data documentation for more information on editor usage.
