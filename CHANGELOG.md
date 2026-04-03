@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <br/>
 
 # Example
-Use the template below to add new releases to the changelog, these are also used in the release notes on the repository as well.
+Use the template below to add new releases to the changelog, these are also used in the release notes on the repository as well. Please obmit any categories that do not apply to the release. 
 
 ```
 ## [{Version number}] - {Release Date (Year-Month-Day)}
