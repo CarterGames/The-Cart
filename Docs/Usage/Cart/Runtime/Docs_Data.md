@@ -11,18 +11,17 @@ The data asset system is designed to allow you to access game data without the n
 
 <br/>
 
-The data system has two main elements to it. The data assets and the data asset index. The assets are what hold the data you define. With you making classes that implement the class to store data. While the index keeps a reference of all the data assets in the project for use at runtime. 
+The data system has two main elements to it. The data assets and the data asset index. The assets are what hold the data you define. With you making classes that implement the class to store data. While the index keeps a reference of all the data assets in the project for use at runtime.
 
-[//]: # (<br/>)
-[//]: # (## Table of Contents {#contents})
-[//]: # (1. [Creating data assets]&#40;#create&#41;)
-[//]: # (2. [Referencing data assets]&#40;#reference&#41;)
-[//]: # (3. [Data asset index]&#40;#asset-index&#41;)
-[//]: # (4. [Editor only data]&#40;#editor-only-data-assets&#41;)
+## Table of Contents
+1. [Creating data assets](#creating-data-assets)
+2. [Referencing data assets](#referencing-data-assets)
+3. [Data asset index](#data-assets-index)
+4. [Editor only data](#editor-only-data)
 
 <br/>
 
-### Creating data assets {#create}
+### Creating data assets
 To create a data asset, either inherit from the `DataAsset` class or use the provided tool that will create the necessary classes for you. You can find the creation tool under: `Tools/Carter Games/The Cart/[Data] Data Asset Creator`
 
 This will open an editor window that’ll let you make a new data asset class. To use the tool, you simple enter the name you want the class to have a press create. A popup will then appear to let you choose where it should be saved. After which you’ll get the chance to open the newly created class for editing in your chosen IDE. 
