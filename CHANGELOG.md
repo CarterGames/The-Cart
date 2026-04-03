@@ -1,8 +1,39 @@
 # Changelog
-All notable changes to the webrtc package will be documented in this file.
+All notable changes to the package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+# Example
+Use the template below to add new releases to the changelog, these are also used in the release notes on the repository as well.
+
+```
+## [{Version number}] - {Release Date}
+
+### 🟩 Added
+Any new additions to the project.
+
+### 🟨 Changed
+Any changes to existing elements of the project.
+
+### 🟪 Removed
+Any elements of the project that have been removed.
+
+### 🟥 Fixed
+Any fixes for bugs or issues with the library.
+
+### ⬜ Deprecated
+Any notices of deprecation in the code.
+
+### 🟦 Security
+Any security related chnges to the project.
+
+<br/>
+```
+
+<br/>
+
+# Entries
 
 ## [0.14.0] - 2026-??-??
 
@@ -21,6 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Conditions crate: Fixed an issue where the constants assembly reference would reference the wrong GUID when generated.
 
+<br/>
+
 ## [0.13.1] - 2026-03-28
 
 ### 🟩 Added
@@ -30,6 +63,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### 🟥 Fixed
 
 - Fixed built-in crate define classes stopping builds from completing due to missing scripting defines.
+
+<br/>
 
 ## [0.13.0] - 2026-03-06
 
