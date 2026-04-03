@@ -4,6 +4,33 @@ All notable changes to the webrtc package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.14.0] - 2026-??-??
+
+### 🟩 Added
+
+- Initial documentation added to core library.
+- Some crates documented, more to follow in the 0.14.x lifespan. The library won’t go to it's next version until all current are ones are documented.
+- Conditions crate: added summary method to return the full status of a condition for debugging.
+
+### 🟨 Changed
+
+- Updated the placement of the HtmlStringToColor() method for colors from the ColorExtensions class to a new ColorHelper class.
+- Conditions crate: API improved to allow for checking refresh and valid status easily instead of having the user check in listeners.
+
+### 🟥 Fixed
+
+- Conditions crate: Fixed an issue where the constants assembly reference would reference the wrong GUID when generated.
+
+## [0.13.1] - 2026-03-28
+
+### 🟩 Added
+
+- Added new API for runtime timers to allow changing the time remaining & duration after creation.
+
+### 🟥 Fixed
+
+- Fixed built-in crate define classes stopping builds from completing due to missing scripting defines.
+
 ## [0.13.0] - 2026-03-06
 
 ### 🟩 Added
