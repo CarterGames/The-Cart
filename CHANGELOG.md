@@ -4,11 +4,13 @@ All notable changes to the package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+<br/>
+
 # Example
 Use the template below to add new releases to the changelog, these are also used in the release notes on the repository as well.
 
 ```
-## [{Version number}] - {Release Date}
+## [{Version number}] - {Release Date (Year-Month-Day)}
 
 ### 🟩 Added
 Any new additions to the project.
