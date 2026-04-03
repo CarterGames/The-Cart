@@ -48,11 +48,23 @@ Any security related chnges to the project.
 ### 🟨 Changed
 
 - Updated the placement of the HtmlStringToColor() method for colors from the ColorExtensions class to a new ColorHelper class.
+- Updated the placement and parameter naming of the Percentage() methods. They are now stored in the MathHelper class instead of extensions.
 - Conditions crate: API improved to allow for checking refresh and valid status easily instead of having the user check in listeners.
+
+### 🟪 Removed
+
+- Removed normalise int extension method.
 
 ### 🟥 Fixed
 
 - Conditions crate: Fixed an issue where the constants assembly reference would reference the wrong GUID when generated.
+
+### ⬜ Deprecated
+
+- MathExtensions: Round() extension, use Math.Round() instead.
+- Vector2Extensions: Adjust(), extension, use Add2F() extension instead.
+- Vector2Extensions: Subtract(), extension, use Add2F() extension instead.
+- Vector2Extensions: Subtract2F(), extension, use Add2F() extension instead.
 
 <br/>
 
