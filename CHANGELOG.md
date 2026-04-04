@@ -49,6 +49,7 @@ Any security related chnges to the project.
 
 - Updated the placement of the HtmlStringToColor() method for colors from the ColorExtensions class to a new ColorHelper class.
 - Updated the placement and parameter naming of the Percentage() methods. They are now stored in the MathHelper class instead of extensions.
+- Vector2/3/4 extensions classes merged into one VectorExtensions class, API unchanged. 
 - Conditions crate: API improved to allow for checking refresh and valid status easily instead of having the user check in listeners.
 
 ### 🟪 Removed
@@ -62,9 +63,9 @@ Any security related chnges to the project.
 ### ⬜ Deprecated
 
 - MathExtensions: Round() extension, use Math.Round() instead.
-- Vector2Extensions: Adjust(), extension, use Add2F() extension instead.
-- Vector2Extensions: Subtract(), extension, use Add2F() extension instead.
-- Vector2Extensions: Subtract2F(), extension, use Add2F() extension instead.
+- Vector2/3/4Extensions: Adjust(), extension, use Add2F/3F/4F() extension instead.
+- Vector2/3/4Extensions: Subtract(), extension, use Add2F/3F/4F() extension instead.
+- Vector2/3/4Extensions: Subtract2F/3F/4F(), extension, use Add2F/3F/4F() extension instead.
 
 <br/>
 

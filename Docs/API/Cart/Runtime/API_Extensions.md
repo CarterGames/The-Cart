@@ -1617,12 +1617,12 @@ private void OnEnable()
 
 [//]: #
 [//]: #
-[//]: # (Vector2 extensions)
+[//]: # (Vector extensions)
 [//]: #
 [//]: #
 
-### `Vector2 Extensions`
-A load of extensions for Unity Vector2's
+### `Vector Extensions`
+A load of extensions for Unity Vector2/Vector3/Vector4.
 
 <br/>
 
@@ -1633,6 +1633,8 @@ Adds the two vectors together returning the result.
 
 ```csharp
 public static Vector2 Add(this Vector2 vec2, Vector2 value);
+public static Vector3 Add(this Vector3 vec3, Vector3 value);
+public static Vector4 Add(this Vector4 vec4, Vector4 value);
 ```
 
 ```csharp
@@ -1645,11 +1647,13 @@ private void OnEnable()
 
 <br/>
 
-#### `Add2F()`
+#### `AddF()`
 Adds the values to the input vector and returns the result.
 
 ```csharp
 public static Vector2 Add2F(this Vector2 vec2, float? x = null, float? y = null);
+public static Vector3 Add3F(this Vector3 vec3, float? x = null, float? y = null, float? z = null);
+public static Vector4 Add4F(this Vector4 vec4, float? x = null, float? y = null, float? z = null, float? w = null);
 ```
 
 ```csharp
@@ -1667,6 +1671,8 @@ Clamps the vector to the entered vectors.
 
 ```csharp
 public static Vector2 Clamp(this Vector2 vec2, Vector2 min, Vector2 max);
+public static Vector3 Clamp(this Vector3 vec3, Vector3 min, Vector3 max);
+public static Vector4 Clamp(this Vector4 vec4, Vector4 min, Vector4 max);
 ```
 
 ```csharp
@@ -1679,11 +1685,13 @@ private void OnEnable()
 
 <br/>
 
-#### `Clamp2F()`
+#### `ClampF()`
 Clamps the vector to the entered values.
 
 ```csharp
 public static Vector2 Clamp2F(this Vector2 vec2, float min, float max);
+public static Vector3 Clamp3F(this Vector3 vec3, float min, float max);
+public static Vector4 Clamp4F(this Vector4 vec4, float min, float max);
 ```
 
 ```csharp
@@ -1701,6 +1709,8 @@ Copies the vector into a new instance.
 
 ```csharp
 public static Vector2 Copy(this Vector2 vec2);
+public static Vector3 Copy(this Vector3 vec3);
+public static Vector4 Copy(this Vector4 vec4);
 ```
 
 ```csharp
@@ -1718,6 +1728,8 @@ Gets a line from the entered vectors.
 
 ```csharp
 public static Vector2 DirectionTo(this Vector2 vec2, Vector2 target);
+public static Vector3 DirectionTo(this Vector3 vec3, Vector3 target);
+public static Vector4 DirectionTo(this Vector4 vec4, Vector4 target);
 ```
 
 ```csharp
@@ -1734,6 +1746,8 @@ Divides the vector by another vector.
 
 ```csharp
 public static Vector2 Divide(this Vector2 vec2, Vector2 value);
+public static Vector3 Divide(this Vector3 vec3, Vector3 value);
+public static Vector4 Divide(this Vector4 vec4, Vector4 value);
 ```
 
 ```csharp
@@ -1746,11 +1760,13 @@ private void OnEnable()
 
 <br/>
 
-#### `Divide2F()`
+#### `DivideF()`
 Divides the vector by the entered x/y values.
 
 ```csharp
 public static Vector2 Divide2F(this Vector2 vec2, float? x = null, float? y = null);
+public static Vector3 Divide3F(this Vector3 vec3, float? x = null, float? y = null, float? z = null);
+public static Vector4 Divide4F(this Vector4 vec4, float? x = null, float? y = null, float? z = null, float? w = null);
 ```
 
 ```csharp
@@ -1763,11 +1779,13 @@ private void OnEnable()
 
 <br/>
 
-#### `Equals2F()`
+#### `EqualsF()`
 Gets if the vector has equalling x/y values.
 
 ```csharp
 public static bool Equals2F(this Vector2 vec2, float? x = null, float? y = null);
+public static bool Equals3F(this Vector3 vec3, float? x = null, float? y = null, float? z = null);
+public static bool Equals4F(this Vector4 vec4, float? x = null, float? y = null, float? z = null, float? w = null);
 ```
 
 ```csharp
@@ -1789,6 +1807,10 @@ Gets a line from a to b.
 ```csharp
 public static Vector2 Line(this Vector2 vec2, Vector2 target);
 public static Vector2 Line(this Vector2 vec2, Vector2 target, float distance);
+public static Vector3 Line(this Vector3 vec3, Vector3 target);
+public static Vector3 Line(this Vector3 vec3, Vector3 target, float distance);
+public static Vector4 Line(this Vector4 vec4, Vector4 target);
+public static Vector4 Line(this Vector4 vec4, Vector4 target, float distance);
 ```
 
 ```csharp
@@ -1806,6 +1828,8 @@ Gets a middle point of a line between a & b.
 
 ```csharp
 public static Vector2 MidPoint(this Vector2 vec2, Vector2 target);
+public static Vector3 MidPoint(this Vector3 vec3, Vector3 target);
+public static Vector4 MidPoint(this Vector4 vec4, Vector4 target);
 ```
 
 ```csharp
@@ -1823,6 +1847,8 @@ Multiplies the vector by the entered vector.
 
 ```csharp
 public static Vector2 Multiply(this Vector2 vec2, Vector2 value);
+public static Vector3 Multiply(this Vector3 vec3, Vector3 value);
+public static Vector4 Multiply(this Vector4 vec4, Vector4 value);
 ```
 
 ```csharp
@@ -1840,13 +1866,53 @@ Multiplies the vector by the entered float scale.
 
 ```csharp
 public static Vector2 MultiplyScalar(this Vector2 vec2, float value);
+public static Vector3 MultiplyScalar(this Vector3 vec3, float value);
+public static Vector4 MultiplyScalar(this Vector4 vec4, float value);
 ```
 
 ```csharp
 private void OnEnable()
 {
     // Returns (10, 8)
-    var vec2 = new Vector2(5,4).Multiply(new Vector2(2, 2));
+    var vec2 = new Vector2(5,4).Multiply(2));
+}
+```
+
+<br/>
+
+#### `MultiplyF()`
+Multiplies the vector by the entered x/y scale.
+
+```csharp
+public static Vector2 Multiply2F(this Vector2 vec2, float? x = null, float? y = null);
+public static Vector3 Multiply3F(this Vector3 vec3, float? x = null, float? y = null, float? z = null);
+public static Vector4 Multiply4F(this Vector4 vec4, float? x = null, float? y = null, float? z = null, float? w = null);
+```
+
+```csharp
+private void OnEnable()
+{
+    // Returns (10, 8)
+    var vec2 = new Vector2(5,4).Multiply2F(2, 2);
+}
+```
+
+<br/>
+
+#### `Set()`
+Multiplies the vector by the entered x/y scale.
+
+```csharp
+public static Vector2 Set(this Vector2 vec2, float? x = null, float? y = null);
+public static Vector3 Set(this Vector3 vec3, float? x = null, float? y = null, float? z = null);
+public static Vector4 Set(this Vector4 vec4, float? x = null, float? y = null, float? z = null, float? w = null);
+```
+
+```csharp
+private void OnEnable()
+{
+    // Returns (6, 6)
+    var vec2 = new Vector2(5,4).Set(1, 2);
 }
 ```
 
