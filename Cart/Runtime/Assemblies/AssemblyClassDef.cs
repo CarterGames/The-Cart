@@ -117,5 +117,16 @@ namespace CarterGames.Cart
 			}
 #pragma warning restore
 		}
+
+
+		/// <summary>
+		/// Gets if a type is the same as this assembly class define.
+		/// </summary>
+		/// <param name="type">The type to compare</param>
+		/// <returns>bool</returns>
+		public bool IsDefineType(Type type)
+		{
+			return Assembly == type.Assembly.FullName && Type == type.FullName;
+		}
 	}
 }

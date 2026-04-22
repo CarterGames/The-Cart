@@ -70,5 +70,77 @@ namespace CarterGames.Cart
         {
             return a + (b - a) * Mathf.Clamp01(t);
         }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="percentageScale">The scale to read from.</param>
+        /// <param name="value">The percentage to get from the scale.</param>
+        /// <returns>The adjusted value.</returns>
+        public static int Percentage(int percentageScale, int value)
+        {
+            return (value / percentageScale) * 100;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage as a decimal.
+        /// </summary>
+        /// <param name="percentageScale">The scale to read from.</param>
+        /// <param name="value">The percentage to get from the scale.</param>
+        /// <returns>The adjusted value.</returns>
+        public static int PercentageDecimal(int percentageScale, int value)
+        {
+            return value / percentageScale;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static float Percentage(this float value, float percentage)
+        {
+            return (value / 100) * percentage;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static float PercentageDecimal(this float value, float percentage)
+        {
+            return percentage * value;
+        }
+        
+
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static double Percentage(this double value, double percentage)
+        {
+            return (value / 100) * percentage;
+        }
+        
+        
+        /// <summary>
+        /// Gets the value adjusted by a percentage.
+        /// </summary>
+        /// <param name="value">The value to change.</param>
+        /// <param name="percentage">The percentage to get.</param>
+        /// <returns>The adjusted value.</returns>
+        public static double PercentageDecimal(this double value, double percentage)
+        {
+            return percentage * value;
+        }
     }
 }

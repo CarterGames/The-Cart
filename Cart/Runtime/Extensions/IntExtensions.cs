@@ -54,54 +54,5 @@ namespace CarterGames.Cart
         {
             return original > 0;
         }
-        
-        
-        /// <summary>
-        /// Normalises the int between a min & max.
-        /// </summary>
-        /// <param name="value">The value to edit.</param>
-        /// <param name="max">The max value</param>
-        /// <param name="min">The min value, is 0 by default.</param>
-        /// <returns>The normalised int.</returns>
-        public static int Normalise(this int value, int max, int min = 0)
-        {
-            return (value - min) / (max - min);
-        }
-        
-        
-        /// <summary>
-        /// Normalises the int between a min & max.
-        /// </summary>
-        /// <param name="value">The value to edit.</param>
-        /// <param name="intRange">The minmax range to use</param>
-        /// <returns>The normalised int.</returns>
-        public static int Normalise(this int value, IntRange intRange)
-        {
-            return (value - intRange.min) / (intRange.max - intRange.min);
-        }
-
-
-        /// <summary>
-        /// Gets the value adjusted by a percentage.
-        /// </summary>
-        /// <param name="value">The value to change.</param>
-        /// <param name="percentage">The percentage to get.</param>
-        /// <returns>The adjusted value.</returns>
-        public static int Percentage(this int value, int percentage)
-        {
-            return (value / 100) * percentage;
-        }
-        
-        
-        /// <summary>
-        /// Gets the value adjusted by a percentage.
-        /// </summary>
-        /// <param name="value">The value to change.</param>
-        /// <param name="percentage">The percentage to get.</param>
-        /// <returns>The adjusted value.</returns>
-        public static int Percentage01(this int value, int percentage)
-        {
-            return percentage * value;
-        }
     }
 }

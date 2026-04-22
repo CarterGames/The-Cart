@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_CRATE_CURRENCY
-
-/*
+﻿/*
  * The Cart
  * Copyright (c) 2026 Carter Games
  *
@@ -16,98 +14,113 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using CarterGames.Cart;
-using CarterGames.Cart.Management;
-using TMPro;
-using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace CarterGames.Cart.Crates.Currency
+namespace CarterGames.Cart
 {
     /// <summary>
-    /// A display class for a currency.
+    /// A money formatter that formats to a generic number setup.
     /// </summary>
-    public class CurrencyDisplay : MonoBehaviour
+    public sealed class MoneyFormatterGeneric : Formatter
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        [SerializeField] [SelectAccount] private string accountId;
-        [SerializeField] [SelectFormatter] private AssemblyClassDef formatter;
-        [SerializeField] private DisplayStyleHandler displayStyle;
-        [SerializeField] private TMP_Text label;
+        
+        /// <summary>
+        /// The builder to use in this script.
+        /// </summary>
+        private static readonly StringBuilder Builder = new StringBuilder();
+        
+        
+        /// <summary>
+        /// The first character to use once bast the Trillion count...
+        /// </summary>
+        private static readonly int ACharacter = Convert.ToInt32('a');
+        
+        
+        /// <summary>
+        /// The unit types to display before going to "aa", "ab", "ac" etc.....
+        /// </summary>
+        private static readonly Dictionary<int, string> StandardUnits = new Dictionary<int, string>
+        {
+            {0, ""},
+            {1, "K"},
+            {2, "M"},
+            {3, "B"},
+            {4, "T"}
+        };
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Confirms if the display is in-sync or not.
-        /// </summary>
-        public bool InSync => CurrencyManager.GetBalance(accountId).DoubleEquals(LastBalanceShown);
-
-
-        /// <summary>
-        /// The last balance shown.
-        /// </summary>
-        private double LastBalanceShown { get; set; }
-
-
-        private Formatter Formatter => formatter.GetDefinedType<Formatter>();
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Unity Events
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        private void OnEnable()
-        {
-            CurrencyManager.AccountBalanceChanged.Add(UpdateDisplay);
-            displayStyle.DisplayedValue.Add(UpdateDisplayManually);
-            
-            UpdateDisplayManually(CurrencyManager.GetAccount(accountId).Balance);
-        }
-
-
-        private void OnDestroy()
-        {
-            CurrencyManager.AccountBalanceChanged.Remove(UpdateDisplay);
-            displayStyle.DisplayedValue.Remove(UpdateDisplayManually);
-        }
-
+        
+        public override string Category => "Money";
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         /// <summary>
-        /// Updates the display when called.
+        /// Formats the entry.
         /// </summary>
-        /// <param name="account">The account to read.</param>
-        private void UpdateDisplay(CurrencyAccount account, AccountTransaction transaction)
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The formatted string.</returns>
+        public override string Format(double value)
         {
-            if (!account.Id.Equals(accountId)) return;
-            displayStyle.ProcessDisplayEffect(this, transaction);
+            return FormatValue(value);
         }
-
-
-        /// <summary>
-        /// Updates the display to a manual value.
-        /// </summary>
-        /// <param name="valueToDisplay">The value to display.</param>
-        public void UpdateDisplayManually(double valueToDisplay)
+        
+        
+        private static string GetSuffix(double value)
         {
-            label.SetText(Formatter.Format(valueToDisplay));
+            var n = (int)Math.Log(value, 1000);
+            
+            if (n < StandardUnits.Count)
+            {
+                return StandardUnits[n];
+            }
+            else
+            {
+                var unitInt = n - StandardUnits.Count;
+                var secondUnit = unitInt % 26;
+                var firstUnit = unitInt / 26;
+                return Convert.ToChar(firstUnit + ACharacter) + Convert.ToChar(secondUnit + ACharacter).ToString();
+            }
         }
-
-
+        
+        
         /// <summary>
-        /// Forces the display to update if possible.
+        /// Formats the string into a currency style number...
         /// </summary>
-        public void ForceUpdateDisplay()
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The currency string.</returns>
+        private static string FormatValue(double value)
         {
-            if (CurrencyManager.AccountExists(accountId)) return;
-            label.SetText(Formatter.Format(CurrencyManager.GetAccount(accountId).Balance));
+            if (value < 1) return "0";
+            if (value < 1000) return value.ToString("F0");
+            
+            var valueToFormat = value / Math.Pow(1000, Math.Floor(Math.Log(value, 1000)));
+            var toReadFrom = valueToFormat.ToString("F2").Split('.')[0];
+            
+            if (toReadFrom.Length >= 3)
+            {
+                return valueToFormat.ToString("F0") + GetSuffix(value);
+            }
+            
+            if (toReadFrom.Length >= 1)
+            {
+                if (toReadFrom.Length > 1)
+                {
+                    return $"{(valueToFormat.ToString("F1").Split('.')[0])}.{valueToFormat.ToString("F2").SplitAndGetLastElement('.')[0]}{GetSuffix(value)}".Replace(".0", string.Empty);
+                }
+                
+                return (valueToFormat.ToString("F2") + GetSuffix(value)).Replace(".00", string.Empty);
+            }
+            
+            return value.ToString("F0");
         }
     }
 }
-
-#endif

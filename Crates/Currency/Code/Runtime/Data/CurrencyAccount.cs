@@ -16,6 +16,7 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
+using System;
 using CarterGames.Cart;
 using CarterGames.Cart.Events;
 using CarterGames.Cart.Logs;
@@ -109,8 +110,8 @@ namespace CarterGames.Cart.Crates.Currency
             return new CurrencyAccount()
             {
                 id = id,
-                startingBalance = initialBalance.Round(),
-                balance = initialBalance.Round()
+                startingBalance = Math.Round(initialBalance),
+                balance = Math.Round(initialBalance)
             };
         }
         
@@ -125,8 +126,8 @@ namespace CarterGames.Cart.Crates.Currency
             return new CurrencyAccount()
             {
                 id = id,
-                startingBalance = initialBalance.Round(),
-                balance = currentBalance.Round()
+                startingBalance = Math.Round(initialBalance),
+                balance = Math.Round(currentBalance)
             };
         }
 
@@ -148,12 +149,12 @@ namespace CarterGames.Cart.Crates.Currency
 
             lock (padlock)
             {
-                if (balance < amount.Round()) return;
+                if (balance < Math.Round(amount)) return;
 
                 var starting = balance;
                 
-                balance -= amount.Round();
-                balance.Round();
+                balance -= Math.Round(amount);
+                balance = Math.Round(balance);
                 
                 Debited.Raise();
                 Adjusted.Raise(AccountTransaction.Debited(starting, starting - amount));
@@ -177,8 +178,8 @@ namespace CarterGames.Cart.Crates.Currency
             {
                 var starting = balance;
                 
-                balance += amount.Round();
-                balance.Round();
+                balance += Math.Round(amount);
+                balance = Math.Round(balance);
                 
                 Credited.Raise();
                 Adjusted.Raise(AccountTransaction.Credited(starting, starting + amount));

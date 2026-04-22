@@ -16,6 +16,7 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart;
@@ -258,13 +259,13 @@ namespace CarterGames.Cart.Crates.Currency
                     {
                         Accounts.Add(account["key"].ToString(),
                             CurrencyAccount.AccountWithBalance(account["key"].ToString(),
-                                account["value"].Value<double>().Round(), account["starting"].Value<double>().Round()));
+                                Math.Round(account["value"].Value<double>()), Math.Round(account["starting"].Value<double>())));
                     }
                     else
                     {
                         Accounts.Add(account["key"].ToString(),
                             CurrencyAccount.AccountWithBalance(account["key"].ToString(),
-                                account["value"].Value<double>().Round()));
+                                Math.Round(account["value"].Value<double>())));
                     }
                 }
             }
@@ -272,7 +273,7 @@ namespace CarterGames.Cart.Crates.Currency
             foreach (var defAccount in DataAccess.GetAsset<DataAssetDefaultAccounts>().DefaultAccounts)
             {
                 if (Accounts.ContainsKey(defAccount.Key)) continue;
-                Accounts.Add(defAccount.Key, CurrencyAccount.NewAccount(defAccount.Key, defAccount.Value.Round()));
+                Accounts.Add(defAccount.Key, CurrencyAccount.NewAccount(defAccount.Key, Math.Round(defAccount.Value)));
             }
 
             foreach (var account in Accounts)
@@ -304,15 +305,15 @@ namespace CarterGames.Cart.Crates.Currency
                 
                 if (list.ContainsKey(account.Key))
                 {
-                    list[account.Key].balance = account.Value.Balance.Round();
+                    list[account.Key].balance = Math.Round(account.Value.Balance);
                 }
                 else
                 {
                     var obj = new AccountSaveStructure
                     {
                         key = account.Key,
-                        balance = account.Value.Balance.Round(),
-                        starting = account.Value.StartingBalance.Round(),
+                        balance = Math.Round(account.Value.Balance),
+                        starting = Math.Round(account.Value.StartingBalance),
                     };
 
                     list.Add(account.Key, obj);

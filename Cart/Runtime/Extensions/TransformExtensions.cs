@@ -122,12 +122,12 @@ namespace CarterGames.Cart
 
 
         /// <summary>
-        /// Tries to set the parent to the parent requested.
+        /// Sets the parent to the parent requested.
         /// </summary>
         /// <param name="transform">The transform to effect.</param>
         /// <param name="parent">The parent to set to.</param>
         /// <returns>The edited transform</returns>
-        private static Transform TrySetParent(this Transform transform, Transform parent)
+        public static Transform SetParent(this Transform transform, Transform parent)
         {
             if (!transform.parent.Equals(parent))
             {

@@ -89,21 +89,5 @@ namespace CarterGames.Cart
         {
             return new Color(1.0f - color.r, 1.0f - color.g, 1.0f - color.b);
         }
-
-        
-        /// <summary>
-        /// Converts a html color code to a color. Uses "ColorUtility.TryParseHtmlString" without the 
-        /// </summary>
-        /// <param name="input">The string to convert. Needs the # at the start to work.</param>
-        /// <returns>The color from the string, Default is pink if it didn't work.</returns>
-        public static Color HtmlStringToColor(string input)
-        {
-            if (ColorUtility.TryParseHtmlString(input, out var col))
-            {
-                return col;
-            }
-
-            return Color.magenta;
-        }
     }
 }

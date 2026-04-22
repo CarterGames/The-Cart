@@ -234,58 +234,21 @@ namespace CarterGames.Cart
             return -1;
         }
         
-
-        /// <summary>
-        /// Gets the value adjusted by a percentage.
-        /// </summary>
-        /// <param name="value">The value to change.</param>
-        /// <param name="percentage">The percentage to get.</param>
-        /// <returns>The adjusted value.</returns>
-        public static float Percentage(this float value, float percentage)
-        {
-            return (value / 100) * percentage;
-        }
+        // Obsolete API Flags
         
+        [Obsolete("Use Math.Round() for the same API.")]
+        public static double Round(this double value) { return -1d; }
         
-        /// <summary>
-        /// Gets the value adjusted by a percentage.
-        /// </summary>
-        /// <param name="value">The value to change.</param>
-        /// <param name="percentage">The percentage to get.</param>
-        /// <returns>The adjusted value.</returns>
-        public static float Percentage01(this float value, float percentage)
-        {
-            return percentage * value;
-        }
+        [Obsolete("Moved to MathHelper class, Use MathHelper.Percentage() instead.")]
+        public static float Percentage(this float value, float percentage) { return -1f; }
         
-
-        /// <summary>
-        /// Gets the value adjusted by a percentage.
-        /// </summary>
-        /// <param name="value">The value to change.</param>
-        /// <param name="percentage">The percentage to get.</param>
-        /// <returns>The adjusted value.</returns>
-        public static double Percentage(this double value, double percentage)
-        {
-            return (value / 100) * percentage;
-        }
+        [Obsolete("Moved to MathHelper class, Use MathHelper.PercentageDecimal() instead.")]
+        public static float Percentage01(this float value, float percentage) { return -1f; }
         
+        [Obsolete("Moved to MathHelper class, Use MathHelper.Percentage() instead.")]
+        public static double Percentage(this double value, double percentage) { return -1d; }
         
-        /// <summary>
-        /// Gets the value adjusted by a percentage.
-        /// </summary>
-        /// <param name="value">The value to change.</param>
-        /// <param name="percentage">The percentage to get.</param>
-        /// <returns>The adjusted value.</returns>
-        public static double Percentage01(this double value, double percentage)
-        {
-            return percentage * value;
-        }
-
-
-        public static double Round(this double value)
-        {
-            return Math.Round(value);
-        }
+        [Obsolete("Moved to MathHelper class, Use MathHelper.PercentageDecimal() instead.")]
+        public static double Percentage01(this double value, double percentage) { return -1d; }
     }
 }

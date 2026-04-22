@@ -14,63 +14,26 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System.Linq;
-using System.Text.RegularExpressions;
-
 namespace CarterGames.Cart
 {
     /// <summary>
-    /// An extensions class for strings.
+    /// A money formatter that returns a number with no prefix.
     /// </summary>
-    public static class StringExtensions
+    public sealed class MoneyFormatterRawNumber : Formatter
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
+        |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        private const string Space = " ";
-        
+		
+        public override string Category => "Money";
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Extension Methods
+        |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        /// <summary>
-        /// Replaces any " " with "" instead.
-        /// </summary>
-        /// <param name="entry">The string to modify.</param>
-        /// <returns>The edited string.</returns>
-        public static string TrimSpaces(this string entry)
+        public override string Format(double value)
         {
-            return entry.Replace(Space, string.Empty);
-        }
-
-
-        /// <summary>
-        /// Inserts a space after every capital letter in the string.
-        /// </summary>
-        /// <param name="entry">The string to modify.</param>
-        /// <returns>The edited string.</returns>
-        public static string SplitCapitalsWithSpace(this string entry)
-        {
-            return SplitCamelCase(entry);
-        }
-
-        
-        private static string SplitCamelCase(this string input, string delimeter = Space)
-        {
-            return input.Any(char.IsUpper) ? string.Join(delimeter, Regex.Split(input, "(?<!^)(?=[A-Z])")) : input;
-        }
-
-
-        /// <summary>
-        /// Splits the string into characters and gets the last element.
-        /// </summary>
-        /// <param name="input">The string to read.</param>
-        /// <param name="character">The last character of the string.</param>
-        /// <returns>The last character of the string.</returns>
-        public static string SplitAndGetLastElement(this string input, char character)
-        {
-            return input.Split(character).Last();
+            return value.ToString("N0");
         }
     }
 }

@@ -155,7 +155,7 @@ namespace CarterGames.Cart.Editor
         private void DrawEditView(Rect position, SerializedProperty property, GUIContent label)
         {
             var pos = new Rect(position);
-            pos.width = position.width - 57.5f;
+            pos.width = position.width - 61.5f;
             
             EditorGUI.BeginDisabledGroup(DisableInputWhenSelected);
             EditorGUI.TextField(pos, label, GetCurrentValueString(property));
@@ -164,11 +164,11 @@ namespace CarterGames.Cart.Editor
             if (GetHasValue(property))
             {
                 var buttonPos = new Rect(position);
-                buttonPos.width = 35f;
-                buttonPos.x += (position.width - 55f);
+                buttonPos.width = 27.5f;
+                buttonPos.x += (position.width - 57.5f);
                 
                 GUI.backgroundColor = Color.yellow;
-                if (GUI.Button(buttonPos, "Edit"))
+                if (GUI.Button(buttonPos, EditorGUIUtility.IconContent("d__Menu@2x")))
                 {
                     Provider.SelectionMade.Clear();
                     Provider.SelectionMade.Add((ste) =>
@@ -182,11 +182,11 @@ namespace CarterGames.Cart.Editor
            
             
                 var clearPos = new Rect(position);
-                clearPos.width = 17.5f;
+                clearPos.width = 27.5f;
                 clearPos.x = buttonPos.x + buttonPos.width + 2.5f;
             
                 GUI.backgroundColor = Color.red;
-                if (GUI.Button(clearPos, GeneralUtilEditor.CrossIcon))
+                if (GUI.Button(clearPos, EditorGUIUtility.IconContent("CrossIcon")))
                 {
                     Provider.SelectionMade.Clear();
                     ClearValue(property);
@@ -196,11 +196,11 @@ namespace CarterGames.Cart.Editor
             else
             {
                 var buttonPos = new Rect(position);
-                buttonPos.width = 35f;
-                buttonPos.x += (position.width - 55f);
+                buttonPos.width = 27.5f;
+                buttonPos.x += (position.width - 61.5f);
                 
                 GUI.backgroundColor = Color.yellow;
-                if (GUI.Button(buttonPos, "Edit"))
+                if (GUI.Button(buttonPos, EditorGUIUtility.IconContent("d__Menu@2x")))
                 {
                     Provider.SelectionMade.Clear();
                     Provider.SelectionMade.Add((ste) =>

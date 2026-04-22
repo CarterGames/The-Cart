@@ -1,4 +1,6 @@
-﻿/*
+﻿#if CARTERGAMES_CART_CRATE_CURRENCY && UNITY_EDITOR
+
+/*
  * The Cart
  * Copyright (c) 2026 Carter Games
  *
@@ -14,63 +16,67 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System.Linq;
-using System.Text.RegularExpressions;
+using CarterGames.Cart.Editor;
+using UnityEditor;
 
-namespace CarterGames.Cart
+namespace CarterGames.Cart.Crates.Currency.Editor
 {
-    /// <summary>
-    /// An extensions class for strings.
-    /// </summary>
-    public static class StringExtensions
+    [CustomPropertyDrawer(typeof(SelectFormatterAttribute))]
+    public class PropertyDrawerSelectFormatterAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderFormatters, AssemblyClassDef>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
+        |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private const string Space = " ";
+        protected override SearchProviderFormatters Provider => SearchProviderFormatters.GetProvider();
+        protected override string InitialSelectButtonLabel => "Select Formatter";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Extension Methods
+        |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        /// <summary>
-        /// Replaces any " " with "" instead.
-        /// </summary>
-        /// <param name="entry">The string to modify.</param>
-        /// <returns>The edited string.</returns>
-        public static string TrimSpaces(this string entry)
+        protected override bool IsValid(SerializedProperty property)
         {
-            return entry.Replace(Space, string.Empty);
-        }
-
-
-        /// <summary>
-        /// Inserts a space after every capital letter in the string.
-        /// </summary>
-        /// <param name="entry">The string to modify.</param>
-        /// <returns>The edited string.</returns>
-        public static string SplitCapitalsWithSpace(this string entry)
-        {
-            return SplitCamelCase(entry);
+            return !string.IsNullOrEmpty(property.Fpr("assembly").stringValue) && !string.IsNullOrEmpty(property.Fpr("type").stringValue);
         }
 
         
-        private static string SplitCamelCase(this string input, string delimeter = Space)
+        protected override bool GetHasValue(SerializedProperty property)
         {
-            return input.Any(char.IsUpper) ? string.Join(delimeter, Regex.Split(input, "(?<!^)(?=[A-Z])")) : input;
+            return GetCurrentValue(property) != null;
+        }
+
+        
+        protected override AssemblyClassDef GetCurrentValue(SerializedProperty property)
+        {
+            return new AssemblyClassDef(property.Fpr("assembly").stringValue, property.Fpr("type").stringValue);
+        }
+        
+
+        protected override string GetCurrentValueString(SerializedProperty property)
+        {
+            return property.Fpr("type").stringValue.SplitAndGetLastElement('.');
+        }
+
+        protected override void OnSelectionMade(SerializedProperty property, AssemblyClassDef selectedEntry)
+        {
+            property.Fpr("assembly").stringValue = selectedEntry.Assembly;
+            property.Fpr("type").stringValue = selectedEntry.Type;
+
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
         }
 
 
-        /// <summary>
-        /// Splits the string into characters and gets the last element.
-        /// </summary>
-        /// <param name="input">The string to read.</param>
-        /// <param name="character">The last character of the string.</param>
-        /// <returns>The last character of the string.</returns>
-        public static string SplitAndGetLastElement(this string input, char character)
+        protected override void ClearValue(SerializedProperty property)
         {
-            return input.Split(character).Last();
+            property.Fpr("assembly").stringValue = string.Empty;
+            property.Fpr("type").stringValue = string.Empty;
+            
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
         }
     }
 }
+
+#endif

@@ -15,62 +15,55 @@
  */
 
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace CarterGames.Cart
 {
     /// <summary>
-    /// An extensions class for strings.
+    /// A position formatter that formats to a generic 1st, 2nd, 3rd setup.
     /// </summary>
-    public static class StringExtensions
+    public sealed class PositionFormatterGeneric : Formatter
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
+        |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private const string Space = " ";
-        
+        public override string Category => "Position";
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Extension Methods
+        |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Replaces any " " with "" instead.
+        /// Formats the entry.
         /// </summary>
-        /// <param name="entry">The string to modify.</param>
-        /// <returns>The edited string.</returns>
-        public static string TrimSpaces(this string entry)
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The formatted string.</returns>
+        public override string Format(double value)
         {
-            return entry.Replace(Space, string.Empty);
-        }
+            var pos = value.ToString("N0");
+            var lastDigit = int.Parse(pos.ToCharArray().Last().ToString());
 
+            if (pos.Length > 2)
+            {
+                pos = pos.Substring(pos.Length - 2, 2);
+            }
 
-        /// <summary>
-        /// Inserts a space after every capital letter in the string.
-        /// </summary>
-        /// <param name="entry">The string to modify.</param>
-        /// <returns>The edited string.</returns>
-        public static string SplitCapitalsWithSpace(this string entry)
-        {
-            return SplitCamelCase(entry);
-        }
-
-        
-        private static string SplitCamelCase(this string input, string delimeter = Space)
-        {
-            return input.Any(char.IsUpper) ? string.Join(delimeter, Regex.Split(input, "(?<!^)(?=[A-Z])")) : input;
-        }
-
-
-        /// <summary>
-        /// Splits the string into characters and gets the last element.
-        /// </summary>
-        /// <param name="input">The string to read.</param>
-        /// <param name="character">The last character of the string.</param>
-        /// <returns>The last character of the string.</returns>
-        public static string SplitAndGetLastElement(this string input, char character)
-        {
-            return input.Split(character).Last();
+            return pos switch
+            {
+                // Catches the 11,12,13th's as they are different.
+                "11" => $"{value}th",
+                "12" => $"{value}th",
+                "13" => $"{value}th",
+                
+                // Otherwise normal formatting.
+                _ => lastDigit switch
+                {
+                    1 => $"{value}st",
+                    2 => $"{value}nd",
+                    3 => $"{value}rd",
+                    _ => $"{value}th"
+                }
+            };
         }
     }
 }
