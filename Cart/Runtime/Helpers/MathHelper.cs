@@ -24,7 +24,7 @@ namespace CarterGames.Cart
     public static class MathHelper
     {
         /// <summary>
-        /// Gets the speed from a distance & time.
+        /// Gets the speed from a distance and time.
         /// </summary>
         /// <param name="distance">The distance to check.</param>
         /// <param name="time">The time to check</param>
@@ -36,7 +36,7 @@ namespace CarterGames.Cart
         
         
         /// <summary>
-        /// Gets the distance from a speed & time.
+        /// Gets the distance from a speed and time.
         /// </summary>
         /// <param name="speed">The speed to check.</param>
         /// <param name="time">The time to check</param>
@@ -48,7 +48,7 @@ namespace CarterGames.Cart
         
         
         /// <summary>
-        /// Gets the time from a distance & speed.
+        /// Gets the time from a distance and speed.
         /// </summary>
         /// <param name="distance">The distance to check.</param>
         /// <param name="speed">The speed to check</param>

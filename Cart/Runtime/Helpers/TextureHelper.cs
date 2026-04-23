@@ -24,7 +24,7 @@ namespace CarterGames.Cart
 	public static class TextureHelper
 	{
 		/// <summary>
-		/// Creates a single color texture of the requested size & color.
+		/// Creates a single color texture of the requested size and color.
 		/// </summary>
 		/// <param name="width">The width of the texture.</param>
 		/// <param name="height">The height of the texture.</param>

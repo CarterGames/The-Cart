@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_CRATE_CURRENCY
-
-/*
+﻿/*
  * The Cart
  * Copyright (c) 2026 Carter Games
  *
@@ -19,13 +17,12 @@
 using System;
 using UnityEngine;
 
-namespace CarterGames.Cart.Crates.Currency
+namespace CarterGames.Cart
 {
     /// <summary>
-    /// A select attribute for money formatters
+    /// A select attribute for formatters
     /// </summary>
+    /// <remarks>Field type needs to be a <see cref="AssemblyClassDef"/> for this to work.</remarks>
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class SelectFormatterAttribute : PropertyAttribute { }
 }
-
-#endif

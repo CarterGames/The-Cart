@@ -25,7 +25,7 @@ namespace CarterGames.Cart.Editor
     public static class Dialogue
     {
         /// <summary>
-        /// Displays a box with a title, description & ctx 1 button.
+        /// Displays a box with a title, description and ctx 1 button.
         /// </summary>
         /// <param name="title">The title for the dialogue box.</param>
         /// <param name="content">The content for the dialogue box.</param>

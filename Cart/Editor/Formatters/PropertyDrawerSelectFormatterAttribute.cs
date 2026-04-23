@@ -60,8 +60,8 @@ namespace CarterGames.Cart.Crates.Currency.Editor
 
         protected override void OnSelectionMade(SerializedProperty property, AssemblyClassDef selectedEntry)
         {
-            property.Fpr("assembly").stringValue = selectedEntry.Assembly;
-            property.Fpr("type").stringValue = selectedEntry.Type;
+            property.Fpr("assembly").stringValue = selectedEntry.StoredAssembly;
+            property.Fpr("type").stringValue = selectedEntry.StoredType;
 
             property.serializedObject.ApplyModifiedProperties();
             property.serializedObject.Update();

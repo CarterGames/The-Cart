@@ -86,7 +86,7 @@ namespace CarterGames.Cart.Management.Editor
 
 
         /// <summary>
-        /// Makes the web request & handles the response.
+        /// Makes the web request and handles the response.
         /// </summary>
         private static void RequestLatestVersionData()
         {

@@ -369,7 +369,7 @@ namespace CarterGames.Cart
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Runs the actual timer & complete evt.
+        /// Runs the actual timer and complete evt.
         /// </summary>
         private IEnumerator Co_TimerRoutine(float duration = -1)
         {

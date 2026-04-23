@@ -109,7 +109,7 @@ namespace CarterGames.Cart.Reflection
         
         
         /// <summary>
-        /// Gets The field requested in the class type & casts the value it gets into the try requested.
+        /// Gets The field requested in the class type and casts the value it gets into the try requested.
         /// </summary>
         /// <param name="fieldName">The field name (This is CaSe SeNsItIvE).</param>
         /// <param name="target">The target object to get from, set to null if not in use.</param>

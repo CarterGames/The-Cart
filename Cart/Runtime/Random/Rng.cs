@@ -93,7 +93,7 @@ namespace CarterGames.Cart.Random
         
         
         /// <summary>
-        /// Gets a random int from the entered min & max values.
+        /// Gets a random int from the entered min and max values.
         /// </summary>
         /// <param name="min">The max value the int can be.</param>
         /// <param name="max">The max value the int can be (inclusive).</param>
@@ -141,7 +141,7 @@ namespace CarterGames.Cart.Random
         
         
         /// <summary>
-        /// Gets a random float from the entered min & max values.
+        /// Gets a random float from the entered min and max values.
         /// </summary>
         /// <param name="min">The max value the float can be.</param>
         /// <param name="max">The max value the float can be (inclusive).</param>
@@ -189,7 +189,7 @@ namespace CarterGames.Cart.Random
         
         
         /// <summary>
-        /// Gets a random double from the entered min & max values.
+        /// Gets a random double from the entered min and max values.
         /// </summary>
         /// <param name="min">The max value the double can be.</param>
         /// <param name="max">The max value the double can be (inclusive).</param>
@@ -337,7 +337,7 @@ namespace CarterGames.Cart.Random
 
         
         /// <summary>
-        /// Gets a random Vector3 from the entered min & max values.
+        /// Gets a random Vector3 from the entered min and max values.
         /// </summary>
         /// <param name="min">The max value the Vector2 can be on all axis.</param>
         /// <param name="max">The max value the Vector2 can be on all axis (inclusive).</param>
@@ -349,7 +349,7 @@ namespace CarterGames.Cart.Random
 
         
         /// <summary>
-        /// Gets a random Vector3 from the entered min & max values. 
+        /// Gets a random Vector3 from the entered min and max values. 
         /// </summary>
         /// <param name="minX">The max value the Vector3 can be on the X axis.</param>
         /// <param name="maxX">The max value the Vector3 can be on the X axis (inclusive).</param>
@@ -423,7 +423,7 @@ namespace CarterGames.Cart.Random
 
         
         /// <summary>
-        /// Gets a random Vector4 from the entered min & max values.
+        /// Gets a random Vector4 from the entered min and max values.
         /// </summary>
         /// <param name="min">The max value the float can be on all axis.</param>
         /// <param name="max">The max value the float can be on all axis (inclusive).</param>
@@ -435,7 +435,7 @@ namespace CarterGames.Cart.Random
 
         
         /// <summary>
-        /// Gets a random Vector4 from the entered min & max values.
+        /// Gets a random Vector4 from the entered min and max values.
         /// </summary>
         /// <param name="minX">The max value the Vector4 can be on the X axis.</param>
         /// <param name="maxX">The max value the Vector4 can be on the X axis (inclusive).</param>

@@ -23,7 +23,7 @@ namespace CarterGames.Cart
     public static class MathExtensions
     {
         /// <summary>
-        /// Gets just the whole numbers & avoids the remainder.
+        /// Gets just the whole numbers and avoids the remainder.
         /// </summary>
         /// <remarks>E.g. 12.345 would turn into > 12 via this extension.</remarks>
         /// <param name="value">The value to edit</param>
@@ -35,7 +35,7 @@ namespace CarterGames.Cart
         
         
         /// <summary>
-        /// Gets just the whole numbers & avoids the remainder.
+        /// Gets just the whole numbers and avoids the remainder.
         /// </summary>
         /// <remarks>E.g. 12.345 would turn into > 12 via this extension.</remarks>
         /// <param name="value">The value to edit</param>

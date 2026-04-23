@@ -97,7 +97,7 @@ namespace CarterGames.Cart
 
         
         /// <summary>
-        /// Sets the position & rotation but allows for local only edits as well.
+        /// Sets the position and rotation but allows for local only edits as well.
         /// </summary>
         /// <param name="transform">The transform to effect.</param>
         /// <param name="target">The target transform to match to.</param>

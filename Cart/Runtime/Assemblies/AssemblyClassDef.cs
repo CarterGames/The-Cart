@@ -22,7 +22,7 @@ using UnityEngine;
 namespace CarterGames.Cart
 {
 	/// <summary>
-	/// A class for storing info about a class so it can be referenced from its assembly & type names.
+	/// A class for storing info about a class so it can be referenced from its assembly and type names.
 	/// </summary>
 	[Serializable]
 	public sealed class AssemblyClassDef
@@ -47,13 +47,13 @@ namespace CarterGames.Cart
 		/// <summary>
 		/// The assembly string stored.
 		/// </summary>
-		public string Assembly => assembly;
+		public string StoredAssembly => assembly;
 		
 		
 		/// <summary>
 		/// The type string stored.
 		/// </summary>
-		public string Type => type;
+		public string StoredType => type;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
@@ -62,11 +62,11 @@ namespace CarterGames.Cart
 		/// <summary>
 		/// Creates a new definition when called.
 		/// </summary>
-		/// <param name="assembly">The assembly to reference.</param>
+		/// <param name="storedAssembly">The assembly to reference.</param>
 		/// <param name="type">The type to reference.</param>
-		public AssemblyClassDef(string assembly, string type)
+		public AssemblyClassDef(string storedAssembly, string type)
 		{
-			this.assembly = assembly;
+			this.assembly = storedAssembly;
 			this.type = type;
 		}
 
@@ -105,7 +105,7 @@ namespace CarterGames.Cart
 			try
 			{
 				return AssemblyHelper.GetClassesOfType<T>().FirstOrDefault(t =>
-					t.GetType().Assembly.FullName == Assembly && t.GetType().FullName == Type);
+					t.GetType().Assembly.FullName == StoredAssembly && t.GetType().FullName == StoredType);
 			}
 #pragma warning disable 0168
 			catch (Exception e)
@@ -126,7 +126,18 @@ namespace CarterGames.Cart
 		/// <returns>bool</returns>
 		public bool IsDefineType(Type type)
 		{
-			return Assembly == type.Assembly.FullName && Type == type.FullName;
+			return StoredAssembly == type.Assembly.FullName && StoredType == type.FullName;
+		}
+
+		
+		/// <summary>
+		/// Gets if the type entered is a base class of the stored value.
+		/// </summary>
+		/// <param name="type">The type to compare</param>
+		/// <returns>Bool</returns>
+		public bool InheritsFrom(Type type)
+		{
+			return Type.GetType(StoredAssembly + StoredType)!.IsAssignableFrom(type);
 		}
 	}
 }

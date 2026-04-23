@@ -24,7 +24,7 @@ using UnityEngine;
 namespace CarterGames.Cart.Editor
 {
 	/// <summary>
-	/// The Utility window for the project setup, handles GUI & logic.
+	/// The Utility window for the project setup, handles GUI and logic.
 	/// </summary>
 	public sealed class UtilityWindowProjectSetup : UtilityEditorWindow
 	{

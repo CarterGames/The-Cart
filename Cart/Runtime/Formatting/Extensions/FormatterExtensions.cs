@@ -14,6 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
+using System;
 using CarterGames.Cart.Logs;
 
 namespace CarterGames.Cart
@@ -52,6 +53,18 @@ namespace CarterGames.Cart
             }
             
             CartLogger.Log<LogCategoryCart>($"Cannot find formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
+            return string.Empty;
+        }
+        
+        
+        public static string Format<T>(this TimeSpan value) where T : TimeFormatter
+        {
+            if (FormatManager.FormatterLookup.TryGetValue(typeof(T), out var formatter))
+            {
+                return ((TimeFormatter) formatter).Format(value);
+            }
+            
+            CartLogger.Log<LogCategoryCart>($"Cannot find a time formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
             return string.Empty;
         }
     }

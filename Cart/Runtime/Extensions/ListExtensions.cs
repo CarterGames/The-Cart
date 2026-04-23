@@ -78,7 +78,7 @@ namespace CarterGames.Cart
                 var k = Rng.Int(n);
                 
                 // ReSharper disable once SwapViaDeconstruction
-                // Easier to read & understand written this way.
+                // Easier to read and understand written this way.
                 var value = list[k];
                 list[k] = list[n];
                 list[n] = value;
