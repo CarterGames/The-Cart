@@ -1,6 +1,6 @@
 # Timestamps (API)
 
-| [Usage]() | [API]() |
+| [Usage](../../../../Docs/Usage/Cart/Runtime/Docs_Timestamps.md) | [API](API_Timestamps.md) |
 
 A small wrapper for a timestamp to make converting epoch to human-readable date and vice versa easy.
 

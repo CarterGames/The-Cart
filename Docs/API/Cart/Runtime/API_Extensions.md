@@ -20,9 +20,26 @@ Contains a load of extension methods for a load of different classes. This secti
 
 ## Classes
 - [Array Extensions](#array-extensions)
-- [Canvas Group Extensions](#canvas-group-extensions)
+- [Canvas Group Extensions](#canvasgroup-extensions)
+- [Color Extensions](#colorextensions)
+- [DateTime Extensions](#datetime-extensions)
+- [Dictionary Extensions](#dictionary-extensions)
+- [EnumFlags Extensions](#enumflags-extensions)
+- [Int Extensions](#int-extensions)
+- [List Extensions](#list-extensions)
+- [Material Extensions](#material-extensions)
+- [Math Extensions](#math-extensions)
+- [Object Extensions](#object-extensions)
+- [Quaternion Extensions](#quaternion-extensions)
+- [ScrollRect Extensions](#scrollrect-extensions)
+- [String Extensions](#string-extensions)
+- [Transform Extensions](#transform-extensions)
+- [TryGet Extensions](#tryget-extensions)
+- [Vector Extensions](#vector-extensions)
 
-### `ArrayExtensions`
+<br/>
+
+### `Array Extensions`
 Any extensions for arrays.
 
 <br/>
@@ -277,7 +294,7 @@ private void OnEnable()
 [//]: #
 [//]: #
 
-### `CanvasGroupExtensions`
+### `CanvasGroup Extensions`
 Any extensions for canvas groups.
 
 <br/>

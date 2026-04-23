@@ -193,11 +193,50 @@ private void OnEnable()
 
 <br/>
 
+#### `IsDefineType()`
+Gets if a type is the same as this assembly class define.
+
+```csharp
+public bool IsDefineType(Type type)
+```
+
+```csharp
+private void OnEnable()
+{
+    AssemblyClassDef classDef = new AssemblyClassDef(myType.Assembly.FullName, myType.FullName));
+    
+    if (classDef.IsDefineType(typeOf(myType)))
+    {
+        // Your logic here...    
+    }
+}
+```
+
+<br/>
+
+#### `InheritsFrom()`
+Gets if the type entered is a base class of the stored value.
+
+```csharp
+public bool InheritsFrom(Type type)
+```
+
+```csharp
+private void OnEnable()
+{
+    AssemblyClassDef classDef = new AssemblyClassDef(myType.Assembly.FullName, myType.FullName));
+    
+    if (classDef.InheritsFrom(typeOf(myOtherType)))
+    {
+        // Your logic here...    
+    }
+}
+```
+
+<br/>
+
 
 ### Operators
-
-#### `AssemblyClassDef(Type type)`
-Gets a class define from the type entered.
 
 ```csharp
 public static implicit operator AssemblyClassDef(Type type)
