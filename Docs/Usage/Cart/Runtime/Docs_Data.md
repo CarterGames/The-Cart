@@ -16,7 +16,7 @@ The data system has two main elements to it. The data assets and the data asset 
 ## Table of Contents
 1. [Creating data assets](#creating-data-assets)
 2. [Referencing data assets](#referencing-data-assets)
-3. [Data asset index](#data-assets-index)
+3. [Data asset index](#data-asset-index)
 4. [Editor only data](#editor-only-data)
 
 <br/>

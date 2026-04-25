@@ -1,6 +1,6 @@
 # Extensions
 
-| [Usage]() | [API]() |
+| [Usage](Docs_Extensions.md) | [API](../../../../Docs/API/Cart/Runtime/API_Extensions.md) |
 
 Contains a load of extension methods for a load of different classes. This section only contains extension methods and nothing else.
 

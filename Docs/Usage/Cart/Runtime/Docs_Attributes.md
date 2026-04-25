@@ -10,7 +10,7 @@ The library has some attributes you can apply in your project for quality of lif
 <br/>
 
 
-### [ReadOnly]
+### `[ReadOnly]`
 Disables the GUI of fields or serialized properties in the inspector so you cannot edit them at runtime. 
 
 > <b>Note:</b> this is a little limited and will not fully restrict edits.
