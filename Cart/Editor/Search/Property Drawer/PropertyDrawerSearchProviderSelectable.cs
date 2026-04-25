@@ -50,7 +50,7 @@ namespace CarterGames.Cart.Editor
         |   GUI Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        protected bool IsValidFieldType => fieldInfo.FieldType == typeof(TSearchType);
+        protected bool IsValidFieldType => fieldInfo.FieldType.AssemblyQualifiedName.Contains(typeof(TSearchType).Name);
         
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
