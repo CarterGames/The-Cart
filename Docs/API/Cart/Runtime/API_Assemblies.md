@@ -138,11 +138,11 @@ private void OnEnable()
 
 <br/>
 
-#### `Assembly`
+#### `StoredAssembly`
 Gets the assembly string stored in the define.
 
 ```csharp
-public string Assembly { get; }
+public string StoredAssembly { get; }
 ```
 
 ```csharp
@@ -150,17 +150,18 @@ public string Assembly { get; }
 
 private void OnEnable()
 {
-    Debug.Log(classDef.Assembly); // Logs out if the assembly in the define.
+    // Logs out if the assembly in the define.
+    Debug.Log(classDef.StoredAssembly);
 }
 ```
 
 <br/>
 
-#### `Type`
+#### `StoredType`
 Gets the type string stored in the define.
 
 ```csharp
-public string Type { get; }
+public string StoredType { get; }
 ```
 
 ```csharp
@@ -168,7 +169,27 @@ public string Type { get; }
 
 private void OnEnable()
 {
-    Debug.Log(classDef.Type); // Logs out if the type in the define.
+    // Logs out if the type in the define.
+    Debug.Log(classDef.StoredType);
+}
+```
+
+<br/>
+
+#### `StoredAssemblyQualified`
+The assembly qualified string stored.
+
+```csharp
+public string StoredAssemblyQualified { get; }
+```
+
+```csharp
+[SerializeField] private AssemblyClassDef classDef;
+
+private void OnEnable()
+{
+    // Logs out if the assembly qualified type in the define.
+    Debug.Log(classDef.StoredAssemblyQualified);
 }
 ```
 
@@ -176,18 +197,36 @@ private void OnEnable()
 
 ### Methods
 
-#### `GetDefinedType<T>()`
-Gets the type stored in the define for use.
+#### `TryGetType()`
+Tries to get the type stored.
 
 ```csharp
-public T GetDefinedType<T>()
+public bool TryGetType(out Type typeStored)
 ```
 
 ```csharp
 private void OnEnable()
 {
     AssemblyClassDef classDef = new AssemblyClassDef(myType.Assembly.FullName, myType.FullName));
-    MyType typeFromDefine = classDef.GetDefinedType<MyType>();
+    classDef.TryGetType(out var type);
+    Debug.Log(type);
+}
+```
+
+<br/>
+
+#### `GetTypeInstance<T>()`
+Gets the type stored in the define for use as an instance for use.
+
+```csharp
+public T GetTypeInstance<T>()
+```
+
+```csharp
+private void OnEnable()
+{
+    AssemblyClassDef classDef = new AssemblyClassDef(myType.Assembly.FullName, myType.FullName));
+    MyType typeFromDefine = classDef.GetTypeInstance<MyType>();
 }
 ```
 

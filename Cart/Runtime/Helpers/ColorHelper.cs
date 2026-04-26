@@ -21,7 +21,7 @@ namespace CarterGames.Cart
     public static class ColorHelper
     {
         /// <summary>
-        /// Converts a html color code to a color. Uses "ColorUtility.TryParseHtmlString" without the 
+        /// Converts a html color code to a color. Uses the built in <see cref="ColorUtility.TryParseHtmlString"/> method.
         /// </summary>
         /// <param name="input">The string to convert. Needs the # at the start to work.</param>
         /// <returns>The color from the string, Default is pink if it didn't work.</returns>
@@ -30,6 +30,17 @@ namespace CarterGames.Cart
             return ColorUtility.TryParseHtmlString(input, out var col) 
                 ? col 
                 : Color.magenta;
+        }
+        
+        
+        /// <summary>
+        /// Converts a color to a html color string. Uses the built in <see cref="ColorUtility.ToHtmlStringRGBA"/> method.
+        /// </summary>
+        /// <param name="input">The color to convert.</param>
+        /// <returns>The string from the color.</returns>
+        public static string ColorToHtmlString(Color input)
+        {
+            return ColorUtility.ToHtmlStringRGBA(input);
         }
     }
 }

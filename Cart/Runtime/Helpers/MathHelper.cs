@@ -60,7 +60,7 @@ namespace CarterGames.Cart
         
         
         /// <summary>
-        /// Lerp functionally but with double. Clamped between 0-1.
+        /// Lerp functionally but with double. Time clamped between 0-1.
         /// </summary>
         /// <param name="a">Value A</param>
         /// <param name="b">Value B</param>
@@ -75,24 +75,24 @@ namespace CarterGames.Cart
         /// <summary>
         /// Gets the value adjusted by a percentage.
         /// </summary>
-        /// <param name="percentageScale">The scale to read from.</param>
+        /// <param name="percentage">The scale to read from.</param>
         /// <param name="value">The percentage to get from the scale.</param>
         /// <returns>The adjusted value.</returns>
-        public static int Percentage(int percentageScale, int value)
+        public static int Percentage(int value, int percentage)
         {
-            return (value / percentageScale) * 100;
+            return (value / percentage) * 100;
         }
         
         
         /// <summary>
         /// Gets the value adjusted by a percentage as a decimal.
         /// </summary>
-        /// <param name="percentageScale">The scale to read from.</param>
+        /// <param name="percentage">The scale to read from.</param>
         /// <param name="value">The percentage to get from the scale.</param>
         /// <returns>The adjusted value.</returns>
-        public static int PercentageDecimal(int percentageScale, int value)
+        public static int PercentageDecimal(int value, int percentage)
         {
-            return value / percentageScale;
+            return value / percentage;
         }
         
         
@@ -102,7 +102,7 @@ namespace CarterGames.Cart
         /// <param name="value">The value to change.</param>
         /// <param name="percentage">The percentage to get.</param>
         /// <returns>The adjusted value.</returns>
-        public static float Percentage(this float value, float percentage)
+        public static float Percentage(float value, float percentage)
         {
             return (value / 100) * percentage;
         }
@@ -114,7 +114,7 @@ namespace CarterGames.Cart
         /// <param name="value">The value to change.</param>
         /// <param name="percentage">The percentage to get.</param>
         /// <returns>The adjusted value.</returns>
-        public static float PercentageDecimal(this float value, float percentage)
+        public static float PercentageDecimal(float value, float percentage)
         {
             return percentage * value;
         }
@@ -126,7 +126,7 @@ namespace CarterGames.Cart
         /// <param name="value">The value to change.</param>
         /// <param name="percentage">The percentage to get.</param>
         /// <returns>The adjusted value.</returns>
-        public static double Percentage(this double value, double percentage)
+        public static double Percentage(double value, double percentage)
         {
             return (value / 100) * percentage;
         }
@@ -138,7 +138,7 @@ namespace CarterGames.Cart
         /// <param name="value">The value to change.</param>
         /// <param name="percentage">The percentage to get.</param>
         /// <returns>The adjusted value.</returns>
-        public static double PercentageDecimal(this double value, double percentage)
+        public static double PercentageDecimal(double value, double percentage)
         {
             return percentage * value;
         }

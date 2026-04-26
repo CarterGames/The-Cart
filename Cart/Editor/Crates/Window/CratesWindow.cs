@@ -151,7 +151,9 @@ namespace CarterGames.Cart.Crates.Window
 
             foreach (var crate in CrateManager.GetAllCratesFromAuthor(CrateConstants.CarterGamesAuthor))
             {
+                if (crate.IsSubCrate) continue;
                 DrawCrateOption(crate);
+                GUILayout.Space(1f);
             }
             
             EditorGUILayout.EndVertical();
@@ -178,6 +180,7 @@ namespace CarterGames.Cart.Crates.Window
                 foreach (var crate in collection.Value)
                 {
                     DrawCrateOption(crate);
+                    GUILayout.Space(1f);
                 }
                 
                 EditorGUILayout.EndVertical();

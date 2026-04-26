@@ -34,6 +34,8 @@ namespace CarterGames.Cart.Crates.Window
                 return;
             }
 
+            if (crate.IsSubCrate) return;
+
             TrySetupStyles();
 
             EditorGUILayout.BeginVertical();
@@ -62,9 +64,13 @@ namespace CarterGames.Cart.Crates.Window
         }
 
 
-        private static void DrawCrateInfo(Crate crate)
+        public static void DrawCrateInfo(Crate crate, bool standalone = false)
         {
-            if (string.IsNullOrEmpty(EditorSettingsCrateWindow.SelectedCrateName)) return;
+            if (!standalone)
+            {
+                if (string.IsNullOrEmpty(EditorSettingsCrateWindow.SelectedCrateName)) return;
+            }
+            
             if (crate == null) return;
 
             EditorGUILayout.BeginVertical("HelpBox");
@@ -95,7 +101,7 @@ namespace CarterGames.Cart.Crates.Window
             
             EditorGUILayout.EndVertical();
         }
-
+        
 
         private static void DrawDependencies(Crate crate)
         {
@@ -153,7 +159,7 @@ namespace CarterGames.Cart.Crates.Window
         }
 
         
-        private static void DrawLinks(Crate crate)
+        public static void DrawLinks(Crate crate)
         {
             if (crate.CrateLinks.Length <= 0) return;
 
@@ -168,7 +174,7 @@ namespace CarterGames.Cart.Crates.Window
         }
 
 
-        private static void DrawPackageInfo(Crate crate)
+        public static void DrawPackageInfo(Crate crate)
         {
             if (!CrateManager.IsExternal(crate)) return;
             
@@ -193,7 +199,7 @@ namespace CarterGames.Cart.Crates.Window
         }
 
 
-        private static void DrawCrateOptions(Crate crate)
+        public static void DrawCrateOptions(Crate crate)
         {
             if (crate == null) return;
             

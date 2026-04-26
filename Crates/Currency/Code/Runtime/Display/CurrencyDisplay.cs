@@ -53,7 +53,7 @@ namespace CarterGames.Cart.Crates.Currency
         private double LastBalanceShown { get; set; }
 
 
-        private Formatter Formatter => formatter.GetDefinedType<Formatter>();
+        private Formatter Formatter => formatter.GetTypeInstance<Formatter>();
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Unity Events

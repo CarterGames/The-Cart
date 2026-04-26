@@ -17,7 +17,7 @@
 namespace CarterGames.Cart.Crates
 {
     /// <summary>
-    /// An class to define a packaged (external) crate.
+    /// A class to define a packaged (external) crate.
     /// </summary>
     public abstract class ExternalCrate : Crate
     {

@@ -1,6 +1,6 @@
 # Formatters (API)
 
-| [Usage](../../../../Docs/Usage/Cart/Runtime/Docs_Formatters.md) | [API](API_Copy.md) |
+| [Usage](../../../../Docs/Usage/Cart/Runtime/Docs_Formatters.md) | [API](API_Formatters.md) |
 
 Contains a load of different formatters to convert values into readable strings.
 

@@ -62,7 +62,7 @@ namespace CarterGames.Cart.Management
         /// <summary>
         /// The current RNG provider for the 
         /// </summary>
-        public IRngProvider RngProvider => CacheRef.GetOrAssign(ref cacheRngProvider, rngProviderTypeDef.GetDefinedType<IRngProvider>);
+        public IRngProvider RngProvider => CacheRef.GetOrAssign(ref cacheRngProvider, rngProviderTypeDef.GetTypeInstance<IRngProvider>);
         public AssemblyClassDef RngProviderAssemblyClassDef => rngProviderTypeDef;
 
         
@@ -109,6 +109,6 @@ namespace CarterGames.Cart.Management
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         public ISaveMethod SaveMethodType =>
-            CacheRef.GetOrAssign(ref cacheSaveMethod, saveMethodTypeDef.GetDefinedType<ISaveMethod>);
+            CacheRef.GetOrAssign(ref cacheSaveMethod, saveMethodTypeDef.GetTypeInstance<ISaveMethod>);
     }
 }

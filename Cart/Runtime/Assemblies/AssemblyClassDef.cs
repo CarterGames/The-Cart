@@ -17,6 +17,7 @@
 using System;
 using System.Linq;
 using CarterGames.Cart.Logs;
+using UnityEditor;
 using UnityEngine;
 
 namespace CarterGames.Cart
@@ -54,6 +55,12 @@ namespace CarterGames.Cart
 		/// The type string stored.
 		/// </summary>
 		public string StoredType => type;
+		
+		
+		/// <summary>
+		/// The assembly qualified string stored.
+		/// </summary>
+		public string StoredAssemblyQualified => $"{StoredType}, {StoredAssembly}";
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
@@ -87,13 +94,37 @@ namespace CarterGames.Cart
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+		/// <summary>
+		/// Tries to get the type stored.
+		/// </summary>
+		/// <param name="typeStored">The type stored</param>
+		/// <returns>Bool</returns>
+		public bool TryGetType(out Type typeStored)
+		{
+			typeStored = null;
+			
+			try
+			{
+				typeStored = Type.GetType(StoredAssemblyQualified);
+				return true;
+			}
+#pragma warning disable 0168
+			catch (Exception e)
+#pragma warning restore
+			{
+				return false;
+			}
+		}
+		
 		
 		/// <summary>
-		/// Gets the type stored in this AssemblyClassDef.
+		/// Gets the type stored in this AssemblyClassDef as an instance of its type.
+		/// Use <see cref="TryGetType"/> to just get the type.
 		/// </summary>
 		/// <typeparam name="T">The type to make.</typeparam>
 		/// <returns>The made type or the types default on failure.</returns>
-		public T GetDefinedType<T>()
+		public T GetTypeInstance<T>()
 		{
 			if (!IsValid)
 			{
@@ -137,7 +168,16 @@ namespace CarterGames.Cart
 		/// <returns>Bool</returns>
 		public bool InheritsFrom(Type type)
 		{
-			return Type.GetType(StoredAssembly + StoredType)!.IsAssignableFrom(type);
+			if (!TryGetType(out var thisType))
+			{
+				CartLogger.Log<LogCategoryCart>(
+					"Stored type is not parsing to the desired type. Please reselect if you have changed the types namespace or assembly.",
+					typeof(AssemblyClassDef));
+				
+				return false;
+			}
+			
+			return thisType.IsAssignableFrom(type);
 		}
 	}
 }

@@ -43,7 +43,7 @@ namespace CarterGames.Cart
         /// <returns>String</returns>
         public string FormatValue(int value)
         {
-            return formatter.GetDefinedType<Formatter>().Format(value);
+            return formatter.GetTypeInstance<Formatter>().Format(value);
         }
         
        
@@ -54,7 +54,7 @@ namespace CarterGames.Cart
         /// <returns>String</returns>
         public string FormatValue(float value)
         {
-            return formatter.GetDefinedType<Formatter>().Format(value);
+            return formatter.GetTypeInstance<Formatter>().Format(value);
         }
         
 
@@ -65,7 +65,7 @@ namespace CarterGames.Cart
         /// <returns>String</returns>
         public string FormatValue(double value)
         {
-            return formatter.GetDefinedType<Formatter>().Format(value);
+            return formatter.GetTypeInstance<Formatter>().Format(value);
         }
         
         
@@ -83,7 +83,7 @@ namespace CarterGames.Cart
                 return string.Empty;
             }
             
-            return formatter.GetDefinedType<TimeFormatter>().Format(value);
+            return formatter.GetTypeInstance<TimeFormatter>().Format(value);
         }
     }
 }

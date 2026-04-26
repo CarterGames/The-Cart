@@ -60,11 +60,11 @@ namespace CarterGames.Cart.Crates.Window
                 
                 if (showText)
                 {
-                    GUILayout.Label(CrateEnabledCopy, MiniButtonStyle, GUILayout.MaxWidth(100), GUILayout.Height(22.5f));
+                    GUILayout.Label(CrateEnabledCopy, MiniButtonStyle, GUILayout.MaxWidth(100));
                 }
                 else
                 {
-                    GUILayout.Label(CrateEnabled, MiniButtonStyle, GUILayout.MaxWidth(40f), GUILayout.Height(22.5f));
+                    GUILayout.Label(CrateEnabled, MiniButtonStyle, GUILayout.MaxWidth(40f));
                 }
             }
             else
@@ -73,11 +73,11 @@ namespace CarterGames.Cart.Crates.Window
                 
                 if (showText)
                 {
-                    GUILayout.Label(CrateDisabledCopy, MiniButtonStyle, GUILayout.MaxWidth(100), GUILayout.Height(22.5f));
+                    GUILayout.Label(CrateDisabledCopy, MiniButtonStyle, GUILayout.MaxWidth(100));
                 }
                 else
                 {
-                    GUILayout.Label(CrateDisabled, MiniButtonStyle, GUILayout.MaxWidth(40f), GUILayout.Height(22.5f));
+                    GUILayout.Label(CrateDisabled, MiniButtonStyle, GUILayout.MaxWidth(40f));
                 }
             }
             
@@ -115,7 +115,7 @@ namespace CarterGames.Cart.Crates.Window
         {
             GUI.backgroundColor = Color.green;
                 
-            if (GUILayout.Button(content, GUILayout.Height(22.5f)))
+            if (GUILayout.Button(content, GUILayout.Height(17.5f)))
             {
                 onButtonPressed?.Invoke();
             }
@@ -155,7 +155,7 @@ namespace CarterGames.Cart.Crates.Window
         {
             GUI.backgroundColor = Color.red;
                 
-            if (GUILayout.Button(content, GUILayout.Height(22.5f)))
+            if (GUILayout.Button(content, GUILayout.Height(17.5f)))
             {
                 onButtonPressed?.Invoke();
             }

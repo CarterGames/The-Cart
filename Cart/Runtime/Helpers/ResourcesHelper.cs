@@ -22,10 +22,13 @@ using Object = UnityEngine.Object;
 
 namespace CarterGames.Cart
 {
+    /// <summary>
+    /// Helpers for loading assets from the resources' folder.
+    /// </summary>
     public class ResourcesHelper
     {
         /// <summary>
-        /// Loads a asset from the resources' folder.
+        /// Loads an asset from the resources folder of the type needed.
         /// </summary>
         /// <param name="basePath">The base path to load from.</param>
         /// <param name="resourceName">The resource name to find.</param>

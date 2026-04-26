@@ -49,13 +49,27 @@ namespace CarterGames.Cart.Crates
         /// <summary>
         /// The technical name for the crate itself.
         /// </summary>
-        public string CrateTechnicalName => $"crate.{CrateAuthor.TrimSpaces().ToLower()}.{CrateName.TrimSpaces().ToLower()}";
-        
-        
+        public string CrateTechnicalName
+        {
+            get
+            {
+                if (!IsSubCrate) return $"crate.{CrateAuthor.TrimSpaces().ToLower()}.{CrateName.TrimSpaces().ToLower()}";
+                return $"crate.{CrateAuthor.TrimSpaces().ToLower()}.{ParentCrate.CrateName.TrimSpaces().ToLower()}.{CrateName.TrimSpaces().ToLower()}";
+            }
+        }
+
+
         /// <summary>
         /// The scripting define for the crate.
         /// </summary>
-        public string CrateDefine => $"{CrateAuthor.TrimSpaces().ToUpper()}_CART_CRATE_{CrateName.TrimSpaces().ToUpper()}";
+        public string CrateDefine
+        {
+            get
+            {
+                if (!IsSubCrate) return $"{CrateAuthor.TrimSpaces().ToUpper()}_CART_CRATE_{CrateName.TrimSpaces().ToUpper()}";
+                return $"{CrateAuthor.TrimSpaces().ToUpper()}_CART_CRATE_{ParentCrate.CrateName.TrimSpaces().ToUpper()}_{CrateName.TrimSpaces().ToUpper()}";
+            }
+        }
 
 
         /// <summary>
@@ -74,5 +88,18 @@ namespace CarterGames.Cart.Crates
         /// The URL for the crate's documentation.
         /// </summary>
         public virtual EditorUrl[] CrateLinks => Array.Empty<EditorUrl>();
+
+
+        /// <summary>
+        /// Gets if the crate is a sub crate or not.
+        /// </summary>
+        public virtual bool IsSubCrate => ParentCrate != null;
+        
+        
+        /// <summary>
+        /// Gets the parent crate is applicable.
+        /// </summary>
+        /// <remarks>Only applies if this crate is a sub crate.</remarks>
+        public virtual Crate ParentCrate { get; private set; } = null;
     }
 }

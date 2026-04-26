@@ -35,6 +35,13 @@ namespace CarterGames.Cart.Data.Editor
         
         protected override void DrawInspectorGUI()
         {
+            DrawDataAssetInspector();
+            DrawBaseInspectorGUI();
+        }
+
+
+        public void DrawDataAssetInspector()
+        {
             GUILayout.Space(1.5f);
 
             if (ShowVariantIdOption || ShowAssetIndexOptions)
@@ -89,8 +96,6 @@ namespace CarterGames.Cart.Data.Editor
             GUILayout.Space(5f);
             GeneralUtilEditor.DrawHorizontalGUILine();
             GUILayout.Space(5f);
-
-            DrawBaseInspectorGUI();
         }
     }
 }

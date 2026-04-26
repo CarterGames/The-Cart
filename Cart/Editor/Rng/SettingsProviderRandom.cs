@@ -126,7 +126,7 @@ namespace CarterGames.Cart.Editor
             // Draws the button the regenerate the seed. 
             if (GUILayout.Button("Regenerate", GUILayout.Width(100)))
             {
-                var seededProvider = AssetRef.RngProviderAssemblyClassDef.GetDefinedType<ISeededRngProvider>();
+                var seededProvider = AssetRef.RngProviderAssemblyClassDef.GetTypeInstance<ISeededRngProvider>();
 
                 Dialogue.Display("Regen Seed", "Are you sure you want to regen the Seed?", "Yes",
                     "Cancel", seededProvider.GenerateSeed);

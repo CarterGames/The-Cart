@@ -19,6 +19,7 @@ using System.Linq;
 using CarterGames.Cart.Management;
 using CarterGames.Cart.Management.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Cart.Crates
 {
@@ -49,6 +50,7 @@ namespace CarterGames.Cart.Crates
         
         // Extra collections
         private static IReadOnlyDictionary<string, Crate> cratesByNameLookupCache;
+        private static IReadOnlyDictionary<string, List<Crate>> subCratesLookupCache;
         private static IReadOnlyDictionary<string, List<Crate>> cratesByAuthorLookupCache;
         private static IReadOnlyDictionary<string, Crate> createsByTechnicalNameLookupCache;
         private static IReadOnlyDictionary<string, ExternalCrate> externalCratesByNameLookupCache;
@@ -80,6 +82,10 @@ namespace CarterGames.Cart.Crates
         
         private static IReadOnlyDictionary<string, Crate> CratesLookupByName =>
             CacheRef.GetOrAssign(ref cratesByNameLookupCache, GenerateCrateLookupByName);
+        
+        
+        private static IReadOnlyDictionary<string, List<Crate>> SubCratesLookupByParentCrate =>
+            CacheRef.GetOrAssign(ref subCratesLookupCache, GenerateSubCrateLookup);
         
         private static IReadOnlyDictionary<string, Crate> CratesLookupByTechnicalName =>
             CacheRef.GetOrAssign(ref createsByTechnicalNameLookupCache, GenerateCrateLookupByTechName);
@@ -147,6 +153,27 @@ namespace CarterGames.Cart.Crates
             }
             
             return byName;
+        }
+        
+        
+        private static IReadOnlyDictionary<string, List<Crate>> GenerateSubCrateLookup()
+        {
+            var subCrates = new Dictionary<string, List<Crate>>();
+
+            foreach (var crate in AllCrates)
+            {
+                if (!crate.IsSubCrate) continue;
+                if (subCrates.ContainsKey(crate.ParentCrate.CrateTechnicalName))
+                {
+                    subCrates[crate.ParentCrate.CrateTechnicalName].Add(crate);
+                }
+                else
+                {
+                    subCrates.Add(crate.ParentCrate.CrateTechnicalName, new List<Crate>() { crate });
+                }
+            }
+            
+            return subCrates;
         }
         
         
@@ -330,6 +357,21 @@ namespace CarterGames.Cart.Crates
         {
             crate = GetCrateByName(crateName);
             return crate != null;
+        }
+        
+        
+        /// <summary>
+        /// Try get any sub-crate class instance from its name.
+        /// </summary>
+        /// <param name="crate">The crate to look for sub-crates of.</param>
+        /// <param name="subcrates">The sub crates found.</param>
+        /// <returns>Success?</returns>
+        public static bool TryGetSubCratesForCrate(Crate crate, out List<Crate> subcrates)
+        {
+            subcrates = null;
+            if (!SubCratesLookupByParentCrate.ContainsKey(crate.CrateTechnicalName)) return false;
+            subcrates = SubCratesLookupByParentCrate[crate.CrateTechnicalName];
+            return true;
         }
         
         
