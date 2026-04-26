@@ -83,7 +83,7 @@ namespace CarterGames.Cart.Crates.Parameters
 			IsInitialized = true;
 			InitializedEvt.Raise();
 			
-			CartLogger.Log<LogCategoryParameters>("Parameters initialized.");
+			CartLogger.Log<ParametersLogs>("Parameters initialized.");
 		}
 		
 		
@@ -102,7 +102,7 @@ namespace CarterGames.Cart.Crates.Parameters
 			AllParamsLookup.Clear();
 			AllParams.Clear();
 			
-			CartLogger.Log<LogCategoryParameters>("Parameters disposed of.");
+			CartLogger.Log<ParametersLogs>("Parameters disposed of.");
 		}
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -134,7 +134,7 @@ namespace CarterGames.Cart.Crates.Parameters
 		{
 			if (!AllParamsLookup.TryGetValue(key, out var value))
 			{
-				CartLogger.LogWarning<LogCategoryParameters>($"Unable to find parameter with the key {key}.");
+				CartLogger.LogWarning<ParametersLogs>($"Unable to find parameter with the key {key}.");
 				return null;
 			}
 			

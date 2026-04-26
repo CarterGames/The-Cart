@@ -22,6 +22,60 @@ namespace CarterGames.Cart.Editor
 {
     public static class CustomEditorStyling
     {
+        public static void DrawToggleStatusButton(SerializedProperty property, bool showText = false, bool interactable = true)
+        {
+            GUIContent content;
+            
+            if (!interactable)
+            {
+                if (showText)
+                {
+                    content = property.boolValue
+                        ? new GUIContent("Enable", EditorGUIUtility.IconContent("Valid@2x").image)
+                        : new GUIContent("Disable", EditorGUIUtility.IconContent("CrossIcon").image);
+                }
+                else
+                {
+                    content = property.boolValue
+                        ? new GUIContent(EditorGUIUtility.IconContent("Valid@2x").image)
+                        : new GUIContent(EditorGUIUtility.IconContent("CrossIcon").image);
+                }
+                
+                GUI.backgroundColor = property.boolValue ? Color.green : Color.red;
+                
+                EditorGUILayout.LabelField(content, "button", GUILayout.Height(20f), GUILayout.Width(25f));
+                
+                GUI.backgroundColor = Color.white;
+            }
+            else
+            {
+                if (showText)
+                {
+                    content = property.boolValue
+                        ? new GUIContent("Enable", EditorGUIUtility.IconContent("Valid@2x").image)
+                        : new GUIContent("Disable", EditorGUIUtility.IconContent("CrossIcon").image);
+                }
+                else
+                {
+                    content = property.boolValue
+                        ? new GUIContent(EditorGUIUtility.IconContent("Valid@2x").image)
+                        : new GUIContent(EditorGUIUtility.IconContent("CrossIcon").image);
+                }
+                
+                GUI.backgroundColor = property.boolValue ? Color.green : Color.red;
+
+                if (GUILayout.Button(content, GUILayout.Height(20f), GUILayout.Width(25f)))
+                {
+                    property.boolValue = !property.boolValue;
+                    property.serializedObject.ApplyModifiedProperties();
+                    property.serializedObject.Update();
+                }
+                
+                GUI.backgroundColor = Color.white;
+            }
+        }
+        
+        
         public static void SmallCrossButton(Action onPress)
         {
             GUI.backgroundColor = Color.red;

@@ -14,6 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
+using System.Linq;
 using System.Threading.Tasks;
 using CarterGames.Cart.Events;
 using UnityEditor;
@@ -62,7 +63,7 @@ namespace CarterGames.Cart.Management.Editor
         /// </summary>
         private static async void CallListeners()
         {
-            var reloadClasses = InterfaceHelper.GetAllInterfacesInstancesOfType<IAssetEditorReload>();
+            var reloadClasses = AssemblyHelper.GetClassesOfType<IAssetEditorReload>().ToArray();
             
             if (reloadClasses.Length > 0)
             {

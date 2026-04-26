@@ -28,7 +28,7 @@ namespace CarterGames.Cart
                 return formatter.Format(value);
             }
             
-            CartLogger.Log<LogCategoryCart>($"Cannot find formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
+            CartLogger.Log<CartLogs>($"Cannot find formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
             return string.Empty;
         }
         
@@ -40,7 +40,7 @@ namespace CarterGames.Cart
                 return formatter.Format(value);
             }
             
-            CartLogger.Log<LogCategoryCart>($"Cannot find formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
+            CartLogger.Log<CartLogs>($"Cannot find formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
             return string.Empty;
         }
         
@@ -52,7 +52,7 @@ namespace CarterGames.Cart
                 return formatter.Format(value);
             }
             
-            CartLogger.Log<LogCategoryCart>($"Cannot find formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
+            CartLogger.Log<CartLogs>($"Cannot find formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
             return string.Empty;
         }
         
@@ -64,7 +64,7 @@ namespace CarterGames.Cart
                 return ((TimeFormatter) formatter).Format(value);
             }
             
-            CartLogger.Log<LogCategoryCart>($"Cannot find a time formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
+            CartLogger.Log<CartLogs>($"Cannot find a time formatter of type {typeof(T).Name}", typeof(FormatterExtensions));
             return string.Empty;
         }
     }

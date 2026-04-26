@@ -79,7 +79,7 @@ namespace CarterGames.Cart
         {
             if (!formatter.InheritsFrom(typeof(TimeFormatter)))
             {
-                CartLogger.LogError<LogCategoryCart>($"[Formatter Component]: Cannot format with type {formatter.StoredType} with timespan, it is not a valid TimeFormatter");
+                CartLogger.LogError<CartLogs>($"[Formatter Component]: Cannot format with type {formatter.StoredType} with timespan, it is not a valid TimeFormatter");
                 return string.Empty;
             }
             

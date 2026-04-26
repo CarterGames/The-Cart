@@ -60,7 +60,7 @@ namespace CarterGames.Cart
 		{
 			if (value <= 0)
 			{
-				CartLogger.Log<LogCategoryCart>("Framerate too low to set. Must be greater than 0", typeof(FramerateComponent));
+				CartLogger.Log<CartLogs>("Framerate too low to set. Must be greater than 0", typeof(FramerateComponent));
 				return;
 			}
 			

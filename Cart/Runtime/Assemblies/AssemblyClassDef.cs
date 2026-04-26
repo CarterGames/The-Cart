@@ -128,7 +128,7 @@ namespace CarterGames.Cart
 		{
 			if (!IsValid)
 			{
-				CartLogger.LogError<LogCategoryCart>(
+				CartLogger.LogError<CartLogs>(
 					"[GetDefinedType]: Data not valid to generate the defined type", typeof(AssemblyClassDef));
 				return default;
 			}
@@ -141,7 +141,7 @@ namespace CarterGames.Cart
 #pragma warning disable 0168
 			catch (Exception e)
 			{
-				CartLogger.LogError<LogCategoryCart>(
+				CartLogger.LogError<CartLogs>(
 					"[GetDefinedType]: Failed to generate type from stored data. If you have refactored the class selected, please reselect it to update the record.", typeof(AssemblyClassDef));
 
 				return default;
@@ -170,7 +170,7 @@ namespace CarterGames.Cart
 		{
 			if (!TryGetType(out var thisType))
 			{
-				CartLogger.Log<LogCategoryCart>(
+				CartLogger.Log<CartLogs>(
 					"Stored type is not parsing to the desired type. Please reselect if you have changed the types namespace or assembly.",
 					typeof(AssemblyClassDef));
 				

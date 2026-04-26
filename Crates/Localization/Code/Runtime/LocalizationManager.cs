@@ -139,7 +139,7 @@ namespace CarterGames.Cart.Crates.Localization
 				}
 				else
 				{
-					CartLogger.LogWarning<LogCategoryLocalization>(
+					CartLogger.LogWarning<LocalizationLogs>(
 						$"Unable to get override language from code {languageCode}. Using default.",
 						typeof(LocalizationManager));
 					
@@ -202,7 +202,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LocalizationLogs>(
 					$"[TryGetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
@@ -231,7 +231,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LocalizationLogs>(
 					$"[TryGetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
@@ -260,7 +260,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 			if (data == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LocalizationLogs>(
 					$"[TryGetCopy] Unable to find copy for id {id} in {CurrentLanguage.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 				
@@ -287,7 +287,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LocalizationLogs>(
 					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}
@@ -311,7 +311,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LocalizationLogs>(
 					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}
@@ -335,7 +335,7 @@ namespace CarterGames.Cart.Crates.Localization
 
 			if (copy == null)
 			{
-				CartLogger.LogError<LogCategoryLocalization>(
+				CartLogger.LogError<LocalizationLogs>(
 					$"[GetCopy] Unable to find copy for id {id} in {language.DisplayName} in the system, please make sure it exists. Returning null",
 					typeof(LocalizationManager));
 			}

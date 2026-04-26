@@ -83,7 +83,7 @@ namespace CarterGames.Cart.Crates.Localization
 		{
 			if (string.IsNullOrEmpty(locId))
 			{
-				CartLogger.LogWarning<LogCategoryLocalization>("Cannot apply just parameters to this localized text as the loc id is not set!");
+				CartLogger.LogWarning<LocalizationLogs>("Cannot apply just parameters to this localized text as the loc id is not set!");
 				return;
 			}
 			
@@ -124,7 +124,7 @@ namespace CarterGames.Cart.Crates.Localization
 				}
 				catch (Exception e)
 				{
-					CartLogger.LogWarning<LogCategoryLocalization>($"Failed to format copy with parameters: {e.Message}.");
+					CartLogger.LogWarning<LocalizationLogs>($"Failed to format copy with parameters: {e.Message}.");
 				}
 			}
 			

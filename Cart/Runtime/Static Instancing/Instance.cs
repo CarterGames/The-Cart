@@ -78,7 +78,7 @@ namespace CarterGames.Cart
         {
             if (instance.Value == null)
             {
-                CartLogger.LogError<LogCategoryCart>("Instance is null. Please ensure the instance is initialised.", typeof(Instance<T>));
+                CartLogger.LogError<CartLogs>("Instance is null. Please ensure the instance is initialised.", typeof(Instance<T>));
             }
             
             return instance.Value;

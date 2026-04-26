@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_CRATE_PANELS
+﻿#if CARTERGAMES_CART_CRATE_CURRENCY
 
 /*
  * The Cart
@@ -18,12 +18,9 @@
 
 using CarterGames.Cart.Logs;
 
-namespace CarterGames.Cart.Crates.Panels
+namespace CarterGames.Cart.Crates.Currency
 {
-    /// <summary>
-    /// A cart logging category for the panels setup.
-    /// </summary>
-    public sealed class LogCategoryPanels : LogCategory { }
+    public sealed class CurrencyLogs : LogCategory { }
 }
 
 #endif

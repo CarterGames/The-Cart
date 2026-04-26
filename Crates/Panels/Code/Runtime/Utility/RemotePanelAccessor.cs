@@ -37,7 +37,7 @@ namespace CarterGames.Cart.Crates.Panels
                 return panel;
             }
 
-            CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
+            CartLogger.LogError<PanelsLogs>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
             return null;
         }
 
@@ -54,7 +54,7 @@ namespace CarterGames.Cart.Crates.Panels
                 return;
             }
 
-            CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
+            CartLogger.LogError<PanelsLogs>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
         }
 
 
@@ -70,7 +70,7 @@ namespace CarterGames.Cart.Crates.Panels
                 return;
             }
             
-            CartLogger.LogError<LogCategoryPanels>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
+            CartLogger.LogError<PanelsLogs>($"Unable to find the panel of the Id {panelId}", typeof(RemotePanelAccessor));
         }
     }
 }

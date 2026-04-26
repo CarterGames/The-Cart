@@ -1,4 +1,6 @@
-﻿/*
+﻿#if CARTERGAMES_CART_CRATE_PANELS
+
+/*
  * The Cart
  * Copyright (c) 2026 Carter Games
  *
@@ -14,23 +16,14 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System.Linq;
-using CarterGames.Cart.Management;
+using CarterGames.Cart.Logs;
 
-namespace CarterGames.Cart
+namespace CarterGames.Cart.Crates.Panels
 {
     /// <summary>
-    /// A helper class for interfaces.
+    /// A cart logging category for the panels setup.
     /// </summary>
-    public static class InterfaceHelper
-    {
-        /// <summary>
-        /// Gets all the interface implementations and returns the result (Editor Only)
-        /// </summary>
-        /// <returns>An Array of the interface type</returns>
-        public static T[] GetAllInterfacesInstancesOfType<T>()
-        {
-            return AssemblyHelper.GetClassesOfType<T>().ToArray();
-        }
-    }
+    public sealed class PanelsLogs : LogCategory { }
 }
+
+#endif

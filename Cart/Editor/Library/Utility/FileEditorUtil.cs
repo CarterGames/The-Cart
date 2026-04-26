@@ -309,7 +309,7 @@ namespace CarterGames.Cart.Management.Editor
             }
             catch (Exception e)
             {
-                CartLogger.LogWarning<LogCategoryCart>($"Failed to create asset of type {typeof(T)}. Error message: {e.Message}");
+                CartLogger.LogWarning<CartLogs>($"Failed to create asset of type {typeof(T)}. Error message: {e.Message}");
                 return null;
             }
         }

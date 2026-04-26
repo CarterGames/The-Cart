@@ -45,7 +45,7 @@ namespace CarterGames.Cart.Crates.Conditions
 			{
 				if (targetCondition == targetConditionObject)
 				{
-					CartLogger.LogError<LogCategoryConditions>(
+					CartLogger.LogError<ConditionsLogs>(
 						"CriteriaConditionValue cannot be the same as the condition the criteria is on.",
 						GetType());
 					return false;

@@ -99,7 +99,7 @@ namespace CarterGames.Cart.Crates.Localization
             {
                 if (IsLocIdAssigned)
                 {
-                    CartLogger.LogWarning<LogCategoryLocalization>("Loc Id not assigned, cannot localize", GetType());
+                    CartLogger.LogWarning<LocalizationLogs>("Loc Id not assigned, cannot localize", GetType());
                     return;
                 }
                 
@@ -107,7 +107,7 @@ namespace CarterGames.Cart.Crates.Localization
             }
             catch (Exception e)
             {
-                CartLogger.LogError<LogCategoryLocalization>($"Failed to localize component with the exception {e}", GetType());
+                CartLogger.LogError<LocalizationLogs>($"Failed to localize component with the exception {e}", GetType());
             }
         }
 

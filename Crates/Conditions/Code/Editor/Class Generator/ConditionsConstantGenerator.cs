@@ -76,7 +76,7 @@ namespace CarterGames.Cart.Crates.Conditions
 				{
 					if (string.IsNullOrEmpty(condition.Id) || string.IsNullOrEmpty(condition.VariantId))
 					{
-						CartLogger.LogWarning<LogCategoryConditions>("Unable to add id to constant as its key or variant id was empty.");
+						CartLogger.LogWarning<ConditionsLogs>("Unable to add id to constant as its key or variant id was empty.");
 						continue;
 					}
 

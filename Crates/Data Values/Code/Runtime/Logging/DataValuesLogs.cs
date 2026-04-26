@@ -1,4 +1,6 @@
-﻿/*
+﻿#if CARTERGAMES_CART_CRATE_DATAVALUES
+
+/*
  * The Cart
  * Copyright (c) 2026 Carter Games
  *
@@ -14,10 +16,11 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-namespace CarterGames.Cart.Logs
+using CarterGames.Cart.Logs;
+
+namespace CarterGames.Cart.Crates.DataValues
 {
-    /// <summary>
-    /// The log category for the core library.
-    /// </summary>
-    public sealed class LogCategoryCart : LogCategory { }
+    public sealed class DataValuesLogs : LogCategory { }
 }
+
+#endif

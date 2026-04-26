@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_CRATE_DATAVALUES
+﻿#if CARTERGAMES_CART_CRATE_CONDITIONS
 
 /*
  * The Cart
@@ -18,9 +18,9 @@
 
 using CarterGames.Cart.Logs;
 
-namespace CarterGames.Cart.Crates.DataValues
+namespace CarterGames.Cart.Crates.Conditions
 {
-    public sealed class LogCategoryDataValues : LogCategory { }
+    public sealed class ConditionsLogs : LogCategory { }
 }
 
 #endif

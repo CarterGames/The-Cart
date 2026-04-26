@@ -70,7 +70,7 @@ namespace CarterGames.Cart
 
 				if (sceneAssetRef != null) return;
 				
-				CartLogger.LogError<LogCategoryCart>($"Tried to set to {value}, but no scene could be located there.", typeof(SceneReference));
+				CartLogger.LogError<CartLogs>($"Tried to set to {value}, but no scene could be located there.", typeof(SceneReference));
 #endif
 			}
 		}

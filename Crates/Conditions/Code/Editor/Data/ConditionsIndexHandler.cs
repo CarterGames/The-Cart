@@ -126,7 +126,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
                     
                     if (entry.Fpr("key").stringValue.Equals(foundAssets[i].VariantId))
                     {
-                        CartLogger.LogWarning<LogCategoryConditions>(
+                        CartLogger.LogWarning<ConditionsLogs>(
                             $"Cannot assign {foundAssets[i].VariantId} as it already exists.",
                             typeof(ConditionsIndexHandler));
                         

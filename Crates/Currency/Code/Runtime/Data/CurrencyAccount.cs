@@ -143,7 +143,7 @@ namespace CarterGames.Cart.Crates.Currency
         {
             if (amount < 0)
             {
-                CartLogger.Log<LogCategoryCurrency>("Cannot debit less than or equal to 0.", typeof(CurrencyAccount));
+                CartLogger.Log<CurrencyLogs>("Cannot debit less than or equal to 0.", typeof(CurrencyAccount));
                 return;
             }
 
@@ -170,7 +170,7 @@ namespace CarterGames.Cart.Crates.Currency
         {
             if (amount < 0)
             {
-                CartLogger.Log<LogCategoryCurrency>("Cannot credit less than or equal to 0.", typeof(CurrencyAccount));
+                CartLogger.Log<CurrencyLogs>("Cannot credit less than or equal to 0.", typeof(CurrencyAccount));
                 return;
             }
 

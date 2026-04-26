@@ -14,8 +14,8 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
+using System.Collections.Generic;
 using CarterGames.Cart.Editor;
-using CarterGames.Cart.Management.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,48 +23,79 @@ namespace CarterGames.Cart.Logs.Editor.Windows
 {
     public class LogCategoriesEditor : UtilityEditorWindow
     {
+        private IReadOnlyDictionary<string, SerializedProperty> cacheCategoriesLookup;
+        private List<string> cacheBuiltInCategories;
+
+
+        private IReadOnlyDictionary<string, SerializedProperty> CategoriesLookup =>
+            CacheRef.GetOrAssign(ref cacheCategoriesLookup, GetCategoriesLookup);
+        
+        private List<string> BuiltInCategories => CacheRef.GetOrAssign(ref cacheBuiltInCategories, AutoMakeDataAssetManager
+            .GetDefine<DataAssetLogCategories>()
+            .AssetRef.CartCategories);
+        
+            
         [MenuItem("Tools/Carter Games/The Cart/[Logging] Category Window", priority = 201)]
         private static void OpenEditor()
         {
-            Open<LogCategoriesEditor>("Log Category Statuses Window");
+            Open<LogCategoriesEditor>("Log Category Statuses");
         }
         
 
         private void OnGUI()
         {
             SettingsProviderLogging.ScrollPos = EditorGUILayout.BeginScrollView(SettingsProviderLogging.ScrollPos);
-            DrawUserDefinedCategories();
-            DrawCartDefinedCategories();
+            DrawCategories(false);
+            DrawCategories(true);
             EditorGUILayout.EndScrollView();
         }
 
 
-        private void DrawUserDefinedCategories()
+        private IReadOnlyDictionary<string, SerializedProperty> GetCategoriesLookup()
+        {
+            var lookup = new Dictionary<string, SerializedProperty>();
+            var data = AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>()
+                .ObjectRef
+                .Fp("categories")
+                .Fpr("list");
+
+            for (var i = 0; i < data.arraySize; i++)
+            {
+                var entry = data.GetIndex(i);
+                lookup.Add(entry.Fpr("key").stringValue, entry);
+            }
+            
+            return lookup;
+        }
+
+
+        private void DrawCategories(bool builtIn)
         {
             GUILayout.Space(5f);
-            EditorGUILayout.LabelField("Categories", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField((builtIn ? "Built-In" : "Categories"), EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
             EditorGUILayout.BeginVertical();
             GUILayout.Space(2.5f);
 
-            var lookup = AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>()
-                .ObjectRef
-                .Fp("categories")
-                .Fpr("list");
-            
-            var cartCategories = AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>()
-                .AssetRef.CartCategories;
-            
-            for (var i = 0; i < lookup.arraySize; i++)
+            var index = 0;
+
+            foreach (var entry in CategoriesLookup)
             {
-                if (cartCategories.Contains(lookup.GetIndex(i).Fpr("key").stringValue)) continue;
+                if (builtIn)
+                {
+                    if (!BuiltInCategories.Contains(entry.Key)) continue;
+                }
+                else
+                {
+                    if (BuiltInCategories.Contains(entry.Key)) continue;
+                }
                 
                 var style = new GUIStyle("Box")
                 {
                     normal =
                     {
-                        background = TextureHelper.SolidColorTexture2D(1, 1, i % 2 == 1
+                        background = TextureHelper.SolidColorTexture2D(1, 1, index % 2 == 1
                             ? new Color32(50, 50, 50, 0)
                             : new Color32(50, 50, 50, 255))
                     }
@@ -72,76 +103,18 @@ namespace CarterGames.Cart.Logs.Editor.Windows
 
                 EditorGUILayout.BeginHorizontal(style);
 
-                EditorGUILayout.LabelField(lookup.GetIndex(i).Fpr("key").stringValue.SplitAndGetLastElement('.')
+                EditorGUILayout.LabelField(entry.Key.SplitAndGetLastElement('.')
                     .Replace("Logs", string.Empty)
                     .Replace("Log", string.Empty)
                     .Replace("Category", string.Empty));
                 
-                EditorGUI.BeginChangeCheck();
-                lookup.GetIndex(i).Fpr("value").boolValue = EditorGUILayout.Toggle(lookup.GetIndex(i).Fpr("value").boolValue, GUILayout.Width(15));
-                if (EditorGUI.EndChangeCheck())
-                {
-                    AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>().ObjectRef.ApplyModifiedProperties();
-                    AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>().ObjectRef.Update();
-                }
+                CustomEditorStyling.DrawToggleStatusButton(entry.Value.Fpr("value"));
                 
                 EditorGUILayout.EndHorizontal();
+
+                index++;
             }
             
-            GUILayout.Space(1f);
-            EditorGUILayout.EndVertical();
-        }
-
-
-        private void DrawCartDefinedCategories()
-        {
-            EditorGUILayout.BeginVertical("Box");
-            GUILayout.Space(1f);
-
-            EditorGUILayout.LabelField("Cart Log Categories", EditorStyles.boldLabel);
-            GeneralUtilEditor.DrawHorizontalGUILine();
-            
-            var lookup = AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>()
-                .ObjectRef
-                .Fp("categories")
-                .Fpr("list");
-
-            var cartCategories = AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>()
-                .AssetRef.CartCategories;
-
-            
-            for (var i = 0; i < lookup.arraySize; i++)
-            {
-                if (!cartCategories.Contains(lookup.GetIndex(i).Fpr("key").stringValue)) continue;
-                
-                var style = new GUIStyle("Box")
-                {
-                    normal =
-                    {
-                        background = TextureHelper.SolidColorTexture2D(1, 1, i % 2 == 1
-                            ? new Color32(50, 50, 50, 0)
-                            : new Color32(50, 50, 50, 255))
-                    }
-                };
-
-                EditorGUILayout.BeginHorizontal(style);
-
-                EditorGUILayout.LabelField(lookup.GetIndex(i).Fpr("key").stringValue.SplitAndGetLastElement('.')
-                    .Replace("Logs", string.Empty)
-                    .Replace("Log", string.Empty)
-                    .Replace("Category", string.Empty));
-                
-                EditorGUI.BeginChangeCheck();
-                lookup.GetIndex(i).Fpr("value").boolValue = EditorGUILayout.Toggle(lookup.GetIndex(i).Fpr("value").boolValue, GUILayout.Width(15));
-                if (EditorGUI.EndChangeCheck())
-                {
-                    AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>().ObjectRef.ApplyModifiedProperties();
-                    AutoMakeDataAssetManager.GetDefine<DataAssetLogCategories>().ObjectRef.Update();
-                }
-                
-                EditorGUILayout.EndHorizontal();
-            }
-
             GUILayout.Space(1f);
             EditorGUILayout.EndVertical();
         }

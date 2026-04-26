@@ -39,7 +39,7 @@ namespace CarterGames.Cart.Editor
         {
             if (string.IsNullOrEmpty(path))
             {
-                CartLogger.Log<LogCategoryCart>($"Unable to find asset at the path: {path}", typeof(AssetDatabaseHelper));
+                CartLogger.Log<CartLogs>($"Unable to find asset at the path: {path}", typeof(AssetDatabaseHelper));
                 return false;
             }
             

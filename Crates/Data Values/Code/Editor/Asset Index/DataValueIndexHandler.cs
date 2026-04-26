@@ -130,7 +130,7 @@ namespace CarterGames.Cart.Crates.DataValues.Editor
                     
                     if (entry.Fpr("key").stringValue.Equals(foundAssets[i].Key))
                     {
-                        CartLogger.LogWarning<LogCategoryDataValues>(
+                        CartLogger.LogWarning<DataValuesLogs>(
                             $"[Data Values]: Cannot assign {foundAssets[i].Key} as it already exists.",
                             typeof(DataValueIndexHandler));
                         

@@ -1,4 +1,4 @@
-﻿#if CARTERGAMES_CART_CRATE_CURRENCY
+﻿#if CARTERGAMES_CART_CRATE_PARAMETERS
 
 /*
  * The Cart
@@ -18,9 +18,12 @@
 
 using CarterGames.Cart.Logs;
 
-namespace CarterGames.Cart.Crates.Currency
+namespace CarterGames.Cart.Crates.Parameters
 {
-    public sealed class LogCategoryCurrency : LogCategory { }
+    /// <summary>
+    /// The log category for the parameters crate.
+    /// </summary>
+	public sealed class ParametersLogs : LogCategory { }
 }
 
 #endif

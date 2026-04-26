@@ -83,11 +83,25 @@ namespace CarterGames.Cart.Logs
         |   Events
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// Is raised whenever a log is sent.
+        /// </summary>
         public static readonly Evt<LogType, string> Logged = new Evt<LogType, string>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Log Builder Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Converts an object to a string for the message.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The string value of the obj.</returns>
+        private static string GetStringForObject(object value)
+        {
+            return value.ToString() ?? "Null";
+        }
+        
         
         /// <summary>
         /// Creates the category prefix for the log.
@@ -116,7 +130,7 @@ namespace CarterGames.Cart.Logs
 
             return Builder.ToString();
         }
-
+        
         
         /// <summary>
         /// Generates the log message all together to show.
@@ -125,12 +139,12 @@ namespace CarterGames.Cart.Logs
         /// <param name="additionalContext">The sub-type for the message if used.</param>
         /// <typeparam name="T">The log category type</typeparam>
         /// <returns>The formatted log message.</returns>
-        private static string CreateLogMessage<T>(string msg, Type additionalContext = null) where T : LogCategory
+        private static string CreateLogMessage<T>(object msg, Type additionalContext = null) where T : LogCategory
         {
             MessageBuilder.Clear();
             MessageBuilder.Append(GetCategoryPrefix<T>(additionalContext));
             MessageBuilder.Append(" ");
-            MessageBuilder.Append(msg);
+            MessageBuilder.Append(GetStringForObject(msg));
             
             return MessageBuilder.ToString();
         }
@@ -150,7 +164,7 @@ namespace CarterGames.Cart.Logs
         /// <param name="message">The message to write.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void Log<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
+        public static void Log<T>(object message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
             if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
@@ -158,7 +172,7 @@ namespace CarterGames.Cart.Logs
 
             var formattedLog = CreateLogMessage<T>(message);
             
-            Debug.Log(formattedLog, ctx);
+            Debug.LogFormat(LogType.Log, LogOption.None, ctx, "{0}", formattedLog);
             Logged.Raise(LogType.Log, formattedLog);
         }
         
@@ -170,7 +184,7 @@ namespace CarterGames.Cart.Logs
         /// <param name="additionalContext">The additional type context for the log. Such as system/class.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void Log<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
+        public static void Log<T>(object message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
             if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
@@ -178,7 +192,7 @@ namespace CarterGames.Cart.Logs
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
             
-            Debug.Log(formattedLog);
+            Debug.LogFormat(LogType.Log, LogOption.None, ctx, "{0}", formattedLog);
             Logged.Raise(LogType.Log, formattedLog);
         }
         
@@ -191,9 +205,10 @@ namespace CarterGames.Cart.Logs
         /// Displays a warning debug message.
         /// </summary>
         /// <param name="message">The message to write.</param>
+        /// <param name="ctx">The context for the message.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogWarning<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
+        public static void LogWarning<T>(object message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
             if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
@@ -201,7 +216,7 @@ namespace CarterGames.Cart.Logs
             
             var formattedLog = CreateLogMessage<T>(message);
             
-            Debug.LogWarning(formattedLog);
+            Debug.LogFormat(LogType.Warning, LogOption.None, ctx, "{0}", formattedLog);
             Logged.Raise(LogType.Warning, formattedLog);
         }
         
@@ -213,7 +228,7 @@ namespace CarterGames.Cart.Logs
         /// <param name="additionalContext">The additional type context for the log. Such as system/class.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogWarning<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
+        public static void LogWarning<T>(object message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!CanShowLogs) return;
             if (!DataAccess.GetAsset<DataAssetLogCategories>().IsEnabled<T>()) return;
@@ -221,7 +236,7 @@ namespace CarterGames.Cart.Logs
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
             
-            Debug.LogWarning(formattedLog);
+            Debug.LogFormat(LogType.Warning, LogOption.None, ctx, "{0}", formattedLog);
             Logged.Raise(LogType.Warning, formattedLog);
         }
                 
@@ -236,7 +251,7 @@ namespace CarterGames.Cart.Logs
         /// <param name="message">The message to write.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogError<T>(string message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
+        public static void LogError<T>(object message, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!UtilRuntime.Settings.ForceShowErrors)
             {
@@ -247,7 +262,7 @@ namespace CarterGames.Cart.Logs
             
             var formattedLog = CreateLogMessage<T>(message);
             
-            Debug.LogError(formattedLog);
+            Debug.LogFormat(LogType.Error, LogOption.None, ctx, "{0}", formattedLog);
             Logged.Raise(LogType.Error, formattedLog);
         }
         
@@ -259,7 +274,7 @@ namespace CarterGames.Cart.Logs
         /// <param name="additionalContext">The additional type context for the log. Such as system/class.</param>
         /// <param name="editorOnlyLog">Should this log be in the editor only.</param>
         /// <typeparam name="T">The log type to display as.</typeparam>
-        public static void LogError<T>(string message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
+        public static void LogError<T>(object message, Type additionalContext, UnityEngine.Object ctx = null, bool editorOnlyLog = false) where T : LogCategory
         {
             if (!UtilRuntime.Settings.ForceShowErrors)
             {
@@ -270,7 +285,7 @@ namespace CarterGames.Cart.Logs
             
             var formattedLog = CreateLogMessage<T>(message, additionalContext);
             
-            Debug.LogError(formattedLog);
+            Debug.LogFormat(LogType.Error, LogOption.None, ctx, "{0}", formattedLog);
             Logged.Raise(LogType.Error, formattedLog);
         }
     }

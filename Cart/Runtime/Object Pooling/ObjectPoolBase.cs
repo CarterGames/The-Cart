@@ -130,7 +130,7 @@ namespace CarterGames.Cart
 
             if (!ShouldExpand)
             {
-                CartLogger.Log<LogCategoryCart>("No free member objects to return.", typeof(ObjectPoolBase<>));
+                CartLogger.Log<CartLogs>("No free member objects to return.", typeof(ObjectPoolBase<>));
                 return default;
             }
             

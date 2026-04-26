@@ -149,7 +149,7 @@ namespace CarterGames.Cart.Crates
             {
                 if (HasDefine(crate)) return;
                 Append($"-define:{crate.CrateDefine}");
-                CartLogger.Log<LogCategoryCart>($"Enabled: {crate.CrateName}");
+                CartLogger.Log<CartLogs>($"Enabled: {crate.CrateName}");
             }
         }
         
@@ -187,7 +187,7 @@ namespace CarterGames.Cart.Crates
 
                 foreach (var crate in crates)
                 {
-                    CartLogger.Log<LogCategoryCart>($"Enabled: {crate.CrateName}");
+                    CartLogger.Log<CartLogs>($"Enabled: {crate.CrateName}");
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace CarterGames.Cart.Crates
             {
                 if (!HasDefine(crate)) return;
                 Remove($"-define:{crate.CrateDefine}");
-                CartLogger.Log<LogCategoryCart>($"Disabled: {crate.CrateName}");
+                CartLogger.Log<CartLogs>($"Disabled: {crate.CrateName}");
             }
         }
         
@@ -245,7 +245,7 @@ namespace CarterGames.Cart.Crates
             
             foreach (var crate in crates)
             {
-                CartLogger.Log<LogCategoryCart>($"Disabled: {crate.CrateName}");
+                CartLogger.Log<CartLogs>($"Disabled: {crate.CrateName}");
             }
         }
 

@@ -149,7 +149,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
                     if (!ConditionsSoCache.TryGetSerializedObjectForCriteria(
                             criteriaGroup.Group.Fpr("criteria").GetIndex(i), out var criteriaSo))
                     {
-                        CartLogger.Log<LogCategoryConditions>(
+                        CartLogger.Log<ConditionsLogs>(
                             $"Unable to find criteria for entry\n{criteriaGroup.Group.Fpr("criteria").GetIndex(i).objectReferenceValue.name}");
                         continue;
                     }
@@ -215,7 +215,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
             GroupRemovedEvt.Raise(criteriaGroup);
         
 #if !UNITY_2022_2_OR_NEWER
-            CartLogger.Log<LogCategoryConditions>("Known issue with Unity (Fixed in 2022.x.x or newer). Please ignore the 2 errors below.");
+            CartLogger.Log<ConditionsLogs>("Known issue with Unity (Fixed in 2022.x.x or newer). Please ignore the 2 errors below.");
 #endif
         }
     }

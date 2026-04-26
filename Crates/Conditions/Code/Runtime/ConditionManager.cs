@@ -84,7 +84,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			if (!CanEnableSystem)
 			{
-				CartLogger.LogWarning<LogCategoryConditions>("Cannot initialize conditions as the system has criteria that are not setup correctly in the editor.", typeof(ConditionManager));
+				CartLogger.LogWarning<ConditionsLogs>("Cannot initialize conditions as the system has criteria that are not setup correctly in the editor.", typeof(ConditionManager));
 				return;
 			}
 			
@@ -116,7 +116,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			if (!IsInitialized)
 			{
-				CartLogger.LogError<LogCategoryConditions>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
+				CartLogger.LogError<ConditionsLogs>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
 				return;
 			}
 
@@ -133,7 +133,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			if (!IsInitialized)
 			{
-				CartLogger.LogError<LogCategoryConditions>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
+				CartLogger.LogError<ConditionsLogs>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
 				return;
 			}
 			conditions[conditionId].RefreshedEvt.Remove(action);
@@ -150,7 +150,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			if (!IsInitialized)
 			{
-				CartLogger.LogError<LogCategoryConditions>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
+				CartLogger.LogError<ConditionsLogs>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
 				return;
 			}
 			conditions[conditionId].EvaluationChangedEvt.Add(action);
@@ -168,7 +168,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			if (!IsInitialized)
 			{
-				CartLogger.LogWarning<LogCategoryConditions>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
+				CartLogger.LogWarning<ConditionsLogs>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription change not applied!.", typeof(ConditionManager));
 				return;
 			}
 
@@ -186,7 +186,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			if (!IsInitialized)
 			{
-				CartLogger.LogError<LogCategoryConditions>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and will return false as a fallback.", typeof(ConditionManager));
+				CartLogger.LogError<ConditionsLogs>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and will return false as a fallback.", typeof(ConditionManager));
 				return false;
 			}
 
@@ -202,7 +202,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			if (!IsInitialized)
 			{
-				CartLogger.LogError<LogCategoryConditions>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription changes are not applied!.", typeof(ConditionManager));
+				CartLogger.LogError<ConditionsLogs>("Conditions is not initialized! please check that conditions are initialzied before running other logic. This call has failed and the subscription changes are not applied!.", typeof(ConditionManager));
 				return;
 			}
 

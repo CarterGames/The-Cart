@@ -23,7 +23,7 @@ namespace CarterGames.Cart.Crates.Localization
     /// <summary>
     /// A log category for the localization crate.
     /// </summary>
-    public sealed class LogCategoryLocalization : LogCategory { }
+    public sealed class LocalizationLogs : LogCategory { }
 }
 
 #endif

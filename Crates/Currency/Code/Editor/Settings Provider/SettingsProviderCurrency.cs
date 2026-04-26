@@ -135,7 +135,7 @@ namespace CarterGames.Cart.Crates.Currency.Editor
         {
             if (string.IsNullOrEmpty(key))
             {
-                CartLogger.Log<LogCategoryCurrency>($"[Editor/TryAddDefaultAccount]: Cannot add account with a empty id.", typeof(CurrencyAccountEditorWindow));
+                CartLogger.Log<CurrencyLogs>($"[Editor/TryAddDefaultAccount]: Cannot add account with a empty id.", typeof(CurrencyAccountEditorWindow));
                 return;
             }
             
@@ -143,7 +143,7 @@ namespace CarterGames.Cart.Crates.Currency.Editor
             {
                 if (DefAccountsProp.GetIndex(i).Fpr("key").stringValue == key)
                 {
-                    CartLogger.Log<LogCategoryCurrency>($"[Editor/TryAddDefaultAccount]: Cannot add account of id {key} as it is already defined.", typeof(CurrencyAccountEditorWindow));
+                    CartLogger.Log<CurrencyLogs>($"[Editor/TryAddDefaultAccount]: Cannot add account of id {key} as it is already defined.", typeof(CurrencyAccountEditorWindow));
                     return;
                 }
             }

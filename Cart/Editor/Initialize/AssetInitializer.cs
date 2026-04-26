@@ -75,7 +75,7 @@ namespace CarterGames.Cart.Management.Editor
         /// </summary>
         private static async void InitializeEditorClasses()
         {
-            var initClasses = InterfaceHelper.GetAllInterfacesInstancesOfType<IAssetEditorInitialize>();
+            var initClasses = AssemblyHelper.GetClassesOfType<IAssetEditorInitialize>().ToArray();
             
             if (initClasses.Length > 0)
             {

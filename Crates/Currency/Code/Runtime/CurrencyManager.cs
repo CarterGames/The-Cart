@@ -149,7 +149,7 @@ namespace CarterGames.Cart.Crates.Currency
         {
             if (!HasLoadedAccounts)
             {
-                CartLogger.Log<LogCategoryCurrency>("Accounts not loaded, returning false", typeof(CurrencyManager));
+                CartLogger.Log<CurrencyLogs>("Accounts not loaded, returning false", typeof(CurrencyManager));
                 return false;
             }
             

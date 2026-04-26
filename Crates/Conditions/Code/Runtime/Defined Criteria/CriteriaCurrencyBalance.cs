@@ -42,7 +42,14 @@ namespace CarterGames.Cart.Crates.Conditions
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        protected override bool Valid => CurrencyManager.GetAccount(accountId).Balance >= amount;
+        protected override bool Valid
+        {
+            get
+            {
+                if (!CurrencyManager.TryGetAccount(accountId, out var account)) return false;
+                return account.Balance >= amount;
+            }
+        }
 
         public override string DisplayName
         {
@@ -75,7 +82,8 @@ namespace CarterGames.Cart.Crates.Conditions
         
         public override void OnInitialize(Evt stateChanged)
         {
-            CurrencyManager.GetAccount(accountId).Adjusted.Add(OnAccountAdjusted);
+            if (!CurrencyManager.TryGetAccount(accountId, out var account)) return;
+            account.Adjusted.Add(OnAccountAdjusted);
             return;
 
             void OnAccountAdjusted(AccountTransaction transaction)

@@ -1,6 +1,4 @@
-﻿#if CARTERGAMES_CART_CRATE_PARAMETERS
-
-/*
+﻿/*
  * The Cart
  * Copyright (c) 2026 Carter Games
  *
@@ -16,14 +14,10 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using CarterGames.Cart.Logs;
-
-namespace CarterGames.Cart.Crates.Parameters
+namespace CarterGames.Cart.Logs
 {
     /// <summary>
-    /// The log category for the parameters crate.
+    /// The log category for the core library.
     /// </summary>
-	public sealed class LogCategoryParameters : LogCategory { }
+    public sealed class CartLogs : LogCategory { }
 }
-
-#endif
