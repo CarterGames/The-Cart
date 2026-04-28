@@ -64,7 +64,7 @@ namespace CarterGames.Cart.Logs.Editor
 
             if (GUILayout.Button("Toggle Categories"))
             {
-                UtilityEditorWindow.Open<LogCategoriesEditor>("Log Category Statuses Window");
+                UtilityEditorWindow.Open<LogCategoriesEditor>("Log Category Statuses");
                 EditorGUILayout.BeginVertical();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.BeginVertical();

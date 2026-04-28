@@ -160,7 +160,7 @@ namespace CarterGames.Cart.Management.Editor
         {
             EditorGUILayout.BeginVertical();
             GUILayout.Space(1.5f);
-            EditorGUILayout.LabelField("Core Library Settings", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Cart Settings", EditorStyles.boldLabel);
             
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(17.5f);

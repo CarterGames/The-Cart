@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Cart.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -23,10 +24,13 @@ namespace CarterGames.Cart.Logs.Editor.Windows
 {
     public class LogCategoriesEditor : UtilityEditorWindow
     {
+        private IReadOnlyDictionary<string, string> cacheReadableCategoriesLookup;
         private IReadOnlyDictionary<string, SerializedProperty> cacheCategoriesLookup;
         private List<string> cacheBuiltInCategories;
 
 
+        private IReadOnlyDictionary<string, string> ReadableCategoriesLookup =>
+            CacheRef.GetOrAssign(ref cacheReadableCategoriesLookup, GetReadableCategoriesLookup);
         private IReadOnlyDictionary<string, SerializedProperty> CategoriesLookup =>
             CacheRef.GetOrAssign(ref cacheCategoriesLookup, GetCategoriesLookup);
         
@@ -67,6 +71,24 @@ namespace CarterGames.Cart.Logs.Editor.Windows
             
             return lookup;
         }
+        
+        
+        private IReadOnlyDictionary<string, string> GetReadableCategoriesLookup()
+        {
+            var readable = new Dictionary<string, string>();
+
+            foreach (var entry in CategoriesLookup)
+            {
+                var result = entry.Key.SplitAndGetLastElement('.')
+                    .Replace("Logs", string.Empty)
+                    .Replace("Log", string.Empty)
+                    .Replace("Category", string.Empty);
+                
+                readable.Add(entry.Key, result);
+            }
+            
+            return readable;
+        }
 
 
         private void DrawCategories(bool builtIn)
@@ -80,7 +102,7 @@ namespace CarterGames.Cart.Logs.Editor.Windows
 
             var index = 0;
 
-            foreach (var entry in CategoriesLookup)
+            foreach (var entry in ReadableCategoriesLookup.OrderBy(t => t.Value))
             {
                 if (builtIn)
                 {
@@ -103,12 +125,9 @@ namespace CarterGames.Cart.Logs.Editor.Windows
 
                 EditorGUILayout.BeginHorizontal(style);
 
-                EditorGUILayout.LabelField(entry.Key.SplitAndGetLastElement('.')
-                    .Replace("Logs", string.Empty)
-                    .Replace("Log", string.Empty)
-                    .Replace("Category", string.Empty));
+                EditorGUILayout.LabelField(entry.Value);
                 
-                CustomEditorStyling.DrawToggleStatusButton(entry.Value.Fpr("value"));
+                CustomEditorStyling.DrawToggleStatusButton(CategoriesLookup[entry.Key].Fpr("value"));
                 
                 EditorGUILayout.EndHorizontal();
 
