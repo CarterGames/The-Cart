@@ -26,7 +26,16 @@ namespace CarterGames.Cart.Crates.DataValues.Editor
 	{
 		protected override bool ShowAssetIndexOptions => false;
 		protected override bool ShowVariantIdOption => false;
-		
+
+		protected override string[] HideProperties  => new string[]
+		{
+			"m_Script", 
+			"variantId", 
+			"excludeFromAssetIndex",
+			"value",
+			"defaultValue",
+		};
+
 		public override void OnInspectorGUI()
 		{
 			base.OnInspectorGUI();

@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using CarterGames.Cart;
 using CarterGames.Cart.Events;
 using CarterGames.Cart.Crates.DataValues.Events;
 using UnityEngine;
@@ -40,10 +39,10 @@ namespace CarterGames.Cart.Crates.DataValues
         [SerializeField] [HideInInspector] [TextArea] private string devDescription;
 
         [SerializeField] [HideInInspector] private string key;
-        [SerializeField] [HideInInspector] private SerializableDictionary<TKey, TValue> value = new SerializableDictionary<TKey, TValue>();
+        [SerializeField] private SerializableDictionary<TKey, TValue> value = new SerializableDictionary<TKey, TValue>();
 
         [SerializeField] [HideInInspector] private bool canReset;
-        [SerializeField] [HideInInspector] private SerializableDictionary<TKey, TValue> defaultValue;
+        [SerializeField] private SerializableDictionary<TKey, TValue> defaultValue;
         [SerializeField] [HideInInspector] private DataValueResetState resetStates;
         
         [SerializeField] [HideInInspector] private bool useDataValueEvents;
