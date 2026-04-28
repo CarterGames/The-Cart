@@ -56,13 +56,13 @@ namespace CarterGames.Cart
         /// <summary>
         /// Gets all the members of the pool.
         /// </summary>
-        public List<T> AllMembers => memberObjects;
+        public IReadOnlyCollection<T> AllMembers => memberObjects;
         
         
         /// <summary>
         /// Gets all the in use members of the pool.
         /// </summary>
-        public HashSet<T> AllInUse => unavailableObjects;
+        public IReadOnlyCollection<T> AllInUse => unavailableObjects;
         
         
         /// <summary>
