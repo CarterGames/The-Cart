@@ -118,7 +118,7 @@ namespace CarterGames.Cart
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <typeparam name="T">The type to find.</typeparam>
         /// <returns>All the implementations of the entered class.</returns>
-        public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = false)
+        public static IEnumerable<Type> GetClassNamesOfType<T>(bool internalCheckOnly = false)
         {
             var assemblies = internalCheckOnly ? CartAssemblies : AppDomain.CurrentDomain.GetAssemblies();
 
@@ -147,7 +147,7 @@ namespace CarterGames.Cart
         /// <param name="baseType">The base tye to get from.</param>
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType, bool internalCheckOnly = false)
+        public static IEnumerable<Type> GetClassNamesOfBaseType(Type baseType, bool internalCheckOnly = false)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             

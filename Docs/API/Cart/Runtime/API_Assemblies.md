@@ -6,7 +6,6 @@ Mainly adds a load of API to make accessing classes through assemblies a tad eas
 
 |             |                     |
 |-------------|:--------------------|
-| Author      | `J, (Carter Games)` |
 | Revision    | `2`                 |
 | Last update | `2026-03-06`        |
 
@@ -60,33 +59,33 @@ private void OnEnable()
 
 <br/>
 
-#### `GetClassesNamesOfType()`
+#### `GetClassNamesOfType()`
 Gets all the class types that inherit from the entered type.
 
 ```csharp
-public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = false);
+public static IEnumerable<Type> GetClassNamesOfType<T>(bool internalCheckOnly = false);
 ```
 
 ```csharp
 private void OnEnable()
 {
-    var classTypesOfType = AssemblyHelper.GetClassesNamesOfType<MyClassType>();
+    var classTypesOfType = AssemblyHelper.GetClassNamesOfType<MyClassType>();
 }
 ```
 
 <br/>
 
-#### `GetClassesNamesOfBaseType()`
+#### `GetClassNamesOfBaseType()`
 Gets all the class names of the entered type in the project that use the base type. Similar to `GetClassesNamesOfType()` but doesn't need to know the exact type when called.
 
 ```csharp
-public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType, bool internalCheckOnly = false);
+public static IEnumerable<Type> GetClassNamesOfBaseType(Type baseType, bool internalCheckOnly = false);
 ```
 
 ```csharp
 private void OnEnable()
 {
-    var classTypesOfType = AssemblyHelper.GetClassesNamesOfType(typeof(MyClassType));
+    var classTypesOfType = AssemblyHelper.GetClassNamesOfType(typeof(MyClassType));
 }
 ```
 
