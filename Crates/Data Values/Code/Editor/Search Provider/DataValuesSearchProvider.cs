@@ -79,7 +79,7 @@ namespace CarterGames.Cart.Crates.DataValues.Editor
             searchList.Add(new SearchTreeGroupEntry(new GUIContent("Select Data Value Type"), 0));
 
 
-            foreach (var assetType in AssemblyHelper.GetClassesNamesOfType<DataValueAsset>().Reverse())
+            foreach (var assetType in AssemblyHelper.GetClassNamesOfType<DataValueAsset>().Reverse())
             {
                 if (ToExclude.Contains(assetType.Name)) continue;
                 if (DefaultIgnoredClasses.Contains(assetType)) continue;

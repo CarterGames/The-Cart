@@ -17,29 +17,34 @@
 using System;
 using CarterGames.Cart.Data;
 using CarterGames.Cart.Management;
+using UnityEngine;
 
 namespace CarterGames.Cart.Random
 {
     public sealed class AleaRngProvider : ISeededRngProvider
     {
+        private static DataAssetCoreRuntimeSettings Asset => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>();
+        private string instanceSeed = string.Empty;
+        private static Alea cacheAlea;
+
+
         /// <summary>
-        /// The seed used the generate all the random values. 
+        /// The seed used to generate all the random values. 
         /// </summary>
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
-        public static string Seed
+        public string Seed
         {
-            get => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngAleaRngSeed;
-            private set => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngAleaRngSeed = value;
+            get => instanceSeed;
+            set => instanceSeed = value;
         }
 
 
         /// <summary>
         /// The random to call values from.
         /// </summary>
-        private static readonly Alea R = new Alea(Seed);
-        
-        
-        
+        private Alea Random => CacheRef.GetOrAssign(ref cacheAlea, new Alea(Rng.Seed));
+
+
         public bool Bool => Convert.ToBoolean(Int(0,1));
         
         
@@ -57,14 +62,14 @@ namespace CarterGames.Cart.Random
 
         public double Double(double min, double max)
         {
-            var random = R.Next();
+            var random = Random.Next();
             return ((random - 0f) / (1f - 0)) * (max - min) + min;
         }
         
         
-        public void GenerateSeed()
+        public string GenerateSeed()
         {
-            Seed = Guid.NewGuid().ToString();
+            return Guid.NewGuid().ToString();
         }
     }
 }

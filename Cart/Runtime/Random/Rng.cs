@@ -14,6 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
+using System;
 using CarterGames.Cart.Data;
 using CarterGames.Cart.Management;
 using UnityEngine;
@@ -32,15 +33,41 @@ namespace CarterGames.Cart.Random
         private static IRngProvider providerCache;
         private const string StringGlyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
         private const string StringSymbols = "!£$%^&*()-_=+[]{}:;@~#<>?/,.";
-
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         /// <summary>
+        /// Used internally to get the runtime settings asset for the core library.
+        /// </summary>
+        private static DataAssetCoreRuntimeSettings Asset => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>();
+        
+        
+        /// <summary>
         /// Gets the current random provider in use.
         /// </summary>
-        public static IRngProvider Provider => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngProvider;
+        private static IRngProvider Provider => Asset.RngProvider;
+        
+        
+        /// <summary>
+        /// The seed currently in use, if applicable based on the active provider.
+        /// </summary>
+        public static string Seed
+        {
+            get
+            {
+                if (!Provider.GetType().GetInterfaces().Contains(typeof(ISeededRngProvider))) return null;
+                if (Asset.UseOverrideSeed) return Asset.EditorOverrideSeed;
+                
+                if (string.IsNullOrEmpty(((ISeededRngProvider)Provider).Seed))
+                {
+                    ((ISeededRngProvider)Provider).Seed = ((ISeededRngProvider)Provider).GenerateSeed();
+                }
+
+                return ((ISeededRngProvider)Provider).Seed;
+            }
+        }
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Bool
@@ -58,17 +85,10 @@ namespace CarterGames.Cart.Random
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Int
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
 
-        /// <summary>
-        /// Gets a random int of either 0 or 1.
-        /// </summary>
-        /// <returns>int</returns>
-        public static int Int01()
-        {
-            return Provider.Int(0, 1);
-        }
-        
-        
+
+
         /// <summary>
         /// Gets a random int with a variance of +/- the entered variance from the starting value.
         /// </summary>
@@ -474,5 +494,12 @@ namespace CarterGames.Cart.Random
 
             return result;
         }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Legacy
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+        
+        [Obsolete("This function will return -1 always as it is legacy, please use Rng.Bool() or Rng.Int(0,1) instead.")]
+        public static int Int01() => -1;
     }
 }

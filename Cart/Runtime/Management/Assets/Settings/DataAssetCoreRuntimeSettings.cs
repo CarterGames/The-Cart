@@ -37,8 +37,13 @@ namespace CarterGames.Cart.Management
         [SerializeField] private bool isRngExpanded;
         [SerializeField] private AssemblyClassDef rngProviderTypeDef = typeof(UnityRngProvider);
         private IRngProvider cacheRngProvider;
-        [SerializeField] private int rngSystemSeed = Guid.NewGuid().GetHashCode();
-        [SerializeField] private string rngAleaSeed = Guid.NewGuid().ToString();
+        
+        // New...
+        [SerializeField] private bool useOverrideSeed;
+        [SerializeField] private string editorOverrideSeed;
+        // Legacy...
+        [SerializeField] [Obsolete] private int rngSystemSeed = Guid.NewGuid().GetHashCode();
+        [SerializeField] [Obsolete] private string rngAleaSeed = Guid.NewGuid().ToString();
         
         // Logging
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -65,6 +70,8 @@ namespace CarterGames.Cart.Management
         public IRngProvider RngProvider => CacheRef.GetOrAssign(ref cacheRngProvider, rngProviderTypeDef.GetTypeInstance<IRngProvider>);
         public AssemblyClassDef RngProviderAssemblyClassDef => rngProviderTypeDef;
 
+        public bool UseOverrideSeed => useOverrideSeed;
+        public string EditorOverrideSeed => editorOverrideSeed;
         
         /// <summary>
         /// The System Rng Seed.
@@ -84,6 +91,7 @@ namespace CarterGames.Cart.Management
             get => rngAleaSeed;
             set => rngAleaSeed = value;
         }
+        
         
         // Logging
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */

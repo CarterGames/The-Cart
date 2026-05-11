@@ -6,7 +6,6 @@ The events system is a extension to system actions that makes sure no method is 
 
 |             |                     |
 |-------------|:--------------------|
-| Author      | `J, (Carter Games)` |
 | Revision    | `5`                 |
 | Last update | `2026-03-06`        |
 

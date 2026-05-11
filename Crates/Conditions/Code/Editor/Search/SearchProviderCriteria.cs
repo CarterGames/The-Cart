@@ -38,7 +38,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		{
 			var group = new List<SearchGroup<Type>>();
 			var entries = new List<SearchItem<Type>>();
-			var instances = AssemblyHelper.GetClassesNamesOfType<Criteria>();
+			var instances = AssemblyHelper.GetClassNamesOfType<Criteria>();
 
 			foreach (var entry in instances)
 			{

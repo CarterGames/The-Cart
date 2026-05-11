@@ -45,7 +45,7 @@ namespace CarterGames.Cart.Crates.Conditions
             
             if (criteriaTypesCache == null)
             {
-                criteriaTypesCache = AssemblyHelper.GetClassesNamesOfType<Criteria>().ToList();
+                criteriaTypesCache = AssemblyHelper.GetClassNamesOfType<Criteria>().ToList();
             }
             
             foreach (var type in criteriaTypesCache)

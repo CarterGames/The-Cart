@@ -15,55 +15,61 @@
  */
 
 using System;
+using SystemRng = System.Random;
 using CarterGames.Cart.Data;
 using CarterGames.Cart.Management;
+using UnityEngine;
 
 namespace CarterGames.Cart.Random
 {
     public sealed class SystemRngProvider : ISeededRngProvider
     {
+        private static DataAssetCoreRuntimeSettings Asset => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>();
+        private int instanceSeed = int.MinValue;
+        private static SystemRng cacheSysRandom;
+
+        
         /// <summary>
-        /// The seed used the generate all the random values. 
+        /// The seed used to generate all the random values. 
         /// </summary>
         /// <remarks>This is intended to help with debugging as you can replicate the seed & get the same results as a user.</remarks>
-        public static int Seed
+        public string Seed
         {
-            get => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngSystemRngSeed;
-            private set => DataAccess.GetAsset<DataAssetCoreRuntimeSettings>().RngSystemRngSeed = value;
+            get => instanceSeed == int.MinValue ? string.Empty : instanceSeed.ToString();
+            set => instanceSeed = int.Parse(value);
         }
 
 
         /// <summary>
         /// The random to call values from.
         /// </summary>
-        private static readonly System.Random R = new System.Random(Seed);
-        
-        
-        
-        public bool Bool => Convert.ToBoolean(R.Next(1));
+        private SystemRng Random => CacheRef.GetOrAssign(ref cacheSysRandom, new SystemRng(int.Parse(Rng.Seed)));
+
+
+        public bool Bool => Convert.ToBoolean(Random.Next(1));
         
         
         public int Int(int min, int max)
         {
-            return R.Next(min, max + 1);
+            return Random.Next(min, max + 1);
         }
         
 
         public float Float(float min, float max)
         {
-            return (float) (R.NextDouble() * (max - min)) + min;
+            return (float) (Random.NextDouble() * (max - min)) + min;
         }
         
 
         public double Double(double min, double max)
         {
-            return (R.NextDouble() * (max - min)) + min;
+            return (Random.NextDouble() * (max - min)) + min;
         }
         
         
-        public void GenerateSeed()
+        public string GenerateSeed()
         {
-            Seed = Guid.NewGuid().GetHashCode();
+            return Guid.NewGuid().GetHashCode().ToString();
         }
     }
 }

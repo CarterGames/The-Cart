@@ -3,6 +3,11 @@
 
 Rng is one of the many core systems which handles generating random numbers, string etc. The set-up lets you choose which provider is used to produce the random results. Some are true random while others are seeded random (where a seed can produce the same result each time run). 
 
+|             |              |
+|-------------|:-------------|
+| Revision    | `1`          |
+| Last update | `2026-05-11` |
+
 ## Providers
 
 ### Settings
@@ -16,6 +21,8 @@ There is currently only the option to choose your provider in the settings. To s
 ![random_settings](img/random_settings.png)
 
 If you choose a provider that uses a seed. The option to change the seed will be shown under the provider.
+
+If a provider is a seed based provider, you can override the seed assigned at runtime from the editor in-order to aid in testing for specific results.
 
 <br/>
 
@@ -38,15 +45,15 @@ The default providers in the project are:
 ### Custom
 If you want to implement your own provider of random you can make a non-static class implementing the `IRngProvider` interface and implement its methods.
 
-If your random provider is a seeded one, please use the `ISeededRngProvider` interface instead.
+If your random provider is a seeded one, please use the `ISeededRngProvider` interface instead. You will need to handle passing through the seed to and from a string format.
 
 You’ll be able to select your new provider in the asset settings provider when you implement the interface. The interface only has a couple of methods to implement, the rest of the Rng API is made from these methods:
 
 Common:
 
-| Property | Description |
-| --- | :--- |
-| ``Bool {get}`` | Should return a random bool result. |
+| Property         | Description |
+|------------------| :--- |
+| ``Bool { get }`` | Should return a random bool result. |
 
 | Method | Description |
 | --- | :--- |
@@ -54,7 +61,11 @@ Common:
 | ``Float()`` | Should return a random float between the min and max values inclusive. |
 | ``Double()`` | Should return a random double between the min and max values inclusive. |
 
-Seeded Only:
+Seeded providers also need to provide implementations of the following:
+
+| Property         | Description                          |
+|------------------|:-------------------------------------|
+| ``Seed { get }`` | The seed the provider has generated. |
 
 | Method | Description |
 | --- | :--- |
@@ -64,4 +75,3 @@ Seeded Only:
 ## Usage
 
 The ``Rng`` class is the static class intended to be used to access the random provider in use. This should be used when interacting with this system of the library.
-

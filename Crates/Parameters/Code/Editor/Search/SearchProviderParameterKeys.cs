@@ -51,7 +51,7 @@ namespace CarterGames.Cart.Crates.Parameters.Editor
 			var list = new List<SearchGroup<string>>();
 			var items = new List<SearchItem<string>>();
 			
-			foreach (var type in AssemblyHelper.GetClassesNamesOfType<Parameter>())
+			foreach (var type in AssemblyHelper.GetClassNamesOfType<Parameter>())
 			{
 				if (IgnoreTypes.Contains(type.FullName)) continue;
 				items.Add(SearchItem<string>.Set(type.Name, type.FullName));

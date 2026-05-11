@@ -18,6 +18,7 @@ namespace CarterGames.Cart.Random
 {
     public interface ISeededRngProvider : IRngProvider
     {
-        void GenerateSeed();
+        string Seed { get; set; }
+        string GenerateSeed();
     }
 }

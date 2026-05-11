@@ -24,6 +24,8 @@ namespace CarterGames.Cart.Editor
 	public class SearchProviderRandom : SearchProvider<IRngProvider>
 	{
 		private static SearchProviderRandom Instance;
+		private static IEnumerable<IRngProvider> cacheProviders;
+		private static IEnumerable<IRngProvider> cacheSeededProviders;
 
 		protected override string ProviderTitle => "Select Random Provider";
 		public override bool HasOptions => AssemblyHelper.GetClassesOfType<IRngProvider>()?.Count() > 0;
@@ -31,15 +33,19 @@ namespace CarterGames.Cart.Editor
 
 		public override List<SearchGroup<IRngProvider>> GetEntriesToDisplay()
 		{
+			if (cacheProviders == null)
+			{
+				cacheProviders = AssemblyHelper.GetClassesOfType<IRngProvider>().Where(t => !ToExclude.Contains(t));
+				cacheSeededProviders = AssemblyHelper.GetClassesOfType<ISeededRngProvider>().Where(t => !ToExclude.Contains(t)).ToList();
+			}
+			
 			var list = new List<SearchGroup<IRngProvider>>();
 			var entries = new List<SearchItem<IRngProvider>>();
 			var seededEntries = new List<SearchItem<IRngProvider>>();
-			var options = AssemblyHelper.GetClassesOfType<IRngProvider>().Where(t => !ToExclude.Contains(t));
-			var seededRandomOptions = AssemblyHelper.GetClassesOfType<ISeededRngProvider>().Where(t => !ToExclude.Contains(t)).ToList();
 			
-			foreach (var entry in options)
+			foreach (var entry in cacheProviders)
 			{
-				if (seededRandomOptions.Any(t => t.GetType() == entry.GetType()))
+				if (cacheSeededProviders.Any(t => t.GetType() == entry.GetType()))
 				{
 					seededEntries.Add(SearchItem<IRngProvider>.Set(entry.GetType().Name.Replace("RngProvider", string.Empty), entry));
 				}
