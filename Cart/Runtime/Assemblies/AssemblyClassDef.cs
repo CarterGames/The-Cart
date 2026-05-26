@@ -135,8 +135,16 @@ namespace CarterGames.Cart
 			
 			try
 			{
-				return AssemblyHelper.GetClassesOfType<T>().FirstOrDefault(t =>
-					t.GetType().Assembly.FullName == StoredAssembly && t.GetType().FullName == StoredType);
+				if (TryGetType(out var typeValue))
+				{
+					return (T)Activator.CreateInstance(typeValue);
+				}
+				
+				CartLogger.LogError<CartLogs>(
+					"[GetDefinedType]: Type resolved is null, have you refactored the typename, namespace or assembly?",
+					typeof(AssemblyClassDef));
+					
+				return default;
 			}
 #pragma warning disable 0168
 			catch (Exception e)
@@ -153,20 +161,20 @@ namespace CarterGames.Cart
 		/// <summary>
 		/// Gets if a type is the same as this assembly class define.
 		/// </summary>
-		/// <param name="type">The type to compare</param>
+		/// <param name="targetType">The type to compare</param>
 		/// <returns>bool</returns>
-		public bool IsDefineType(Type type)
+		public bool IsDefineType(Type targetType)
 		{
-			return StoredAssembly == type.Assembly.FullName && StoredType == type.FullName;
+			return StoredAssembly == targetType.Assembly.FullName && StoredType == targetType.FullName;
 		}
 
 		
 		/// <summary>
 		/// Gets if the type entered is a base class of the stored value.
 		/// </summary>
-		/// <param name="type">The type to compare</param>
+		/// <param name="targetType">The type to compare</param>
 		/// <returns>Bool</returns>
-		public bool InheritsFrom(Type type)
+		public bool InheritsFrom(Type targetType)
 		{
 			if (!TryGetType(out var thisType))
 			{
@@ -177,7 +185,7 @@ namespace CarterGames.Cart
 				return false;
 			}
 			
-			return thisType.IsAssignableFrom(type);
+			return thisType.IsAssignableFrom(targetType);
 		}
 	}
 }

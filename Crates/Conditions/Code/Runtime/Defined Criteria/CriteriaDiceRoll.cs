@@ -34,7 +34,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
 		[SerializeField] private int numberOfSides;
-		[SerializeField] private IntRange validBounds;
+		[SerializeField] private Vector2 validBounds;
 
 		[NonSerialized] private bool rolledSuccess;
 		
@@ -49,7 +49,7 @@ namespace CarterGames.Cart.Crates.Conditions
 			get
 			{
 				if (numberOfSides <= 0) return base.DisplayName;
-				return $"Roll of a D{numberOfSides} result {IsString} within {validBounds.min} - {validBounds.max}";
+				return $"Roll of a D{numberOfSides} result {IsString} within {validBounds.x} - {validBounds.y}";
 			}
 		}
 
@@ -60,7 +60,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		public override void OnInitialize(Evt stateChanged)
 		{ 
 			var roll = Dice.Dice.Custom(numberOfSides);
-			rolledSuccess = roll >= validBounds.min && roll <= validBounds.max;
+			rolledSuccess = roll >= validBounds.x && roll <= validBounds.y;
 			stateChanged.Raise();
 		}
 	}

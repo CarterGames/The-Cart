@@ -28,7 +28,7 @@ namespace CarterGames.Cart
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
-        /// Gets the cache if its not null, or assigns it via the func if it needs assigning.
+        /// Gets the cache if it's not null, or assigns it via the func if it needs assigning.
         /// </summary>
         /// <param name="cache">The cache to edit.</param>
         /// <param name="getAction">The action to get the reference.</param>
