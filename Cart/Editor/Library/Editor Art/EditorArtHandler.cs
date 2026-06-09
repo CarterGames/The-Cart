@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -32,106 +31,41 @@ namespace CarterGames.Cart.Management.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private static readonly Dictionary<string, string> DefinesLookup = new Dictionary<string, string>();
+        private static string[] AllPaths = Array.Empty<string>();
+        private static readonly Dictionary<string, string> CachePathsLookup = new Dictionary<string, string>();
         private static readonly Dictionary<string, Texture2D> CacheLookup = new Dictionary<string, Texture2D>();
-        private static readonly Dictionary<Type, string> InterfaceLookup = new Dictionary<Type, string>();
-        private static IEditorArtDefine[] CacheDefines = null;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Gets the asset path for any art asset for the asset from this script.
-        /// </summary>
-        /// <param name="pathEnd"></param>
-        /// <returns></returns>
-        private static string GetPathToAsset(string pathEnd)
+
+        private static string GetPathToAsset(string assetEndPath)
         {
-            string basePath = Path.GetFullPath(Path.Combine(GetCurrentFileName(), $"../../../../../{pathEnd}")).Replace(@"\", "/");;
+            if (CachePathsLookup.ContainsKey(assetEndPath))
+            {
+                return CachePathsLookup[assetEndPath];
+            }
             
-            // Needed as otherwise the art gets a null ref in the package manager version.
-            if (Directory.Exists("Assets/Carter Games/The Cart"))
-            {
-                return "Assets/" + basePath.Split(new string[1] { "/Assets/" }, StringSplitOptions.None)[1];
-            }
-            else
-            {
-                return "Art/" + basePath.Split(new string[1] { "/Art/" }, StringSplitOptions.None)[1];
-            }
-        }
-        
-        
-        /// <summary>
-        /// Gets the file name for the location of this class.
-        /// </summary>
-        /// <param name="fileName">The path for this file.</param>
-        /// <returns>String</returns>
-        private static string GetCurrentFileName([System.Runtime.CompilerServices.CallerFilePath] string fileName = null)
-        {
-            return fileName;
+            AllPaths = AssetDatabase.GetAllAssetPaths();
+            return AllPaths.FirstOrDefault(t => t.EndsWith(assetEndPath));
         }
 
 
         /// <summary>
         /// Gets an art icon from its constant id.
         /// </summary>
-        /// <param name="id">The id to get</param>
+        /// <param name="assetEndPath">The end of the path to the asset.</param>
         /// <returns>Texture2D</returns>
-        public static Texture2D GetIcon(string id)
+        public static Texture2D GetIcon(string assetEndPath)
         {
-            if (CacheDefines == null)
+            if (CacheLookup.ContainsKey(assetEndPath))
             {
-                CacheDefines = AssemblyHelper.GetClassesOfType<IEditorArtDefine>().ToArray();
-
-                foreach (var entry in CacheDefines)
-                {
-                    DefinesLookup.Add(entry.Uid, entry.InternalPath);
-                }
+                return CacheLookup[assetEndPath];
             }
             
-            if (CacheLookup.ContainsKey(id))
-            {
-                if (CacheLookup[id] == null)
-                {
-                    CacheLookup[id] = AssetDatabase.LoadAssetAtPath<Texture2D>(GetPathToAsset(DefinesLookup[id]));
-                }
-                    
-                return CacheLookup[id];
-            }
-            
-            if (!DefinesLookup.ContainsKey(id)) return null;
-            CacheLookup.Add(id, AssetDatabase.LoadAssetAtPath<Texture2D>(GetPathToAsset(DefinesLookup[id])));
-            return CacheLookup[id];
-        }
-
-
-        /// <summary>
-        /// Gets an art icon from its constant id.
-        /// </summary>
-        /// <typeparam name="T">The interface to get from (of IEditorArtDefine)</typeparam>
-        /// <returns>Texture2D</returns>
-        public static Texture2D GetIcon<T>() where T : IEditorArtDefine
-        {
-            if (CacheDefines == null)
-            {
-                CacheDefines = AssemblyHelper.GetClassesOfType<IEditorArtDefine>().ToArray();
-
-                foreach (var entry in CacheDefines)
-                {
-                    DefinesLookup.Add(entry.Uid, entry.InternalPath);
-                }
-            }
-            
-            if (InterfaceLookup.IsEmptyOrNull())
-            {
-                foreach (var entry in CacheDefines)
-                {
-                    InterfaceLookup.Add(entry.GetType(), entry.Uid);
-                }
-            }
-
-            return GetIcon(InterfaceLookup[typeof(T)]);
+            CachePathsLookup.Add(assetEndPath, GetPathToAsset(assetEndPath));
+            CacheLookup.Add(assetEndPath, AssetDatabase.LoadAssetAtPath<Texture2D>(CachePathsLookup[assetEndPath]));
+            return CacheLookup[assetEndPath];
         }
     }
 }

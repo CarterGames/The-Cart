@@ -48,9 +48,10 @@ namespace CarterGames.Cart.Crates
 		public override string CrateAuthor => CrateConstants.CarterGamesAuthor;
 
 
-		public override EditorUrl[] CrateLinks => new EditorUrl[1]
+		public override EditorUrl[] CrateLinks => new EditorUrl[2]
 		{
-			EditorUrl.LocalFile("Documentation", "Docs_Module_ColorFolders_Usage")
+			EditorUrl.LocalFile("Usage Docs", "Docs_ColorFolders"),
+			EditorUrl.LocalFile("API Docs", "API_ColorFolders")
 		};
 	}
 }

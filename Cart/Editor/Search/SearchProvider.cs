@@ -101,6 +101,12 @@ namespace CarterGames.Cart.Editor
         /// </summary>
         public readonly Evt<SearchTreeEntry> SelectionMade = new Evt<SearchTreeEntry>();
         
+        
+        /// <summary>
+        /// Raised when a selection is made.
+        /// </summary>
+        public readonly Evt<SearchTreeEntry, SearchWindowContext> SelectionMadeCtx = new Evt<SearchTreeEntry, SearchWindowContext>();
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -145,6 +151,15 @@ namespace CarterGames.Cart.Editor
             
             SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), WindowWidth), this);
         }
+
+
+        public void OpenCustom(Vector2 pos, float width)
+        {
+            ToExclude.Clear();  
+            WindowWidth = width;
+            
+            SearchWindow.Open(new SearchWindowContext(pos, WindowWidth), this);
+        }
         
         
         /// <summary>
@@ -172,6 +187,7 @@ namespace CarterGames.Cart.Editor
         {
             if (searchTreeEntry == null) return false;
             SelectionMade.Raise(searchTreeEntry);
+            SelectionMadeCtx.Raise(searchTreeEntry, context);
             return true;
         }
         

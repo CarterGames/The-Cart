@@ -48,7 +48,7 @@ namespace CarterGames.Cart.Crates.MultiScene.Editor
         /// <summary>
         /// The icon for Multi-Scene
         /// </summary>
-        private static Texture2D Icon => EditorArtHandler.GetIcon<EditorArtMultiSceneIcon>();
+        private static Texture2D Icon => EditorArtHandler.GetIcon("Crates/Multi Scene/Art/T_PNG_MS_Logo.png");
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Events

@@ -29,9 +29,12 @@ namespace CarterGames.Cart.Crates.NotionData.Editor
         
         public void OnProjectSettingsGUI()
         {
+            EditorGUILayout.LabelField(new GUIContent(EditorArtHandler.GetIcon("Crates/Notion Data (External)/Art/T_PNG_ND_Logo.png")), GUILayout.Height(50));
+            
             EditorGUILayout.HelpBox("Notion Data's settings are in their own tab. Use the button below to open them here.", MessageType.Info);
-
+            
             EditorGUILayout.BeginHorizontal();
+            
             GUILayout.Space(17.5f);
             
             if (GUILayout.Button("Open Settings"))

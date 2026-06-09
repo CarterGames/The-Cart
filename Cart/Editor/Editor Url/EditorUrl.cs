@@ -41,6 +41,17 @@ namespace CarterGames.Cart.Editor
         }
         
         
+        public static EditorUrl LocalFilePath(string displayName, string path)
+        {
+            return new EditorUrl()
+            {
+                DisplayName = displayName,
+                UrlType = EditorUrlType.LocalFile,
+                Target = path,
+            };
+        }
+        
+        
         public static EditorUrl CustomLocalAction(string displayName, Action action)
         {
             return new EditorUrl()
