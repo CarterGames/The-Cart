@@ -6,14 +6,14 @@
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation,
- * either version 3 of the License, or (at your option) any later version. 
+ * either version 3 of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>. 
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 using System;
@@ -30,93 +30,96 @@ namespace CarterGames.Cart.Crates.Localization
     public sealed class DataAssetLocalizationFonts : DataAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+         *  |   Fields
+         *  ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         [SerializeField] private LocalizationFont[] fontsLookup;
         [SerializeField] private SerializableDictionary<string, LocalizationFontDefinition> fallbackFont;
         [SerializeField] private SerializableDictionary<FontKeyDef, SerializableDictionary<string, LocalizationFontDefinition>> fontAssetLookup;
-        
+
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+         *  |   Properties
+         *  ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         protected override void OnInitialize()
         {
-	        fontAssetLookup = new SerializableDictionary<FontKeyDef, SerializableDictionary<string, LocalizationFontDefinition>>();
+            fontAssetLookup = new SerializableDictionary<FontKeyDef, SerializableDictionary<string, LocalizationFontDefinition>>();
 
-	        if (fontsLookup.IsEmptyOrNull()) return;
-	        
-	        var currentFontLookup = new Dictionary<string, LocalizationFontDefinition>();
+            if (fontsLookup.IsEmptyOrNull()) return;
 
-	        foreach (var entry in fontsLookup)
-	        {
-		        if (!entry.HasDefaultSetup)
-		        {
-			        CartLogger.LogWarning<LocalizationLogs>(
-				        $"Unable to set the entry for {entry} as it doesn't have a default language setup.");
-			        continue;
-		        }
+            var currentFontLookup = new Dictionary<string, LocalizationFontDefinition>();
 
-		        var key = FontKeyDef.FromFontDef(entry.DefaultLanguageData);
-		        currentFontLookup.Clear();
+            foreach (var entry in fontsLookup)
+            {
+                if (!entry.HasDefaultSetup)
+                {
+                    CartLogger.LogWarning<LocalizationLogs>(
+                        $"Unable to set the entry for {entry} as it doesn't have a default language setup.");
+                    continue;
+                }
 
-		        foreach (var entryData in entry.Data)
-		        {
-			        if (currentFontLookup.ContainsKey(entryData.Language.Code)) continue;
-			        currentFontLookup.Add(entryData.Language.Code, entryData);
-		        }
+                var key = FontKeyDef.FromFontDef(entry.DefaultLanguageData);
+                currentFontLookup.Clear();
 
-		        fontAssetLookup.Add(key,
-			        SerializableDictionary<string, LocalizationFontDefinition>.FromDictionary(currentFontLookup));
+                foreach (var entryData in entry.Data)
+                {
+                    if (currentFontLookup.ContainsKey(entryData.Language.Code)) continue;
+                    currentFontLookup.Add(entryData.Language.Code, entryData);
+                }
 
-		        foreach (var entryData in entry.Data)
-		        {
-			        key = FontKeyDef.FromElements(entryData.Font, entryData.FontMaterial);
+                fontAssetLookup.Add(key,
+                                    SerializableDictionary<string, LocalizationFontDefinition>.FromDictionary(currentFontLookup));
 
-			        if (fontAssetLookup.ContainsKey(key)) continue;
-			        fontAssetLookup.Add(key,
-				        SerializableDictionary<string, LocalizationFontDefinition>.FromDictionary(currentFontLookup));
-		        }
-	        }
+                foreach (var entryData in entry.Data)
+                {
+                    key = FontKeyDef.FromElements(entryData.Font, entryData.FontMaterial);
+
+                    if (fontAssetLookup.ContainsKey(key)) continue;
+                    fontAssetLookup.Add(key,
+                                        SerializableDictionary<string, LocalizationFontDefinition>.FromDictionary(currentFontLookup));
+                }
+            }
         }
 
 
-        private SerializableDictionary<string, LocalizationFontDefinition> GetFontData(TMP_Text label)
+        private bool TryGetFontData(TMP_Text label, out SerializableDictionary<string, LocalizationFontDefinition> result)
         {
-	        return GetFontData(label.font, label.defaultMaterial == label.fontMaterial ? null : label.fontMaterial);
+            return TryGetFontData(label.font, out result, label.defaultMaterial == label.fontSharedMaterial ? null : label.fontSharedMaterial);
         }
-        
-        
-        private SerializableDictionary<string, LocalizationFontDefinition> GetFontData(TMP_FontAsset fontAsset, Material fontMaterial = null)
-        {
-	        var defaultKey = FontKeyDef.FromElements(fontAsset, null);
-	        var key = FontKeyDef.FromElements(fontAsset, fontMaterial);
 
-	        if (fontAssetLookup.TryGetValue(key, out var fontData))
-	        {
-		        return fontData;
-	        }
-	        
-	        if (fontAssetLookup.TryGetValue(defaultKey, out fontData))
-	        {
-		        return fontData;
-	        }
-	        
-	        CartLogger.LogError<LocalizationLogs>($"Couldn't find default font setup for {fontAsset.name} | {fontMaterial}, using fallback!");
-	        return fallbackFont;
+
+        private bool TryGetFontData(TMP_FontAsset fontAsset, out SerializableDictionary<string, LocalizationFontDefinition> result, Material fontMaterial = null)
+        {
+            var defaultKey = FontKeyDef.FromElements(fontAsset, null);
+            var key = FontKeyDef.FromElements(fontAsset, fontMaterial);
+
+            if (fontAssetLookup.TryGetValue(key, out var fontData))
+            {
+                result = fontData;
+                return true;
+            }
+
+            if (fontAssetLookup.TryGetValue(defaultKey, out fontData))
+            {
+                result = fontData;
+                return true;
+            }
+
+            CartLogger.LogError<LocalizationLogs>($"Couldn't find default font setup for {fontAsset.name} | {fontMaterial}, using fallback!");
+            result = fallbackFont;
+            return false;
         }
 
 
         private string GetLanguageCode(string overrideLanguageCode = "")
         {
-	        return string.IsNullOrEmpty(overrideLanguageCode)
-		        ? LocalizationManager.CurrentLanguage.Code
-		        : overrideLanguageCode;
+            return string.IsNullOrEmpty(overrideLanguageCode)
+            ? LocalizationManager.CurrentLanguage.Code
+            : overrideLanguageCode;
         }
-        
-        
-        
+
+
+
         /// <summary>
         /// Gets the font setup for the language required on the label.
         /// </summary>
@@ -125,10 +128,11 @@ namespace CarterGames.Cart.Crates.Localization
         /// <returns>LocalizationFontDefinition</returns>
         public LocalizationFontDefinition GetFontDataFromFont(TMP_FontAsset fontAsset, string overrideLanguageCode = "")
         {
-	        return GetFontData(fontAsset)[GetLanguageCode(overrideLanguageCode)];
+            if (!TryGetFontData(fontAsset, out var result)) return null;
+            return result[GetLanguageCode(overrideLanguageCode)];
         }
-        
-                
+
+
         /// <summary>
         /// Gets the font setup for the language required on the label.
         /// </summary>
@@ -138,10 +142,11 @@ namespace CarterGames.Cart.Crates.Localization
         /// <returns>LocalizationFontDefinition</returns>
         public LocalizationFontDefinition GetFontDataFromFont(TMP_FontAsset fontAsset, Material fontMaterial, string overrideLanguageCode = "")
         {
-	        return GetFontData(fontAsset, fontMaterial)[GetLanguageCode(overrideLanguageCode)];
+            if (!TryGetFontData(fontAsset, out var result, fontMaterial)) return null;
+            return result[GetLanguageCode(overrideLanguageCode)];
         }
-        
-        
+
+
         /// <summary>
         /// Gets the font setup for the language required on the label.
         /// </summary>
@@ -150,10 +155,11 @@ namespace CarterGames.Cart.Crates.Localization
         /// <returns>LocalizationFontDefinition</returns>
         public LocalizationFontDefinition GetFontDataFromLabel(TMP_Text label, string overrideLanguageCode = "")
         {
-	        return GetFontData(label)[GetLanguageCode(overrideLanguageCode)];
+            if (!TryGetFontData(label, out var result)) return null;
+            return result[GetLanguageCode(overrideLanguageCode)];
         }
-        
-        
+
+
         /// <summary>
         /// Updates the font on a label to the current language or a specific language code if requested.
         /// </summary>
@@ -161,20 +167,24 @@ namespace CarterGames.Cart.Crates.Localization
         /// <param name="overrideLanguageCode">The language code to get for. If not overriden it'll be the current language.</param>
         public void UpdateFontOnLabel(TMP_Text label, string overrideLanguageCode = "")
         {
-	        var targetLanguageCode = GetLanguageCode(overrideLanguageCode);
+            var targetLanguageCode = GetLanguageCode(overrideLanguageCode);
 
-	        if (!GetFontData(label).ContainsKey(targetLanguageCode))
-	        {
-		        CartLogger.LogWarning<LocalizationLogs>($"Couldn't find an entry for the language code {targetLanguageCode}.");
-		        return;
-	        }
-	        
-	        var fontData = GetFontData(label)[targetLanguageCode];
+            if (!TryGetFontData(label, out var result))
+            {
+                if (!result.ContainsKey(targetLanguageCode))
+                {
+                    CartLogger.LogWarning<LocalizationLogs>(
+                        $"Couldn't find an entry for the language code {targetLanguageCode}.");
+                    return;
+                }
+            }
 
-	        label.font = fontData.Font;
+            var fontData = result[targetLanguageCode];
 
-	        if (fontData.FontMaterial == null) return;
-	        label.fontMaterial = fontData.FontMaterial;
+            label.font = fontData.Font;
+
+            if (fontData.FontMaterial == null) return;
+            label.fontMaterial = fontData.FontMaterial;
         }
 
 
@@ -186,10 +196,10 @@ namespace CarterGames.Cart.Crates.Localization
         /// <param name="overrideLanguageCode">The language code to get for. If not overriden it'll be the current language.</param>
         public void UpdateLabelToFont(TMP_Text label, TMP_FontAsset fontAsset, string overrideLanguageCode = "")
         {
-	        UpdateLabelToFont(label, fontAsset, null, overrideLanguageCode);
+            UpdateLabelToFont(label, fontAsset, null, overrideLanguageCode);
         }
-        
-        
+
+
         /// <summary>
         /// Updates the font on a label to the current language or a specific language code if requested.
         /// </summary>
@@ -199,20 +209,24 @@ namespace CarterGames.Cart.Crates.Localization
         /// <param name="overrideLanguageCode">The language code to get for. If not overriden it'll be the current language.</param>
         public void UpdateLabelToFont(TMP_Text label, TMP_FontAsset fontAsset, Material material, string overrideLanguageCode = "")
         {
-	        var targetLanguageCode = GetLanguageCode(overrideLanguageCode);
+            var targetLanguageCode = GetLanguageCode(overrideLanguageCode);
 
-	        if (!GetFontData(fontAsset, material).ContainsKey(targetLanguageCode))
-	        {
-		        CartLogger.LogWarning<LocalizationLogs>($"Couldn't find an entry for the language code {targetLanguageCode}.");
-		        return;
-	        }
-	        
-	        var fontData = GetFontData(fontAsset, material)[targetLanguageCode];
+            if (!TryGetFontData(fontAsset, out var result, material))
+            {
+                if (!result.ContainsKey(targetLanguageCode))
+                {
+                    CartLogger.LogWarning<LocalizationLogs>(
+                        $"Couldn't find an entry for the language code {targetLanguageCode}.");
+                    return;
+                }
+            }
 
-	        label.font = fontData.Font;
+            var fontData = result[targetLanguageCode];
 
-	        if (!fontData.UsesMaterial) return;
-	        label.fontMaterial = fontData.FontMaterial;
+            label.font = fontData.Font;
+
+            if (!fontData.UsesMaterial) return;
+            label.fontMaterial = fontData.FontMaterial;
         }
     }
 }

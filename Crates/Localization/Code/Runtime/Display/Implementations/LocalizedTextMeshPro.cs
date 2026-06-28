@@ -142,9 +142,9 @@ namespace CarterGames.Cart.Crates.Localization
 			{
 				defaultFontAsset = LabelRef.font;
 				
-				if (LabelRef.defaultMaterial != LabelRef.fontMaterial)
+				if (LabelRef.defaultMaterial != LabelRef.fontSharedMaterial)
 				{
-					defaultFontMaterial = LabelRef.fontMaterial;
+					defaultFontMaterial = LabelRef.fontSharedMaterial;
 				}
 			}
 
