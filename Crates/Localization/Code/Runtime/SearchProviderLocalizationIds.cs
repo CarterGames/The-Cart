@@ -25,10 +25,11 @@ using CarterGames.Shared.NotionData;
 
 using CarterGames.Cart.Data;
 using CarterGames.Cart.Editor;
+using CarterGames.Cart.Editor.Implementations;
 
 namespace CarterGames.Cart.Crates.Localization.Editor
 {
-    public class SearchProviderLocalizationIds : SearchProvider<string>
+    public class SearchProviderLocalizationIds : SearchProviderString
     {
         private static SearchProviderLocalizationIds Instance;
         

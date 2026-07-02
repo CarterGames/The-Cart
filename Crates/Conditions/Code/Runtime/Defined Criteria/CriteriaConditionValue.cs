@@ -17,8 +17,10 @@
  */
 
 using System;
+using CarterGames.Cart.Crates.Conditions.Editor.Search;
 using CarterGames.Cart.Events;
 using CarterGames.Cart.Logs;
+using CarterGames.Cart.Runtime;
 using UnityEngine;
 
 namespace CarterGames.Cart.Crates.Conditions
@@ -33,7 +35,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		[SerializeField] [SelectCondition] private Condition targetConditionObject;
+		[SerializeField] [SearchObject(typeof(SearchProviderConditionAsset))] private Condition targetConditionObject;
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties

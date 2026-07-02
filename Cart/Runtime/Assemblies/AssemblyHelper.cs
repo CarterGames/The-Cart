@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
  * The Cart
  * Copyright (c) 2026 Carter Games
  *
@@ -66,6 +66,19 @@ namespace CarterGames.Cart
             };
 #endif
         }
+        
+        
+        /// <summary>
+        /// Gets the number of classes of the requested type in the project.
+        /// </summary>
+        /// <param name="assemblies">The assemblies to check through.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>The total in the project.</returns>
+        public static int CountClassesOfType<T>(Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Count(x => x.IsClass && typeof(T).IsAssignableFrom(x));
+        }
 
 
         /// <summary>
@@ -84,15 +97,16 @@ namespace CarterGames.Cart
         
         
         /// <summary>
-        /// Gets the number of classes of the requested type in the project.
+        /// Gets all the classes of the entered type in the project.
         /// </summary>
         /// <param name="assemblies">The assemblies to check through.</param>
         /// <typeparam name="T">The type to find.</typeparam>
-        /// <returns>The total in the project.</returns>
-        public static int CountClassesOfType<T>(params Assembly[] assemblies)
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<T> GetClassesOfType<T>(Assembly[] assemblies)
         {
             return assemblies.SelectMany(x => x.GetTypes())
-                .Count(x => x.IsClass && typeof(T).IsAssignableFrom(x));
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
+                .Select(type => (T)Activator.CreateInstance(type));
         }
         
         
@@ -113,6 +127,19 @@ namespace CarterGames.Cart
         
         
         /// <summary>
+        /// Gets all the classes of the entered type in the requested assemblies.
+        /// </summary>
+        /// <param name="assemblies">The assemblies to check through.</param>
+        /// <typeparam name="T">The type to find.</typeparam>
+        /// <returns>All the implementations of the entered class.</returns>
+        public static IEnumerable<Type> GetClassNamesOfType<T>(Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName);
+        }
+        
+        
+        /// <summary>
         /// Gets all the classes of the entered type in the project.
         /// </summary>
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
@@ -128,23 +155,24 @@ namespace CarterGames.Cart
         
         
         /// <summary>
-        /// Gets all the classes of the entered type in the project.
+        /// Gets all the class names of the entered type in the project that use the base type.
         /// </summary>
+        /// <param name="baseType">The base tye to get from.</param>
         /// <param name="assemblies">The assemblies to check through.</param>
-        /// <typeparam name="T">The type to find.</typeparam>
-        /// <returns>All the implementations of the entered class.</returns>
-        public static IEnumerable<T> GetClassesOfType<T>(params Assembly[] assemblies)
+        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetClassNamesOfBaseType(Type baseType, Assembly[] assemblies, bool internalCheckOnly = false)
         {
             return assemblies.SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName)
-                .Select(type => (T)Activator.CreateInstance(type));
+                .Where(x => x.IsClass && x.BaseType is {IsConstructedGenericType: true} && x.FullName != baseType.FullName)
+                .Where(t => baseType == t.BaseType.GetGenericTypeDefinition());
         }
         
         
         /// <summary>
         /// Gets all the class names of the entered type in the project that use the base type.
         /// </summary>
-        /// <param name="baseType">The base tye to get from.</param>
+        /// <param name="baseType">The base type to get from.</param>
         /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <returns></returns>
         public static IEnumerable<Type> GetClassNamesOfBaseType(Type baseType, bool internalCheckOnly = false)

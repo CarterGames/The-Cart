@@ -4,10 +4,10 @@
 
 Mainly adds a load of API to make accessing classes through assemblies a tad easier. Results of using this API should be cached to avoid massive performance hits.
 
-|             |                     |
-|-------------|:--------------------|
-| Revision    | `2`                 |
-| Last update | `2026-03-06`        |
+|             |              |
+|-------------|:-------------|
+| Revision    | `3`          |
+| Last update | `2026-07-02` |
 
 <br/>
 
@@ -29,8 +29,8 @@ The main class to use. It provides the API for getting classes through assemblie
 Gets the number of classes of the requested type in the project.
 
 ```csharp
-public static int CountClassesOfType<T>(bool internalCheckOnly = false);
 public static int CountClassesOfType<T>(params Assembly[] assemblies);
+public static int CountClassesOfType<T>(bool internalCheckOnly = false);
 ```
 
 ```csharp
@@ -46,8 +46,8 @@ private void OnEnable()
 Gets all the classes of the passes in type found in the project. This won't include `abstract` classes.
 
 ```csharp
-public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = false);
 public static IEnumerable<T> GetClassesOfType<T>(params Assembly[] assemblies);
+public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = false);
 ```
 
 ```csharp
@@ -63,6 +63,7 @@ private void OnEnable()
 Gets all the class types that inherit from the entered type.
 
 ```csharp
+public static IEnumerable<Type> GetClassNamesOfType<T>(params Assembly[] assemblies);
 public static IEnumerable<Type> GetClassNamesOfType<T>(bool internalCheckOnly = false);
 ```
 
@@ -79,7 +80,8 @@ private void OnEnable()
 Gets all the class names of the entered type in the project that use the base type. Similar to `GetClassesNamesOfType()` but doesn't need to know the exact type when called.
 
 ```csharp
-public static IEnumerable<Type> GetClassNamesOfBaseType(Type baseType, bool internalCheckOnly = false);
+public static IEnumerable<Type> GetClassNamesOfBaseType(Type baseType, params Assembly[] assemblies)
+public static IEnumerable<Type> GetClassNamesOfBaseType(Type baseType, bool internalCheckOnly = false));
 ```
 
 ```csharp

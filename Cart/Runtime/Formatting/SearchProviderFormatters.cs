@@ -16,16 +16,18 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CarterGames.Cart.Editor;
+using CarterGames.Cart.Editor.Implementations;
 using UnityEngine;
 
-namespace CarterGames.Cart.Editor
+namespace CarterGames.Cart
 {
-	public class SearchProviderFormatters : SearchProvider<AssemblyClassDef>
+	public class SearchProviderFormatters : SearchProviderClassDef
 	{
 		private static SearchProviderFormatters Instance;
 
 		protected override string ProviderTitle => "Select Formatter";
-		public override bool HasOptions => AssemblyHelper.GetClassesOfType<Formatter>()?.Count() > 0;
+		public override bool HasOptions => GetEntriesToDisplay().Any();
 		private IGrouping<string, Formatter>[] Formatters { get; set; }
 
 

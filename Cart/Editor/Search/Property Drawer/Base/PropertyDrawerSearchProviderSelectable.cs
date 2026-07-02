@@ -14,7 +14,12 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using CarterGames.Cart.Management;
+using CarterGames.Cart.Runtime;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,6 +37,7 @@ namespace CarterGames.Cart.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         protected abstract TProviderType Provider { get; }
+        protected SearchProvider<TSearchType> ProviderCache { get; set; }
         protected abstract string InitialSelectButtonLabel { get; }
         protected virtual bool DisableInputWhenSelected { get; } = true;
         
@@ -49,14 +55,27 @@ namespace CarterGames.Cart.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   GUI Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
         protected bool IsValidFieldType => fieldInfo.FieldType.AssemblyQualifiedName.Contains(typeof(TSearchType).Name);
+
+
+        private SearchProvider<TSearchType> GetProvider()
+        {
+            if (ProviderCache != null) return ProviderCache;
+            var attribute = fieldInfo.GetCustomAttributes(true).FirstOrDefault(t => t.GetType().BaseType == typeof(SearchAttribute));
+            
+            if (attribute == null) return null;
+            
+            var searchType = attribute.GetType().BaseType.GetField("searchProviderType", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(attribute);
+
+            ProviderCache = AssemblyHelper.GetClassesOfType<SearchProvider<TSearchType>>().FirstOrDefault(t => t.GetType() == searchType);
+            return ProviderCache;
+        }
         
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
-
+            
             if (IsValidFieldType)
             {
                 if (IsValid(property))
@@ -91,9 +110,9 @@ namespace CarterGames.Cart.Editor
         
         protected bool IsCurrentValueValid(SerializedProperty property)
         {
-            if (Provider.GetValidValues() != null)
+            if (GetProvider().GetValidValues() != null)
             {
-                return Provider.GetValidValues().Contains(GetCurrentValue(property));
+                return GetProvider().GetValidValues().Contains(GetCurrentValue(property));
             }
 
             return true;
@@ -125,19 +144,20 @@ namespace CarterGames.Cart.Editor
                 
             // Draw select button only...
 
-            if (Provider.HasOptions)
+            if (GetProvider().HasOptions)
             {
                 GUI.backgroundColor = Color.green;
                 if (GUI.Button(position, InitialSelectButtonLabel))
                 {
-                    Provider.SelectionMade.Clear();
-                    Provider.SelectionMade.Add((ste) =>
+                    GetProvider().SelectionMade.Clear();
+                    GetProvider().SelectionMade.Add((ste) =>
                     {
-                        Provider.SelectionMade.Clear();
+                        GetProvider().SelectionMade.Clear();
                         OnSelectionMade(property, (TSearchType) ste.userData);
                     });
                 
-                    Provider.Open(GetCurrentValue(property));
+                    GetProvider().Open(GetCurrentValue(property));
+                    GUIUtility.ExitGUI();
                 }
                 GUI.backgroundColor = Color.white;
             }
@@ -170,13 +190,14 @@ namespace CarterGames.Cart.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, EditorGUIUtility.IconContent("d__Menu@2x")))
                 {
-                    Provider.SelectionMade.Clear();
-                    Provider.SelectionMade.Add((ste) =>
+                    GetProvider().SelectionMade.Clear();
+                    GetProvider().SelectionMade.Add((ste) =>
                     {
-                        Provider.SelectionMade.Clear();
+                        GetProvider().SelectionMade.Clear();
                         OnSelectionMade(property, (TSearchType) ste.userData);
                     });
-                    Provider.Open(GetCurrentValue(property));
+                    GetProvider().Open(GetCurrentValue(property));
+                    GUIUtility.ExitGUI();
                 }
                 GUI.backgroundColor = Color.white;
            
@@ -188,8 +209,9 @@ namespace CarterGames.Cart.Editor
                 GUI.backgroundColor = Color.red;
                 if (GUI.Button(clearPos, EditorGUIUtility.IconContent("CrossIcon")))
                 {
-                    Provider.SelectionMade.Clear();
+                    GetProvider().SelectionMade.Clear();
                     ClearValue(property);
+                    GUIUtility.ExitGUI();
                 }
                 GUI.backgroundColor = Color.white;
             }
@@ -202,13 +224,14 @@ namespace CarterGames.Cart.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, EditorGUIUtility.IconContent("d__Menu@2x")))
                 {
-                    Provider.SelectionMade.Clear();
-                    Provider.SelectionMade.Add((ste) =>
+                    GetProvider().SelectionMade.Clear();
+                    GetProvider().SelectionMade.Add((ste) =>
                     {
-                        Provider.SelectionMade.Clear();
+                        GetProvider().SelectionMade.Clear();
                         OnSelectionMade(property, (TSearchType) ste.userData);
                     });
-                    Provider.Open(GetCurrentValue(property));
+                    GetProvider().Open(GetCurrentValue(property));
+                    GUIUtility.ExitGUI();
                 }
                 GUI.backgroundColor = Color.white;
             }

@@ -21,6 +21,8 @@ using System.Linq;
 using CarterGames.Cart;
 using CarterGames.Cart.Data;
 using CarterGames.Cart.Editor;
+using CarterGames.Cart.Editor.Implementations;
+using UnityEngine;
 
 namespace CarterGames.Cart.Crates.Conditions.Editor.Search
 {

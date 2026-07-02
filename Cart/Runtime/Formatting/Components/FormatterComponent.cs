@@ -16,6 +16,7 @@
 
 using System;
 using CarterGames.Cart.Logs;
+using CarterGames.Cart.Runtime;
 using UnityEngine;
 
 namespace CarterGames.Cart
@@ -30,7 +31,7 @@ namespace CarterGames.Cart
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [SerializeField] [SelectFormatter] private AssemblyClassDef formatter;
+        [SerializeField] [SearchAssemblyClassDef(typeof(SearchProviderFormatters))] private AssemblyClassDef formatter;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods

@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 /*
  * The Cart
  * Copyright (c) 2026 Carter Games
@@ -17,8 +19,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Events;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEditor.Experimental.GraphView;
 
 namespace CarterGames.Cart.Editor
 {
@@ -27,7 +29,7 @@ namespace CarterGames.Cart.Editor
     /// You still have to have a way to open it, but it will show the values entered.
     /// </summary>
     /// <typeparam name="T">The type to provide from the search selection.</typeparam>
-    public abstract class SearchProvider<T> : ScriptableObject, ISearchWindowProvider
+    public abstract partial class SearchProvider<T> : ScriptableObject, ISearchWindowProvider
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -120,9 +122,10 @@ namespace CarterGames.Cart.Editor
             
             if (WindowWidth.Equals(-1))
             {
-                WindowWidth = Mathf.Min(AdditionalEntries
-                    .Select(t => t.content.text.GUIWidth())
-                    .Max() + 35, 1000f);
+                WindowWidth = 250;
+                // WindowWidth = Mathf.Min(AdditionalEntries
+                //     .Select(t => t.content.text.GUIWidth())
+                //     .Max() + 35, 1000f);
             }
             
             SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), WindowWidth), this);
@@ -144,9 +147,10 @@ namespace CarterGames.Cart.Editor
             
             if (WindowWidth.Equals(-1))
             {
-                WindowWidth = Mathf.Min(GetEntriesToDisplay()
-                    .Select(t => t.Key.GUIWidth())
-                    .Max() + 35, 1000f);
+                WindowWidth = 250;
+                // WindowWidth = Mathf.Min(GetEntriesToDisplay()
+                //     .Select(t => t.Key.GUIWidth())
+                //     .Max() + 35, 1000f);
             }
             
             SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), WindowWidth), this);
@@ -204,3 +208,5 @@ namespace CarterGames.Cart.Editor
         }
     }
 }
+
+#endif

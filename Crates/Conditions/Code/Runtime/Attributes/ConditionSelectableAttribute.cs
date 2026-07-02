@@ -22,13 +22,13 @@ using UnityEngine;
 namespace CarterGames.Cart.Crates.Conditions
 {
 	[AttributeUsage(AttributeTargets.Field)]
-	public sealed class SelectConditionAttribute : PropertyAttribute
+	public sealed class SearchConditionAttribute : PropertyAttribute
 	{
 		private string ignoreConditionId;
 
-		public SelectConditionAttribute() {}
+		public SearchConditionAttribute() {}
 
-		public SelectConditionAttribute(string ignoreConditionId)
+		public SearchConditionAttribute(string ignoreConditionId)
 		{
 			this.ignoreConditionId = ignoreConditionId;
 		}
