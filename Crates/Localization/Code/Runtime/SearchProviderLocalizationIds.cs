@@ -24,8 +24,6 @@ using CarterGames.Shared.NotionData;
 #endif
 
 using CarterGames.Cart.Data;
-using CarterGames.Cart.Editor;
-using CarterGames.Cart.Editor.Implementations;
 
 namespace CarterGames.Cart.Crates.Localization.Editor
 {
@@ -33,7 +31,7 @@ namespace CarterGames.Cart.Crates.Localization.Editor
     {
         private static SearchProviderLocalizationIds Instance;
         
-        protected override string ProviderTitle => "Select Localization Id";
+        public override string ProviderTitle => "Select Localization Id";
 
         public override bool HasOptions
         {

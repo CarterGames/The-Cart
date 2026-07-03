@@ -18,19 +18,17 @@
 
 using System.Linq;
 using CarterGames.Cart.Editor;
-using CarterGames.Cart.Management.Editor;
 using UnityEditor;
 
 namespace CarterGames.Cart.Crates.Localization.Editor
 {
-    [CustomPropertyDrawer(typeof(LanguageSelectableAttribute), true)]
+    [CustomPropertyDrawer(typeof(SearchLanguageAttribute), true)]
     public sealed class PropertyDrawerLanguageSelectableAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderLanguages, Language>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected override SearchProviderLanguages Provider => SearchProviderLanguages.GetProvider();
         protected override string InitialSelectButtonLabel => "Select Language";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

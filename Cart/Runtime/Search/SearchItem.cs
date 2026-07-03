@@ -16,7 +16,7 @@
 
 using System;
 
-namespace CarterGames.Cart.Editor
+namespace CarterGames.Cart
 {
     [Serializable]
     public class SearchItem<T>

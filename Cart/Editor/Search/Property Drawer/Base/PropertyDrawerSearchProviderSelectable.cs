@@ -14,12 +14,8 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CarterGames.Cart.Management;
-using CarterGames.Cart.Runtime;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,9 +32,7 @@ namespace CarterGames.Cart.Editor
         |   Abstract Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected abstract TProviderType Provider { get; }
         protected SearchProvider<TSearchType> ProviderCache { get; set; }
-        protected abstract string InitialSelectButtonLabel { get; }
         protected virtual bool DisableInputWhenSelected { get; } = true;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -57,6 +51,9 @@ namespace CarterGames.Cart.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         protected bool IsValidFieldType => fieldInfo.FieldType.AssemblyQualifiedName.Contains(typeof(TSearchType).Name);
 
+
+        protected virtual string InitialSelectButtonLabel => GetProvider().ProviderTitle;
+        
 
         private SearchProvider<TSearchType> GetProvider()
         {

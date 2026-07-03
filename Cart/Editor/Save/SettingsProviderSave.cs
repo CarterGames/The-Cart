@@ -32,6 +32,9 @@ namespace CarterGames.Cart.Editor
 		public string MenuName => "Save";
 
 		private static int ProvidersFoundSinceLastCompile { get; set; } = -1;
+
+		private SearchProviderSaveMethod SearchSaveMethod =>
+			SearchProviderManager.GetProvider<SearchProviderSaveMethod>();
 		
 		
 		
@@ -53,13 +56,13 @@ namespace CarterGames.Cart.Editor
 				{
 					if (!string.IsNullOrEmpty(ObjectRef.Fp("saveMethodTypeDef").Fpr("assembly").stringValue))
 					{
-						SearchProviderSaveMethod.GetProvider().SelectionMade.Add(HandleSelection);
-						SearchProviderSaveMethod.GetProvider().Open(AutoMakeDataAssetManager.GetDefine<DataAssetCoreRuntimeSettings>().AssetRef.SaveMethodType);
+						SearchSaveMethod.SelectionMade.Add(HandleSelection);
+						SearchSaveMethod.Open(AutoMakeDataAssetManager.GetDefine<DataAssetCoreRuntimeSettings>().AssetRef.SaveMethodType.GetType());
 					}
 					else
 					{
-						SearchProviderSaveMethod.GetProvider().SelectionMade.Add(HandleSelection);
-						SearchProviderSaveMethod.GetProvider().Open();
+						SearchSaveMethod.SelectionMade.Add(HandleSelection);
+						SearchSaveMethod.Open();
 					}
 				}
 			}
@@ -79,8 +82,8 @@ namespace CarterGames.Cart.Editor
 			return;
 			void HandleSelection(SearchTreeEntry entry)
 			{
-				ObjectRef.Fp("saveMethodTypeDef").Fpr("assembly").stringValue = entry.userData.GetType().Assembly.FullName;
-				ObjectRef.Fp("saveMethodTypeDef").Fpr("type").stringValue = entry.userData.GetType().FullName;
+				ObjectRef.Fp("saveMethodTypeDef").Fpr("assembly").stringValue = ((AssemblyClassDef) entry.userData).StoredAssembly;
+				ObjectRef.Fp("saveMethodTypeDef").Fpr("type").stringValue = ((AssemblyClassDef) entry.userData).StoredType;
 				
 				ObjectRef.ApplyModifiedProperties();
 				ObjectRef.Update();

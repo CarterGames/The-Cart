@@ -16,9 +16,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Cart.Editor;
-using CarterGames.Cart.Editor.Implementations;
-using UnityEngine;
 
 namespace CarterGames.Cart
 {
@@ -26,7 +23,7 @@ namespace CarterGames.Cart
 	{
 		private static SearchProviderFormatters Instance;
 
-		protected override string ProviderTitle => "Select Formatter";
+		public override string ProviderTitle => "Select Formatter";
 		public override bool HasOptions => GetEntriesToDisplay().Any();
 		private IGrouping<string, Formatter>[] Formatters { get; set; }
 

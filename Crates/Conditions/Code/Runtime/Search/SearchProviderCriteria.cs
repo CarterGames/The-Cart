@@ -30,7 +30,7 @@ namespace CarterGames.Cart.Crates.Conditions
 	{
 		private static SearchProviderCriteria Instance;
 
-		protected override string ProviderTitle => "Select Criteria";
+		public override string ProviderTitle => "Select Criteria";
 		public override bool HasOptions => AssemblyHelper.CountClassesOfType<Criteria>() > 0;
 
 

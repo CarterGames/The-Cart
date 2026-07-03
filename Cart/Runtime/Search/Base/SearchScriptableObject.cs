@@ -14,15 +14,13 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System;
+using UnityEngine;
 
 namespace CarterGames.Cart
 {
-    [AttributeUsage(AttributeTargets.Field)]
-    public sealed class SearchStringAttribute : SearchAttribute
-    {
-        public SearchStringAttribute(Type searchType) : base(searchType)
-        {
-        }
-    }
+    /// <summary>
+    /// Purely used to determine if a scriptable object is a search provider or not.
+    /// Hard to do when using generics xD
+    /// </summary>
+    public abstract class SearchScriptableObject : ScriptableObject { }
 }

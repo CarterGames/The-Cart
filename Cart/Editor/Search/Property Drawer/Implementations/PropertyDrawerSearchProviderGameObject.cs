@@ -19,44 +19,41 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Editor
 {
-    [CustomPropertyDrawer(typeof(SearchAssemblyClassDefAttribute), true)]
-    public class PropertyDrawerSearchProviderAssemblyClassDef : PropertyDrawerSearchProviderSelectable<SearchProviderClassDef, AssemblyClassDef>
+    [CustomPropertyDrawer(typeof(SearchGameObjectAttribute), true)]
+    public class PropertyDrawerSearchProviderGameObject : PropertyDrawerSearchProviderSelectable<SearchProviderGameObject, GameObject>
     {
         protected override bool IsValid(SerializedProperty property)
         {
-            return !string.IsNullOrEmpty(property.Fpr("assembly").stringValue) && !string.IsNullOrEmpty(property.Fpr("type").stringValue);
+            return property.objectReferenceValue != null;
         }
-        
+
         protected override bool GetHasValue(SerializedProperty property)
         {
-            return GetCurrentValue(property) != null;
+            return property.objectReferenceValue != null;
         }
-        
-        protected override AssemblyClassDef GetCurrentValue(SerializedProperty property)
+
+        protected override GameObject GetCurrentValue(SerializedProperty property)
         {
-            return new AssemblyClassDef(property.Fpr("assembly").stringValue, property.Fpr("type").stringValue);
+            return (GameObject) property.objectReferenceValue;
         }
 
         protected override string GetCurrentValueString(SerializedProperty property)
         {
-            return property.Fpr("type").stringValue.SplitAndGetLastElement('.');
+            return property.objectReferenceValue.ToString();
         }
 
-        protected override void OnSelectionMade(SerializedProperty property, AssemblyClassDef selectedEntry)
+        
+        protected override void OnSelectionMade(SerializedProperty property, GameObject selectedEntry)
         {
-            property.Fpr("assembly").stringValue = selectedEntry.StoredAssembly;
-            property.Fpr("type").stringValue = selectedEntry.StoredType;
-
+            property.objectReferenceValue = selectedEntry;
             property.serializedObject.ApplyModifiedProperties();
             property.serializedObject.Update();
         }
-
+        
 
         protected override void ClearValue(SerializedProperty property)
         {
-            property.Fpr("assembly").stringValue = string.Empty;
-            property.Fpr("type").stringValue = string.Empty;
-            
+            property.objectReferenceValue = null;
             property.serializedObject.ApplyModifiedProperties();
             property.serializedObject.Update();
         }

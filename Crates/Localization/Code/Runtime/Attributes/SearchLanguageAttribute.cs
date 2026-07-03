@@ -22,10 +22,10 @@ using UnityEngine;
 namespace CarterGames.Cart.Crates.Localization
 {
     /// <summary>
-    /// Provides a selection attribute for the localization ids in the project.
+    /// Provides a selection attribute for the languages in the project.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public sealed class LocalizationIdAttribute : PropertyAttribute { }
+    public sealed class SearchLanguageAttribute : PropertyAttribute { }
 }
 
 #endif

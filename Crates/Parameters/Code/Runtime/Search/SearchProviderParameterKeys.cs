@@ -17,14 +17,11 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Cart.Editor;
-using CarterGames.Cart.Management;
 
-namespace CarterGames.Cart.Crates.Parameters.Editor
+namespace CarterGames.Cart.Crates.Parameters
 {
-	public class SearchProviderParameterKeys : SearchProvider<string>
+	public class SearchProviderParameterKeys : SearchProviderString
 	{
-		private static SearchProviderParameterKeys Instance;
 		private bool cacheHasOptions = false;
 		private bool hasSetCache = false;
 
@@ -33,7 +30,7 @@ namespace CarterGames.Cart.Crates.Parameters.Editor
 			typeof(ParameterGeneric<>).FullName
 		};
 		
-		protected override string ProviderTitle => "Select Parameter";
+		public override string ProviderTitle => "Select Parameter";
 		public override bool HasOptions
 		{
 			get
@@ -60,17 +57,6 @@ namespace CarterGames.Cart.Crates.Parameters.Editor
 			list.Add(new SearchGroup<string>(items));
 			
 			return list;
-		}
-
-
-		public static SearchProviderParameterKeys GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderParameterKeys>();
-			}
-
-			return Instance;
 		}
 	}
 }

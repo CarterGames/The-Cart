@@ -26,11 +26,11 @@ using UnityEngine;
 
 namespace CarterGames.Cart.Crates.Currency.Editor
 {
-	public class SearchProviderAccounts : SearchProvider<string>
+	public class SearchProviderAccounts : SearchProviderString
 	{
 		private static SearchProviderAccounts Instance;
 
-		protected override string ProviderTitle => "Select Account";
+		public override string ProviderTitle => "Select Account";
 
 		public override bool HasOptions => CurrencyManager.AllAccountIds.Count > 0;
 

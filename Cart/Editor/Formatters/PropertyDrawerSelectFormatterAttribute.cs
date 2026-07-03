@@ -28,7 +28,6 @@ namespace CarterGames.Cart.Crates.Currency.Editor
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected override SearchProviderFormatters Provider => SearchProviderFormatters.GetProvider();
         protected override string InitialSelectButtonLabel => "Select Formatter";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

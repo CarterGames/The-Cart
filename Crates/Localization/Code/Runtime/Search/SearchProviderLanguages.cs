@@ -19,17 +19,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Data;
-using CarterGames.Cart.Editor;
 
-namespace CarterGames.Cart.Crates.Localization.Editor
+namespace CarterGames.Cart.Crates.Localization
 {
 	public sealed class SearchProviderLanguages : SearchProvider<Language>
 	{
-		private static SearchProviderLanguages Instance;
-
-		protected override string ProviderTitle => "Select Language";
+		public override string ProviderTitle => "Select Language";
+		
 		public override bool HasOptions => DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.Count > 0;
-
 
 		public override List<SearchGroup<Language>> GetEntriesToDisplay()
 		{
@@ -44,17 +41,6 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 			list.Add(new SearchGroup<Language>(items));
 			
 			return list;
-		}
-
-
-		public static SearchProviderLanguages GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderLanguages>();
-			}
-
-			return Instance;
 		}
 	}
 }

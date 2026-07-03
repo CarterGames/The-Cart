@@ -24,11 +24,8 @@ namespace CarterGames.Cart.Crates.Conditions
 {
 	public class SearchProviderConditionGroups : SearchProvider<int>
 	{
-		private static SearchProviderConditionGroups Instance;
-
-		
 		public static bool IsInGroup { get; set; }
-		protected override string ProviderTitle => "Select group";
+		public override string ProviderTitle => "Select group";
 		public override bool HasOptions => true;
 		private static SerializedObject Target { get; set; }
 
@@ -61,17 +58,6 @@ namespace CarterGames.Cart.Crates.Conditions
 			group.Add(new SearchGroup<int>(entries));
 
 			return group;
-		}
-		
-		
-		public static SearchProviderConditionGroups GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderConditionGroups>();
-			}
-
-			return Instance;
 		}
 	}
 }

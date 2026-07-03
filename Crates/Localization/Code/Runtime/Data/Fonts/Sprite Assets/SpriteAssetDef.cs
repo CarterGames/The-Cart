@@ -29,7 +29,7 @@ namespace CarterGames.Cart.Crates.Localization
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */ 
         
-        [SerializeField] [LanguageSelectable] private Language language;
+        [SerializeField] [SearchLanguage] private Language language;
         [SerializeField] private TMP_SpriteAsset spriteAsset;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

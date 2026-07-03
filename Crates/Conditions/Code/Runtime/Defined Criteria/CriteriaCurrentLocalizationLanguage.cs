@@ -33,7 +33,7 @@ namespace CarterGames.Cart.Crates.Conditions
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [SerializeField, LanguageSelectable] private Language language;
+        [SerializeField, SearchLanguage] private Language language;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties

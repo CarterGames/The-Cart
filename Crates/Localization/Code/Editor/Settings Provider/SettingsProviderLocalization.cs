@@ -36,11 +36,12 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 		
 		private SerializedObject AssetObjectRef => AutoMakeDataAssetManager.GetDefine<DataAssetDefinedLanguages>().ObjectRef;
 
+		private SearchProviderLanguages SearchProviderLanguages => SearchProviderManager.GetProvider<SearchProviderLanguages>();
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   ISettingsProvider Implementation
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-
+		
 		public void OnProjectSettingsGUI()
 		{
 			EditorGUILayout.BeginVertical();
@@ -61,8 +62,8 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 					var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
 						t.DisplayName.Equals(LocalizationManager.CurrentLanguage.DisplayName));
 
-					SearchProviderLanguages.GetProvider().SelectionMade.Add(OnSelectionMade);
-					SearchProviderLanguages.GetProvider().Open(current);
+					SearchProviderLanguages.SelectionMade.Add(OnSelectionMade);
+					SearchProviderLanguages.Open(current);
 
 					// For editor errors only
 					EditorGUILayout.BeginVertical();
@@ -85,8 +86,8 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 					var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
 						t.DisplayName.Equals(LocalizationManager.CurrentLanguage.DisplayName));
 
-					SearchProviderLanguages.GetProvider().SelectionMade.Add(OnSelectionMade);
-					SearchProviderLanguages.GetProvider().Open(current);
+					SearchProviderLanguages.SelectionMade.Add(OnSelectionMade);
+					SearchProviderLanguages.Open(current);
 					
 					// For editor errors only
 					EditorGUILayout.BeginVertical();
@@ -138,7 +139,7 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 
 		private void OnSelectionMade(SearchTreeEntry entry)
 		{
-			SearchProviderLanguages.GetProvider().SelectionMade.Remove(OnSelectionMade);
+			SearchProviderLanguages.SelectionMade.Remove(OnSelectionMade);
 			LocalizationManager.SetLanguage(((Language) entry.userData));
 		}
 	}

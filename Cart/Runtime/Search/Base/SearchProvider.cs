@@ -17,19 +17,18 @@
  */
 
 using System.Collections.Generic;
-using System.Linq;
 using CarterGames.Cart.Events;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 
-namespace CarterGames.Cart.Editor
+namespace CarterGames.Cart
 {
     /// <summary>
     /// Implement to make a search provider for something.
     /// You still have to have a way to open it, but it will show the values entered.
     /// </summary>
     /// <typeparam name="T">The type to provide from the search selection.</typeparam>
-    public abstract partial class SearchProvider<T> : ScriptableObject, ISearchWindowProvider
+    public abstract class SearchProvider<T> : SearchScriptableObject, ISearchWindowProvider
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -38,7 +37,7 @@ namespace CarterGames.Cart.Editor
         /// <summary>
         /// The title to add to the search provider when open.
         /// </summary>
-        protected abstract string ProviderTitle { get; }
+        public abstract string ProviderTitle { get; }
         
         
         /// <summary>

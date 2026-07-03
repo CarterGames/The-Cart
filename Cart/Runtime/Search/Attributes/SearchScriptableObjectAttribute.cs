@@ -19,9 +19,9 @@ using System;
 namespace CarterGames.Cart
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public sealed class SearchStringAttribute : SearchAttribute
+    public class SearchScriptableObjectAttribute : SearchAttribute
     {
-        public SearchStringAttribute(Type searchType) : base(searchType)
+        public SearchScriptableObjectAttribute(Type searchType) : base(searchType)
         {
         }
     }

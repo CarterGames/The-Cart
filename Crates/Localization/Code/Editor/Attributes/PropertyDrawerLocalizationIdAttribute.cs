@@ -21,14 +21,13 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Crates.Localization.Editor
 {
-    [CustomPropertyDrawer(typeof(LocalizationIdAttribute))]
+    [CustomPropertyDrawer(typeof(SearchLocalizationIdAttribute))]
     public class PropertyDrawerLocalizationIdAttribute : PropertyDrawerSearchProviderSelectable<SearchProviderLocalizationIds, string>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        protected override SearchProviderLocalizationIds Provider => SearchProviderLocalizationIds.GetProvider();
         protected override string InitialSelectButtonLabel => "Select Localization Id";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

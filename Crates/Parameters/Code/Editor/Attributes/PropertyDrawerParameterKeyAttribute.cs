@@ -27,8 +27,7 @@ namespace CarterGames.Cart.Crates.Parameters.Editor
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-		protected override SearchProviderParameterKeys Provider => SearchProviderParameterKeys.GetProvider();
+		
 		protected override string InitialSelectButtonLabel => "Select Parameter Key";
         
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

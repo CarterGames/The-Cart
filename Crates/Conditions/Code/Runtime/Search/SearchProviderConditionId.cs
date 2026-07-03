@@ -24,13 +24,12 @@ using CarterGames.Cart.Editor;
 
 namespace CarterGames.Cart.Crates.Conditions.Editor.Search
 {
-	public class SearchProviderConditionId : SearchProvider<string>
+	public class SearchProviderConditionId : SearchProviderString
 	{
-		private static SearchProviderConditionId Instance;
 		private Condition[] conditionsCache;
 
-		protected override string ProviderTitle => "Select Condition Id";
-		public override bool HasOptions => Conditions.Any();
+		public override string ProviderTitle => "Select Condition Id";
+		public override bool HasOptions => GetEntriesToDisplay().Any();
 		
 		private Condition[] Conditions => CacheRef.GetOrAssign(ref conditionsCache,
 			AssetDatabaseHelper.GetAllInstancesInProject<Condition>());
@@ -50,17 +49,6 @@ namespace CarterGames.Cart.Crates.Conditions.Editor.Search
 			list.Add(new SearchGroup<string>(items));
 			
 			return list;
-		}
-
-
-		public static SearchProviderConditionId GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderConditionId>();
-			}
-
-			return Instance;
 		}
 	}
 }

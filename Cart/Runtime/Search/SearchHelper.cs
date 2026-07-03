@@ -17,7 +17,7 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Cart.Editor
+namespace CarterGames.Cart
 {
     public static class SearchHelper
     {

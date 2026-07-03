@@ -37,6 +37,10 @@ namespace CarterGames.Cart.Editor
         
 
         public string MenuName => "Random";
+
+        private SearchProviderRandom SearchRandom => SearchProviderManager.GetProvider<SearchProviderRandom>();
+        
+        
         
         public void OnProjectSettingsGUI()
         {
@@ -55,8 +59,8 @@ namespace CarterGames.Cart.Editor
             
             if (GUILayout.Button("Select Provider", GUILayout.Width(167.5f)))
             {
-                SearchProviderRandom.GetProvider().SelectionMade.Add(OnSelectionMade);
-                SearchProviderRandom.GetProvider().Open(AssetRef.RngProvider);
+                SearchRandom.SelectionMade.Add(OnSelectionMade);
+                SearchRandom.Open(AssetRef.RngProvider.GetType());
                 
                 EditorGUILayout.BeginVertical();
                 EditorGUILayout.BeginHorizontal();
@@ -68,9 +72,8 @@ namespace CarterGames.Cart.Editor
 
             void OnSelectionMade(SearchTreeEntry entry)
             {
-                ObjectRef.Fp("rngProviderTypeDef").Fpr("assembly").stringValue =
-                    entry.userData.GetType().Assembly.FullName;
-                ObjectRef.Fp("rngProviderTypeDef").Fpr("type").stringValue = entry.userData.GetType().FullName;
+                ObjectRef.Fp("rngProviderTypeDef").Fpr("assembly").stringValue = ((AssemblyClassDef) entry.userData).StoredAssembly;
+                ObjectRef.Fp("rngProviderTypeDef").Fpr("type").stringValue = ((AssemblyClassDef) entry.userData).StoredType;
 
                 ObjectRef.ApplyModifiedProperties();
                 ObjectRef.Update();

@@ -21,39 +21,26 @@ using CarterGames.Cart.Save;
 
 namespace CarterGames.Cart.Editor
 {
-	public class SearchProviderSaveMethod : SearchProvider<ISaveMethod>
+	public class SearchProviderSaveMethod : SearchProviderClassDef
 	{
-		private static SearchProviderSaveMethod Instance;
-
-		protected override string ProviderTitle => "Select Save Method";
-		public override bool HasOptions => AssemblyHelper.GetClassesOfType<ISaveMethod>()?.Count() > 0;
+		public override string ProviderTitle => "Select Save Method";
+		public override bool HasOptions => GetEntriesToDisplay().Any();
 		
 		
-		public override List<SearchGroup<ISaveMethod>> GetEntriesToDisplay()
+		public override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
 		{
-			var list = new List<SearchGroup<ISaveMethod>>();
-			var entries = new List<SearchItem<ISaveMethod>>();
-			var options = AssemblyHelper.GetClassesOfType<ISaveMethod>().Where(t => !ToExclude.Contains(t));
+			var list = new List<SearchGroup<AssemblyClassDef>>();
+			var entries = new List<SearchItem<AssemblyClassDef>>();
+			var options = AssemblyHelper.GetClassesOfType<ISaveMethod>().Where(t => !ToExclude.Contains(t.GetType()));
 
 			foreach (var entry in options)
 			{
-				entries.Add(SearchItem<ISaveMethod>.Set(entry.GetType().Name, entry));
+				entries.Add(SearchItem<AssemblyClassDef>.Set(entry.GetType().Name, entry.GetType()));
 			}
 			
-			list.Add(new SearchGroup<ISaveMethod>(string.Empty, entries));
+			list.Add(new SearchGroup<AssemblyClassDef>(string.Empty, entries));
 			
 			return list;
-		}
-		
-		
-		public static SearchProviderSaveMethod GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderSaveMethod>();
-			}
-
-			return Instance;
 		}
 	}
 }

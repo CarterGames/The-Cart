@@ -26,7 +26,7 @@ namespace CarterGames.Cart.Crates.DataValues.Editor.Search
 	{
 		private static SearchProviderDataValueKeys Instance;
 
-		protected override string ProviderTitle => "Select Data Value Key";
+		public override string ProviderTitle => "Select Data Value Key";
 		public override bool HasOptions => AssetDatabaseHelper.GetAllInstancesInProject<DataValueAsset>().Any();
 
 

@@ -18,13 +18,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Cart;
-using CarterGames.Cart.Data;
 using CarterGames.Cart.Editor;
-using CarterGames.Cart.Editor.Implementations;
-using UnityEngine;
 
-namespace CarterGames.Cart.Crates.Conditions.Editor.Search
+namespace CarterGames.Cart.Crates.Conditions.Editor
 {
 	public class SearchProviderConditionAsset : SearchProvider<Condition>
 	{
@@ -32,7 +28,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor.Search
 		private Condition[] conditionsCache;
 		
 
-		protected override string ProviderTitle => "Select Condition";
+		public override string ProviderTitle => "Select Condition";
 		public override bool HasOptions => Conditions.Any();
 
 		
