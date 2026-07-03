@@ -20,13 +20,12 @@ using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Editor;
 
-namespace CarterGames.Cart.Crates.DataValues.Editor.Search
+namespace CarterGames.Cart.Crates.DataValues
 {
-	public class SearchProviderDataValueKeys : SearchProvider<string>
+	public class SearchProviderDataValueKeys : SearchProviderString
 	{
-		private static SearchProviderDataValueKeys Instance;
-
 		public override string ProviderTitle => "Select Data Value Key";
+		
 		public override bool HasOptions => AssetDatabaseHelper.GetAllInstancesInProject<DataValueAsset>().Any();
 
 
@@ -44,17 +43,6 @@ namespace CarterGames.Cart.Crates.DataValues.Editor.Search
 			list.Add(new SearchGroup<string>(items));
 			
 			return list;
-		}
-
-
-		public static SearchProviderDataValueKeys GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderDataValueKeys>();
-			}
-
-			return Instance;
 		}
 	}
 }

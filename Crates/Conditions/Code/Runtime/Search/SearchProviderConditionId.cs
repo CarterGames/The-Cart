@@ -22,7 +22,7 @@ using CarterGames.Cart;
 using CarterGames.Cart.Data;
 using CarterGames.Cart.Editor;
 
-namespace CarterGames.Cart.Crates.Conditions.Editor.Search
+namespace CarterGames.Cart.Crates.Conditions
 {
 	public class SearchProviderConditionId : SearchProviderString
 	{

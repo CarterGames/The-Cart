@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Crates.Currency
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] [SelectAccount] private string accountId;
+        [SerializeField] [SearchString(typeof(SearchProviderAccounts))] private string accountId;
         [SerializeField] [SelectFormatter] private AssemblyClassDef formatter;
         [SerializeField] private DisplayStyleHandler displayStyle;
         [SerializeField] private TMP_Text label;

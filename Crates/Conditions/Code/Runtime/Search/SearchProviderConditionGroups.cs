@@ -22,7 +22,7 @@ using UnityEditor;
 
 namespace CarterGames.Cart.Crates.Conditions
 {
-	public class SearchProviderConditionGroups : SearchProvider<int>
+	public class SearchProviderConditionGroups : SearchProviderInt
 	{
 		public static bool IsInGroup { get; set; }
 		public override string ProviderTitle => "Select group";

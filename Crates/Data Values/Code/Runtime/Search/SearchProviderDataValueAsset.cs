@@ -19,42 +19,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Editor;
+using UnityEngine;
 
-namespace CarterGames.Cart.Crates.DataValues.Editor.Search
+namespace CarterGames.Cart.Crates.DataValues
 {
-	public class SearchProviderDataValueAsset : SearchProvider<DataValueAsset>
+	public class SearchProviderDataValueAsset : SearchProviderScriptableObject
 	{
-		private static SearchProviderDataValueAsset Instance;
-
 		public override string ProviderTitle => "Select Data Value";
 		public override bool HasOptions => AssetDatabaseHelper.GetAllInstancesInProject<DataValueAsset>().Any();
 
 
-		public override List<SearchGroup<DataValueAsset>> GetEntriesToDisplay()
+		public override List<SearchGroup<ScriptableObject>> GetEntriesToDisplay()
 		{
-			var list = new List<SearchGroup<DataValueAsset>>();
-			var items = new List<SearchItem<DataValueAsset>>();
+			var list = new List<SearchGroup<ScriptableObject>>();
+			var items = new List<SearchItem<ScriptableObject>>();
 			
 			foreach (var asset in AssetDatabaseHelper.GetAllInstancesInProject<DataValueAsset>())
 			{
 				if (ToExclude.Contains(asset)) continue;
-				items.Add(SearchItem<DataValueAsset>.Set(asset.Key, asset));
+				items.Add(SearchItem<ScriptableObject>.Set(asset.Key, asset));
 			}
 
-			list.Add(new SearchGroup<DataValueAsset>(items));
+			list.Add(new SearchGroup<ScriptableObject>(items));
 			
 			return list;
-		}
-
-
-		public static SearchProviderDataValueAsset GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderDataValueAsset>();
-			}
-
-			return Instance;
 		}
 	}
 }

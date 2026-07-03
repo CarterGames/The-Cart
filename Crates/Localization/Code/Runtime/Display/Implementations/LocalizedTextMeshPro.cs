@@ -34,7 +34,7 @@ namespace CarterGames.Cart.Crates.Localization
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-		[SerializeField] [SearchLocalizationId] private string locId;
+		[SerializeField] [SearchString(typeof(SearchProviderLocalizationIds))] private string locId;
 		[SerializeField] private TMP_Text displayLabel;
 
 		private TMP_FontAsset defaultFontAsset;

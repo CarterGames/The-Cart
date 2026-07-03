@@ -17,7 +17,6 @@
  */
 
 using System;
-using UnityEngine;
 
 namespace CarterGames.Cart.Crates.Localization
 {
@@ -25,7 +24,14 @@ namespace CarterGames.Cart.Crates.Localization
     /// Provides a selection attribute for the languages in the project.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public sealed class SearchLanguageAttribute : PropertyAttribute { }
+    public sealed class SearchLanguageAttribute : SearchAttribute
+    {
+        public SearchLanguageAttribute() : base(typeof(SearchProviderLanguages))
+        { }
+        
+        public SearchLanguageAttribute(Type searchType) : base(searchType)
+        { }
+    }
 }
 
 #endif

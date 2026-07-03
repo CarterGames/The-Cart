@@ -16,50 +16,31 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using CarterGames.Cart;
-using CarterGames.Cart.Editor;
-using CarterGames.Cart.Management;
 
 namespace CarterGames.Cart.Crates.Conditions
 {
-	public class SearchProviderCriteria : SearchProvider<Type>
+	public class SearchProviderCriteria : SearchProviderClassDef
 	{
-		private static SearchProviderCriteria Instance;
-
 		public override string ProviderTitle => "Select Criteria";
 		public override bool HasOptions => AssemblyHelper.CountClassesOfType<Criteria>() > 0;
 
 
-		public override List<SearchGroup<Type>> GetEntriesToDisplay()
+		public override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
 		{
-			var group = new List<SearchGroup<Type>>();
-			var entries = new List<SearchItem<Type>>();
+			var group = new List<SearchGroup<AssemblyClassDef>>();
+			var entries = new List<SearchItem<AssemblyClassDef>>();
 			var instances = AssemblyHelper.GetClassNamesOfType<Criteria>();
 
 			foreach (var entry in instances)
 			{
-				entries.Add(SearchItem<Type>.Set(entry.Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace(),
+				entries.Add(SearchItem<AssemblyClassDef>.Set(entry.Name.Replace("Criteria", string.Empty).SplitCapitalsWithSpace(),
 					entry));
 			}
 
-			group.Add(new SearchGroup<Type>(entries));
+			group.Add(new SearchGroup<AssemblyClassDef>(entries));
 
 			return group;
-		}
-		
-		
-		public static SearchProviderCriteria GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderCriteria>();
-			}
-
-			return Instance;
 		}
 	}
 }

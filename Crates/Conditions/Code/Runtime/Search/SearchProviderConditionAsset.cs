@@ -19,12 +19,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Editor;
+using UnityEngine;
 
-namespace CarterGames.Cart.Crates.Conditions.Editor
+namespace CarterGames.Cart.Crates.Conditions
 {
-	public class SearchProviderConditionAsset : SearchProvider<Condition>
+	public class SearchProviderConditionAsset : SearchProviderScriptableObject
 	{
-		private static SearchProviderConditionAsset Instance;
 		private Condition[] conditionsCache;
 		
 
@@ -36,31 +36,20 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
 			AssetDatabaseHelper.GetAllInstancesInProject<Condition>());
 
 
-		public override List<SearchGroup<Condition>> GetEntriesToDisplay()
+		public override List<SearchGroup<ScriptableObject>> GetEntriesToDisplay()
 		{
-			var list = new List<SearchGroup<Condition>>();
-			var items = new List<SearchItem<Condition>>();
+			var list = new List<SearchGroup<ScriptableObject>>();
+			var items = new List<SearchItem<ScriptableObject>>();
 			
 			foreach (var asset in Conditions)
 			{
 				if (ToExclude.Contains(asset)) continue;
-				items.Add(SearchItem<Condition>.Set(asset.Id, asset));
+				items.Add(SearchItem<ScriptableObject>.Set(asset.Id, asset));
 			}
 
-			list.Add(new SearchGroup<Condition>(items));
+			list.Add(new SearchGroup<ScriptableObject>(items));
 			
 			return list;
-		}
-
-
-		public static SearchProviderConditionAsset GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderConditionAsset>();
-			}
-
-			return Instance;
 		}
 	}
 }

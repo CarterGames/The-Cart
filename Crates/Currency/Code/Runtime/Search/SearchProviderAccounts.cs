@@ -19,17 +19,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Cart.Data;
-using CarterGames.Cart.Editor;
-using CarterGames.Cart.Save;
-using Newtonsoft.Json.Linq;
-using UnityEngine;
 
-namespace CarterGames.Cart.Crates.Currency.Editor
+namespace CarterGames.Cart.Crates.Currency
 {
 	public class SearchProviderAccounts : SearchProviderString
 	{
-		private static SearchProviderAccounts Instance;
-
 		public override string ProviderTitle => "Select Account";
 
 		public override bool HasOptions => CurrencyManager.AllAccountIds.Count > 0;
@@ -71,17 +65,6 @@ namespace CarterGames.Cart.Crates.Currency.Editor
 			list.Add(new SearchGroup<string>(string.Empty, entries));
 			
 			return list;
-		}
-
-
-		public static SearchProviderAccounts GetProvider()
-		{
-			if (Instance == null)
-			{
-				Instance = CreateInstance<SearchProviderAccounts>();
-			}
-
-			return Instance;
 		}
 	}
 }

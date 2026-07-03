@@ -49,7 +49,9 @@ namespace CarterGames.Cart.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   GUI Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        protected bool IsValidFieldType => fieldInfo.FieldType.AssemblyQualifiedName.Contains(typeof(TSearchType).Name);
+        protected bool IsValidFieldType =>
+            fieldInfo.FieldType.AssemblyQualifiedName.Contains(typeof(TSearchType).Name) || 
+            fieldInfo.FieldType.IsSubclassOf(typeof(TSearchType));
 
 
         protected virtual string InitialSelectButtonLabel => GetProvider().ProviderTitle;

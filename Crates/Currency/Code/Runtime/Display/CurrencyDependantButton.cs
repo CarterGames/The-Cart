@@ -32,7 +32,7 @@ namespace CarterGames.Cart.Crates.Currency
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField, SelectAccount] private string accountId;
+        [SerializeField] [SearchString(typeof(SearchProviderAccounts))] private string accountId;
         [SerializeField] private bool setAmount;
         [SerializeField] private double amount;
         [SerializeField] private CurrencyTransactionType transactionType = CurrencyTransactionType.Debit;

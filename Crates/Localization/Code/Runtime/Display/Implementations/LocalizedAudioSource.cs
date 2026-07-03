@@ -16,7 +16,6 @@
  * If not, see <https://www.gnu.org/licenses/>. 
  */
 
-using CarterGames.Cart;
 using UnityEngine;
 
 namespace CarterGames.Cart.Crates.Localization
@@ -30,7 +29,7 @@ namespace CarterGames.Cart.Crates.Localization
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] [SearchLocalizationId] private string locId;
+        [SerializeField] [SearchString(typeof(SearchProviderLocalizationIds))] private string locId;
         [SerializeField] private AudioSource source;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

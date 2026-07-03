@@ -34,7 +34,7 @@ namespace CarterGames.Cart.Crates.Conditions
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] [SelectAccount] private string accountId;
+        [SerializeField] [SearchString(typeof(SearchProviderAccounts))] private string accountId;
         [SerializeField] private NumericalComparisonType comparisonType;
         [SerializeField] private int amount;
         

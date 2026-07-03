@@ -25,12 +25,10 @@ using CarterGames.Shared.NotionData;
 
 using CarterGames.Cart.Data;
 
-namespace CarterGames.Cart.Crates.Localization.Editor
+namespace CarterGames.Cart.Crates.Localization
 {
     public class SearchProviderLocalizationIds : SearchProviderString
     {
-        private static SearchProviderLocalizationIds Instance;
-        
         public override string ProviderTitle => "Select Localization Id";
 
         public override bool HasOptions
@@ -107,17 +105,6 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 #endif
             
             return list;
-        }
-        
-        
-        public static SearchProviderLocalizationIds GetProvider()
-        {
-            if (Instance == null)
-            {
-                Instance = CreateInstance<SearchProviderLocalizationIds>();
-            }
-
-            return Instance;
         }
         
 

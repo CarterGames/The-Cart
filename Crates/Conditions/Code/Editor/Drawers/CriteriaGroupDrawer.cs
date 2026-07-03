@@ -73,12 +73,13 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
             {
                 void Listener(SearchTreeEntry entry)
                 {
-                    AddCriteriaToGroup(criteriaGroup.Condition, criteriaGroup.GroupIndex, (Type) entry.userData);
+                    if (!((AssemblyClassDef)entry.userData).TryGetType(out var result)) return;
+                    AddCriteriaToGroup(criteriaGroup.Condition, criteriaGroup.GroupIndex, result);
                 }
                 
-                SearchProviderCriteria.GetProvider().SelectionMade.Clear();
-                SearchProviderCriteria.GetProvider().SelectionMade.Add(Listener);
-                SearchProviderCriteria.GetProvider().Open();
+                SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMade.Clear();
+                SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMade.Add(Listener);
+                SearchProviderManager.GetProvider<SearchProviderCriteria>().Open();
                 
                 // For editor gui issues...
                 EditorGUILayout.BeginVertical();
@@ -182,7 +183,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
         
         private static void AddCriteriaToGroup(SerializedObject serializedObject, int groupIndex, Type userData)
         {
-            SearchProviderCriteria.GetProvider().SelectionMade.Clear();
+            SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMade.Clear();
 
             var criteria = (Criteria) ScriptableObject.CreateInstance(userData);
             criteria.name = $"{criteria.GetType().Name}_{Guid.NewGuid()}";
