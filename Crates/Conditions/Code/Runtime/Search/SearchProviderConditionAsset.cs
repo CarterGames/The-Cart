@@ -36,7 +36,7 @@ namespace CarterGames.Cart.Crates.Conditions
 			AssetDatabaseHelper.GetAllInstancesInProject<Condition>());
 
 
-		public override List<SearchGroup<ScriptableObject>> GetEntriesToDisplay()
+		protected override List<SearchGroup<ScriptableObject>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<ScriptableObject>>();
 			var items = new List<SearchItem<ScriptableObject>>();

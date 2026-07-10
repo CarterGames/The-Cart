@@ -62,7 +62,7 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 					var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
 						t.DisplayName.Equals(LocalizationManager.CurrentLanguage.DisplayName));
 
-					SearchProviderLanguages.SelectionMade.Add(OnSelectionMade);
+					SearchProviderLanguages.SelectionMadeEvt.Add(OnSelectionMade);
 					SearchProviderLanguages.Open(current);
 
 					// For editor errors only
@@ -86,7 +86,7 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 					var current = DataAccess.GetAsset<DataAssetDefinedLanguages>().Languages.FirstOrDefault(t =>
 						t.DisplayName.Equals(LocalizationManager.CurrentLanguage.DisplayName));
 
-					SearchProviderLanguages.SelectionMade.Add(OnSelectionMade);
+					SearchProviderLanguages.SelectionMadeEvt.Add(OnSelectionMade);
 					SearchProviderLanguages.Open(current);
 					
 					// For editor errors only
@@ -139,7 +139,7 @@ namespace CarterGames.Cart.Crates.Localization.Editor
 
 		private void OnSelectionMade(SearchTreeEntry entry)
 		{
-			SearchProviderLanguages.SelectionMade.Remove(OnSelectionMade);
+			SearchProviderLanguages.SelectionMadeEvt.Remove(OnSelectionMade);
 			LocalizationManager.SetLanguage(((Language) entry.userData));
 		}
 	}

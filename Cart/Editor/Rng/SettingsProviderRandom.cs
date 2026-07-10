@@ -59,7 +59,7 @@ namespace CarterGames.Cart.Editor
             
             if (GUILayout.Button("Select Provider", GUILayout.Width(167.5f)))
             {
-                SearchRandom.SelectionMade.Add(OnSelectionMade);
+                SearchRandom.SelectionMadeEvt.Add(OnSelectionMade);
                 SearchRandom.Open(AssetRef.RngProvider.GetType());
                 
                 EditorGUILayout.BeginVertical();

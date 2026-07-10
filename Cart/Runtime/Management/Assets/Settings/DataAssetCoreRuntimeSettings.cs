@@ -41,10 +41,7 @@ namespace CarterGames.Cart.Management
         // New...
         [SerializeField] private bool useOverrideSeed;
         [SerializeField] private string editorOverrideSeed;
-        // Legacy...
-        [SerializeField] [Obsolete] private int rngSystemSeed = Guid.NewGuid().GetHashCode();
-        [SerializeField] [Obsolete] private string rngAleaSeed = Guid.NewGuid().ToString();
-        
+
         // Logging
         /* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         [SerializeField] private bool isLoggingExpanded;
@@ -72,25 +69,6 @@ namespace CarterGames.Cart.Management
 
         public bool UseOverrideSeed => useOverrideSeed;
         public string EditorOverrideSeed => editorOverrideSeed;
-        
-        /// <summary>
-        /// The System Rng Seed.
-        /// </summary>
-        public int RngSystemRngSeed
-        {
-            get => rngSystemSeed;
-            set => rngSystemSeed = value;
-        }
-
-        
-        /// <summary>
-        /// The Alea Rng Seed.
-        /// </summary>
-        public string RngAleaRngSeed
-        {
-            get => rngAleaSeed;
-            set => rngAleaSeed = value;
-        }
         
         
         // Logging

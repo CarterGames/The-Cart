@@ -68,7 +68,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
 				    }
 
 				    SearchProviderConditionGroups.IsInGroup = true;
-				    SearchProviderManager.GetProvider<SearchProviderConditionGroups>().SelectionMade.Add(Listener);
+				    SearchProviderManager.GetProvider<SearchProviderConditionGroups>().SelectionMadeEvt.Add(Listener);
 				    SearchProviderManager.GetProvider<SearchProviderConditionGroups>().Open(conditionObject);
 				    
 				    // This is really stupid, but it stops errors xD
@@ -127,7 +127,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
 
 	    private static void ChangeCriteriaGroup(DataEditorCriteria criteriaEntry, int userEntry)
 	    {
-		    SearchProviderManager.GetProvider<SearchProviderConditionGroups>().SelectionMade.Clear();
+		    SearchProviderManager.GetProvider<SearchProviderConditionGroups>().SelectionMadeEvt.Clear();
 		    SearchProviderConditionGroups.IsInGroup = false;
 		    
 		    AddToExistingGroup(criteriaEntry, userEntry, criteriaEntry.Criteria.targetObject);

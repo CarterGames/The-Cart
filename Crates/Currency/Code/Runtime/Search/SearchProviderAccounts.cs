@@ -48,7 +48,7 @@ namespace CarterGames.Cart.Crates.Currency
 		}
 
 
-		public override List<SearchGroup<string>> GetEntriesToDisplay()
+		protected override List<SearchGroup<string>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<string>>();
 			var entries = new List<SearchItem<string>>();

@@ -28,7 +28,7 @@ namespace CarterGames.Cart
 		private IGrouping<string, Formatter>[] Formatters { get; set; }
 
 
-		public override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
+		protected override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<AssemblyClassDef>>();
 			

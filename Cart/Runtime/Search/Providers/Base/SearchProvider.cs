@@ -47,7 +47,7 @@ namespace CarterGames.Cart
         
         
         /// <summary>
-        /// Gets if the proivder has options to show.
+        /// Gets if the provider has options to show.
         /// </summary>
         public abstract bool HasOptions { get; }
 
@@ -100,13 +100,13 @@ namespace CarterGames.Cart
         /// <summary>
         /// Raised when a selection is made.
         /// </summary>
-        public readonly Evt<SearchTreeEntry> SelectionMade = new Evt<SearchTreeEntry>();
+        public readonly Evt<SearchTreeEntry> SelectionMadeEvt = new Evt<SearchTreeEntry>();
         
         
         /// <summary>
         /// Raised when a selection is made.
         /// </summary>
-        public readonly Evt<SearchTreeEntry, SearchWindowContext> SelectionMadeCtx = new Evt<SearchTreeEntry, SearchWindowContext>();
+        public readonly Evt<SearchTreeEntry, SearchWindowContext> SelectionMadeCtxEvt = new Evt<SearchTreeEntry, SearchWindowContext>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -165,6 +165,21 @@ namespace CarterGames.Cart
         }
         
         
+        public void OpenCustom(T currentValue, Vector2 pos, float width)
+        {
+            ToExclude.Clear();
+            
+            if (currentValue != null)
+            {
+                ToExclude.Add(currentValue);
+            }
+            
+            WindowWidth = width;
+            
+            SearchWindow.Open(new SearchWindowContext(pos, WindowWidth), this);
+        }
+        
+        
         /// <summary>
         /// Creates the search tree when called.
         /// </summary>
@@ -189,8 +204,8 @@ namespace CarterGames.Cart
         public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             if (searchTreeEntry == null) return false;
-            SelectionMade.Raise(searchTreeEntry);
-            SelectionMadeCtx.Raise(searchTreeEntry, context);
+            SelectionMadeEvt.Raise(searchTreeEntry);
+            SelectionMadeCtxEvt.Raise(searchTreeEntry, context);
             return true;
         }
         
@@ -199,12 +214,7 @@ namespace CarterGames.Cart
         /// The entries the search provider can display.
         /// </summary>
         /// <returns>A list of entries to show.</returns>
-        public abstract List<SearchGroup<T>> GetEntriesToDisplay();
-
-        public virtual List<T> GetValidValues()
-        {
-            return null;
-        }
+        protected abstract List<SearchGroup<T>> GetEntriesToDisplay();
     }
 }
 

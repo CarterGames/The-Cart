@@ -82,10 +82,10 @@ namespace CarterGames.Cart.Editor
                     // Draw field with edit button...
                     DrawEditView(position, property, label);
                 }
-                else if (!IsCurrentValueValid(property))
-                {
-                    DrawInitialView(position, property, label);
-                }
+                // else if (!IsCurrentValueValid(property))
+                // {
+                //     DrawInitialView(position, property, label);
+                // }
                 else
                 {
                     // Draw initial value select button...
@@ -107,15 +107,15 @@ namespace CarterGames.Cart.Editor
         }
         
         
-        protected bool IsCurrentValueValid(SerializedProperty property)
-        {
-            if (GetProvider().GetValidValues() != null)
-            {
-                return GetProvider().GetValidValues().Contains(GetCurrentValue(property));
-            }
-
-            return true;
-        }
+        // protected bool IsCurrentValueValid(SerializedProperty property)
+        // {
+        //     if (GetProvider().GetValidValues() != null)
+        //     {
+        //         return GetProvider().GetValidValues().Contains(GetCurrentValue(property));
+        //     }
+        //
+        //     return true;
+        // }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -148,10 +148,10 @@ namespace CarterGames.Cart.Editor
                 GUI.backgroundColor = Color.green;
                 if (GUI.Button(position, InitialSelectButtonLabel))
                 {
-                    GetProvider().SelectionMade.Clear();
-                    GetProvider().SelectionMade.Add((ste) =>
+                    GetProvider().SelectionMadeEvt.Clear();
+                    GetProvider().SelectionMadeEvt.Add((ste) =>
                     {
-                        GetProvider().SelectionMade.Clear();
+                        GetProvider().SelectionMadeEvt.Clear();
                         OnSelectionMade(property, (TSearchType) ste.userData);
                     });
                 
@@ -189,10 +189,10 @@ namespace CarterGames.Cart.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, EditorGUIUtility.IconContent("d__Menu@2x")))
                 {
-                    GetProvider().SelectionMade.Clear();
-                    GetProvider().SelectionMade.Add((ste) =>
+                    GetProvider().SelectionMadeEvt.Clear();
+                    GetProvider().SelectionMadeEvt.Add((ste) =>
                     {
-                        GetProvider().SelectionMade.Clear();
+                        GetProvider().SelectionMadeEvt.Clear();
                         OnSelectionMade(property, (TSearchType) ste.userData);
                     });
                     GetProvider().Open(GetCurrentValue(property));
@@ -208,7 +208,7 @@ namespace CarterGames.Cart.Editor
                 GUI.backgroundColor = Color.red;
                 if (GUI.Button(clearPos, EditorGUIUtility.IconContent("CrossIcon")))
                 {
-                    GetProvider().SelectionMade.Clear();
+                    GetProvider().SelectionMadeEvt.Clear();
                     ClearValue(property);
                     GUIUtility.ExitGUI();
                 }
@@ -223,10 +223,10 @@ namespace CarterGames.Cart.Editor
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(buttonPos, EditorGUIUtility.IconContent("d__Menu@2x")))
                 {
-                    GetProvider().SelectionMade.Clear();
-                    GetProvider().SelectionMade.Add((ste) =>
+                    GetProvider().SelectionMadeEvt.Clear();
+                    GetProvider().SelectionMadeEvt.Add((ste) =>
                     {
-                        GetProvider().SelectionMade.Clear();
+                        GetProvider().SelectionMadeEvt.Clear();
                         OnSelectionMade(property, (TSearchType) ste.userData);
                     });
                     GetProvider().Open(GetCurrentValue(property));

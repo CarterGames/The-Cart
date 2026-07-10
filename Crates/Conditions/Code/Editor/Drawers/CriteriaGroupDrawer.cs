@@ -77,8 +77,8 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
                     AddCriteriaToGroup(criteriaGroup.Condition, criteriaGroup.GroupIndex, result);
                 }
                 
-                SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMade.Clear();
-                SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMade.Add(Listener);
+                SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMadeEvt.Clear();
+                SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMadeEvt.Add(Listener);
                 SearchProviderManager.GetProvider<SearchProviderCriteria>().Open();
                 
                 // For editor gui issues...
@@ -183,7 +183,7 @@ namespace CarterGames.Cart.Crates.Conditions.Editor
         
         private static void AddCriteriaToGroup(SerializedObject serializedObject, int groupIndex, Type userData)
         {
-            SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMade.Clear();
+            SearchProviderManager.GetProvider<SearchProviderCriteria>().SelectionMadeEvt.Clear();
 
             var criteria = (Criteria) ScriptableObject.CreateInstance(userData);
             criteria.name = $"{criteria.GetType().Name}_{Guid.NewGuid()}";

@@ -35,9 +35,9 @@ namespace CarterGames.Cart.Crates.Conditions
 			Target = targetCondition;
 			Open();
 		}
-		
-		
-		public override List<SearchGroup<int>> GetEntriesToDisplay()
+
+
+		protected override List<SearchGroup<int>> GetEntriesToDisplay()
 		{
 			if (Target == null) return new List<SearchGroup<int>>();
 

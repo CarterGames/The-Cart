@@ -50,7 +50,7 @@ namespace CarterGames.Cart.Crates.Localization
         }
 
 
-        public override List<SearchGroup<string>> GetEntriesToDisplay()
+        protected override List<SearchGroup<string>> GetEntriesToDisplay()
         {
             var list = new List<SearchGroup<string>>();
 

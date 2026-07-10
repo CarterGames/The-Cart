@@ -25,9 +25,9 @@ namespace CarterGames.Cart.Editor
 	{
 		public override string ProviderTitle => "Select Save Method";
 		public override bool HasOptions => GetEntriesToDisplay().Any();
-		
-		
-		public override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
+
+
+		protected override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<AssemblyClassDef>>();
 			var entries = new List<SearchItem<AssemblyClassDef>>();

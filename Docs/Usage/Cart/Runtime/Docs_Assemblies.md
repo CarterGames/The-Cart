@@ -2,18 +2,20 @@
 
 | [Usage](Docs_Assemblies.md) | [API](../../../../Docs/API/Cart/Runtime/API_Assemblies.md) |
 
-Mainly adds a load of API to make accessing classes through assemblies a tad easier. Results of using this API should be cached to avoid massive performance hits.
+Mainly adds a load of API to make accessing classes through assemblies a tad easier.
 
 |             |                     |
 |-------------|:--------------------|
 | Author      | `J, (Carter Games)` |
-| Revision    | `2`                 |
-| Last update | `2026-03-06`        |
+| Revision    | `3`                 |
+| Last update | `2026-07-04`        |
 
 <br/>
 
 ### Assembly Helper
-The main class to use. It provides the API for getting classes through assemblies. 
+The main class to use. It provides the API for getting classes through assemblies.
+
+> 🚧 It is highly recommended that you cache the result of any queries to avoid performance issues.
 
 Example, getting all classes of type `MyClassType`
 

@@ -56,12 +56,12 @@ namespace CarterGames.Cart.Editor
 				{
 					if (!string.IsNullOrEmpty(ObjectRef.Fp("saveMethodTypeDef").Fpr("assembly").stringValue))
 					{
-						SearchSaveMethod.SelectionMade.Add(HandleSelection);
+						SearchSaveMethod.SelectionMadeEvt.Add(HandleSelection);
 						SearchSaveMethod.Open(AutoMakeDataAssetManager.GetDefine<DataAssetCoreRuntimeSettings>().AssetRef.SaveMethodType.GetType());
 					}
 					else
 					{
-						SearchSaveMethod.SelectionMade.Add(HandleSelection);
+						SearchSaveMethod.SelectionMadeEvt.Add(HandleSelection);
 						SearchSaveMethod.Open();
 					}
 				}

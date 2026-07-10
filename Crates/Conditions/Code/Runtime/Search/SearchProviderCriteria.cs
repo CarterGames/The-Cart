@@ -26,7 +26,7 @@ namespace CarterGames.Cart.Crates.Conditions
 		public override bool HasOptions => AssemblyHelper.CountClassesOfType<Criteria>() > 0;
 
 
-		public override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
+		protected override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
 		{
 			var group = new List<SearchGroup<AssemblyClassDef>>();
 			var entries = new List<SearchItem<AssemblyClassDef>>();

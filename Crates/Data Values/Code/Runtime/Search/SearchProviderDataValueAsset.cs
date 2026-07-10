@@ -29,7 +29,7 @@ namespace CarterGames.Cart.Crates.DataValues
 		public override bool HasOptions => AssetDatabaseHelper.GetAllInstancesInProject<DataValueAsset>().Any();
 
 
-		public override List<SearchGroup<ScriptableObject>> GetEntriesToDisplay()
+		protected override List<SearchGroup<ScriptableObject>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<ScriptableObject>>();
 			var items = new List<SearchItem<ScriptableObject>>();

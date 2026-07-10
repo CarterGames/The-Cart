@@ -28,7 +28,7 @@ namespace CarterGames.Cart.Random
 		public override bool HasOptions => GetEntriesToDisplay().Any();
 
 
-		public override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
+		protected override List<SearchGroup<AssemblyClassDef>> GetEntriesToDisplay()
 		{
 			if (cacheProviders == null)
 			{

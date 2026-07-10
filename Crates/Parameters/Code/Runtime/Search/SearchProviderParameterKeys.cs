@@ -43,7 +43,7 @@ namespace CarterGames.Cart.Crates.Parameters
 		}
 
 
-		public override List<SearchGroup<string>> GetEntriesToDisplay()
+		protected override List<SearchGroup<string>> GetEntriesToDisplay()
 		{
 			var list = new List<SearchGroup<string>>();
 			var items = new List<SearchItem<string>>();
