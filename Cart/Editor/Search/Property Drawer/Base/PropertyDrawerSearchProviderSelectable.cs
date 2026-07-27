@@ -82,10 +82,6 @@ namespace CarterGames.Cart.Editor
                     // Draw field with edit button...
                     DrawEditView(position, property, label);
                 }
-                // else if (!IsCurrentValueValid(property))
-                // {
-                //     DrawInitialView(position, property, label);
-                // }
                 else
                 {
                     // Draw initial value select button...
@@ -94,7 +90,7 @@ namespace CarterGames.Cart.Editor
             }
             else
             {
-                DrawInvalidView(position, property, label, "Invalid field type for attribute.");
+                DrawInvalidView(position, property, label, "Invalid field type for provider");
             }
 
             EditorGUI.EndProperty();
@@ -105,17 +101,6 @@ namespace CarterGames.Cart.Editor
         {
             return EditorGUIUtility.singleLineHeight + 1.25f;
         }
-        
-        
-        // protected bool IsCurrentValueValid(SerializedProperty property)
-        // {
-        //     if (GetProvider().GetValidValues() != null)
-        //     {
-        //         return GetProvider().GetValidValues().Contains(GetCurrentValue(property));
-        //     }
-        //
-        //     return true;
-        // }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -123,14 +108,18 @@ namespace CarterGames.Cart.Editor
         
         private void DrawInvalidView(Rect position, SerializedProperty property, GUIContent label, string message)
         {
-            GUI.color = Color.yellow;
+            GUI.backgroundColor = Color.gray;
+            
             EditorGUI.LabelField(position, label);
                 
             position.width -= EditorGUIUtility.labelWidth;
             position.x += EditorGUIUtility.labelWidth;
+
+            EditorGUI.BeginDisabledGroup(true);
+            GUI.Button(position, message);
+            EditorGUI.EndDisabledGroup();
             
-            EditorGUI.LabelField(position, message);
-            GUI.color = Color.white;
+            GUI.backgroundColor = Color.white;
         }
         
         
@@ -164,7 +153,7 @@ namespace CarterGames.Cart.Editor
             {
                 GUI.backgroundColor = Color.gray;
                 EditorGUI.BeginDisabledGroup(true);
-                if (GUI.Button(position, "No options available")) { }
+                GUI.Button(position, "No options available");
                 EditorGUI.EndDisabledGroup();
                 GUI.backgroundColor = Color.white;
             }
@@ -176,8 +165,13 @@ namespace CarterGames.Cart.Editor
             var pos = new Rect(position);
             pos.width = position.width - 61.5f;
             
+            EditorGUI.LabelField(position, label);
+                
+            pos.width -= EditorGUIUtility.labelWidth;
+            pos.x += EditorGUIUtility.labelWidth;
+            
             EditorGUI.BeginDisabledGroup(DisableInputWhenSelected);
-            EditorGUI.TextField(pos, label, GetCurrentValueString(property));
+            EditorGUI.TextField(pos, GUIContent.none, GetCurrentValueString(property));
             EditorGUI.EndDisabledGroup();
             
             if (GetHasValue(property))
