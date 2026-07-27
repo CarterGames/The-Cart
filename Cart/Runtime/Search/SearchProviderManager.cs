@@ -46,6 +46,12 @@ namespace CarterGames.Cart
         /// <returns>SearchProvider of the type requested</returns>
         public static T GetProvider<T>() where T : SearchScriptableObject
         {
+            if (Application.isPlaying)
+            {
+                CartLogger.LogWarning<CartLogs>($"Cannot get search providers while in play-mode.", typeof(SearchProviderManager));
+                return null;
+            }
+            
             var typeInputted = typeof(T);
 
             if (ProviderLookup.TryGetValue(typeInputted, out var value))
@@ -77,6 +83,13 @@ namespace CarterGames.Cart
         /// <returns>Successful? (Bool)</returns>
         public static bool TryGetProvider<T>(out T searchProvider) where T : SearchScriptableObject
         {
+            if (Application.isPlaying)
+            {
+                CartLogger.LogWarning<CartLogs>($"Cannot get search providers while in play-mode.", typeof(SearchProviderManager));
+                searchProvider = null;
+                return false;
+            }
+            
             searchProvider = GetProvider<T>();
             return searchProvider != null;
         }
