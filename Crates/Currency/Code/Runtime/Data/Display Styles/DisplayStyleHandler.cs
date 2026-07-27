@@ -48,7 +48,9 @@ namespace CarterGames.Cart.Crates.Currency
             {
                 case CurrencyDisplayStyle.InstantOnRequest:
 
-                    RuntimeTimer.Set(instantDelay, () => DisplayedValue.Raise(transaction.NewValue));
+                    var instantOnRequest = new CountdownRuntimeTimer(instantDelay);
+                    instantOnRequest.CompletedEvt.Add(() => DisplayedValue.Raise(transaction.NewValue));
+                    instantOnRequest.Start();
                     
                     break;
                 case CurrencyDisplayStyle.TrickleToTarget:

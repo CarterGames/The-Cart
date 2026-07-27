@@ -30,6 +30,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt : EvtBase
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -37,7 +40,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, RaiseAction, unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(RaiseAction);
+            Timer.Start();
         }
     }
     
@@ -50,6 +55,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T> : EvtBase<T>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -58,7 +66,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T param, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param));
+            Timer.Start();
         }
     }
     
@@ -71,6 +81,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T1,T2> : EvtBase<T1,T2>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -80,7 +93,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param, param2));
+            Timer.Start();
         }
     }
     
@@ -93,6 +108,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T1,T2,T3> : EvtBase<T1,T2,T3>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -103,7 +121,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param, param2, param3));
+            Timer.Start();
         }
     }
     
@@ -116,6 +136,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T1,T2,T3,T4> : EvtBase<T1,T2,T3,T4>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -127,7 +150,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param, param2, param3, param4));
+            Timer.Start();
         }
     }
     
@@ -140,6 +165,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T1,T2,T3,T4,T5> : EvtBase<T1,T2,T3,T4,T5>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -152,7 +180,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param, param2, param3, param4, param5));
+            Timer.Start();
         }
     }
     
@@ -165,6 +195,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T1,T2,T3,T4,T5,T6> : EvtBase<T1,T2,T3,T4,T5,T6>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -178,7 +211,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param, param2, param3, param4, param5, param6));
+            Timer.Start();
         }
     }
     
@@ -191,6 +226,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T1,T2,T3,T4,T5,T6,T7> : EvtBase<T1,T2,T3,T4,T5,T6,T7>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -205,7 +243,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6, param7), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param, param2, param3, param4, param5, param6, param7));
+            Timer.Start();
         }
     }
     
@@ -218,6 +258,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
     /// </summary>
     public sealed class DelayedEvt<T1,T2,T3,T4,T5,T6,T7,T8> : EvtBase<T1,T2,T3,T4,T5,T6,T7,T8>
     {
+        private RuntimeTimer Timer { get; set; }
+        
+        
         /// <summary>
         /// Raises the event to all listeners.
         /// </summary>
@@ -233,7 +276,9 @@ namespace CarterGames.Cart.Crates.DelayedEvents
         /// <param name="unscaledTime">Should the event be tied to unscaled time? Def: True</param>
         public void Raise(float seconds, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, bool unscaledTime = true)
         {
-            RuntimeTimer.Set(seconds, () => RaiseAction(param, param2, param3, param4, param5, param6, param7, param8), unscaledTime);
+            Timer = new CountdownRuntimeTimer(seconds, TimerUpdateSource.Global, unscaledTime);
+            Timer.CompletedEvt.Add(() => RaiseAction(param, param2, param3, param4, param5, param6, param7, param8));
+            Timer.Start();
         }
     }
 }
