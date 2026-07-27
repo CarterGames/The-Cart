@@ -273,13 +273,13 @@ namespace CarterGames.Cart.Crates.Window
             {
                 if (selectedCrate != null)
                 {
+                    EditorGUILayout.BeginVertical();
+
                     if (!CrateValidator.IsCrateSetupValid(selectedCrate.CrateTechnicalName, out var failReason))
                     {
                         EditorGUILayout.HelpBox($"CRATE INVALID: {failReason}", MessageType.Warning);
                     }
-
-                    EditorGUILayout.BeginVertical();
-
+                    
                     CrateDisplay.DrawCrate(selectedCrate);
 
                     GUILayout.FlexibleSpace();
