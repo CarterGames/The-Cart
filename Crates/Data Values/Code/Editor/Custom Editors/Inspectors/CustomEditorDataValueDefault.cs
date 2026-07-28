@@ -40,7 +40,7 @@ namespace CarterGames.Cart.Crates.DataValues.Editor
 			EditorGUILayout.Space(5f);
 			DrawValue(serializedObject, forceIndent);
 			EditorGUILayout.Space(5f);
-			DrawDefaultValueSection(serializedObject);
+			DrawDefaultValueSection(serializedObject, forceIndent);
 			EditorGUILayout.Space(5f);
 			DrawDataValueEventsSection(serializedObject);
 
@@ -78,11 +78,10 @@ namespace CarterGames.Cart.Crates.DataValues.Editor
 		}
 		
 		
-		private static void DrawDefaultValueSection(SerializedObject serializedObject)
+		private static void DrawDefaultValueSection(SerializedObject serializedObject, bool forceIndent = false)
 		{
 			EditorGUILayout.BeginVertical("HelpBox");
 			EditorGUILayout.Space(1.5f);
-			
 			
 			if (serializedObject.Fp("canReset").boolValue)
 			{
@@ -96,7 +95,7 @@ namespace CarterGames.Cart.Crates.DataValues.Editor
 					EditorGUILayout.Space(2.5f);
 				}
 
-				if (serializedObject.Fp("defaultValue").hasVisibleChildren)
+				if (serializedObject.Fp("value").isArray || serializedObject.Fp("value").exposedReferenceValue != null || forceIndent)
 				{
 					EditorGUILayout.BeginHorizontal();
 					GUILayout.Space(12.5f);
